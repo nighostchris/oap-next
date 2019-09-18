@@ -1,18 +1,26 @@
 import * as React from 'react'
-import Link from 'next/link'
-import Layout from '../components/Layout'
 import { NextPage } from 'next'
+import { styletron, debug } from '../styletron'
+import { Provider as StyletronProvider } from 'styletron-react'
+import { BaseProvider, LightTheme, styled } from 'baseui'
+import { StatefulInput } from 'baseui/input'
+
+const Centered = styled('div', {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+});
 
 const IndexPage: NextPage = () => {
   return (
-    <Layout title="Home | Next.js + TypeScript Example">
-      <h1>Hello Next.js 👋</h1>
-      <p>
-        <Link href="/about">
-          <a>About</a>
-        </Link>
-      </p>
-    </Layout>
+    <StyletronProvider value={ styletron } debug={ debug } debugAfterHydration>
+        <BaseProvider theme={ LightTheme }>
+            <Centered>
+                <StatefulInput />
+            </Centered>
+        </BaseProvider>
+    </StyletronProvider>
   )
 }
 
