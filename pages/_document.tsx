@@ -15,19 +15,15 @@ class MyDocument extends Document {
 
   render () {
     return (
-      <html>
+      <html style={{height: "100%"}}>
         <Head>
           {this.props.stylesheets.map((sheet, i) => (
-            <style
-              className='_styletron_hydrate_'
-              dangerouslySetInnerHTML={{ __html: sheet.css }}
-              media={sheet.attrs.media}
-              data-hydrate={sheet.attrs['data-hydrate']}
-              key={i}
-            />
+            <style>
+              {`#__next {height: 100%}`}
+            </style>
           ))}
         </Head>
-        <body>
+        <body style={{height: "100%", margin: "0px"}}>
           <Main />
           <NextScript />
         </body>

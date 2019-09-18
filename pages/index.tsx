@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { NextPage } from 'next'
+import Layout from '../components/Layout'
 // import { styled } from 'baseui'
-import { StatefulInput } from 'baseui/input'
+// import { StatefulInput } from 'baseui/input'
 
 /*
 const Centered = styled('div', {
@@ -14,7 +15,12 @@ const Centered = styled('div', {
 
 const IndexPage: NextPage = () => {
   return (
-    <StatefulInput />
+    <Layout>
+      <div>
+        <p>Tetsing</p>
+        <p>Hello Next</p>
+      </div>
+    </Layout>
   )
 }
 
