@@ -1,8 +1,19 @@
 import * as React from 'react'
-// import { useStyletron } from 'baseui'
+import Link from 'next/link';
 import { styled } from 'baseui'
-import { Card, StyledBody, StyledAction } from 'baseui/card'
-import { Button } from 'baseui/button'
+import { Card } from 'baseui/card'
+import { Label1, Label2 } from 'baseui/typography'
+
+const Title = styled('h1', {
+  color: '#1565c0',
+  fontSize: '20px',
+  fontWeight: 'bold',
+  lineHeight: '26px',
+  marginBottom: '8px',
+  ':hover': {
+    cursor: 'pointer',
+  },
+});
 
 const CardContainer = styled('div', {
   display: 'flex',
@@ -11,34 +22,39 @@ const CardContainer = styled('div', {
 });
 
 const StyledCard = styled(Card, {
-  width: '280px',
+  width: '250px',
   border: 'unset',
   margin: '25px 0px',
   backgroundColor: '#e0e0e0',
   boxShadow: 'rgb(0, 0, 0, 0.5) 0px 1px 4px',
 });
 
-const DashboardLayout: React.FunctionComponent = () => {
-  // const [useCss] = useStyletron();
+const StyledLabel1 = styled(Label1, {
+  color: '#757575',
+  fontWeight: 600,
+});
 
+const StyledLabel2 = styled(Label2, {
+  color: '#757575',
+  fontWeight: 900,
+})
+
+const DashboardLayout: React.FunctionComponent = () => {
   return (
     <div>
       <CardContainer>
         {
           [1, 2, 3, 4, 5, 6].map(() => (
-            <StyledCard
-              overrides={{Title: {style: {fontWeight: 'bold'}}}}
-              title="COMP 2012 - Introduction to OOP"
-            >
-              <StyledBody>
-                Proin ut dui sed metus pharetra hend rerit vel non mi. Nulla
-                ornare faucibus ex, non facilisis nisl.
-              </StyledBody>
-              <StyledAction>
-                <Button overrides={{ BaseButton: { style: { width: '100%' } } }}>
-                  Button Label
-                </Button>
-              </StyledAction>
+            <StyledCard>
+              <Link href="/comp2012">
+                <Title>COMP 2012 Introduction to Object-Oriented Programming</Title>            
+              </Link>
+              <StyledLabel1>
+                L1
+              </StyledLabel1>
+              <StyledLabel2>
+                Dr. Desmond Tsoi
+              </StyledLabel2>
             </StyledCard>
           ))
         }
