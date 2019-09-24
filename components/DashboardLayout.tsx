@@ -18,7 +18,7 @@ const Title = styled('h1', {
 const CardRow = styled('div', {
   display: 'flex',
   flexWrap: 'wrap',
-  marginBottom: '20px',
+  marginBottom: '40px',
 });
 
 const StyledCard = styled(Card, {
@@ -44,7 +44,8 @@ const StyledDisplay4 = styled(Display4, {
 })
 
 const CardContainer = styled('div', {
-  marginLeft: '40px',
+  marginTop: '20px',
+  marginLeft: '80px',
 })
 
 const data = [1, 2, 3];

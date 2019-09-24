@@ -18,13 +18,15 @@ class MyDocument extends Document {
       <html style={{height: "100%"}}>
         <Head>
           {this.props.stylesheets.map((sheet, i) => (
-            <style>
-              {`#__next {height: 100%}`}
-            </style>
+            <style>{`
+              #__next {
+                height: 100%;
+              }
+            `}</style>
           ))}
         </Head>
-        <body style={{height: "100%", margin: "0px"}}>
-          <Main />
+        <body style={{ height: '100%', margin: 0 }}>
+          <Main/>
           <NextScript />
         </body>
       </html>
