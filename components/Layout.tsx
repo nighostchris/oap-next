@@ -18,10 +18,15 @@ const RightContainer = styled('div', {
 })
 
 const Layout: React.FunctionComponent = ({children}) => {
+  const [navbarOpen, setNavBarOpen] = React.useState(true);
+
   return (
     <RootContainer>
       <LeftContainer>
-        <SideNav />
+        <SideNav
+          navbarOpen={navbarOpen}
+          setNavBarOpen={setNavBarOpen}
+        />
       </LeftContainer>
       <RightContainer>
         <HeaderBar />

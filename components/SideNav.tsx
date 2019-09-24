@@ -9,6 +9,11 @@ import { Conversation } from 'styled-icons/boxicons-solid/Conversation'
 import { LeftArrow } from 'styled-icons/boxicons-solid/LeftArrow'
 import { RightArrow } from 'styled-icons/boxicons-solid/RightArrow'
 
+interface SideNavProps {
+  navbarOpen: boolean,
+  setNavBarOpen: (value: boolean | ((prevVar: boolean) => boolean)) => void,
+}
+
 const SideNavBar = styled('div', {
   height: '100vh',
   backgroundColor: '#bdbdbd',
@@ -81,10 +86,8 @@ const StyledRightArrow = styled(RightArrow, {
   marginRight: '10px',
 })
 
-const SideNav: React.FunctionComponent = () => {
-  // const [useCss] = useStyletron();
+const SideNav: React.FunctionComponent<SideNavProps> = ({navbarOpen, setNavBarOpen}) => {
   let navbarOpenCounter = 0;
-  const [navbarOpen, setNavBarOpen] = React.useState(true);
 
   return (
     <SideNavBar style={{
