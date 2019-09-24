@@ -1,6 +1,11 @@
 import * as React from 'react'
 import { styled } from 'baseui'
+import { Paragraph3 } from 'baseui/typography'
 import { Cubes } from 'styled-icons/fa-solid/Cubes'
+import { Book } from 'styled-icons/fa-solid/Book'
+import { Notifications } from 'styled-icons/material/Notifications'
+import { Settings } from 'styled-icons/material/Settings'
+import { Conversation } from 'styled-icons/boxicons-solid/Conversation'
 
 const SideNavBar = styled('div', {
   height: '100vh',
@@ -18,55 +23,51 @@ const StyledLogo = styled(Cubes, {
   marginLeft: '20px',
 })
 
-const NavList = styled('div', {
-  margin: '10% auto',
-  width: '100%',
+const StyledParagraph3 = styled(Paragraph3, {
+  color:"#757575",
+  fontWeight: 600,
+  padding: '16px 0 8px 16px',
+  marginBlockStart: '0',
+  marginBlockEnd: '0',
 })
 
-const StyledUL = styled('ul', {
-  listStyle: 'none',
-  margin: 0,
-  padding: 0,
+const CourseTitle = styled(Paragraph3, {
+  color:"#1565c0",
+  fontWeight: 600,
+  padding: '8px 0 8px 8px',
+  marginBlockStart: '0',
+  marginBlockEnd: '0',
 })
 
-const StyledLabel = styled('label', {
-  display: 'block',
-  cursor: 'pointer',
-  padding: '10px',
-  border: '1px solid #fff',
-  borderBottom: 'none',
+const ListItem = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  paddingLeft: '1em',
   ':hover': {
-    background: '#26C281',
-  },
-  ':last-child': {
-    borderBottom: '1px solid #fff',
+    cursor: 'pointer',
+    backgroundColor: '#e0e0e0'
   },
 })
 
-const ListItem = styled('li', {
-  padding: '10px',
-  background: '#59ABE3',
+const AccountLabel = styled(Paragraph3, {
+  fontWeight: 600,
+  padding: '8px 0 8px 8px',
+  marginBlockStart: '0',
+  marginBlockEnd: '0',
 })
 
-
-const StyledInput = styled('input', {
-  position: 'absolute',
-  left: '-9999px',
-  ":checked ~ ul": {
-    height: '100%',
-    transformOrigin: 'top',
-    transition: 'transform .2s ease-out',
-    transform: 'scaleY(1)',
-  },
-  ":checked + label": {
-    background: '#26C281',
-    borderBottom: '1px solid #fff',
-  },
+const NavSection = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
 })
 
-const CheckboxUL = styled('ul', {
-  height: '100px',
-  transform: 'scaleY(0)',
+const StyledNotifications = styled(Notifications, {
+})
+
+const StyledSettings = styled(Settings, {
+})
+
+const StyledConversation = styled(Conversation, {
 })
 
 const SideNav: React.FunctionComponent = () => {
@@ -75,21 +76,48 @@ const SideNav: React.FunctionComponent = () => {
       <LogoContainer>
         <StyledLogo size="50" />
       </LogoContainer>
-      <NavList>
-        <StyledUL>
-          <li>
-            <StyledInput type="checkbox" id="list-item-1" />
-            <StyledLabel htmlFor="list-item-1">Serif</StyledLabel>
-            <CheckboxUL>
-              <ListItem>Slabo</ListItem>
-              <ListItem>Droid Serif</ListItem>
-              <ListItem>Roboto Serif</ListItem>
-              <ListItem>Lora</ListItem>
-              <ListItem>Meriweather</ListItem>
-            </CheckboxUL>
-          </li>
-        </StyledUL>
-      </NavList>
+      <NavSection>
+        <StyledParagraph3>My Courses</StyledParagraph3>
+        <ListItem>
+          <Book size='20' />
+          <CourseTitle>COMP 1021</CourseTitle>
+        </ListItem>
+        <ListItem>
+          <Book size='20' />
+          <CourseTitle>COMP 2011</CourseTitle>
+        </ListItem>
+        <ListItem>
+          <Book size='20' />
+          <CourseTitle>COMP 2012</CourseTitle>
+        </ListItem>
+        <ListItem>
+          <Book size='20' />
+          <CourseTitle>COMP 3021</CourseTitle>
+        </ListItem>
+        <ListItem>
+          <Book size='20' />
+          <CourseTitle>COMP 1022Q</CourseTitle>
+        </ListItem>
+        <ListItem>
+          <Book size='20' />
+          <CourseTitle>COMP 1022P</CourseTitle>
+        </ListItem>
+      </NavSection>
+      <NavSection>
+        <StyledParagraph3>Account</StyledParagraph3>
+        <ListItem>
+          <StyledNotifications size='26' />
+          <AccountLabel>Notifications</AccountLabel>
+        </ListItem>
+        <ListItem>
+          <StyledSettings size='26' />
+          <AccountLabel>Settings</AccountLabel>
+        </ListItem>
+        <ListItem>
+          <StyledConversation size='26' />
+          <AccountLabel>Conversations</AccountLabel>
+        </ListItem>
+      </NavSection>
     </SideNavBar>
   )
 }
