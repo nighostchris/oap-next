@@ -2,6 +2,7 @@ import * as React from 'react'
 import { NextPage } from 'next'
 import Layout from '../components/Layout'
 import DashboardLayout from '../components/DashboardLayout'
+import HeaderBar from '../components/HeaderBar'
 // import { styled } from 'baseui'
 // import { StatefulInput } from 'baseui/input'
 
@@ -17,6 +18,7 @@ const Centered = styled('div', {
 const IndexPage: NextPage = () => {
   return (
     <Layout>
+      <HeaderBar />
       <DashboardLayout />
     </Layout>
   )

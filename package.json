@@ -15,6 +15,8 @@
     "next": "latest",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "styled-components": "^4.4.0",
+    "styled-icons": "^8.4.2",
     "styletron-engine-atomic": "^1.4.1",
     "styletron-react": "^5.2.1"
   },
