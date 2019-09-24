@@ -10,7 +10,7 @@ const RootContainer = styled('div', {
 })
 
 const LeftContainer = styled('div', {
-  width: '20%',
+  width: '15%',
 })
 
 const RightContainer = styled('div', {

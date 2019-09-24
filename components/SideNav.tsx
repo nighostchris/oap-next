@@ -6,6 +6,8 @@ import { Book } from 'styled-icons/fa-solid/Book'
 import { Notifications } from 'styled-icons/material/Notifications'
 import { Settings } from 'styled-icons/material/Settings'
 import { Conversation } from 'styled-icons/boxicons-solid/Conversation'
+import { LeftArrow } from 'styled-icons/boxicons-solid/LeftArrow'
+import { RightArrow } from 'styled-icons/boxicons-solid/RightArrow'
 
 const SideNavBar = styled('div', {
   height: '100vh',
@@ -17,6 +19,7 @@ const LogoContainer = styled('div', {
   display: 'flex',
   alignItems: 'center',
   backgroundColor: '#eeeeee',
+  justifyContent: 'space-between',
 })
 
 const StyledLogo = styled(Cubes, {
@@ -34,7 +37,7 @@ const StyledParagraph3 = styled(Paragraph3, {
 const CourseTitle = styled(Paragraph3, {
   color:"#1565c0",
   fontWeight: 600,
-  padding: '8px 0 8px 8px',
+  padding: '10px 0 10px 8px',
   marginBlockStart: '0',
   marginBlockEnd: '0',
 })
@@ -51,7 +54,7 @@ const ListItem = styled('div', {
 
 const AccountLabel = styled(Paragraph3, {
   fontWeight: 600,
-  padding: '8px 0 8px 8px',
+  padding: '10px 0 10px 8px',
   marginBlockStart: '0',
   marginBlockEnd: '0',
 })
@@ -70,11 +73,43 @@ const StyledSettings = styled(Settings, {
 const StyledConversation = styled(Conversation, {
 })
 
+const StyledLeftArrow = styled(LeftArrow, {
+  marginRight: '10px',
+})
+
+const StyledRightArrow = styled(RightArrow, {
+  marginRight: '10px',
+})
+
 const SideNav: React.FunctionComponent = () => {
+  // const [useCss] = useStyletron();
+  let navbarOpenCounter = 0;
+  const [navbarOpen, setNavBarOpen] = React.useState(true);
+
   return (
-    <SideNavBar>
+    <SideNavBar style={{
+      WebkitTransform: navbarOpen ? navbarOpenCounter ?
+        'translateX(80%)' : undefined : 'translateX(-80%)',
+      WebkitTransition: 'linear 0.3s',
+    }}>
       <LogoContainer>
         <StyledLogo size="50" />
+        <StyledLeftArrow
+          size="18"
+          onClick={() => {
+            setNavBarOpen(!navbarOpen);
+            navbarOpenCounter++;
+          }}
+          style={{display: !navbarOpen ? 'none' : undefined}}
+        />
+        <StyledRightArrow
+          size="18"
+          onClick={() => {
+            setNavBarOpen(!navbarOpen);
+            navbarOpenCounter++;
+          }}
+          style={{display: navbarOpen ? 'none' : undefined}}
+        />
       </LogoContainer>
       <NavSection>
         <StyledParagraph3>My Courses</StyledParagraph3>
