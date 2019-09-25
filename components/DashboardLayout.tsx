@@ -48,7 +48,7 @@ const CardContainer = styled('div', {
   marginLeft: '80px',
 })
 
-const data = [1, 2, 3];
+const data = [1, 2, 3, 4];
 
 const DashboardLayout: React.FunctionComponent = () => {
   return (

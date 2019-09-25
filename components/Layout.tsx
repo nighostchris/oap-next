@@ -10,25 +10,37 @@ const RootContainer = styled('div', {
 })
 
 const LeftContainer = styled('div', {
-  width: '15%',
+  transition: 'width 0.2s ease-in-out',
 })
 
 const RightContainer = styled('div', {
-  width: '80%',
+  transition: 'width 0.2s ease-in-out',
 })
 
 const Layout: React.FunctionComponent = ({children}) => {
+  const [navbarOpenCounter, setNavBarOpenCounter] = React.useState(0);
   const [navbarOpen, setNavBarOpen] = React.useState(true);
 
   return (
     <RootContainer>
-      <LeftContainer>
+      <LeftContainer
+        style={{
+          width: navbarOpen ? '15%' : '3%',
+          position: 'fixed',
+        }}
+      >
         <SideNav
           navbarOpen={navbarOpen}
           setNavBarOpen={setNavBarOpen}
+          navbarOpenCounter={navbarOpenCounter}
+          setNavBarOpenCounter={setNavBarOpenCounter}
         />
       </LeftContainer>
-      <RightContainer>
+      <RightContainer
+        style={{
+          width: navbarOpen ? '85%' : '97%',
+          marginLeft: navbarOpen ? '15%' : '3%',
+        }}>
         <HeaderBar />
         {children}
       </RightContainer>

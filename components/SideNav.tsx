@@ -12,6 +12,8 @@ import { RightArrow } from 'styled-icons/boxicons-solid/RightArrow'
 interface SideNavProps {
   navbarOpen: boolean,
   setNavBarOpen: (value: boolean | ((prevVar: boolean) => boolean)) => void,
+  navbarOpenCounter: number,
+  setNavBarOpenCounter: (value: number | ((prevVar: number) => number)) => void,
 }
 
 const SideNavBar = styled('div', {
@@ -33,7 +35,7 @@ const StyledLogo = styled(Cubes, {
 
 const StyledParagraph3 = styled(Paragraph3, {
   color:"#757575",
-  fontWeight: 600,
+  fontWeight: 'bold',
   padding: '16px 0 8px 16px',
   marginBlockStart: '0',
   marginBlockEnd: '0',
@@ -41,7 +43,7 @@ const StyledParagraph3 = styled(Paragraph3, {
 
 const CourseTitle = styled(Paragraph3, {
   color:"#1565c0",
-  fontWeight: 600,
+  fontWeight: 'bold',
   padding: '10px 0 10px 8px',
   marginBlockStart: '0',
   marginBlockEnd: '0',
@@ -58,7 +60,7 @@ const ListItem = styled('div', {
 })
 
 const AccountLabel = styled(Paragraph3, {
-  fontWeight: 600,
+  fontWeight: 'bold',
   padding: '10px 0 10px 8px',
   marginBlockStart: '0',
   marginBlockEnd: '0',
@@ -69,95 +71,79 @@ const NavSection = styled('div', {
   flexDirection: 'column',
 })
 
-const StyledNotifications = styled(Notifications, {
-})
-
-const StyledSettings = styled(Settings, {
-})
-
-const StyledConversation = styled(Conversation, {
-})
-
-const StyledLeftArrow = styled(LeftArrow, {
-  marginRight: '10px',
-})
-
-const StyledRightArrow = styled(RightArrow, {
-  marginRight: '10px',
-})
-
-const SideNav: React.FunctionComponent<SideNavProps> = ({navbarOpen, setNavBarOpen}) => {
-  let navbarOpenCounter = 0;
-
-  return (
-    <SideNavBar style={{
-      WebkitTransform: navbarOpen ? navbarOpenCounter ?
-        'translateX(80%)' : undefined : 'translateX(-80%)',
-      WebkitTransition: 'linear 0.3s',
-    }}>
-      <LogoContainer>
-        <StyledLogo size="50" />
-        <StyledLeftArrow
-          size="18"
-          onClick={() => {
-            setNavBarOpen(!navbarOpen);
-            navbarOpenCounter++;
-          }}
-          style={{display: !navbarOpen ? 'none' : undefined}}
-        />
-        <StyledRightArrow
-          size="18"
-          onClick={() => {
-            setNavBarOpen(!navbarOpen);
-            navbarOpenCounter++;
-          }}
-          style={{display: navbarOpen ? 'none' : undefined}}
-        />
-      </LogoContainer>
-      <NavSection>
-        <StyledParagraph3>My Courses</StyledParagraph3>
-        <ListItem>
-          <Book size='20' />
-          <CourseTitle>COMP 1021</CourseTitle>
-        </ListItem>
-        <ListItem>
-          <Book size='20' />
-          <CourseTitle>COMP 2011</CourseTitle>
-        </ListItem>
-        <ListItem>
-          <Book size='20' />
-          <CourseTitle>COMP 2012</CourseTitle>
-        </ListItem>
-        <ListItem>
-          <Book size='20' />
-          <CourseTitle>COMP 3021</CourseTitle>
-        </ListItem>
-        <ListItem>
-          <Book size='20' />
-          <CourseTitle>COMP 1022Q</CourseTitle>
-        </ListItem>
-        <ListItem>
-          <Book size='20' />
-          <CourseTitle>COMP 1022P</CourseTitle>
-        </ListItem>
-      </NavSection>
-      <NavSection>
-        <StyledParagraph3>Account</StyledParagraph3>
-        <ListItem>
-          <StyledNotifications size='26' />
-          <AccountLabel>Notifications</AccountLabel>
-        </ListItem>
-        <ListItem>
-          <StyledSettings size='26' />
-          <AccountLabel>Settings</AccountLabel>
-        </ListItem>
-        <ListItem>
-          <StyledConversation size='26' />
-          <AccountLabel>Conversations</AccountLabel>
-        </ListItem>
-      </NavSection>
-    </SideNavBar>
-  )
+const SideNav: React.FunctionComponent<SideNavProps> = ({
+  navbarOpen, setNavBarOpen, navbarOpenCounter, setNavBarOpenCounter}) => {
+    return (
+      <SideNavBar>
+        <LogoContainer>
+          <StyledLogo size="50" style={{display: !navbarOpen ? 'none' : undefined}} />
+          <LeftArrow
+            size="18"
+            onClick={() => {
+              setNavBarOpen(!navbarOpen);
+              setNavBarOpenCounter(navbarOpenCounter++);
+            }}
+            style={{
+              marginRight: '10px',
+              display: !navbarOpen ? 'none' : undefined,
+            }}
+          />
+          <RightArrow
+            size="18"
+            onClick={() => {
+              setNavBarOpen(!navbarOpen);
+              navbarOpenCounter++;
+            }}
+            style={{
+              width: '100%',
+              display: navbarOpen ? 'none' : undefined,
+            }}
+          />
+        </LogoContainer>
+        <NavSection style={{display: !navbarOpen ? 'none' : undefined}}>
+          <StyledParagraph3>My Courses</StyledParagraph3>
+          <ListItem>
+            <Book size='20' />
+            <CourseTitle>COMP 1021</CourseTitle>
+          </ListItem>
+          <ListItem>
+            <Book size='20' />
+            <CourseTitle>COMP 2011</CourseTitle>
+          </ListItem>
+          <ListItem>
+            <Book size='20' />
+            <CourseTitle>COMP 2012</CourseTitle>
+          </ListItem>
+          <ListItem>
+            <Book size='20' />
+            <CourseTitle>COMP 3021</CourseTitle>
+          </ListItem>
+          <ListItem>
+            <Book size='20' />
+            <CourseTitle>COMP 1022Q</CourseTitle>
+          </ListItem>
+          <ListItem>
+            <Book size='20' />
+            <CourseTitle>COMP 1022P</CourseTitle>
+          </ListItem>
+        </NavSection>
+        <NavSection style={{display: !navbarOpen ? 'none' : undefined}}>
+          <StyledParagraph3>Account</StyledParagraph3>
+          <ListItem>
+            <Notifications size='26' />
+            <AccountLabel>Notifications</AccountLabel>
+          </ListItem>
+          <ListItem>
+            <Settings size='26' />
+            <AccountLabel>Settings</AccountLabel>
+          </ListItem>
+          <ListItem>
+            <Conversation size='26' />
+            <AccountLabel>Conversations</AccountLabel>
+          </ListItem>
+        </NavSection>
+      </SideNavBar>
+    )
 }
 
 export default SideNav
