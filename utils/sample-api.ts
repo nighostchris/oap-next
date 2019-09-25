@@ -32,3 +32,32 @@ export async function findAll() {
 
   return dataArray
 }
+
+export async function getCourses() {
+  const data = [{
+    code: '1021',
+    title: 'Introduction to Computer Science',
+    section: 'L1',
+    instructor: 'LAM, Gibson',
+  },
+  {
+    code: '2011',
+    title: 'Programming with C++',
+    section: 'L2',
+    instructor: 'Li, Xin',
+  },
+  {
+    code: '2012',
+    title: 'Object-Oriented Programming and Data Structures',
+    section: 'L2',
+    instructor: 'Tsoi, Yau Chat',
+  },
+  {
+    code: '3021',
+    title: 'Java Programming',
+    section: 'L1',
+    instructor: 'Cheung, Shing Chi',
+  }];
+
+  return data;
+}

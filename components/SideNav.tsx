@@ -35,7 +35,7 @@ const StyledLogo = styled(Cubes, {
 
 const StyledParagraph3 = styled(Paragraph3, {
   color:"#757575",
-  fontWeight: 'bold',
+  fontWeight: 600,
   padding: '16px 0 8px 16px',
   marginBlockStart: '0',
   marginBlockEnd: '0',
@@ -74,7 +74,7 @@ const NavSection = styled('div', {
 const SideNav: React.FunctionComponent<SideNavProps> = ({
   navbarOpen, setNavBarOpen, navbarOpenCounter, setNavBarOpenCounter}) => {
     return (
-      <SideNavBar>
+      <SideNavBar style={{fontWeight: 'bold'}}>
         <LogoContainer>
           <StyledLogo size="50" style={{display: !navbarOpen ? 'none' : undefined}} />
           <LeftArrow

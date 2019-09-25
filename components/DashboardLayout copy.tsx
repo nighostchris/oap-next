@@ -30,12 +30,12 @@ const StyledCard = styled(Card, {
 });
 
 const StyledLabel1 = styled(Label1, {
-  color: '#757575 !important',
+  color: '#757575',
   fontWeight: 600,
 });
 
 const StyledLabel2 = styled(Label2, {
-  color: '#757575 !important',
+  color: '#757575',
   fontWeight: 900,
 })
 
@@ -48,43 +48,7 @@ const CardContainer = styled('div', {
   marginLeft: '80px',
 })
 
-const courses = [{
-  code: '1021',
-  title: 'Introduction to Computer Science',
-  section: 'L1',
-  instructor: 'LAM, Gibson',
-},
-{
-  code: '2011',
-  title: 'Programming with C++',
-  section: 'L2',
-  instructor: 'Li, Xin',
-},
-{
-  code: '2012',
-  title: 'Object-Oriented Programming and Data Structures',
-  section: 'L2',
-  instructor: 'Tsoi, Yau Chat',
-},
-{
-  code: '3021',
-  title: 'Java Programming',
-  section: 'L1',
-  instructor: 'Cheung, Shing Chi',
-}];
-
-const assignments = [{
-  code: '2012',
-  number: '1',
-  title: 'Tic Tac Toe',
-  dueDate: new Date(2019, 9, 15),
-},
-{
-  code: '2012',
-  number: '2',
-  title: 'Bank System',
-  dueDate: new Date(2019, 10, 15),
-}]
+const data = [1, 2, 3, 4];
 
 const DashboardLayout: React.FunctionComponent = () => {
   return (
@@ -92,20 +56,20 @@ const DashboardLayout: React.FunctionComponent = () => {
       <StyledDisplay4>Courses</StyledDisplay4>
       <CardRow>
         {
-          courses.map((d, index) => (
+          data.map((temp, index) => (
             <StyledCard
               overrides={{ Root: { style: {
-                marginRight: index + 1 !== courses.length ? '40px' : '0'
+                marginRight: index + 1 !== data.length ? '40px' : '0'
               }}}}
             >
-              <Link href={`/courses/comp${d.code}`}>
-                <Title>{`COMP ${d.code} ${d.title}`}</Title>
+              <Link href="/comp2012">
+                <Title>COMP 2012 Introduction to Object-Oriented Programming</Title>            
               </Link>
               <StyledLabel1>
-                {d.section}
+                L{temp}
               </StyledLabel1>
               <StyledLabel2>
-                {d.instructor}
+                Dr. Desmond Tsoi
               </StyledLabel2>
             </StyledCard>
           ))
@@ -114,23 +78,21 @@ const DashboardLayout: React.FunctionComponent = () => {
       <StyledDisplay4>Assignments</StyledDisplay4>
       <CardRow>
         {
-          assignments.map((d, index) => (
+          data.map((temp, index) => (
             <StyledCard
               overrides={{ Root: { style: {
-                marginRight: index + 1 !== assignments.length ? '40px' : '0'
+                marginRight: index + 1 !== data.length ? '40px' : '0'
               }}}}
             >
               <Link href="/comp2012">
-                <Title>{`Assignment ${d.number} ${d.title}`}</Title>            
+                <Title>{`Assignment ${temp}
+                  Tic Tac Toe`}</Title>            
               </Link>
               <StyledLabel1>
-                {`COMP ${d.code}`}
+                COMP 2012
               </StyledLabel1>
               <StyledLabel2>
-                {`
-                  Due Date:
-                    ${d.dueDate.getFullYear()}-${d.dueDate.getMonth() + 1}-${d.dueDate.getDate()}
-                `}
+                Due Date: 12/10/2019
               </StyledLabel2>
             </StyledCard>
           ))
