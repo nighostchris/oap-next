@@ -40,6 +40,7 @@ const Layout: React.FunctionComponent = ({children}) => {
         style={{
           width: navbarOpen ? '85%' : '97%',
           marginLeft: navbarOpen ? '15%' : '3%',
+          height: '100vh',
         }}>
         <HeaderBar />
         {children}

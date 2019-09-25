@@ -35,12 +35,11 @@ const StyledArrowDropDown = styled(ArrowDropDown, {
 const StyledUserDropDown = styled('div', {
   top: '50px',
   right: '16px',
-  border: '1px',
   width: '150px',
   position: 'fixed',  
-  textAlign: 'center',
+  border: '1px solid',
   borderRadius: '5px',
-  borderStyle: 'solid',
+  textAlign: 'center',
 })
 
 const StyledNotiDropDown = styled('div', {

@@ -93,7 +93,7 @@ const DashboardLayout: React.FunctionComponent = () => {
       <CardRow>
         {
           courses.map((d, index) => (
-            <StyledCard
+            <StyledCard key={`${d.code}-${index}`}
               overrides={{ Root: { style: {
                 marginRight: index + 1 !== courses.length ? '40px' : '0'
               }}}}
@@ -115,7 +115,7 @@ const DashboardLayout: React.FunctionComponent = () => {
       <CardRow>
         {
           assignments.map((d, index) => (
-            <StyledCard
+            <StyledCard key={`${d.code}-${index}`}
               overrides={{ Root: { style: {
                 marginRight: index + 1 !== assignments.length ? '40px' : '0'
               }}}}
