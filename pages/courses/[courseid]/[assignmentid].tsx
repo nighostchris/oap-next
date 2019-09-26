@@ -4,12 +4,12 @@ import Layout from '../../../components/Layout'
 
 const Course: React.FunctionComponent = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { courseid, assignmentid } = router.query;
   console.log(router.query);
 
   return (
     <Layout>
-      <p>Course: {id}</p>
+      <p>Course: {`${courseid}, ${assignmentid}`}</p>
     </Layout>
   );
 }

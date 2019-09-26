@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Link from 'next/link'
 import { styled } from 'baseui'
 import { Paragraph3 } from 'baseui/typography'
 import { Cubes } from 'styled-icons/fa-solid/Cubes'
@@ -71,6 +72,31 @@ const NavSection = styled('div', {
   flexDirection: 'column',
 })
 
+const courses = [{
+  code: '1021',
+  title: 'Introduction to Computer Science',
+  section: 'L1',
+  instructor: 'LAM, Gibson',
+},
+{
+  code: '2011',
+  title: 'Programming with C++',
+  section: 'L2',
+  instructor: 'Li, Xin',
+},
+{
+  code: '2012',
+  title: 'Object-Oriented Programming and Data Structures',
+  section: 'L2',
+  instructor: 'Tsoi, Yau Chat',
+},
+{
+  code: '3021',
+  title: 'Java Programming',
+  section: 'L1',
+  instructor: 'Cheung, Shing Chi',
+}];
+
 const SideNav: React.FunctionComponent<SideNavProps> = ({
   navbarOpen, setNavBarOpen, navbarOpenCounter, setNavBarOpenCounter}) => {
     return (
@@ -102,30 +128,20 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
         </LogoContainer>
         <NavSection style={{display: !navbarOpen ? 'none' : undefined}}>
           <StyledParagraph3>My Courses</StyledParagraph3>
-          <ListItem>
-            <Book size='20' />
-            <CourseTitle>COMP 1021</CourseTitle>
-          </ListItem>
-          <ListItem>
-            <Book size='20' />
-            <CourseTitle>COMP 2011</CourseTitle>
-          </ListItem>
-          <ListItem>
-            <Book size='20' />
-            <CourseTitle>COMP 2012</CourseTitle>
-          </ListItem>
-          <ListItem>
-            <Book size='20' />
-            <CourseTitle>COMP 3021</CourseTitle>
-          </ListItem>
-          <ListItem>
-            <Book size='20' />
-            <CourseTitle>COMP 1022Q</CourseTitle>
-          </ListItem>
-          <ListItem>
-            <Book size='20' />
-            <CourseTitle>COMP 1022P</CourseTitle>
-          </ListItem>
+          {
+            courses.map((c, index) => (
+              <Link
+                key={`sidenav-${index}`}
+                href={`/courses/comp${c.code}`}
+              >
+                <ListItem >
+                  <Book size='20' />
+                  <CourseTitle>{`COMP ${c.code}`}</CourseTitle>
+                </ListItem>
+              </Link>
+              
+            ))
+          }
         </NavSection>
         <NavSection style={{display: !navbarOpen ? 'none' : undefined}}>
           <StyledParagraph3>Account</StyledParagraph3>

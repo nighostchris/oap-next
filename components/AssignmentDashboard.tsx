@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { styled } from 'baseui'
 import { Button } from 'baseui/button'
+import { useRouter } from 'next/router'
 import { Label1, Label3, Label4 } from 'baseui/typography'
 import { Assignment } from 'styled-icons/material/Assignment'
 import { AssignmentLate } from 'styled-icons/material/AssignmentLate'
@@ -16,7 +17,7 @@ const Dashboard = styled('div', {
 const TabContainer = styled('div', {
   width: '100%',
   display: 'flex',
-  marginBottom: '40px',
+  marginBottom: '20px',
   flexDirection: 'row',
   justifyContent: 'space-evenly',
 });
@@ -54,7 +55,7 @@ const Container = styled('div', {
   flexDirection: 'column',
   backgroundColor: '#eeeeee',
   border: '1px solid #bdbdbd',
-  height: 'calc(100% - 168px)',
+  height: 'calc(100% - 208px)',
   padding: '20px 0',
   borderRadius: '5px !important',
 });
@@ -70,6 +71,11 @@ const AssignmentTag = styled(Label1, {
   width: '90%',
   marginBottom: '5px',
   fontWeight: "bolder",
+});
+
+const CourseTitle = styled(AssignmentTag, {
+  fontSize: '22px',
+  marginBottom: '20px !important',
 });
 
 const AssignmentContainer = styled('div', {
@@ -126,6 +132,9 @@ const assignments = [{
 }]
 
 const AssignmentDashboard: React.FunctionComponent = () => {
+  const router = useRouter();
+  const { courseid } = router.query;
+
   return (
     <Dashboard>
       <TabContainer>
@@ -133,6 +142,7 @@ const AssignmentDashboard: React.FunctionComponent = () => {
         <StyledButton>Announcements</StyledButton>
         <StyledButton>Grades</StyledButton>
       </TabContainer>
+      <CourseTitle>{String(courseid).toUpperCase()}</CourseTitle>
       <Container>
         <AssignmentTag>Upcoming</AssignmentTag>
         <SubContainer>
