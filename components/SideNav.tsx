@@ -35,7 +35,7 @@ const StyledLogo = styled(Cubes, {
 
 const StyledParagraph3 = styled(Paragraph3, {
   color:"#757575",
-  fontWeight: 600,
+  fontWeight: 700,
   padding: '16px 0 8px 16px',
   marginBlockStart: '0',
   marginBlockEnd: '0',
@@ -43,7 +43,7 @@ const StyledParagraph3 = styled(Paragraph3, {
 
 const CourseTitle = styled(Paragraph3, {
   color:"#1565c0",
-  fontWeight: 'bold',
+  fontWeight: 700,
   padding: '10px 0 10px 8px',
   marginBlockStart: '0',
   marginBlockEnd: '0',
@@ -60,7 +60,7 @@ const ListItem = styled('div', {
 })
 
 const AccountLabel = styled(Paragraph3, {
-  fontWeight: 'bold',
+  fontWeight: 700,
   padding: '10px 0 10px 8px',
   marginBlockStart: '0',
   marginBlockEnd: '0',
