@@ -1,7 +1,7 @@
 import * as React from 'react'
 // import { useRouter } from 'next/router'
 import Layout from '../../components/Layout'
-import AssignmentDashboard from '../../components/AssignmentDashboard';
+import CourseDashboard from '../../components/CourseDashboard';
 
 const Course: React.FunctionComponent = () => {
   // const router = useRouter();
@@ -9,7 +9,7 @@ const Course: React.FunctionComponent = () => {
 
   return (
     <Layout>
-      <AssignmentDashboard />
+      <CourseDashboard />
     </Layout>
   );
 }
