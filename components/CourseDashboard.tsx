@@ -6,6 +6,7 @@ import { Label1, Label3, Label4 } from 'baseui/typography'
 import { Assignment } from 'styled-icons/material/Assignment'
 import { AssignmentLate } from 'styled-icons/material/AssignmentLate'
 import { AssignmentTurnedIn } from 'styled-icons/material/AssignmentTurnedIn'
+import Link from 'next/link'
 
 const Dashboard = styled('div', {
   display: 'flex',
@@ -159,7 +160,9 @@ const CourseDashboard: React.FunctionComponent = () => {
                     `}
                   </Label4>
                 </AssignmentDetails>
-                <SubmitButton>Submit</SubmitButton>
+                <Link href={`/courses/${courseid}/${d.number}`}>
+                  <SubmitButton>Submit</SubmitButton>
+                </Link>
               </AssignmentContainer>
             ))
           }
@@ -179,7 +182,9 @@ const CourseDashboard: React.FunctionComponent = () => {
                     `}
                   </Label4>
                 </AssignmentDetails>
-                <VSButton>View Submission</VSButton>
+                <Link href={`/courses/${courseid}/${d.number}`}>
+                 <VSButton>View Submission</VSButton>
+                </Link>
               </AssignmentContainer>
             ))
           }
@@ -199,7 +204,9 @@ const CourseDashboard: React.FunctionComponent = () => {
                     `}
                   </Label4>
                 </AssignmentDetails>
-                <LSButton>View Submission</LSButton>
+                <Link href={`/courses/${courseid}/${d.number}`}>                
+                  <LSButton>View Submission</LSButton>
+                </Link>
               </AssignmentContainer>
             ))
           }
