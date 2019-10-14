@@ -11,9 +11,11 @@ const HBar = styled('div', {
   flexDirection: 'row',
   justifyContent: 'flex-end',
   alignItems: 'center',
+  background: '#303f9f',
 })
 
 const StyledNotifications = styled(Notifications, {
+  color: '#e0e0e0',
   marginRight: '30px',
   ':hover': {
     cursor: 'pointer',
@@ -21,10 +23,16 @@ const StyledNotifications = styled(Notifications, {
 })
 
 const StyledUser = styled(User, {
+  color: '#e0e0e0', 
   marginRight: '10px',
 })
 
+const StyledUsername = styled(Paragraph2, {
+  color: '#e0e0e0',
+})
+
 const StyledArrowDropDown = styled(ArrowDropDown, {
+  color: '#e0e0e0',  
   marginLeft: '5px',
   marginRight: '10px',
   ':hover': {
@@ -96,7 +104,7 @@ const HeaderBar: React.FunctionComponent = () => {
         </NotificationWrap>
       </StyledNotiDropDown>
       <StyledUser size="26" />
-      <Paragraph2>desmond</Paragraph2>
+      <StyledUsername>desmond</StyledUsername>
       <StyledArrowDropDown
         size="26"
         onClick={() => setUserOpen(!userOpen)}

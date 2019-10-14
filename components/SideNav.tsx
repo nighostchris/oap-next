@@ -26,11 +26,12 @@ const LogoContainer = styled('div', {
   height: '64px',
   display: 'flex',
   alignItems: 'center',
-  backgroundColor: '#eeeeee',
+  backgroundColor: '#303f9f',
   justifyContent: 'space-between',
 })
 
 const StyledLogo = styled(Cubes, {
+  color: '#e0e0e0',
   marginLeft: '20px',
 })
 
@@ -110,6 +111,7 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
               setNavBarOpenCounter(navbarOpenCounter++);
             }}
             style={{
+              color: '#e0e0e0',              
               marginRight: '10px',
               display: !navbarOpen ? 'none' : undefined,
             }}
@@ -122,6 +124,7 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
             }}
             style={{
               width: '100%',
+              color: '#e0e0e0',
               display: navbarOpen ? 'none' : undefined,
             }}
           />

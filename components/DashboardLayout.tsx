@@ -36,7 +36,7 @@ const StyledLabel1 = styled(Label1, {
 
 const StyledLabel2 = styled(Label2, {
   color: '#757575 !important',
-  fontWeight: 900,
+  fontWeight: 600,
 })
 
 const StyledDisplay4 = styled(Display4, {
