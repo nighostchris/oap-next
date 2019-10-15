@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { NextPage } from 'next'
 import Layout from '../components/Layout'
-import DashboardLayout from '../components/DashboardLayout'
+import Dashboard from '../components/Dashboard'
 
 const IndexPage: NextPage = () => {
   return (
     <Layout>
-      <DashboardLayout />
+      <Dashboard />
     </Layout>
   )
 }

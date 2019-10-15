@@ -117,7 +117,7 @@ const assignments = [{
   dueDate: new Date(2019, 10, 15),
 }]
 
-const DashboardLayout: React.FunctionComponent = () => {
+const Dashboard: React.FunctionComponent = () => {
   return (
     <CardContainer>
       <StyledDisplay4>Courses</StyledDisplay4>
@@ -129,7 +129,7 @@ const DashboardLayout: React.FunctionComponent = () => {
                 marginRight: index + 1 !== courses.length ? '40px' : '0'
               }}}}
             >
-              <Link href={`/courses/comp${d.code}/assignment`}>
+              <Link href={`/course/comp${d.code}`}>
                 <Title>{`COMP ${d.code} ${d.title}`}</Title>
               </Link>
               <StyledLabel1>
@@ -151,7 +151,7 @@ const DashboardLayout: React.FunctionComponent = () => {
                 marginRight: index + 1 !== assignments.length ? '40px' : '0'
               }}}}
             >
-              <Link href="/comp2012">
+              <Link href={`/assignment/${d.number}`}>
                 <Title>{`Assignment ${d.number} ${d.title}`}</Title>            
               </Link>
               <StyledLabel1>
@@ -171,4 +171,4 @@ const DashboardLayout: React.FunctionComponent = () => {
   )
 }
 
-export default DashboardLayout
+export default Dashboard

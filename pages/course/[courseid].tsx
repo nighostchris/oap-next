@@ -1,11 +1,11 @@
 import * as React from 'react'
-import Layout from '../../../components/Layout'
-import CourseDashboard from '../../../components/CourseDashboard';
+import Layout from '../../components/Layout'
+import AssignmentTab from '../../components/AssignmentTab';
 
 const Course: React.FunctionComponent = () => {
   return (
     <Layout>
-      <CourseDashboard />
+      <AssignmentTab />
     </Layout>
   );
 }

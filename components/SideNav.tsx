@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { styled } from 'baseui'
 import { Paragraph3 } from 'baseui/typography'
 import { Cubes } from 'styled-icons/fa-solid/Cubes'
@@ -99,25 +100,25 @@ const StyledConversation = styled(Conversation, {
 })
 
 const courses = [{
-  code: '1021',
+  code: 'comp1021',
   title: 'Introduction to Computer Science',
   section: 'L1',
   instructor: 'LAM, Gibson',
 },
 {
-  code: '2011',
+  code: 'comp2011',
   title: 'Programming with C++',
   section: 'L2',
   instructor: 'Li, Xin',
 },
 {
-  code: '2012',
+  code: 'comp2012',
   title: 'Object-Oriented Programming and Data Structures',
   section: 'L2',
   instructor: 'Tsoi, Yau Chat',
 },
 {
-  code: '3021',
+  code: 'comp3021',
   title: 'Java Programming',
   section: 'L1',
   instructor: 'Cheung, Shing Chi',
@@ -125,6 +126,10 @@ const courses = [{
 
 const SideNav: React.FunctionComponent<SideNavProps> = ({
   navbarOpen, setNavBarOpen, navbarOpenCounter, setNavBarOpenCounter}) => {
+    const router = useRouter();
+    const { courseid } = router.query;
+    console.log(courseid);
+
     return (
       <SideNavBar style={{fontWeight: 'bold'}}>
         <LogoContainer>
@@ -160,11 +165,13 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
             courses.map((c, index) => (
               <Link
                 key={`sidenav-${index}`}
-                href={`/courses/comp${c.code}`}
+                href={`/course/${c.code}`}
               >
-                <ListItem >
+                <ListItem style={{
+                  backgroundColor: c.code == courseid ? '#455a64' : undefined
+                }}>
                   <StyledBook size='20' />
-                  <CourseTitle>{`COMP ${c.code}`}</CourseTitle>
+                  <CourseTitle>{c.code.toUpperCase().replace(/([^0-9])([0-9])/g, '$1 $2')}</CourseTitle>
                 </ListItem>
               </Link>
               

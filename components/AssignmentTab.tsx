@@ -132,7 +132,7 @@ const assignments = [{
   dueDate: new Date(2019, 8, 16, 11, 59, 59),
 }]
 
-const CourseDashboard: React.FunctionComponent = () => {
+const AssignmentTab: React.FunctionComponent = () => {
   const router = useRouter();
   const { courseid } = router.query;
 
@@ -218,4 +218,4 @@ const CourseDashboard: React.FunctionComponent = () => {
   )
 }
 
-export default CourseDashboard
+export default AssignmentTab
