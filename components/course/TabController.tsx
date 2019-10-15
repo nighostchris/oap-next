@@ -40,7 +40,7 @@ const Tab = styled('button', {
 })
 
 const ActiveTab = styled(Tab, {
-  background: '#78909c',
+  background: '#78909c !important',
 })
 
 const TabController: React.FunctionComponent = () => {

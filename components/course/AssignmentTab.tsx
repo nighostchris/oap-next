@@ -16,15 +16,6 @@ const SubmitButton = styled(Button, {
   fontSize: '14px !important',
   padding: '5px !important',
   borderRadius: '5px !important',
-  backgroundColor: '#4caf50 !important',
-});
-
-const VSButton = styled(SubmitButton, {
-  backgroundColor: '#2196f3 !important',
-});
-
-const LSButton = styled(SubmitButton, {
-  backgroundColor: '#d32f2f !important',
 });
 
 const Container = styled('div', {
@@ -114,7 +105,7 @@ const assignments = [{
   number: '2',
   title: 'Bank System',
   submitted: false,
-  dueDate: new Date(2019, 9, 15, 11, 59, 59),
+  dueDate: new Date(2019, 9, 20, 23, 59, 59),
 },
 {
   code: '2012',
@@ -147,7 +138,17 @@ const AssignmentTab: React.FunctionComponent = () => {
                 </Label4>
               </AssignmentDetails>
               <Link href={`/assignment/${d.number}`}>
-                <SubmitButton>Submit</SubmitButton>
+                <SubmitButton
+                  overrides={{
+                    BaseButton: {
+                      style: {
+                        backgroundColor: '#4caf50',
+                      }
+                    }
+                  }}
+                >
+                  Submit
+                </SubmitButton>
               </Link>
             </AssignmentContainer>
           ))
@@ -169,7 +170,17 @@ const AssignmentTab: React.FunctionComponent = () => {
                 </Label4>
               </AssignmentDetails>
               <Link href={`/assignment/${d.number}`}>
-                <VSButton>View Submission</VSButton>
+                <SubmitButton
+                  overrides={{
+                    BaseButton: {
+                      style: {
+                        backgroundColor: '#2196f3',
+                      }
+                    }
+                  }}
+                >
+                  View Submission
+                </SubmitButton>
               </Link>
             </AssignmentContainer>
           ))
@@ -191,7 +202,17 @@ const AssignmentTab: React.FunctionComponent = () => {
                 </Label4>
               </AssignmentDetails>
               <Link href={`/assignment/${d.number}`}>
-                <LSButton>View Submission</LSButton>
+                <SubmitButton
+                  overrides={{
+                    BaseButton: {
+                      style: {
+                        backgroundColor: '#d32f2f',
+                      }
+                    }
+                  }}
+                >
+                  View Submission
+                </SubmitButton>
               </Link>
             </AssignmentContainer>
           ))

@@ -37,8 +37,6 @@ const StyledLogo = styled(Cubes, {
 })
 
 const StyledParagraph3 = styled(Paragraph3, {
-  fontSize: '16px !important',
-  color:"#eceff1 !important",
   padding: '0 0 10px 0',
   width: '80%',
   marginBlockStart: '0',
@@ -160,7 +158,19 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
           />
         </LogoContainer>
         <NavSection style={{display: !navbarOpen ? 'none' : undefined}}>
-          <StyledParagraph3>My Courses</StyledParagraph3>
+          <StyledParagraph3
+            overrides={{
+              Block: {
+                style: {
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                  color:"#eceff1",
+                }
+              }
+            }}
+          >
+            My Courses
+          </StyledParagraph3>
           {
             courses.map((c, index) => (
               <Link
@@ -180,7 +190,19 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
           <Breakline />
         </NavSection>
         <NavSection style={{display: !navbarOpen ? 'none' : undefined}}>
-          <StyledParagraph3>Account</StyledParagraph3>
+          <StyledParagraph3
+            overrides={{
+              Block: {
+                style: {
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                  color:"#eceff1",
+                }
+              }
+            }}
+          >
+            Account
+          </StyledParagraph3>
           <ListItem>
             <StyledNotifications size='26' />
             <AccountLabel>Notifications</AccountLabel>
