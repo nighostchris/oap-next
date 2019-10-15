@@ -6,7 +6,8 @@ import SideNav from '../components/SideNav'
 const RootContainer = styled('div', {
   height: "100%",
   display: "flex",
-  flexDirection: "row",
+  flexDirection: "row",  
+  background: '#cfd8dc',
 })
 
 const LeftContainer = styled('div', {
@@ -26,9 +27,8 @@ const Layout: React.FunctionComponent = ({children}) => {
     <RootContainer>
       <LeftContainer
         style={{
-          minWidth: navbarOpen ? '200px' : undefined, 
-          width: navbarOpen ? '15%' : '3%',
           position: 'fixed',
+          width: navbarOpen ? '15%' : '3%',
         }}
       >
         <SideNav

@@ -47,7 +47,6 @@ const CardContainer = styled('div', {
   paddingTop: '40px',
   paddingLeft: '80px',
   overflowY: 'auto',
-  backgroundColor: '#cfd8dc',
   height: 'calc(100% - 104px)',
   "::-webkit-scrollbar": {
     width: ".8rem",

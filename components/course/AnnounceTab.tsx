@@ -1,8 +1,6 @@
 import * as React from 'react'
 import { styled } from 'baseui'
 import { useRouter } from 'next/router'
-import Link from 'next/link';
-import { Button } from 'baseui/button';
 import { Label1, Label3 } from 'baseui/typography';
 
 const Dashboard = styled('div', {
@@ -10,21 +8,6 @@ const Dashboard = styled('div', {
   flexDirection: 'column',
   alignItems: 'center',
   height: 'calc(100% - 64px)',
-});
-
-const TabContainer = styled('div', {
-  width: '100%',
-  display: 'flex',
-  marginBottom: '20px',
-  flexDirection: 'row',
-  justifyContent: 'space-evenly',
-});
-
-const StyledButton = styled(Button, {
-  padding: '8px',
-  width: '200px',
-  borderRadius: '5px !important',
-  backgroundColor: '#9e9e9e !important',
 });
 
 const Container = styled('div', {
@@ -80,19 +63,12 @@ const Publish = styled(Label3, {
 
 });
 
-const AnnounceDashboard: React.FunctionComponent = () => {
+const AnnounceTab: React.FunctionComponent = () => {
   const router = useRouter();
   const { courseid } = router.query;
 
   return (
     <Dashboard>
-      <TabContainer>
-        <StyledButton>Assignments</StyledButton>
-        <Link href={`/courses/${courseid}/announcement`}>
-          <StyledButton>Announcements</StyledButton>
-        </Link>
-        <StyledButton>Grades</StyledButton>
-      </TabContainer>
       <CourseTitle>{String(courseid).toUpperCase()}</CourseTitle>
       <Container>
         <SubContainer>
@@ -108,4 +84,4 @@ const AnnounceDashboard: React.FunctionComponent = () => {
   )
 }
 
-export default AnnounceDashboard
+export default AnnounceTab
