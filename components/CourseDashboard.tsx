@@ -140,7 +140,9 @@ const CourseDashboard: React.FunctionComponent = () => {
     <Dashboard>
       <TabContainer>
         <StyledButton>Assignments</StyledButton>
-        <StyledButton>Announcements</StyledButton>
+        <Link href={`/courses/${courseid}/announcement`}>
+          <StyledButton>Announcements</StyledButton>
+        </Link>
         <StyledButton>Grades</StyledButton>
       </TabContainer>
       <CourseTitle>{String(courseid).toUpperCase()}</CourseTitle>

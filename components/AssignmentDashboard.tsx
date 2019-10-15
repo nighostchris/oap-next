@@ -2,7 +2,7 @@ import * as React from 'react'
 import { styled } from 'baseui'
 import { Button } from 'baseui/button'
 import { useRouter } from 'next/router'
-import { H3, H5, Label2, Label3, /*Label4*/ } from 'baseui/typography'
+import { H3, H5, Label2, Label3 } from 'baseui/typography'
 import { FileZip } from 'styled-icons/icomoon/FileZip'
 import { CheckCircle } from 'styled-icons/boxicons-regular/CheckCircle'
 import { Error } from 'styled-icons/boxicons-regular/Error'
@@ -81,19 +81,6 @@ const StatusLogo = styled('div', {
   width: '10%',
   textAlign: 'right',
 });
-
-/*
-const SubmitButton = styled(Button, {
-  width: '150px',
-  marginLeft: 'auto',
-  marginRight: '40px',
-  fontWeight: "bolder",
-  fontSize: '14px !important',
-  padding: '5px !important',
-  borderRadius: '5px !important',
-  backgroundColor: '#4caf50 !important',
-});
-*/
 
 let submission = [{
   name: 'assignment1.zip',

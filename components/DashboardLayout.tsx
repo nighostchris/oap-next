@@ -98,7 +98,7 @@ const DashboardLayout: React.FunctionComponent = () => {
                 marginRight: index + 1 !== courses.length ? '40px' : '0'
               }}}}
             >
-              <Link href={`/courses/comp${d.code}`}>
+              <Link href={`/courses/comp${d.code}/assignment`}>
                 <Title>{`COMP ${d.code} ${d.title}`}</Title>
               </Link>
               <StyledLabel1>
