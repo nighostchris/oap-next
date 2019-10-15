@@ -1,15 +1,15 @@
 import * as React from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { styled } from 'baseui'
+import { useRouter } from 'next/router'
 import { Paragraph3 } from 'baseui/typography'
-import { Cubes } from 'styled-icons/fa-solid/Cubes'
 import { Book } from 'styled-icons/fa-solid/Book'
-import { Notifications } from 'styled-icons/material/Notifications'
+import { Cubes } from 'styled-icons/fa-solid/Cubes'
 import { Settings } from 'styled-icons/material/Settings'
-import { Conversation } from 'styled-icons/boxicons-solid/Conversation'
 import { LeftArrow } from 'styled-icons/boxicons-solid/LeftArrow'
 import { RightArrow } from 'styled-icons/boxicons-solid/RightArrow'
+import { Notifications } from 'styled-icons/material/Notifications'
+import { Conversation } from 'styled-icons/boxicons-solid/Conversation'
 
 interface SideNavProps {
   navbarOpen: boolean,
@@ -43,8 +43,7 @@ const StyledParagraph3 = styled(Paragraph3, {
   marginBlockEnd: '0',
 })
 
-const CourseTitle = styled(Paragraph3, {
-  color: "#cfd8dc",
+const ListItemText = styled(Paragraph3, {
   padding: '10px 0 10px 8px',
   marginBlockStart: '0',
   marginBlockEnd: '0',
@@ -64,16 +63,9 @@ const StyledBook = styled(Book, {
   paddingLeft: '10%',
 })
 
-const AccountLabel = styled(Paragraph3, {
-  color: "#cfd8dc",
-  padding: '10px 0 10px 8px',
-  marginBlockStart: '0',
-  marginBlockEnd: '0',
-})
-
 const NavSection = styled('div', {
   display: 'flex',
-  margin: '16px 0px',  
+  margin: '20px 0px',  
   alignItems: 'center',  
   flexDirection: 'column',
 })
@@ -122,11 +114,16 @@ const courses = [{
   instructor: 'Cheung, Shing Chi',
 }];
 
+const accountUtils = [
+  {'Notifications': '/notification'},
+  {'Conversations': '/conversations'},
+  {'Settings': '/settings'}
+];
+
 const SideNav: React.FunctionComponent<SideNavProps> = ({
   navbarOpen, setNavBarOpen, navbarOpenCounter, setNavBarOpenCounter}) => {
     const router = useRouter();
     const { courseid } = router.query;
-    console.log(courseid);
 
     return (
       <SideNavBar style={{fontWeight: 'bold'}}>
@@ -163,7 +160,7 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
               Block: {
                 style: {
                   fontWeight: 'bold',
-                  fontSize: '16px',
+                  fontSize: '18px',
                   color:"#eceff1",
                 }
               }
@@ -181,7 +178,19 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
                   backgroundColor: c.code == courseid ? '#455a64' : undefined
                 }}>
                   <StyledBook size='20' />
-                  <CourseTitle>{c.code.toUpperCase().replace(/([^0-9])([0-9])/g, '$1 $2')}</CourseTitle>
+                  <ListItemText
+                    overrides={{
+                      Block: {
+                        style: {
+                          fontWeight: 'bold',
+                          fontSize: '16px',
+                          color:"#eceff1",
+                        }
+                      }
+                    }}
+                  >
+                    {c.code.toUpperCase().replace(/([^0-9])([0-9])/g, '$1 $2')}
+                  </ListItemText>
                 </ListItem>
               </Link>
               
@@ -195,7 +204,7 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
               Block: {
                 style: {
                   fontWeight: 'bold',
-                  fontSize: '16px',
+                  fontSize: '18px',
                   color:"#eceff1",
                 }
               }
@@ -203,18 +212,33 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
           >
             Account
           </StyledParagraph3>
-          <ListItem>
-            <StyledNotifications size='26' />
-            <AccountLabel>Notifications</AccountLabel>
-          </ListItem>
-          <ListItem>
-            <StyledSettings size='26' />
-            <AccountLabel>Settings</AccountLabel>
-          </ListItem>
-          <ListItem>
-            <StyledConversation size='26' />
-            <AccountLabel>Conversations</AccountLabel>
-          </ListItem>
+          {
+            accountUtils.map((d, i) => (
+              <Link
+                key={`utils-${i}`}
+                href={Object.values(d).toString()}
+              >
+                <ListItem>
+                  {i == 0 && <StyledNotifications size='26' />}
+                  {i == 1 && <StyledConversation size='26' />}
+                  {i == 2 && <StyledSettings size='26' />}
+                  <ListItemText
+                    overrides={{
+                      Block: {
+                        style: {
+                          fontWeight: 'bold',
+                          fontSize: '16px',
+                          color:"#eceff1",
+                        }
+                      }
+                    }}
+                  >
+                    {Object.keys(d)}
+                  </ListItemText>
+                </ListItem>
+              </Link>
+            ))
+          }
         </NavSection>
       </SideNavBar>
     )
