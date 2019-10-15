@@ -1,7 +1,7 @@
 import * as React from 'react'
 // import { useRouter } from 'next/router'
-import Layout from '../../../components/Layout'
-import AssignmentDashboard from '../../../components/AssignmentDashboard'
+import Layout from '../../components/Layout'
+import AssignmentDashboard from '../../components/AssignmentDashboard'
 
 const Course: React.FunctionComponent = () => {
   // const router = useRouter();

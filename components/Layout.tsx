@@ -14,6 +14,7 @@ const LeftContainer = styled('div', {
 })
 
 const RightContainer = styled('div', {
+  overflowY: 'hidden',
   transition: 'width 0.2s ease-in-out',
 })
 
@@ -25,6 +26,7 @@ const Layout: React.FunctionComponent = ({children}) => {
     <RootContainer>
       <LeftContainer
         style={{
+          minWidth: navbarOpen ? '200px' : undefined, 
           width: navbarOpen ? '15%' : '3%',
           position: 'fixed',
         }}

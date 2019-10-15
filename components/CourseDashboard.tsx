@@ -162,7 +162,7 @@ const CourseDashboard: React.FunctionComponent = () => {
                     `}
                   </Label4>
                 </AssignmentDetails>
-                <Link href={`/courses/${courseid}/${d.number}`}>
+                <Link href={`/assignment/${d.number}`}>
                   <SubmitButton>Submit</SubmitButton>
                 </Link>
               </AssignmentContainer>
@@ -184,7 +184,7 @@ const CourseDashboard: React.FunctionComponent = () => {
                     `}
                   </Label4>
                 </AssignmentDetails>
-                <Link href={`/courses/${courseid}/${d.number}`}>
+                <Link href={`/assignment/${d.number}`}>
                  <VSButton>View Submission</VSButton>
                 </Link>
               </AssignmentContainer>
@@ -206,7 +206,7 @@ const CourseDashboard: React.FunctionComponent = () => {
                     `}
                   </Label4>
                 </AssignmentDetails>
-                <Link href={`/courses/${courseid}/${d.number}`}>                
+                <Link href={`/assignment/${d.number}`}>                
                   <LSButton>View Submission</LSButton>
                 </Link>
               </AssignmentContainer>

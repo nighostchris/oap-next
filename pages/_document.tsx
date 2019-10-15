@@ -3,7 +3,7 @@ import { Provider as StyletronProvider } from 'styletron-react'
 import { styletron } from '../styletron'
 
 class MyDocument extends Document {
-  static getInitialProps (props) {
+  static getInitialProps(props) {
     const page = props.renderPage(App => props => (
       <StyletronProvider value={styletron}>
         <App {...props} />
@@ -13,20 +13,25 @@ class MyDocument extends Document {
     return { ...page, stylesheets }
   }
 
-  render () {
+  render() {
     return (
-      <html style={{height: "100%"}}>
+      <html style={{ height: "100%" }}>
         <Head>
           {this.props.stylesheets.map((sheet, i) => (
             <style>{`
               #__next {
                 height: 100%;
               }
+
+              body {
+                height: 100%;
+                margin: 0;
+              }
             `}</style>
           ))}
         </Head>
-        <body style={{ height: '100%', margin: 0 }}>
-          <Main/>
+        <body>
+          <Main />
           <NextScript />
         </body>
       </html>

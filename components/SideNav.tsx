@@ -19,7 +19,7 @@ interface SideNavProps {
 
 const SideNavBar = styled('div', {
   height: '100vh',
-  backgroundColor: '#bdbdbd',
+  backgroundColor: '#607d8b',
 })
 
 const LogoContainer = styled('div', {
@@ -36,33 +36,37 @@ const StyledLogo = styled(Cubes, {
 })
 
 const StyledParagraph3 = styled(Paragraph3, {
-  color:"#757575",
-  fontWeight: 700,
-  padding: '16px 0 8px 16px',
+  fontSize: '16px !important',
+  color:"#eceff1 !important",
+  padding: '0 0 10px 0',
+  width: '80%',
   marginBlockStart: '0',
   marginBlockEnd: '0',
 })
 
 const CourseTitle = styled(Paragraph3, {
-  color:"#1565c0",
-  fontWeight: 700,
+  color: "#cfd8dc",
   padding: '10px 0 10px 8px',
   marginBlockStart: '0',
   marginBlockEnd: '0',
 })
 
 const ListItem = styled('div', {
+  width: '100%',
   display: 'flex',
   alignItems: 'center',
-  paddingLeft: '1em',
   ':hover': {
     cursor: 'pointer',
-    backgroundColor: '#e0e0e0'
+    backgroundColor: '#455a64'
   },
 })
 
+const StyledBook = styled(Book, {
+  paddingLeft: '10%',
+})
+
 const AccountLabel = styled(Paragraph3, {
-  fontWeight: 700,
+  color: "#cfd8dc",
   padding: '10px 0 10px 8px',
   marginBlockStart: '0',
   marginBlockEnd: '0',
@@ -70,7 +74,28 @@ const AccountLabel = styled(Paragraph3, {
 
 const NavSection = styled('div', {
   display: 'flex',
+  margin: '16px 0px',  
+  alignItems: 'center',  
   flexDirection: 'column',
+})
+
+const Breakline = styled('div', {
+  height: '1px',
+  width: '90%',
+  backgroundColor: '#b0bec5',
+  margin: '8px 0 0 0',
+})
+
+const StyledNotifications = styled(Notifications, {
+  paddingLeft: '10%',
+})
+
+const StyledSettings = styled(Settings, {
+  paddingLeft: '10%',
+})
+
+const StyledConversation = styled(Conversation, {
+  paddingLeft: '10%',
 })
 
 const courses = [{
@@ -138,26 +163,27 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
                 href={`/courses/comp${c.code}`}
               >
                 <ListItem >
-                  <Book size='20' />
+                  <StyledBook size='20' />
                   <CourseTitle>{`COMP ${c.code}`}</CourseTitle>
                 </ListItem>
               </Link>
               
             ))
           }
+          <Breakline />
         </NavSection>
         <NavSection style={{display: !navbarOpen ? 'none' : undefined}}>
           <StyledParagraph3>Account</StyledParagraph3>
           <ListItem>
-            <Notifications size='26' />
+            <StyledNotifications size='26' />
             <AccountLabel>Notifications</AccountLabel>
           </ListItem>
           <ListItem>
-            <Settings size='26' />
+            <StyledSettings size='26' />
             <AccountLabel>Settings</AccountLabel>
           </ListItem>
           <ListItem>
-            <Conversation size='26' />
+            <StyledConversation size='26' />
             <AccountLabel>Conversations</AccountLabel>
           </ListItem>
         </NavSection>

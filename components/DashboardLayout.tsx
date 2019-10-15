@@ -44,8 +44,21 @@ const StyledDisplay4 = styled(Display4, {
 })
 
 const CardContainer = styled('div', {
-  marginTop: '20px',
-  marginLeft: '80px',
+  paddingTop: '40px',
+  paddingLeft: '80px',
+  overflowY: 'auto',
+  backgroundColor: '#cfd8dc',
+  height: 'calc(100% - 104px)',
+  "::-webkit-scrollbar": {
+    width: ".8rem",
+  },
+  "::-webkit-scrollbar-thumb": {
+    backgroundClip: "padding-box",
+    border: "2px solid transparent",
+    borderRadius: ".8rem",
+    backgroundColor: "rgba(128, 128, 128, .7)",
+    boxShadow: "inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)",
+  },
 })
 
 const courses = [{
@@ -78,6 +91,24 @@ const assignments = [{
   number: '1',
   title: 'Tic Tac Toe',
   dueDate: new Date(2019, 9, 15),
+},
+{
+  code: '2012',
+  number: '2',
+  title: 'Bank System',
+  dueDate: new Date(2019, 10, 15),
+},
+{
+  code: '2012',
+  number: '2',
+  title: 'Bank System',
+  dueDate: new Date(2019, 10, 15),
+},
+{
+  code: '2012',
+  number: '2',
+  title: 'Bank System',
+  dueDate: new Date(2019, 10, 15),
 },
 {
   code: '2012',

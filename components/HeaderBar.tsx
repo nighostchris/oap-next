@@ -28,7 +28,7 @@ const StyledUser = styled(User, {
 })
 
 const StyledUsername = styled(Paragraph2, {
-  color: '#e0e0e0',
+  color: '#e0e0e0 !important',
 })
 
 const StyledArrowDropDown = styled(ArrowDropDown, {
