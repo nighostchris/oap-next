@@ -1,86 +1,123 @@
 import * as React from 'react'
 import { styled } from 'baseui'
-import { useRouter } from 'next/router'
-import { Label1, Label3 } from 'baseui/typography';
-
-const Dashboard = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  height: 'calc(100% - 64px)',
-});
+import { Label3 } from 'baseui/typography';
+import { printDate } from '../../utils/helper';
 
 const Container = styled('div', {
   width: '90%',
   display: 'flex',
+  position: 'relative',
   alignItems: 'center',
-  flexDirection: 'column',
-  backgroundColor: '#eeeeee',
-  border: '1px solid #bdbdbd',
-  height: 'calc(100% - 208px)',
-  padding: '20px 0',
-  borderRadius: '5px !important',
+  flexDirection: 'row',
+  borderRadius: '10px',
+  backgroundColor: '#bdbdbd',
+  ':not(:last-child)': {
+    marginBottom: '20px',
+  },
 });
 
-const SubContainer = styled('div', {
-  width: '90%',
-  display: 'flex',
-  flexDirection: 'row',
-  marginBottom: '20px',
-  backgroundColor: '#e0e0e0',
-  border: '1px solid #9e9e9e',
-});
+const Dot = styled('span', {
+  color: '#1976d2',
+  fontSize: '50px',
+  marginLeft: '20px',
+})
 
 const LeftContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
+  margin: '15px 0 15px 30px',
 });
 
-const AssignmentTag = styled(Label1, {
-  width: '90%',
-  marginBottom: '5px',
-  fontWeight: "bolder",
-});
-
-const CourseTitle = styled(AssignmentTag, {
-  fontSize: '22px',
-  marginBottom: '20px !important',
-});
-
-const Title = styled(Label3, {
-  fontWeight: 700,
-});
-
-const Announcer = styled(Label3, {
-
-});
-
-const Content = styled(Label3, {
-
+const StyledLabel3 = styled(Label3, {
+  ':not(:last-child)': {
+    marginBottom: '10px',
+  },
 });
 
 const Publish = styled(Label3, {
-
+  right: '20px',
+  position: 'absolute',
 });
 
-const AnnounceTab: React.FunctionComponent = () => {
-  const router = useRouter();
-  const { courseid } = router.query;
+const noti = [{
+  title: 'Solutions for Assignment 4 are now available',
+  publisher: 'Wallace',
+  content: 'You can find the solutions below: Ass4_Fall_2017_solutions.pdf.',
+  publishTime: new Date(2019, 10, 26, 9, 0, 0),
+  read: false,
+},
+{
+  title: 'Solutions for Assignment 3 are now available',
+  publisher: 'Kevin',
+  content: 'You can find the solutions below: Ass4_Fall_2017_solutions.pdf.',
+  publishTime: new Date(2019, 10, 15, 9, 0, 0),
+  read: false,
+},
+{
+  title: 'Solutions for Assignment 2 are now available',
+  publisher: 'Desmond',
+  content: 'You can find the solutions below: Ass4_Fall_2017_solutions.pdf.',
+  publishTime: new Date(2019, 10, 3, 9, 0, 0),
+  read: true,
+},
+{
+  title: 'Solutions for Assignment 1 are now available',
+  publisher: 'Wallace',
+  content: 'You can find the solutions below: Ass4_Fall_2017_solutions.pdf.',
+  publishTime: new Date(2019, 10, 1, 9, 0, 0),
+  read: true,
+},
+{
+  title: 'Solutions for Assignment 3 are now available',
+  publisher: 'Kevin',
+  content: 'You can find the solutions below: Ass4_Fall_2017_solutions.pdf.',
+  publishTime: new Date(2019, 10, 15, 9, 0, 0),
+  read: false,
+},
+{
+  title: 'Solutions for Assignment 2 are now available',
+  publisher: 'Desmond',
+  content: 'You can find the solutions below: Ass4_Fall_2017_solutions.pdf.',
+  publishTime: new Date(2019, 10, 3, 9, 0, 0),
+  read: true,
+},
+{
+  title: 'Solutions for Assignment 1 are now available',
+  publisher: 'Wallace',
+  content: 'You can find the solutions below: Ass4_Fall_2017_solutions.pdf.',
+  publishTime: new Date(2019, 10, 1, 9, 0, 0),
+  read: true,
+},
+];
 
+const AnnounceTab: React.FunctionComponent = () => {
   return (
-    <Dashboard>
-      <CourseTitle>{String(courseid).toUpperCase()}</CourseTitle>
-      <Container>
-        <SubContainer>
-          <LeftContainer>
-            <Title>Solutions for Assignment 4 are now available</Title>
-            <Announcer>TA 1</Announcer>
-            <Content>You can find the solutions below: Ass4_Fall_2017_solutions.pdf.</Content>
-          </LeftContainer>
-          <Publish>2019-11-26 9:00</Publish>
-        </SubContainer>
-      </Container>
-    </Dashboard>
+    <React.Fragment>
+      {
+        noti.map((d, i) => (
+          <Container key={i}>
+            <Dot>{ d.read && '•' }</Dot>
+            <LeftContainer>
+              <StyledLabel3
+                overrides={{
+                  Block: {
+                    style: {
+                      fontSize: '16px',
+                      fontWeight: 'bold',
+                    }
+                  }
+                }}
+              >
+                {d.title}
+              </StyledLabel3>
+              <StyledLabel3>{d.publisher}</StyledLabel3>
+              <StyledLabel3>{d.content}</StyledLabel3>
+            </LeftContainer>
+            <Publish>{printDate(d.publishTime)}</Publish>
+          </Container>
+        ))
+      }
+    </React.Fragment>
   )
 }
 
