@@ -1,7 +1,8 @@
 import * as React from 'react';
 import {styled} from 'baseui'
-import AnnounceTab from './AnnounceTab';
+import TabLayout from './TabLayout';
 import AssignmentTab from './AssignmentTab';
+import AnnounceTab from './AnnounceTab';
 
 const Root = styled('div', {
   display: 'flex',
@@ -62,10 +63,11 @@ const TabController: React.FunctionComponent = () => {
           )
         }
       </TabBar>
-      {
-        activeTab == 0 ? <AssignmentTab />
-          : (activeTab == 1 ? <AnnounceTab /> : <AssignmentTab />)
-      }
+      <TabLayout>
+        { activeTab == 0 && <AssignmentTab /> }
+        { activeTab == 1 && <AnnounceTab /> }
+        { activeTab == 2 && <AnnounceTab /> }
+      </TabLayout>
     </Root>
   );
 }

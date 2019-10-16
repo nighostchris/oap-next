@@ -1,37 +1,11 @@
 import * as React from 'react'
+import Link from 'next/link'
 import { styled } from 'baseui'
-import { useRouter } from 'next/router'
-import printDate from '../../utils/helper'
+import { printDate } from '../../utils/helper'
 import { Label1, Label3, Label4 } from 'baseui/typography'
 import { Assignment } from 'styled-icons/material/Assignment'
 import { AssignmentLate } from 'styled-icons/material/AssignmentLate'
 import { AssignmentTurnedIn } from 'styled-icons/material/AssignmentTurnedIn'
-import Link from 'next/link'
-
-const Container = styled('div', {
-  width: '90%',
-  display: 'flex',
-  padding: '20px 0',
-  overflowY: 'auto',
-  alignItems: 'center',
-  flexDirection: 'column',
-  backgroundColor: '#90a4ae',
-  border: '1px solid #607d8b',
-  height: 'calc(100% - 118px)',
-  borderTopRightRadius: '5px !important',  
-  borderBottomLeftRadius: '5px !important',
-  borderBottomRightRadius: '5px !important',
-  "::-webkit-scrollbar": {
-    width: ".8rem",
-  },
-  "::-webkit-scrollbar-thumb": {
-    backgroundClip: "padding-box",
-    border: "2px solid transparent",
-    borderRadius: ".8rem",
-    backgroundColor: "rgba(128, 128, 128, .7)",
-    boxShadow: "inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)",
-  },
-});
 
 const SubContainer = styled('div', {
   width: '90%',
@@ -42,11 +16,6 @@ const SubContainer = styled('div', {
 const AssignmentTag = styled(Label1, {
   width: '90%',
   marginBottom: '10px',
-});
-
-const CourseTitle = styled(AssignmentTag, {
-  fontSize: '22px',
-  marginBottom: '20px !important',
 });
 
 const AssignmentContainer = styled('div', {
@@ -147,12 +116,8 @@ const assignments = [{
 }]
 
 const AssignmentTab: React.FunctionComponent = () => {
-  const router = useRouter();
-  const { courseid } = router.query;
-
   return (
-    <Container>
-      <CourseTitle>{String(courseid).toUpperCase()}</CourseTitle>
+    <React.Fragment>
       {
         ['Upcoming', 'Submitted', 'Late'].map((t, i) => (
           <React.Fragment>
@@ -200,7 +165,7 @@ const AssignmentTab: React.FunctionComponent = () => {
           </React.Fragment>
         ))
       }
-    </Container>
+    </React.Fragment>
   )
 }
 
