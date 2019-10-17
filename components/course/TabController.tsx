@@ -3,6 +3,7 @@ import {styled} from 'baseui'
 import TabLayout from './TabLayout';
 import AssignmentTab from './AssignmentTab';
 import AnnounceTab from './AnnounceTab';
+import GradeTab from './GradeTab';
 
 const Root = styled('div', {
   display: 'flex',
@@ -66,7 +67,7 @@ const TabController: React.FunctionComponent = () => {
       <TabLayout>
         { activeTab == 0 && <AssignmentTab /> }
         { activeTab == 1 && <AnnounceTab /> }
-        { activeTab == 2 && <AnnounceTab /> }
+        { activeTab == 2 && <GradeTab /> }
       </TabLayout>
     </Root>
   );
