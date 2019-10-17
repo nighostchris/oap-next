@@ -171,7 +171,7 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
                 href={`/course/${c.code}`}
               >
                 <ListItem style={{
-                  backgroundColor: c.code == courseid ? '#455a64' : undefined
+                  backgroundColor: c.code == courseid ? '#777' : undefined
                 }}>
                   <StyledBook size='20' />
                   <ListItemText

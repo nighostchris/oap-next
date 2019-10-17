@@ -119,7 +119,17 @@ const assignments = [{
 const Dashboard: React.FunctionComponent = () => {
   return (
     <CardContainer>
-      <StyledDisplay4>Courses</StyledDisplay4>
+      <StyledDisplay4
+        overrides={{
+          Block: {
+            style: ({ $theme }) => ({
+              color: $theme.colors.accent,
+            }),
+          },
+        }}
+      >
+        Courses
+      </StyledDisplay4>
       <CardRow>
         {
           courses.map((d, index) => (
@@ -141,7 +151,17 @@ const Dashboard: React.FunctionComponent = () => {
           ))
         }
       </CardRow>
-      <StyledDisplay4>Assignments</StyledDisplay4>
+      <StyledDisplay4
+        overrides={{
+          Block: {
+            style: ({ $theme }) => ({
+              color: $theme.colors.accent,
+            }),
+          },
+        }}
+      >
+        Assignments
+      </StyledDisplay4>
       <CardRow>
         {
           assignments.map((d, index) => (

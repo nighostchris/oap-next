@@ -27,7 +27,7 @@ const Layout: React.FunctionComponent = ({children}) => {
   const [navbarOpen, setNavBarOpen] = React.useState(true);
 
   return (
-    <BaseProvider theme={themeController == 0 ? lightTheme : darkTheme}>
+    <BaseProvider theme={themeController == 1 ? lightTheme : darkTheme}>
       <RootContainer>
         <LeftContainer
           style={{
