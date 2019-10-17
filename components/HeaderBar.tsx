@@ -4,14 +4,26 @@ import { Notifications } from 'styled-icons/material/Notifications'
 import { User } from 'styled-icons/boxicons-solid/User'
 import { Paragraph2, Paragraph3 } from 'baseui/typography'
 import { ArrowDropDown } from 'styled-icons/material/ArrowDropDown'
+import { Moon } from 'styled-icons/fa-solid/Moon'
+import { themeProps } from '../utils/interface'
 
-const HBar = styled('div', {
+const HBar = styled('div', ({ $theme }) => ({
   height: '64px',  
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'flex-end',
   alignItems: 'center',
-  background: '#303f9f',
+  background: $theme.colors.primary,
+}))
+
+const StyledMoon = styled(Moon, {
+  stroke: 'white',
+  color: 'black',
+  strokeWidth: '30px',
+  marginRight: '30px',
+  ':hover': {
+    cursor: 'pointer',
+  },
 })
 
 const StyledNotifications = styled(Notifications, {
@@ -86,12 +98,17 @@ const StyledParagraph3 = styled(Paragraph3, {
   marginBlockEnd: '0',
 })
 
-const HeaderBar: React.FunctionComponent = () => {
+const HeaderBar: React.FunctionComponent<themeProps> = ({
+  themeController, setThemeController}) => {
   const [userOpen, setUserOpen] = React.useState(false);
   const [notiOpen, setNotiOpen] = React.useState(false);
 
   return (
     <HBar>
+      <StyledMoon
+        size="26"
+        onClick={() => setThemeController(Math.abs(themeController - 1))}
+      />
       <StyledNotifications
         size="26"
         onClick={() => setNotiOpen(!notiOpen)}

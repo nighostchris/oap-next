@@ -3,15 +3,15 @@ import { styled } from 'baseui'
 import { useRouter } from 'next/router'
 import { Label1 } from 'baseui/typography'
 
-const Container = styled('div', {
+const Container = styled('div', ({ $theme }) => ({
   width: '90%',
   display: 'flex',
   padding: '20px 0',
   overflowY: 'auto',
   alignItems: 'center',
   flexDirection: 'column',
-  backgroundColor: '#90a4ae',
-  border: '1px solid #607d8b',
+  backgroundColor: $theme.colors.primary300,
+  border: `1px solid ${$theme.colors.primary50}`,
   height: 'calc(100% - 118px)',
   borderTopRightRadius: '5px !important',  
   borderBottomLeftRadius: '5px !important',
@@ -26,15 +26,7 @@ const Container = styled('div', {
     backgroundColor: "rgba(128, 128, 128, .7)",
     boxShadow: "inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)",
   },
-});
-
-/*
-const SubContainer = styled('div', {
-  width: '90%',
-  borderRadius: '10px',
-  marginBottom: '20px',
-});
-*/
+}));
 
 const CourseTitle = styled(Label1, {
   width: '90%',

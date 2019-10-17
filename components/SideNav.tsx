@@ -10,26 +10,20 @@ import { LeftArrow } from 'styled-icons/boxicons-solid/LeftArrow'
 import { RightArrow } from 'styled-icons/boxicons-solid/RightArrow'
 import { Notifications } from 'styled-icons/material/Notifications'
 import { Conversation } from 'styled-icons/boxicons-solid/Conversation'
+import { SideNavProps } from '../utils/interface'
 
-interface SideNavProps {
-  navbarOpen: boolean,
-  setNavBarOpen: (value: boolean | ((prevVar: boolean) => boolean)) => void,
-  navbarOpenCounter: number,
-  setNavBarOpenCounter: (value: number | ((prevVar: number) => number)) => void,
-}
-
-const SideNavBar = styled('div', {
+const SideNavBar = styled('div', ({ $theme }) => ({
   height: '100vh',
-  backgroundColor: '#607d8b',
-})
+  backgroundColor: $theme.colors.primary50,
+}))
 
-const LogoContainer = styled('div', {
+const LogoContainer = styled('div', ({ $theme }) => ({
   height: '64px',
   display: 'flex',
   alignItems: 'center',
-  backgroundColor: '#303f9f',
+  backgroundColor: $theme.colors.primary,
   justifyContent: 'space-between',
-})
+}))
 
 const StyledLogo = styled(Cubes, {
   color: '#e0e0e0',
@@ -49,15 +43,15 @@ const ListItemText = styled(Paragraph3, {
   marginBlockEnd: '0',
 })
 
-const ListItem = styled('div', {
+const ListItem = styled('div', ({ $theme }) => ({
   width: '100%',
   display: 'flex',
   alignItems: 'center',
   ':hover': {
     cursor: 'pointer',
-    backgroundColor: '#455a64'
+    backgroundColor: $theme.colors.primary100,
   },
-})
+}))
 
 const StyledBook = styled(Book, {
   paddingLeft: '10%',
@@ -128,7 +122,9 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
     return (
       <SideNavBar style={{fontWeight: 'bold'}}>
         <LogoContainer>
-          <StyledLogo size="50" style={{display: !navbarOpen ? 'none' : undefined}} />
+          <Link href="/">
+            <StyledLogo size="50" style={{display: !navbarOpen ? 'none' : undefined}} />
+          </Link>
           <LeftArrow
             size="18"
             onClick={() => {
