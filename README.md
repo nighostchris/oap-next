@@ -1,12 +1,14 @@
-# oap-next (Last Update: 15/10/2019 16:05)
+# oap-next (Last Update: 17/10/2019 17:05)
 oap-next = Next.js implementation of Online Assessment Platform.
 
 ### Currently Doing
-* [ ] Refurnish course assignment view page 
-* [ ] Build announcement view page
-* [ ] Build Grade view page
+* [x] Refurnish course assignment view page 
+* [x] Build announcement view page
+* [x] Build Grade view page
+* [ ] Refurnish logout and notification dropdown
 * [ ] Update assignment Upload page
 * [ ] Build notification page
+* [x] Basic Dark mode
 
 ### Installation and Run project
 ```sh
@@ -23,11 +25,3 @@ oap-next = Next.js implementation of Online Assessment Platform.
 * [Base UI](https://baseweb.design/)
 * [Next.js Github example repo](https://github.com/zeit/next.js/tree/canary/examples)
 * [Styled Icons](https://styled-icons.js.org/)
-
-### Screenshots
-Dashboard
-![Dashboard](https://i.imgur.com/qHaO8Xo.png)
-Course Dashboard
-![Course Dashboard](https://i.imgur.com/R0FydKj.png)
-Assignment Dashboard
-![Assignment Dashboard](https://i.imgur.com/j2Q3tD7.png)
