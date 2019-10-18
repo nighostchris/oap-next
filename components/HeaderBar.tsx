@@ -5,6 +5,8 @@ import { User } from 'styled-icons/boxicons-solid/User'
 import { Paragraph2, Paragraph3 } from 'baseui/typography'
 import { ArrowDropDown } from 'styled-icons/material/ArrowDropDown'
 import { Moon } from 'styled-icons/fa-solid/Moon'
+import { Clear } from 'styled-icons/material/Clear'
+import { ClearAll } from 'styled-icons/material/ClearAll'
 import { themeProps } from '../utils/interface'
 
 const HBar = styled('div', ({ $theme }) => ({
@@ -77,7 +79,7 @@ const StyledNotiDropDown = styled('div', ({ $theme }) => ({
 
 const NotificationHeader = styled('div', ({ $theme }) => ({
   display: 'flex',
-  height: '40px',
+  height: '50px',
   alignItems: 'center',
   flexDirection: 'row',
   border: '1px solid #212121',
@@ -105,6 +107,14 @@ const NotiNumber = styled('div', {
   backgroundColor: '#00aa37',
 })
 
+const StyledClearAll = styled(ClearAll, {
+  position: 'absolute',
+  right: '15px',
+  ':hover': {
+    cursor: 'pointer',
+  }
+})
+
 const HeaderNotiNumber = styled(NotiNumber, {
   top: '-6px',
   right: '-6px',
@@ -112,9 +122,12 @@ const HeaderNotiNumber = styled(NotiNumber, {
 })
 
 const NotificationWrap = styled('div', {
+  display: 'flex',
   overflowY: 'auto',
   maxHeight: '200px',
   borderTop: 'unset',
+  alignItems: 'center',
+  flexDirection: 'column',
   border: '1px solid #212121',
   borderRadius: '0px 0px 5px 5px',
   "::-webkit-scrollbar": {
@@ -129,14 +142,41 @@ const NotificationWrap = styled('div', {
   },
 })
 
+const NotificationContainer = styled('div', {
+  width: '90%',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+})
+
+const Row = styled('div', {
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  position: 'relative',
+})
+
+const StyledClear = styled(Clear, {
+  right: '0px',
+  position: 'absolute',
+  ':hover': {
+    cursor: 'pointer',
+  },
+})
+
 const StyledParagraph3 = styled(Paragraph3, {
   color: '#757575',
   fontWeight: 'bold',
-  paddingTop: '1em',
   paddingLeft: '15px',
-  paddingBottom: '1em',
-  marginBlockStart: '0',
   marginBlockEnd: '0',
+  marginBlockStart: '0',
+  padding: '20px 0',
+})
+
+const Breakline = styled('div', {
+  width: '100%',
+  borderBottom: '1px solid white',
 })
 
 const noti = [
@@ -152,8 +192,8 @@ const noti = [
 
 const HeaderBar: React.FunctionComponent<themeProps> = ({
   themeController, setThemeController}) => {
-  const [userOpen, setUserOpen] = React.useState(true);
-  const [notiOpen, setNotiOpen] = React.useState(true);
+  const [userOpen, setUserOpen] = React.useState(false);
+  const [notiOpen, setNotiOpen] = React.useState(false);
 
   return (
     <HBar>
@@ -172,11 +212,18 @@ const HeaderBar: React.FunctionComponent<themeProps> = ({
         <NotificationHeader>
           <NotificationLabel>Notifications</NotificationLabel>
           <NotiNumber>{noti.length}</NotiNumber>
+          <StyledClearAll size={26} />
         </NotificationHeader>
         <NotificationWrap>
           {
             noti.map((n, i) => (
-              <StyledParagraph3 key={i}>{n.content}</StyledParagraph3>  
+              <NotificationContainer>
+                <Row>
+                  <StyledParagraph3 key={i}>{n.content}</StyledParagraph3>
+                  <StyledClear size={20} />
+                </Row>
+                {i !== noti.length-1 && <Breakline />}
+              </NotificationContainer>
             ))
           }
         </NotificationWrap>

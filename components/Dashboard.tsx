@@ -134,9 +134,13 @@ const Dashboard: React.FunctionComponent = () => {
         {
           courses.map((d, index) => (
             <StyledCard key={`${d.code}-${index}`}
-              overrides={{ Root: { style: {
-                marginRight: index + 1 !== courses.length ? '40px' : '0'
-              }}}}
+              overrides={{
+                Root: {
+                  style: {
+                    marginRight: index + 1 !== courses.length ? '40px' : '0',
+                  }
+                }
+              }}
             >
               <Link href={`/course/comp${d.code}`}>
                 <Title>{`COMP ${d.code} ${d.title}`}</Title>
