@@ -152,7 +152,7 @@ const noti = [
 
 const HeaderBar: React.FunctionComponent<themeProps> = ({
   themeController, setThemeController}) => {
-  const [userOpen, setUserOpen] = React.useState(false);
+  const [userOpen, setUserOpen] = React.useState(true);
   const [notiOpen, setNotiOpen] = React.useState(true);
 
   return (
