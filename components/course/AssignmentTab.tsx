@@ -1,11 +1,11 @@
-import * as React from 'react'
-import Link from 'next/link'
-import { styled } from 'baseui'
-import { printDate } from '../../utils/helper'
-import { Label1, Label3, Label4 } from 'baseui/typography'
-import { Assignment } from 'styled-icons/material/Assignment'
-import { AssignmentLate } from 'styled-icons/material/AssignmentLate'
-import { AssignmentTurnedIn } from 'styled-icons/material/AssignmentTurnedIn'
+import * as React from 'react';
+import Link from 'next/link';
+import { styled } from 'baseui';
+import { Label1, Label3, Label4 } from 'baseui/typography';
+import { Assignment } from 'styled-icons/material/Assignment';
+import { AssignmentLate } from 'styled-icons/material/AssignmentLate';
+import { AssignmentTurnedIn } from 'styled-icons/material/AssignmentTurnedIn';
+import { printDate } from '../../utils/helper';
 
 const SubContainer = styled('div', {
   width: '90%',
@@ -35,17 +35,17 @@ const AssignmentContainer = styled('div', {
 const StyledATI = styled(AssignmentTurnedIn, {
   width: '15%',
   textAlign: 'center',
-})
+});
 
 const StyledAL = styled(AssignmentLate, {
   width: '15%',
   textAlign: 'center',
-})
+});
 
 const StyledA = styled(Assignment, {
   width: '15%',
   textAlign: 'center',
-})
+});
 
 const AssignmentDetails = styled('div', {
   width: '25%',
@@ -70,7 +70,7 @@ const SButton = styled('button', {
   marginLeft: 'auto',
   marginRight: '40px',
   borderRadius: '5px',
-  fontWeight: "bolder",
+  fontWeight: 'bolder',
 });
 
 const Title = styled(Label3, {
@@ -113,60 +113,85 @@ const assignments = [{
   submitted: false,
   dueDate: new Date(2019, 8, 16, 11, 59, 59),
   chance: 3,
-}]
+}];
 
-const AssignmentTab: React.FunctionComponent = () => {
-  return (
-    <React.Fragment>
-      {
-        ['Upcoming', 'Submitted', 'Late'].map((t, i) => (
-          <React.Fragment>
-            <AssignmentTag>{t}</AssignmentTag>
-            <SubContainer>
-              {
-                assignments.filter(i == 0 ? a => a.dueDate > new Date() && !a.submitted
-                  : (i == 1 ? a => a.dueDate < new Date() && a.submitted
-                  : a => a.dueDate < new Date() && !a.submitted)).map((d, index) => 
-                  <AssignmentContainer key={`${t}-${index}`}>
-                    {i == 0 && <StyledATI size={26} />}
-                    {i == 1 && <StyledAL size={26} />}
-                    {i == 2 && <StyledA size={26} />}
-                    <AssignmentDetails>
-                      <Title
-                        overrides={{
-                          Block: {
-                            style: {
-                              fontWeight: 'bold',
-                            }
-                          }
-                        }}
-                      >
-                        {d.title}
-                      </Title>
-                      <Label4>
-                        {`Due Date: ${printDate(d.dueDate)}`}
-                      </Label4>
-                    </AssignmentDetails>
-                    <SubChance>{`Remaining submission chance: ${d.chance}`}</SubChance>
-                    <Link href={`/assignment/${d.id}`}>
-                      <SButton style={{ backgroundColor: i == 0 ? '#4caf50' 
-                        : (i == 1 ? '#2196f3' : '#d32f2f')
-                      }}>
-                        {i == 0 && 'Submit'}
-                        {i == 1 && 'View Submission'}
-                        {i == 2 && 'Submit'}
-                      </SButton>
-                    </Link>
-                  </AssignmentContainer>
-                )
-              }
-            </SubContainer>
-            { i !== 2 && <Breakline /> }
-          </React.Fragment>
-        ))
-      }
-    </React.Fragment>
-  )
-}
+const filterHelper = (i: number) => {
+  let result = null;
 
-export default AssignmentTab
+  if (i === 0) {
+    result = assignments.filter((a) => a.dueDate > new Date() && !a.submitted);
+  } else if (i === 1) {
+    result = assignments.filter((a) => a.dueDate < new Date() && a.submitted);
+  } else {
+    result = assignments.filter((a) => a.dueDate < new Date() && !a.submitted);
+  }
+
+  return result;
+};
+
+const backgroundColorHelper = (i: number) => {
+  let result = null;
+
+  if (i === 0) {
+    result = '#4caf50';
+  } else if (i === 1) {
+    result = '#2196f3';
+  } else {
+    result = '#d32f2f';
+  }
+
+  return result;
+};
+
+const AssignmentTab: React.FunctionComponent = () => (
+  <>
+    {
+      ['Upcoming', 'Submitted', 'Late'].map((t, i) => (
+        <>
+          <AssignmentTag>{t}</AssignmentTag>
+          <SubContainer>
+            {
+              filterHelper(i).map((d, index) => (
+                <AssignmentContainer key={`${t}-${index}`}>
+                  { i === 0 && <StyledATI size={26} /> }
+                  { i === 1 && <StyledAL size={26} /> }
+                  { i === 2 && <StyledA size={26} /> }
+                  <AssignmentDetails>
+                    <Title
+                      overrides={{
+                        Block: {
+                          style: {
+                            fontWeight: 'bold',
+                          },
+                        },
+                      }}
+                    >
+                      {d.title}
+                    </Title>
+                    <Label4>
+                      {`Due Date: ${printDate(d.dueDate)}`}
+                    </Label4>
+                  </AssignmentDetails>
+                  <SubChance>{`Remaining submission chance: ${d.chance}`}</SubChance>
+                  <Link href={`/assignment/${d.id}`}>
+                    <SButton style={{
+                      backgroundColor: backgroundColorHelper(i),
+                    }}
+                    >
+                      { i === 0 && 'Submit' }
+                      { i === 1 && 'View Submission' }
+                      { i === 2 && 'Submit' }
+                    </SButton>
+                  </Link>
+                </AssignmentContainer>
+              ))
+            }
+          </SubContainer>
+          { i !== 2 && <Breakline /> }
+        </>
+      ))
+    }
+  </>
+);
+
+export default AssignmentTab;

@@ -1,13 +1,11 @@
-import * as React from 'react'
-import Layout from '../components/Layout'
-import ChatroomLayout from '../components/ChatroomLayout'
+import * as React from 'react';
+import Layout from '../components/Layout';
+import ChatroomLayout from '../components/ChatroomLayout';
 
-const ConversationPage: React.FunctionComponent = () => {
-  return (
-    <Layout>
-      <ChatroomLayout />
-    </Layout>
-  )
-}
+const ConversationPage: React.FunctionComponent = () => (
+  <Layout>
+    <ChatroomLayout />
+  </Layout>
+);
 
-export default ConversationPage
+export default ConversationPage;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {styled} from 'baseui'
+import { styled } from 'baseui';
 import TabLayout from './TabLayout';
 import AssignmentTab from './AssignmentTab';
 import AnnounceTab from './AnnounceTab';
@@ -11,7 +11,7 @@ const Root = styled('div', {
   alignItems: 'center',
   flexDirection: 'column',
   height: 'calc(100% - 84px)',
-})
+});
 
 const TabBar = styled('div', ({ $theme }) => ({
   width: '90%',
@@ -19,7 +19,7 @@ const TabBar = styled('div', ({ $theme }) => ({
   borderTopLeftRadius: '5px',
   borderLeft: `solid 1px ${$theme.colors.primary50}`,
   borderRight: '1px solid transparent',
-}))
+}));
 
 const Tab = styled('button', ({ $theme }) => ({
   width: '200px',
@@ -39,11 +39,11 @@ const Tab = styled('button', ({ $theme }) => ({
   ':focus': {
     background: $theme.colors.primary300,
   },
-}))
+}));
 
 const ActiveTab = styled(Tab, ({ $theme }) => ({
   background: `${$theme.colors.primary300} !important`,
-}))
+}));
 
 const TabController: React.FunctionComponent = () => {
   const [activeTab, setActiveTab] = React.useState(0);
@@ -52,25 +52,26 @@ const TabController: React.FunctionComponent = () => {
     <Root>
       <TabBar>
         {
-          ['Assignment', 'Announcement', 'Grade'].map((t, i) => 
-            activeTab == i ? 
+          ['Assignment', 'Announcement', 'Grade'].map((t, i) => (
+            activeTab === i ? (
               <ActiveTab onClick={() => setActiveTab(i)}>
-               {t}
+                {t}
               </ActiveTab>
-             : 
+            ) : (
               <Tab onClick={() => setActiveTab(i)}>
-               {t}
+                {t}
               </Tab>
-          )
+            )
+          ))
         }
       </TabBar>
       <TabLayout>
-        { activeTab == 0 && <AssignmentTab /> }
-        { activeTab == 1 && <AnnounceTab /> }
-        { activeTab == 2 && <GradeTab /> }
+        { activeTab === 0 && <AssignmentTab /> }
+        { activeTab === 1 && <AnnounceTab /> }
+        { activeTab === 2 && <GradeTab /> }
       </TabLayout>
     </Root>
   );
-}
+};
 
-export default TabController
+export default TabController;

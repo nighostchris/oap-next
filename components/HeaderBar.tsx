@@ -1,22 +1,22 @@
-import * as React from 'react'
-import { styled } from 'baseui'
-import { Notifications } from 'styled-icons/material/Notifications'
-import { User } from 'styled-icons/boxicons-solid/User'
-import { Paragraph2, Paragraph3 } from 'baseui/typography'
-import { ArrowDropDown } from 'styled-icons/material/ArrowDropDown'
-import { Moon } from 'styled-icons/fa-solid/Moon'
-import { Clear } from 'styled-icons/material/Clear'
-import { ClearAll } from 'styled-icons/material/ClearAll'
-import { themeProps } from '../utils/interface'
+import * as React from 'react';
+import { styled } from 'baseui';
+import { Notifications } from 'styled-icons/material/Notifications';
+import { User } from 'styled-icons/boxicons-solid/User';
+import { Paragraph2, Paragraph3 } from 'baseui/typography';
+import { ArrowDropDown } from 'styled-icons/material/ArrowDropDown';
+import { Moon } from 'styled-icons/fa-solid/Moon';
+import { Clear } from 'styled-icons/material/Clear';
+import { ClearAll } from 'styled-icons/material/ClearAll';
+import { themeProps } from '../utils/interface';
 
 const HBar = styled('div', ({ $theme }) => ({
-  height: '64px',  
+  height: '64px',
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'flex-end',
   alignItems: 'center',
   background: $theme.colors.primary,
-}))
+}));
 
 const StyledMoon = styled(Moon, {
   stroke: 'white',
@@ -26,47 +26,47 @@ const StyledMoon = styled(Moon, {
   ':hover': {
     cursor: 'pointer',
   },
-})
+});
 
 const NotiWrapper = styled('div', {
   position: 'relative',
   marginRight: '30px',
-})
+});
 
 const StyledNotifications = styled(Notifications, {
   color: '#e0e0e0',
   ':hover': {
     cursor: 'pointer',
   },
-})
+});
 
 const StyledUser = styled(User, {
-  color: '#e0e0e0', 
+  color: '#e0e0e0',
   marginRight: '10px',
-})
+});
 
 const StyledUsername = styled(Paragraph2, {
   color: '#e0e0e0 !important',
-})
+});
 
 const StyledArrowDropDown = styled(ArrowDropDown, {
-  color: '#e0e0e0',  
+  color: '#e0e0e0',
   marginLeft: '5px',
   marginRight: '10px',
   ':hover': {
     cursor: 'pointer',
   },
-})
+});
 
 const StyledUserDropDown = styled('div', {
   top: '50px',
   right: '16px',
   width: '150px',
-  position: 'fixed',  
+  position: 'fixed',
   border: '1px solid',
   borderRadius: '5px',
   textAlign: 'center',
-})
+});
 
 const StyledNotiDropDown = styled('div', ({ $theme }) => ({
   top: '50px',
@@ -75,7 +75,7 @@ const StyledNotiDropDown = styled('div', ({ $theme }) => ({
   position: 'fixed',
   borderRadius: '5px',
   backgroundColor: $theme.colors.accent100,
-}))
+}));
 
 const NotificationHeader = styled('div', ({ $theme }) => ({
   display: 'flex',
@@ -86,14 +86,14 @@ const NotificationHeader = styled('div', ({ $theme }) => ({
   borderRadius: '5px 5px 0px 0px',
   borderBottom: 'unset !important',
   backgroundColor: $theme.colors.accent200,
-}))
+}));
 
 const NotificationLabel = styled('div', () => ({
   color: 'white',
   fontWeight: 'bold',
   paddingLeft: '15px',
   paddingRight: '5px',
-}))
+}));
 
 const NotiNumber = styled('div', {
   borderRadius: '100%',
@@ -105,21 +105,21 @@ const NotiNumber = styled('div', {
   height: '20px',
   color: 'white',
   backgroundColor: '#00aa37',
-})
+});
 
 const StyledClearAll = styled(ClearAll, {
   position: 'absolute',
   right: '15px',
   ':hover': {
     cursor: 'pointer',
-  }
-})
+  },
+});
 
 const HeaderNotiNumber = styled(NotiNumber, {
   top: '-6px',
   right: '-6px',
   position: 'absolute',
-})
+});
 
 const NotificationWrap = styled('div', {
   display: 'flex',
@@ -130,24 +130,24 @@ const NotificationWrap = styled('div', {
   flexDirection: 'column',
   border: '1px solid #212121',
   borderRadius: '0px 0px 5px 5px',
-  "::-webkit-scrollbar": {
-    width: ".8rem",
+  '::-webkit-scrollbar': {
+    width: '.8rem',
   },
-  "::-webkit-scrollbar-thumb": {
-    backgroundClip: "padding-box",
-    border: "2px solid transparent",
-    borderRadius: ".8rem",
-    backgroundColor: "rgba(128, 128, 128, .7)",
-    boxShadow: "inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)",
+  '::-webkit-scrollbar-thumb': {
+    backgroundClip: 'padding-box',
+    border: '2px solid transparent',
+    borderRadius: '.8rem',
+    backgroundColor: 'rgba(128, 128, 128, .7)',
+    boxShadow: 'inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)',
   },
-})
+});
 
 const NotificationContainer = styled('div', {
   width: '90%',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-})
+});
 
 const Row = styled('div', {
   width: '100%',
@@ -155,7 +155,7 @@ const Row = styled('div', {
   flexDirection: 'row',
   alignItems: 'center',
   position: 'relative',
-})
+});
 
 const StyledClear = styled(Clear, {
   right: '0px',
@@ -163,7 +163,7 @@ const StyledClear = styled(Clear, {
   ':hover': {
     cursor: 'pointer',
   },
-})
+});
 
 const StyledParagraph3 = styled(Paragraph3, {
   color: '#757575',
@@ -172,26 +172,27 @@ const StyledParagraph3 = styled(Paragraph3, {
   marginBlockEnd: '0',
   marginBlockStart: '0',
   padding: '20px 0',
-})
+});
 
 const Breakline = styled('div', {
   width: '100%',
   borderBottom: '1px solid white',
-})
+});
 
 const noti = [
-  {content: 'You can find the solutions below: Ass4_Fall_2017_solutions.pdf.'},
-  {content: 'You can find the solutions below: Ass3_Fall_2017_solutions.pdf.'},
-  {content: 'You can find the solutions below: Ass2_Fall_2017_solutions.pdf.'},
-  {content: 'You can find the solutions below: Ass1_Fall_2017_solutions.pdf.'},
-  {content: 'Welcome to COMP2012.'},
-  {content: 'Welcome to COMP2011.'},
-  {content: 'Welcome to COMP1021.'},
-  {content: 'Welcome to COMP3021.'},
+  { content: 'You can find the solutions below: Ass4_Fall_2017_solutions.pdf.' },
+  { content: 'You can find the solutions below: Ass3_Fall_2017_solutions.pdf.' },
+  { content: 'You can find the solutions below: Ass2_Fall_2017_solutions.pdf.' },
+  { content: 'You can find the solutions below: Ass1_Fall_2017_solutions.pdf.' },
+  { content: 'Welcome to COMP2012.' },
+  { content: 'Welcome to COMP2011.' },
+  { content: 'Welcome to COMP1021.' },
+  { content: 'Welcome to COMP3021.' },
 ];
 
 const HeaderBar: React.FunctionComponent<themeProps> = ({
-  themeController, setThemeController}) => {
+  themeController, setThemeController,
+}) => {
   const [userOpen, setUserOpen] = React.useState(false);
   const [notiOpen, setNotiOpen] = React.useState(false);
 
@@ -222,7 +223,7 @@ const HeaderBar: React.FunctionComponent<themeProps> = ({
                   <StyledParagraph3 key={i}>{n.content}</StyledParagraph3>
                   <StyledClear size={20} />
                 </Row>
-                {i !== noti.length-1 && <Breakline />}
+                {i !== noti.length - 1 && <Breakline />}
               </NotificationContainer>
             ))
           }
@@ -239,7 +240,7 @@ const HeaderBar: React.FunctionComponent<themeProps> = ({
         <Paragraph3>Logout</Paragraph3>
       </StyledUserDropDown>
     </HBar>
-  )
-}
+  );
+};
 
-export default HeaderBar
+export default HeaderBar;

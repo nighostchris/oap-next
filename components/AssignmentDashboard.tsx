@@ -1,12 +1,14 @@
-import * as React from 'react'
-import { styled } from 'baseui'
-import { Button } from 'baseui/button'
-import { useRouter } from 'next/router'
-import { H3, H5, Label2, Label3 } from 'baseui/typography'
-import { FileZip } from 'styled-icons/icomoon/FileZip'
-import { CheckCircle } from 'styled-icons/boxicons-regular/CheckCircle'
-import { Error } from 'styled-icons/boxicons-regular/Error'
-import { XCircle } from 'styled-icons/boxicons-regular/XCircle'
+import * as React from 'react';
+import { styled } from 'baseui';
+import { Button } from 'baseui/button';
+import { useRouter } from 'next/router';
+import {
+  H3, H5, Label2, Label3,
+} from 'baseui/typography';
+import { FileZip } from 'styled-icons/icomoon/FileZip';
+import { Error } from 'styled-icons/boxicons-regular/Error';
+import { XCircle } from 'styled-icons/boxicons-regular/XCircle';
+import { CheckCircle } from 'styled-icons/boxicons-regular/CheckCircle';
 
 const Dashboard = styled('div', {
   display: 'flex',
@@ -46,7 +48,7 @@ const DueDate = styled(Label2, {
 
 const SubmissionContainer = styled('div', {
   width: '60%',
-  marginTop:'10px',
+  marginTop: '10px',
   marginBottom: '20px',
   minWidth: '700px',
   overflowY: 'auto',
@@ -151,18 +153,16 @@ const CourseDashboard: React.FunctionComponent = () => {
                 `}
               </SubTime>
               <StatusLogo>
-              {
-                s.status == "success" ? <CheckCircle size={24} color="green" />
-                  : (s.status == "warning" ? <Error size={24} color="#f9a825" />
-                    : (s.status == "error" ? <XCircle size={24} color="red" /> : undefined))
-              }
+                { s.status === 'success' && <CheckCircle size={24} color="green" /> }
+                { s.status === 'warning' && <Error size={24} color="#f9a825" /> }
+                { s.status === 'error' && <XCircle size={24} color="red" /> }
               </StatusLogo>
             </RecordContainer>
           ))
         }
       </SubmissionContainer>
     </Dashboard>
-  )
-}
+  );
+};
 
-export default CourseDashboard
+export default CourseDashboard;

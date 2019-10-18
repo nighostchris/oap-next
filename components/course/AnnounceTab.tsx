@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { styled } from 'baseui'
+import * as React from 'react';
+import { styled } from 'baseui';
 import { Label3 } from 'baseui/typography';
 import { printDate } from '../../utils/helper';
 
@@ -20,7 +20,7 @@ const Dot = styled('span', {
   color: '#1976d2',
   fontSize: '50px',
   marginLeft: '20px',
-})
+});
 
 const LeftContainer = styled('div', {
   display: 'flex',
@@ -90,35 +90,33 @@ const noti = [{
 },
 ];
 
-const AnnounceTab: React.FunctionComponent = () => {
-  return (
-    <React.Fragment>
-      {
-        noti.map((d, i) => (
-          <Container key={i}>
-            <Dot>{ d.read && '•' }</Dot>
-            <LeftContainer>
-              <StyledLabel3
-                overrides={{
-                  Block: {
-                    style: {
-                      fontSize: '16px',
-                      fontWeight: 'bold',
-                    }
-                  }
-                }}
-              >
-                {d.title}
-              </StyledLabel3>
-              <StyledLabel3>{d.publisher}</StyledLabel3>
-              <StyledLabel3>{d.content}</StyledLabel3>
-            </LeftContainer>
-            <Publish>{printDate(d.publishTime)}</Publish>
-          </Container>
-        ))
-      }
-    </React.Fragment>
-  )
-}
+const AnnounceTab: React.FunctionComponent = () => (
+  <>
+    {
+      noti.map((d, i) => (
+        <Container key={i}>
+          <Dot>{ d.read && '•' }</Dot>
+          <LeftContainer>
+            <StyledLabel3
+              overrides={{
+                Block: {
+                  style: {
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                  },
+                },
+              }}
+            >
+              {d.title}
+            </StyledLabel3>
+            <StyledLabel3>{d.publisher}</StyledLabel3>
+            <StyledLabel3>{d.content}</StyledLabel3>
+          </LeftContainer>
+          <Publish>{printDate(d.publishTime)}</Publish>
+        </Container>
+      ))
+    }
+  </>
+);
 
-export default AnnounceTab
+export default AnnounceTab;
