@@ -26,9 +26,13 @@ const StyledMoon = styled(Moon, {
   },
 })
 
+const NotiWrapper = styled('div', {
+  position: 'relative',
+  marginRight: '30px',
+})
+
 const StyledNotifications = styled(Notifications, {
   color: '#e0e0e0',
-  marginRight: '30px',
   ':hover': {
     cursor: 'pointer',
   },
@@ -62,30 +66,67 @@ const StyledUserDropDown = styled('div', {
   textAlign: 'center',
 })
 
-const StyledNotiDropDown = styled('div', {
+const StyledNotiDropDown = styled('div', ({ $theme }) => ({
   top: '50px',
   right: '180px',
   width: '300px',
   position: 'fixed',
-  backgroundColor: 'white',
-})
+  borderRadius: '5px',
+  backgroundColor: $theme.colors.accent100,
+}))
 
-const NotificationLabel = styled('div', {
+const NotificationHeader = styled('div', ({ $theme }) => ({
   display: 'flex',
   height: '40px',
+  alignItems: 'center',
+  flexDirection: 'row',
+  border: '1px solid #212121',
+  borderRadius: '5px 5px 0px 0px',
+  borderBottom: 'unset !important',
+  backgroundColor: $theme.colors.accent200,
+}))
+
+const NotificationLabel = styled('div', () => ({
   color: 'white',
   fontWeight: 'bold',
   paddingLeft: '15px',
-  alignItems: 'center',
-  backgroundColor: '#42a5f5',
-  borderRadius: '5px 5px 0px 0px',
+  paddingRight: '5px',
+}))
+
+const NotiNumber = styled('div', {
+  borderRadius: '100%',
+  fontSize: '16px',
+  lineHeight: '20px',
+  textAlign: 'center',
+  fontWeight: 'bold',
+  width: '20px',
+  height: '20px',
+  color: 'white',
+  backgroundColor: '#00aa37',
+})
+
+const HeaderNotiNumber = styled(NotiNumber, {
+  top: '-6px',
+  right: '-6px',
+  position: 'absolute',
 })
 
 const NotificationWrap = styled('div', {
-  borderColor: '#eeeeee',
-  borderStyle: 'hidden solid solid',
-  borderWidth: '2px',
+  overflowY: 'auto',
+  maxHeight: '200px',
+  borderTop: 'unset',
+  border: '1px solid #212121',
   borderRadius: '0px 0px 5px 5px',
+  "::-webkit-scrollbar": {
+    width: ".8rem",
+  },
+  "::-webkit-scrollbar-thumb": {
+    backgroundClip: "padding-box",
+    border: "2px solid transparent",
+    borderRadius: ".8rem",
+    backgroundColor: "rgba(128, 128, 128, .7)",
+    boxShadow: "inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)",
+  },
 })
 
 const StyledParagraph3 = styled(Paragraph3, {
@@ -98,10 +139,21 @@ const StyledParagraph3 = styled(Paragraph3, {
   marginBlockEnd: '0',
 })
 
+const noti = [
+  {content: 'You can find the solutions below: Ass4_Fall_2017_solutions.pdf.'},
+  {content: 'You can find the solutions below: Ass3_Fall_2017_solutions.pdf.'},
+  {content: 'You can find the solutions below: Ass2_Fall_2017_solutions.pdf.'},
+  {content: 'You can find the solutions below: Ass1_Fall_2017_solutions.pdf.'},
+  {content: 'Welcome to COMP2012.'},
+  {content: 'Welcome to COMP2011.'},
+  {content: 'Welcome to COMP1021.'},
+  {content: 'Welcome to COMP3021.'},
+];
+
 const HeaderBar: React.FunctionComponent<themeProps> = ({
   themeController, setThemeController}) => {
   const [userOpen, setUserOpen] = React.useState(false);
-  const [notiOpen, setNotiOpen] = React.useState(false);
+  const [notiOpen, setNotiOpen] = React.useState(true);
 
   return (
     <HBar>
@@ -109,15 +161,24 @@ const HeaderBar: React.FunctionComponent<themeProps> = ({
         size="26"
         onClick={() => setThemeController(Math.abs(themeController - 1))}
       />
-      <StyledNotifications
-        size="26"
-        onClick={() => setNotiOpen(!notiOpen)}
-      />
+      <NotiWrapper>
+        <StyledNotifications
+          size="26"
+          onClick={() => setNotiOpen(!notiOpen)}
+        />
+        <HeaderNotiNumber>{noti.length}</HeaderNotiNumber>
+      </NotiWrapper>
       <StyledNotiDropDown style={{ display: notiOpen ? undefined : 'none' }}>
-        <NotificationLabel>Notifications</NotificationLabel>
+        <NotificationHeader>
+          <NotificationLabel>Notifications</NotificationLabel>
+          <NotiNumber>{noti.length}</NotiNumber>
+        </NotificationHeader>
         <NotificationWrap>
-          <StyledParagraph3>Assignment 1 released. The due day is 1/10/2019</StyledParagraph3>
-          <StyledParagraph3>Welcome to COMP2012!</StyledParagraph3>
+          {
+            noti.map((n, i) => (
+              <StyledParagraph3 key={i}>{n.content}</StyledParagraph3>  
+            ))
+          }
         </NotificationWrap>
       </StyledNotiDropDown>
       <StyledUser size="26" />

@@ -4,8 +4,7 @@ import { styled } from 'baseui'
 import { Card } from 'baseui/card'
 import { Display4, Label1, Label2 } from 'baseui/typography'
 
-const Title = styled('h1', {
-  color: '#1565c0',
+const Title = styled('h1', ({ $theme }) => ({
   fontSize: '20px',
   fontWeight: 'bold',
   lineHeight: '26px',
@@ -13,7 +12,8 @@ const Title = styled('h1', {
   ':hover': {
     cursor: 'pointer',
   },
-});
+  color: $theme.colors.accent50,
+}));
 
 const CardRow = styled('div', {
   display: 'flex',

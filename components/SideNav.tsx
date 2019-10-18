@@ -28,6 +28,9 @@ const LogoContainer = styled('div', ({ $theme }) => ({
 const StyledLogo = styled(Cubes, {
   color: '#e0e0e0',
   marginLeft: '20px',
+  ':hover': {
+    cursor: 'pointer',
+  },
 })
 
 const StyledParagraph3 = styled(Paragraph3, {
@@ -171,7 +174,7 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
                 href={`/course/${c.code}`}
               >
                 <ListItem style={{
-                  backgroundColor: c.code == courseid ? '#777' : undefined
+                  backgroundColor: c.code == courseid ? '#455a64' : undefined,
                 }}>
                   <StyledBook size='20' />
                   <ListItemText
