@@ -113,7 +113,7 @@ const courses = [{
 
 const accountUtils = [
   {'Notifications': '/notification'},
-  {'Conversations': '/conversations'},
+  {'Conversations': '/conversation'},
   {'Settings': '/settings'}
 ];
 

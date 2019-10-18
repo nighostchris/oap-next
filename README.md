@@ -7,8 +7,9 @@ oap-next = Next.js implementation of Online Assessment Platform.\
 * [x] Build announcement view page
 * [x] Build Grade view page
 * [x] Basic Dark mode
-* [ ] Refurnish logout and notification dropdown
+* [x] Refurnish notification dropdown
 * [ ] Refurnish assignment Upload page
+* [ ] Refurnish dashboard page
 * [ ] Build notification page
 * [ ] Build conversation page
 * [ ] Build setting page
