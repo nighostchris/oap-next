@@ -168,10 +168,9 @@ const StyledClear = styled(Clear, {
 const StyledParagraph3 = styled(Paragraph3, {
   color: '#757575',
   fontWeight: 'bold',
-  paddingLeft: '15px',
   marginBlockEnd: '0',
   marginBlockStart: '0',
-  padding: '20px 0',
+  padding: '20px 0 20px 15px',
 });
 
 const Breakline = styled('div', {
