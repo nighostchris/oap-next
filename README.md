@@ -1,4 +1,4 @@
-# oap-next (Last Update: 18/10/2019 12:21)
+# oap-next (Last Update: 22/10/2019 16:51)
 oap-next = Next.js implementation of Online Assessment Platform.\
 [Demo](https://oap-next.chrisliupascal.now.sh/)
 
@@ -10,9 +10,11 @@ oap-next = Next.js implementation of Online Assessment Platform.\
 * [x] Refurnish notification dropdown
 * [ ] Refurnish assignment Upload page
 * [ ] Refurnish dashboard page
-* [ ] Build notification page
-* [ ] Build conversation page
+* [x] Build notification page
+* [x] Build conversation page
 * [ ] Build setting page
+* [ ] Finish Input bar at bottom of conversation page
+* [ ] Build specific notification page
 
 ### Installation and Run project
 ```sh
