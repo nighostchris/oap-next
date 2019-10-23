@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { styled } from 'baseui';
 import { Button } from 'baseui/button';
-import { useRouter } from 'next/router';
 import {
-  H3, H5, H6, Label2, Label3,
+  H5, H6, Label2, Label3,
 } from 'baseui/typography';
+import { FileUploader } from 'baseui/file-uploader';
 import { FileZip } from 'styled-icons/icomoon/FileZip';
 import { Error } from 'styled-icons/boxicons-regular/Error';
 import { XCircle } from 'styled-icons/boxicons-regular/XCircle';
 import { CheckCircle } from 'styled-icons/boxicons-regular/CheckCircle';
+import { printDate } from '../utils/helper';
 
 const Dashboard = styled('div', {
   display: 'flex',
@@ -28,38 +29,67 @@ const Dashboard = styled('div', {
   },
 });
 
-const TabContainer = styled('div', {
-  width: '100%',
+const UploadContainer = styled('div', {
+  width: '90%',
   display: 'flex',
-  marginBottom: '20px',
+  marginTop: '30px',
+  background: 'white',
+  borderRadius: '8px',
   flexDirection: 'row',
+  boxShadow: '5px 5px 20px rgba(0, 0, 0, 0.2)',
+
+});
+
+const AssignmentDetails = styled('div', {
+  width: 'calc(30% - 40px)',
+  display: 'flex',
+  marginLeft: '40px',
+  flexDirection: 'column',
+  justifyContent: 'center',
+});
+
+const FileUploaderWrapper = styled('div', {
+  width: '40%',
+  display: 'flex',
+  margin: '10px 0',
+  alignItems: 'center',
+});
+
+const TabContainer = styled('div', {
+  width: '30%',
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'column',
   justifyContent: 'space-evenly',
 });
 
 const StyledButton = styled(Button, {
-  padding: '5px 8px !important',
   width: '200px',
+  padding: '5px 8px !important',
   fontSize: '14px !important',
   borderRadius: '5px !important',
   backgroundColor: '#1e88e5 !important',
 });
 
-const CourseCode = styled(H3, {
-  marginBlockStart: '0px',
-  marginBlockEnd: '10px',
-});
-
-const AssignmentTitle = styled(H5, {
+const CourseCode = styled(H5, {
+  marginBottom: '10px',
+  marginBlockEnd: '0px',
   marginBlockStart: '0px',
 });
 
-const DueDate = styled(Label2, {
+const AssignmentID = styled(H5, {
+  marginBottom: '10px',
+  marginBlockEnd: '0px',
+  marginBlockStart: '0px',
+});
 
+const AssignmentTitle = styled(AssignmentID, {
+  marginBottom: '25px !important',
 });
 
 const SubmissionContainer = styled('div', {
   width: '80%',
-  marginTop: '10px',
+  marginTop: '30px',
   background: 'white',
   borderRadius: '8px',
   marginBottom: '20px',
@@ -155,6 +185,24 @@ const StatusLogo = styled('div', {
   width: '25%',
 });
 
+const StatusBar = styled('div', {
+  width: '80%',
+  display: 'flex',
+  flexDirection: 'row',
+});
+
+const Description = styled(Label2, {
+  marginLeft: '5px',
+  marginRight: '40px',
+});
+
+const data = {
+  id: 1,
+  courseid: 'comp2012',
+  title: 'Tic Tac Toe',
+  dueDate: new Date(2019, 10, 16, 23, 59, 59),
+};
+
 let submission = [{
   name: 'assignment1.zip',
   size: '273KB',
@@ -190,27 +238,46 @@ let submission = [{
 submission = [...submission, ...submission, ...submission, ...submission];
 
 const CourseDashboard: React.FunctionComponent = () => {
-  const router = useRouter();
-  const { courseid, assignmentid } = router.query;
-
   return (
     <Dashboard>
-      <CourseCode>{String(courseid).toUpperCase()}</CourseCode>
-      <AssignmentTitle>
-        {`Assignment ${String(assignmentid).toUpperCase()}`}
-      </AssignmentTitle>
-      <TabContainer>
-        <StyledButton>Upload Local File</StyledButton>
-        <StyledButton>Upload Via OneDrive</StyledButton>
-        <StyledButton>Upload Via Dropbox</StyledButton>
-        <StyledButton>Upload Via Google Drive</StyledButton>
-      </TabContainer>
-      <DueDate>
-        {`
-          Due Date:
-          2019-11-15 23:59:59
-        `}
-      </DueDate>
+      <UploadContainer>
+        <AssignmentDetails>
+          <CourseCode>{String(data.courseid).toUpperCase()}</CourseCode>
+          <AssignmentID>
+            {`Assignment ${String(data.id).toUpperCase()}`}
+          </AssignmentID>
+          <AssignmentTitle>
+            {data.title}
+          </AssignmentTitle>
+          <Label2
+            overrides={{
+              Block: {
+                style: {
+                  fontWeight: 'bold',
+                },
+              },
+            }}
+          >
+            {`Due: ${printDate(data.dueDate)}`}
+          </Label2>
+        </AssignmentDetails>
+        <FileUploaderWrapper>
+          <FileUploader
+            overrides={{
+              Root: {
+                style: {
+                  width: '100%',
+                },
+              },
+            }}
+          />
+        </FileUploaderWrapper>
+        <TabContainer>
+          <StyledButton>Upload Via OneDrive</StyledButton>
+          <StyledButton>Upload Via Dropbox</StyledButton>
+          <StyledButton>Upload Via Google Drive</StyledButton>
+        </TabContainer>
+      </UploadContainer>
       <SubmissionContainer>
         <Tag>Submission Details</Tag>
         <CategoryContainer>
@@ -259,6 +326,44 @@ const CourseDashboard: React.FunctionComponent = () => {
           }
         </RecordOuterWrapper>
       </SubmissionContainer>
+      <StatusBar>
+        <CheckCircle size={24} color="green" />
+        <Description
+          overrides={{
+            Block: {
+              style: {
+                fontWeight: 'bold',
+              },
+            },
+          }}
+        >
+          Successful
+        </Description>
+        <Error size={24} color="#f9a825" />
+        <Description
+          overrides={{
+            Block: {
+              style: {
+                fontWeight: 'bold',
+              },
+            },
+          }}
+        >
+          Warning
+        </Description>
+        <XCircle size={24} color="red" />
+        <Description
+          overrides={{
+            Block: {
+              style: {
+                fontWeight: 'bold',
+              },
+            },
+          }}
+        >
+          Error
+        </Description>
+      </StatusBar>
     </Dashboard>
   );
 };
