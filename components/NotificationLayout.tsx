@@ -53,6 +53,7 @@ const Button = styled('button', {
   padding: '8px',
   color: 'white',
   border: 'unset',
+  outline: 'none',
   fontSize: '14px',
   minWidth: '150px',
   borderRadius: '5px',
@@ -62,13 +63,17 @@ const Button = styled('button', {
   ':last-child': {
     marginLeft: '20px',
   },
+  ':hover': {
+    cursor: 'pointer',
+  },
+  boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.2)',
 });
 
 const NotificationContainer = styled('div', {
-  marginLeft: '20px',
   background: 'white',
   borderRadius: '8px',
-  marginBottom: '20px',
+  margin: '10px 0 30px 20px',
+  boxShadow: '5px 5px 20px rgba(0, 0, 0, 0.2)',
 });
 
 const Tag = styled(H6, {
@@ -97,7 +102,7 @@ const BreaklineWrapper = styled('div', {
 });
 
 const Breakline = styled('div', {
-  width: '90%',
+  width: '95%',
   margin: '10px 0px',
   borderBottom: '1px solid grey',
 });
@@ -106,7 +111,7 @@ const NotiWrap = styled('div', {
   width: '100%',
   display: 'flex',
   height: '300px',
-  overflowY: 'auto',
+  overflowY: 'scroll',
   flexDirection: 'column',
   '::-webkit-scrollbar': {
     width: '.8rem',
@@ -122,8 +127,13 @@ const NotiWrap = styled('div', {
 
 const Row = styled('div', {
   display: 'flex',
-  margin: '5px 0px',
+  padding: '10px 0px',
+  textAlign: 'center',
   flexDirection: 'row',
+  alignItems: 'center',
+  ':nth-child(even)': {
+    background: 'rgba(0, 0, 0, 0.3)',
+  },
 });
 
 const data = {
@@ -134,7 +144,7 @@ const data = {
 };
 
 const data2 = {
-  title: 'You may check your assignment 4 score now.',
+  title: 'COMP2012 Announcement: You may check your assignment 4 score now.',
   time: new Date(2019, 7, 25, 13, 15, 15),
   read: true,
 };
@@ -143,33 +153,38 @@ const newData = Array(3).fill(data);
 const readData = Array(50).fill(data2);
 
 const NotificationLayout: React.FunctionComponent = () => {
+  const [showArchive, setShowArchive] = React.useState(false);
+
   const decideWidth = (i: number) => {
     if (i === 0) {
-      return '10%';
+      return 'calc(40% - 4.8px)';
     }
     if (i === 1) {
-      return '50%';
+      return 'calc(40% - 4.8px)';
     }
-    if (i === 2) {
-      return '25%';
-    }
-    return '15%';
+    return 'calc(20% - 4.8px)';
   };
 
   const printRow = (d: any) => (
     d.map((c: any, i: number) => (
       <Row>
-        <div style={{ width: '10%' }} />
-        <div style={{ width: '50%' }}>
+        <div style={{ width: '40%' }}>
           <Label2 key={`title-${i}`}>{c.title}</Label2>
         </div>
-        <div style={{ width: '25%' }}>
+        <div style={{ width: '40%' }}>
           <Label2 key={`time-${i}`}>{printDate(c.time)}</Label2>
         </div>
-        <Markunread size={26} style={{ width: '15%' }} />
+        <Markunread size={26} style={{ width: '20%' }} />
       </Row>
     ))
   );
+
+  const checkArchive = (i: number) => {
+    if (i === 0 || showArchive) {
+      return undefined;
+    }
+    return 'none';
+  };
 
   return (
     <Root>
@@ -188,12 +203,15 @@ const NotificationLayout: React.FunctionComponent = () => {
           </StyledH3>
           <ButtonGroup>
             <Button>Mark all as seen</Button>
-            <Button>Show Archive</Button>
+            <Button onClick={() => setShowArchive(!showArchive)}>Show Archive</Button>
           </ButtonGroup>
         </HeaderBar>
         {
           ['New', 'Archive'].map((e, index) => (
-            <NotificationContainer key={`noti-${index}`}>
+            <NotificationContainer
+              key={`noti-${index}`}
+              style={{ display: checkArchive(index) }}
+            >
               <Tag
                 overrides={{
                   Block: {
@@ -207,14 +225,24 @@ const NotificationLayout: React.FunctionComponent = () => {
               </Tag>
               <CategoryContainer>
                 {
-                  ['', 'Title', 'Time', 'Mark As Seen'].map((c, i) => (
+                  ['Title', 'Time', 'Mark As Seen'].map((c, i) => (
                     <Category
                       style={{
                         width: decideWidth(i),
-                        textAlign: i === 3 ? 'center' : undefined,
+                        textAlign: 'center',
                       }}
                     >
-                      {c}
+                      <Label2
+                        overrides={{
+                          Block: {
+                            style: {
+                              fontWeight: 'bold',
+                            },
+                          },
+                        }}
+                      >
+                        {c}
+                      </Label2>
                     </Category>
                   ))
                 }
