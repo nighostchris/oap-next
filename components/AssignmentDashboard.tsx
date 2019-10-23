@@ -3,7 +3,7 @@ import { styled } from 'baseui';
 import { Button } from 'baseui/button';
 import { useRouter } from 'next/router';
 import {
-  H3, H5, Label2, Label3,
+  H3, H5, H6, Label2, Label3,
 } from 'baseui/typography';
 import { FileZip } from 'styled-icons/icomoon/FileZip';
 import { Error } from 'styled-icons/boxicons-regular/Error';
@@ -12,9 +12,20 @@ import { CheckCircle } from 'styled-icons/boxicons-regular/CheckCircle';
 
 const Dashboard = styled('div', {
   display: 'flex',
-  flexDirection: 'column',
+  overflowY: 'auto',
   alignItems: 'center',
+  flexDirection: 'column',
   height: 'calc(100% - 64px)',
+  '::-webkit-scrollbar': {
+    width: '.8rem',
+  },
+  '::-webkit-scrollbar-thumb': {
+    borderRadius: '.8rem',
+    backgroundClip: 'padding-box',
+    border: '2px solid transparent',
+    backgroundColor: 'rgba(128, 128, 128, .7)',
+    boxShadow: 'inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)',
+  },
 });
 
 const TabContainer = styled('div', {
@@ -47,41 +58,101 @@ const DueDate = styled(Label2, {
 });
 
 const SubmissionContainer = styled('div', {
-  width: '60%',
+  width: '80%',
   marginTop: '10px',
+  background: 'white',
+  borderRadius: '8px',
   marginBottom: '20px',
-  minWidth: '700px',
-  overflowY: 'auto',
+  boxShadow: '5px 5px 20px rgba(0, 0, 0, 0.2)',
+});
+
+const Tag = styled(H6, {
+  background: '#66bb6a',
+  marginBlockEnd: '0px',
+  marginBlockStart: '0px',
+  width: 'calc(100% - 20px)',
+  borderTopLeftRadius: '8px',
+  borderTopRightRadius: '8px',
+  padding: '5px 0px 5px 20px',
+});
+
+const CategoryContainer = styled('div', {
+  display: 'flex',
+  background: 'white',
+  flexDirection: 'row',
+});
+
+const Category = styled('div', {
+  marginTop: '10px',
+  textAlign: 'center',
+  width: 'calc(25% - 2.8px)',
+});
+
+const BreaklineWrapper = styled('div', {
+  display: 'flex',
+  background: 'white',
+  alignItems: 'center',
+  flexDirection: 'column',
+});
+
+const Breakline = styled('div', {
+  width: '95%',
+  borderBottom: '1px solid grey',
 });
 
 const RecordContainer = styled('div', {
   display: 'flex',
-  margin: '10px 0px',
+  padding: '20px 0px',
+  textAlign: 'center',
   flexDirection: 'row',
   alignItems: 'center',
+  ':nth-child(even)': {
+    background: 'rgba(0, 0, 0, 0.3)',
+  },
+});
+
+const RecordOuterWrapper = styled('div', {
+  height: '450px',
+  margin: '5px 0 5px 5px',
+  background: 'white',
+  overflowY: 'scroll',
+  '::-webkit-scrollbar': {
+    width: '.8rem',
+  },
+  '::-webkit-scrollbar-thumb': {
+    borderRadius: '.8rem',
+    backgroundClip: 'padding-box',
+    border: '2px solid transparent',
+    backgroundColor: 'rgba(128, 128, 128, .7)',
+    boxShadow: 'inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)',
+  },
+});
+
+const FileWrapper = styled('div', {
+  width: '25%',
+  display: 'flex',
+  flexDirection: 'row',
 });
 
 const ZipLogo = styled(FileZip, {
-  width: '10%',
+  width: '40%',
 });
 
 const SubName = styled(Label3, {
-  width: '30%',
+  width: '60%',
+  textAlign: 'center',
 });
 
 const SubSize = styled(Label3, {
-  width: '20%',
-  textAlign: 'right',
+  width: '25%',
 });
 
 const SubTime = styled(Label3, {
-  width: '30%',
-  textAlign: 'right',
+  width: '25%',
 });
 
 const StatusLogo = styled('div', {
-  width: '10%',
-  textAlign: 'right',
+  width: '25%',
 });
 
 let submission = [{
@@ -141,25 +212,52 @@ const CourseDashboard: React.FunctionComponent = () => {
         `}
       </DueDate>
       <SubmissionContainer>
-        {
-          submission.map((s, index) => (
-            <RecordContainer key={`sub-${index}`}>
-              <ZipLogo size={20} />
-              <SubName>{s.name}</SubName>
-              <SubSize>{s.size}</SubSize>
-              <SubTime>
-                {`
-                  ${s.time.getHours()}:${s.time.getMinutes()}:${s.time.getSeconds()}
-                `}
-              </SubTime>
-              <StatusLogo>
-                { s.status === 'success' && <CheckCircle size={24} color="green" /> }
-                { s.status === 'warning' && <Error size={24} color="#f9a825" /> }
-                { s.status === 'error' && <XCircle size={24} color="red" /> }
-              </StatusLogo>
-            </RecordContainer>
-          ))
-        }
+        <Tag>Submission Details</Tag>
+        <CategoryContainer>
+          {
+            ['Filename', 'Size', 'Time', 'Status'].map((c) => (
+              <Category>
+                <Label2
+                  overrides={{
+                    Block: {
+                      style: {
+                        fontWeight: 'bold',
+                      },
+                    },
+                  }}
+                >
+                  {c}
+                </Label2>
+              </Category>
+            ))
+          }
+        </CategoryContainer>
+        <BreaklineWrapper>
+          <Breakline />
+        </BreaklineWrapper>
+        <RecordOuterWrapper>
+          {
+            submission.map((s, index) => (
+              <RecordContainer key={`sub-${index}`}>
+                <FileWrapper>
+                  <ZipLogo size={20} />
+                  <SubName>{s.name}</SubName>
+                </FileWrapper>
+                <SubSize>{s.size}</SubSize>
+                <SubTime>
+                  {`
+                    ${s.time.getHours()}:${s.time.getMinutes()}:${s.time.getSeconds()}
+                  `}
+                </SubTime>
+                <StatusLogo>
+                  { s.status === 'success' && <CheckCircle size={24} color="green" /> }
+                  { s.status === 'warning' && <Error size={24} color="#f9a825" /> }
+                  { s.status === 'error' && <XCircle size={24} color="red" /> }
+                </StatusLogo>
+              </RecordContainer>
+            ))
+          }
+        </RecordOuterWrapper>
       </SubmissionContainer>
     </Dashboard>
   );

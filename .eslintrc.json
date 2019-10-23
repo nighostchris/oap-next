@@ -33,7 +33,8 @@
     "no-plusplus": "off",
     "quote-props": "off",
     "no-param-reassign": "off",
-    "no-return-assign": "off"
+    "no-return-assign": "off",
+    "no-nested-ternary": "off"
   },
   "settings": {
     "import/resolver": {

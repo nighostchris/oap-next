@@ -92,7 +92,8 @@ const CategoryContainer = styled('div', {
 });
 
 const Category = styled('div', {
-  marginTop: '20px',
+  marginTop: '10px',
+  textAlign: 'center',
 });
 
 const BreaklineWrapper = styled('div', {
@@ -103,7 +104,6 @@ const BreaklineWrapper = styled('div', {
 
 const Breakline = styled('div', {
   width: '95%',
-  margin: '10px 0px',
   borderBottom: '1px solid grey',
 });
 
@@ -226,12 +226,7 @@ const NotificationLayout: React.FunctionComponent = () => {
               <CategoryContainer>
                 {
                   ['Title', 'Time', 'Mark As Seen'].map((c, i) => (
-                    <Category
-                      style={{
-                        width: decideWidth(i),
-                        textAlign: 'center',
-                      }}
-                    >
+                    <Category style={{ width: decideWidth(i) }}>
                       <Label2
                         overrides={{
                           Block: {
