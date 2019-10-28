@@ -10,6 +10,7 @@ import { Error } from 'styled-icons/boxicons-regular/Error';
 import { XCircle } from 'styled-icons/boxicons-regular/XCircle';
 import { CheckCircle } from 'styled-icons/boxicons-regular/CheckCircle';
 import { printDate } from '../utils/helper';
+import Link from 'next/link';
 
 const Dashboard = styled('div', {
   display: 'flex',
@@ -170,7 +171,11 @@ const ZipLogo = styled(FileZip, {
 
 const SubName = styled(Label3, {
   width: '60%',
+  color: 'blue',
   textAlign: 'center',
+  ':hover': {
+    cursor: 'pointer',
+  },
 });
 
 const SubSize = styled(Label3, {
@@ -183,6 +188,9 @@ const SubTime = styled(Label3, {
 
 const StatusLogo = styled('div', {
   width: '25%',
+  ':hover': {
+    cursor: 'pointer',
+  },
 });
 
 const StatusBar = styled('div', {
@@ -316,11 +324,13 @@ const CourseDashboard: React.FunctionComponent = () => {
                     ${s.time.getHours()}:${s.time.getMinutes()}:${s.time.getSeconds()}
                   `}
                 </SubTime>
-                <StatusLogo>
-                  { s.status === 'success' && <CheckCircle size={24} color="green" /> }
-                  { s.status === 'warning' && <Error size={24} color="#f9a825" /> }
-                  { s.status === 'error' && <XCircle size={24} color="red" /> }
-                </StatusLogo>
+                <Link href="/submission/1">
+                  <StatusLogo>
+                    { s.status === 'success' && <CheckCircle size={24} color="green" /> }
+                    { s.status === 'warning' && <Error size={24} color="#f9a825" /> }
+                    { s.status === 'error' && <XCircle size={24} color="red" /> }
+                  </StatusLogo>
+                </Link>
               </RecordContainer>
             ))
           }

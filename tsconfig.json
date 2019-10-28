@@ -19,5 +19,5 @@
     "target": "esnext"
   },
   "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx", "next.config.js", "pages/_document.js"]
+  "include": ["**/*.ts", "**/*.tsx", "next.config.js", "pages/_document.js", "lib/apollo.js"]
 }
