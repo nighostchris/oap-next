@@ -26,11 +26,17 @@ const StyledMoon = styled(Moon, {
   ':hover': {
     cursor: 'pointer',
   },
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    display: 'none',
+  },
 });
 
 const NotiWrapper = styled('div', {
   position: 'relative',
   marginRight: '30px',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    display: 'none',
+  },
 });
 
 const StyledNotifications = styled(Notifications, {

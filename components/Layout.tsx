@@ -12,12 +12,21 @@ const RootContainer = styled('div', ({ $theme }) => ({
 }));
 
 const LeftContainer = styled('div', {
+  position: 'fixed',
   transition: 'width 0.2s ease-in-out',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    display: 'none',
+  },
 });
 
 const RightContainer = styled('div', {
+  height: '100vh',
   overflowY: 'hidden',
   transition: 'width 0.2s ease-in-out',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    width: '100% !important',
+    marginLeft: '0 !important',
+  },
 });
 
 const Layout: React.FunctionComponent = ({ children }) => {
@@ -30,8 +39,7 @@ const Layout: React.FunctionComponent = ({ children }) => {
       <RootContainer>
         <LeftContainer
           style={{
-            position: 'fixed',
-            width: navbarOpen ? '15%' : '3%',
+            width: navbarOpen ? '200px' : '3%',
           }}
         >
           <SideNav
@@ -43,9 +51,8 @@ const Layout: React.FunctionComponent = ({ children }) => {
         </LeftContainer>
         <RightContainer
           style={{
-            width: navbarOpen ? '85%' : '97%',
-            marginLeft: navbarOpen ? '15%' : '3%',
-            height: '100vh',
+            width: navbarOpen ? 'calc(100% - 200px)' : '97%',
+            marginLeft: navbarOpen ? '200px' : '3%',
           }}
         >
           <HeaderBar

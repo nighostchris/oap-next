@@ -45,7 +45,7 @@ const StyledDisplay4 = styled(Display4, {
 
 const CardContainer = styled('div', {
   paddingTop: '40px',
-  paddingLeft: '80px',
+  paddingLeft: '60px',
   overflowY: 'auto',
   height: 'calc(100% - 104px)',
   '::-webkit-scrollbar': {
@@ -137,7 +137,7 @@ const Dashboard: React.FunctionComponent = () => (
             overrides={{
               Root: {
                 style: {
-                  marginRight: index + 1 !== courses.length ? '40px' : '0',
+                  marginRight: '40px',
                 },
               },
             }}
@@ -174,7 +174,7 @@ const Dashboard: React.FunctionComponent = () => (
             overrides={{
               Root: {
                 style: {
-                  marginRight: index + 1 !== assignments.length ? '40px' : '0',
+                  marginRight: '40px',
                 },
               },
             }}
