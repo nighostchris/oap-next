@@ -4,45 +4,6 @@ import { styled } from 'baseui';
 import { Card } from 'baseui/card';
 import { Display4, Label1, Label2 } from 'baseui/typography';
 
-const Title = styled('h1', ({ $theme }) => ({
-  fontSize: '20px',
-  fontWeight: 'bold',
-  lineHeight: '26px',
-  marginBottom: '8px',
-  ':hover': {
-    cursor: 'pointer',
-  },
-  color: $theme.colors.accent50,
-}));
-
-const CardRow = styled('div', {
-  display: 'flex',
-  flexWrap: 'wrap',
-  marginBottom: '40px',
-});
-
-const StyledCard = styled(Card, {
-  width: '250px',
-  border: 'unset',
-  margin: '25px 40px 25px 0',
-  backgroundColor: '#e0e0e0',
-  boxShadow: 'rgb(0, 0, 0, 0.5) 0px 1px 4px',
-});
-
-const StyledLabel1 = styled(Label1, {
-  color: '#757575 !important',
-  fontWeight: 600,
-});
-
-const StyledLabel2 = styled(Label2, {
-  color: '#757575 !important',
-  fontWeight: 600,
-});
-
-const StyledDisplay4 = styled(Display4, {
-  fontSize: '30px',
-});
-
 const CardContainer = styled('div', {
   paddingTop: '40px',
   paddingLeft: '60px',
@@ -57,6 +18,61 @@ const CardContainer = styled('div', {
     borderRadius: '.8rem',
     backgroundColor: 'rgba(128, 128, 128, .7)',
     boxShadow: 'inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)',
+  },
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    padding: '0',
+    height: 'calc(100% - 64px)',
+  },
+});
+
+const Title = styled('h1', ({ $theme }) => ({
+  fontSize: '20px',
+  fontWeight: 'bold',
+  lineHeight: '26px',
+  marginBottom: '8px',
+  color: $theme.colors.accent50,
+  ':hover': {
+    cursor: 'pointer',
+  },
+}));
+
+const CardRow = styled('div', {
+  display: 'flex',
+  flexWrap: 'wrap',
+  marginBottom: '40px',
+  flexDirection: 'row',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+});
+
+const StyledCard = styled(Card, {
+  width: '250px',
+  border: 'unset',
+  margin: '25px 40px 25px 0',
+  backgroundColor: '#e0e0e0',
+  boxShadow: 'rgb(0, 0, 0, 0.5) 0px 1px 4px',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    margin: '25px 0',
+  },
+});
+
+const StyledLabel1 = styled(Label1, {
+  color: '#757575 !important',
+  fontWeight: 600,
+});
+
+const StyledLabel2 = styled(Label2, {
+  color: '#757575 !important',
+  fontWeight: 600,
+});
+
+const StyledDisplay4 = styled(Display4, {
+  fontSize: '30px',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    marginTop: '20px',
+    textAlign: 'center',
   },
 });
 
