@@ -1,3 +1,4 @@
+import React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
 import { Provider as StyletronProvider } from 'styletron-react';
 import { styletron } from '../styletron';
@@ -15,27 +16,24 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <html style={{ height: "100%" }}>
+      <html lang="en" style={{ height: '100%' }}>
         <Head>
           {this.props.stylesheets.map((sheet, i) => (
-            <style>{`
-              #__next {
-                height: 100%;
-              }
-
-              body {
-                height: 100%;
-                margin: 0;
-              }
-            `}</style>
+            <style
+              className="_styletron_hydrate_"
+              dangerouslySetInnerHTML={{ __html: sheet.css }}
+              media={sheet.attrs.media}
+              data-hydrate={sheet.attrs['data-hydrate']}
+              key={i}
+            />
           ))}
         </Head>
-        <body>
+        <body style={{ margin: '0' }}>
           <Main />
           <NextScript />
         </body>
       </html>
-    )
+    );
   }
 }
 

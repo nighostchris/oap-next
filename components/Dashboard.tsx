@@ -24,7 +24,7 @@ const CardRow = styled('div', {
 const StyledCard = styled(Card, {
   width: '250px',
   border: 'unset',
-  margin: '25px 0px',
+  margin: '25px 40px 25px 0',
   backgroundColor: '#e0e0e0',
   boxShadow: 'rgb(0, 0, 0, 0.5) 0px 1px 4px',
 });

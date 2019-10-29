@@ -34,7 +34,8 @@
     "quote-props": "off",
     "no-param-reassign": "off",
     "no-return-assign": "off",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "react/no-danger": "off"
   },
   "settings": {
     "import/resolver": {
