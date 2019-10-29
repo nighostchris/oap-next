@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Link from 'next/link';
 import { styled } from 'baseui';
 import { Button } from 'baseui/button';
 import {
@@ -10,7 +11,6 @@ import { Error } from 'styled-icons/boxicons-regular/Error';
 import { XCircle } from 'styled-icons/boxicons-regular/XCircle';
 import { CheckCircle } from 'styled-icons/boxicons-regular/CheckCircle';
 import { printDate } from '../utils/helper';
-import Link from 'next/link';
 
 const Dashboard = styled('div', {
   display: 'flex',
