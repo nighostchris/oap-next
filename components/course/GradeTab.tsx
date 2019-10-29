@@ -175,7 +175,7 @@ const GradeTab: React.FunctionComponent = () => {
           data.map((d, i) => (
             <Row key={i}>
               <LeftContainer>
-                <Link href="/">
+                <Link href="/submission/1">
                   <Title
                     overrides={{
                       Block: {

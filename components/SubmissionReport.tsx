@@ -3,8 +3,6 @@ import { styled } from 'baseui';
 import {
   H6, Label2, Label3,
 } from 'baseui/typography';
-import Router, { useRouter } from 'next/router';
-import { Select } from 'baseui/select';
 
 const Root = styled('div', {
   display: 'flex',
@@ -41,6 +39,7 @@ const Tag = styled(H6, {
 
 const Details = styled('div', {
   display: 'flex',
+  padding: '10px',
   background: 'white',
   borderRadius: '5px',
   marginBottom: '20px',
@@ -136,16 +135,7 @@ const data = [{
   message: 'expected: 123 but was: 124.',
 }];
 
-const option = [
-  { label: 'Version #1  2019-10-29 12:21:23PM', id: 1 },
-  { label: 'Version #2  2019-10-29 12:25:26PM', id: 2 },
-];
-
 const SubmissionReport: React.FunctionComponent = () => {
-  const router = useRouter();
-  const { submissionid } = router.query;
-  console.log(submissionid);
-
   const [details, setDetails] = React.useState(Array(10).fill(false));
 
   const customSetDetails = (i: number) => {
@@ -176,18 +166,9 @@ const SubmissionReport: React.FunctionComponent = () => {
     return 'none';
   };
 
-  const customSelectVersion = (v: any) => {
-    Router.push(`/submission/${v[0].id}`);
-  };
-
   return (
     <Root>
       <InnerWrapper>
-        <Select
-          options={option}
-          value={[]}
-          onChange={(params) => customSelectVersion(params.value)}
-        />
         <Tag>Assignment Details</Tag>
         <Details>
           <Label2>Course Code: COMP2012</Label2>

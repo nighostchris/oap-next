@@ -1,4 +1,4 @@
-# oap-next (Last Update: 22/10/2019 16:51)
+# oap-next (Last Update: 29/10/2019 16:19)
 oap-next = Next.js implementation of Online Assessment Platform.\
 [Demo](https://oap-next.chrisliupascal.now.sh/)
 
@@ -15,6 +15,8 @@ oap-next = Next.js implementation of Online Assessment Platform.\
 * [ ] Build setting page
 * [ ] Finish Input bar at bottom of conversation page
 * [ ] Build specific notification page
+* [x] Assignment Grade Detail page
+* [ ] Responsive Layout Update
 
 ### Installation and Run project
 ```sh
