@@ -38,7 +38,9 @@ const UploadContainer = styled('div', {
   borderRadius: '8px',
   flexDirection: 'row',
   boxShadow: '5px 5px 20px rgba(0, 0, 0, 0.2)',
-
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    flexDirection: 'column',
+  },
 });
 
 const AssignmentDetails = styled('div', {
@@ -47,6 +49,10 @@ const AssignmentDetails = styled('div', {
   marginLeft: '40px',
   flexDirection: 'column',
   justifyContent: 'center',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    marginTop: '20px',
+    width: 'calc(100% - 40px)',
+  },
 });
 
 const FileUploaderWrapper = styled('div', {
@@ -54,6 +60,10 @@ const FileUploaderWrapper = styled('div', {
   display: 'flex',
   margin: '10px 0',
   alignItems: 'center',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    width: '90%',
+    margin: '20px 0 20px 5%',
+  },
 });
 
 const TabContainer = styled('div', {
@@ -62,6 +72,10 @@ const TabContainer = styled('div', {
   alignItems: 'center',
   flexDirection: 'column',
   justifyContent: 'space-evenly',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    width: '100%',
+    marginBottom: '20px',
+  },
 });
 
 const StyledButton = styled(Button, {
@@ -70,6 +84,9 @@ const StyledButton = styled(Button, {
   fontSize: '14px !important',
   borderRadius: '5px !important',
   backgroundColor: '#1e88e5 !important',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    margin: '10px 0',
+  },
 });
 
 const CourseCode = styled(H5, {
@@ -89,7 +106,7 @@ const AssignmentTitle = styled(AssignmentID, {
 });
 
 const SubmissionContainer = styled('div', {
-  width: '80%',
+  width: '90%',
   marginTop: '30px',
   background: 'white',
   borderRadius: '8px',
@@ -163,10 +180,17 @@ const FileWrapper = styled('div', {
   width: '25%',
   display: 'flex',
   flexDirection: 'row',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
 });
 
 const ZipLogo = styled(FileZip, {
   width: '40%',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    width: '100%',
+  },
 });
 
 const SubName = styled(Label3, {
@@ -175,6 +199,10 @@ const SubName = styled(Label3, {
   textAlign: 'center',
   ':hover': {
     cursor: 'pointer',
+  },
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    width: '100%',
+    wordBreak: 'break-all',
   },
 });
 
@@ -194,14 +222,21 @@ const StatusLogo = styled('div', {
 });
 
 const StatusBar = styled('div', {
-  width: '80%',
+  width: '90%',
   display: 'flex',
   flexDirection: 'row',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    marginBottom: '10px',
+  },
 });
 
 const Description = styled(Label2, {
   marginLeft: '5px',
   marginRight: '40px',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    fontSize: '14px',
+    marginRight: '10px',
+  },
 });
 
 const data = {
