@@ -34,12 +34,19 @@ const HeaderBar = styled('div', {
   flexDirection: 'row',
   position: 'relative',
   alignItems: 'center',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    height: 'fit-content',
+    flexDirection: 'column',
+  },
 });
 
 const StyledH3 = styled(H3, {
   marginLeft: '20px',
   marginBlockStart: '0px',
   marginBlockEnd: '0px',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    margin: '0 0 10px 0',
+  },
 });
 
 const ButtonGroup = styled('div', {
@@ -47,6 +54,9 @@ const ButtonGroup = styled('div', {
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'flex-end',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    marginBottom: '10px',
+  },
 });
 
 const Button = styled('button', {
@@ -74,6 +84,9 @@ const NotificationContainer = styled('div', {
   borderRadius: '8px',
   margin: '10px 0 30px 20px',
   boxShadow: '5px 5px 20px rgba(0, 0, 0, 0.2)',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    margin: '10px 0 30px 0',
+  },
 });
 
 const Tag = styled(H6, {
