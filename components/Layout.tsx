@@ -38,7 +38,7 @@ const Layout: React.FunctionComponent = ({ children }) => {
       <RootContainer>
         <LeftContainer
           style={{
-            width: navbarOpen ? '200px' : '3%',
+            maxWidth: navbarOpen ? '200px' : '40px',
           }}
         >
           <SideNav

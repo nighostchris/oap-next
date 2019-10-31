@@ -127,7 +127,7 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
   const { courseid } = router.query;
 
   return (
-    <SideNavBar>
+    <SideNavBar style={{ width: navbarOpen ? '200px' : '40px' }}>
       <LogoContainer>
         <Link href="/">
           <StyledLogo size="50" style={{ display: !navbarOpen ? 'none' : undefined }} />
