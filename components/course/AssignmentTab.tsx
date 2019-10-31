@@ -30,28 +30,51 @@ const AssignmentContainer = styled('div', {
   ':not(:last-child)': {
     marginBottom: '10px',
   },
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    flexDirection: 'column',
+  },
 });
 
 const StyledATI = styled(AssignmentTurnedIn, {
-  width: '15%',
+  width: '30%',
   textAlign: 'center',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    width: '10%',
+  },
 });
 
 const StyledAL = styled(AssignmentLate, {
-  width: '15%',
+  width: '30%',
   textAlign: 'center',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    width: '10%',
+  },
 });
 
 const StyledA = styled(Assignment, {
-  width: '15%',
+  width: '30%',
   textAlign: 'center',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    width: '10%',
+  },
+});
+
+const FirstHalf = styled('div', {
+  width: '40%',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    width: '100%',
+  },
 });
 
 const AssignmentDetails = styled('div', {
-  width: '25%',
   display: 'flex',
   margin: '10px 0',
   paddingLeft: '30px',
+  width: 'fit-content',
   flexDirection: 'column',
   alignItems: 'flex-start',
 });
@@ -59,6 +82,9 @@ const AssignmentDetails = styled('div', {
 const SubChance = styled(Label3, {
   width: '50%',
   textAlign: 'center',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    width: '100%',
+  },
 });
 
 const SButton = styled('button', {
@@ -71,6 +97,9 @@ const SButton = styled('button', {
   marginRight: '40px',
   borderRadius: '5px',
   fontWeight: 'bolder',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    margin: '10px 0',
+  },
 });
 
 const Title = styled(Label3, {
@@ -153,25 +182,27 @@ const AssignmentTab: React.FunctionComponent = () => (
             {
               filterHelper(i).map((d, index) => (
                 <AssignmentContainer key={`${t}-${index}`}>
-                  { i === 0 && <StyledATI size={26} /> }
-                  { i === 1 && <StyledAL size={26} /> }
-                  { i === 2 && <StyledA size={26} /> }
-                  <AssignmentDetails>
-                    <Title
-                      overrides={{
-                        Block: {
-                          style: {
-                            fontWeight: 'bold',
+                  <FirstHalf>
+                    { i === 0 && <StyledATI size={26} /> }
+                    { i === 1 && <StyledAL size={26} /> }
+                    { i === 2 && <StyledA size={26} /> }
+                    <AssignmentDetails>
+                      <Title
+                        overrides={{
+                          Block: {
+                            style: {
+                              fontWeight: 'bold',
+                            },
                           },
-                        },
-                      }}
-                    >
-                      {d.title}
-                    </Title>
-                    <Label4>
-                      {`Due Date: ${printDate(d.dueDate)}`}
-                    </Label4>
-                  </AssignmentDetails>
+                        }}
+                      >
+                        {d.title}
+                      </Title>
+                      <Label4>
+                        {`Due Date: ${printDate(d.dueDate)}`}
+                      </Label4>
+                    </AssignmentDetails>
+                  </FirstHalf>
                   <SubChance>{`Remaining submission chance: ${d.chance}`}</SubChance>
                   <Link href={`/assignment/${d.id}`}>
                     <SButton style={{
