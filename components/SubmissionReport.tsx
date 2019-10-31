@@ -6,15 +6,26 @@ import {
 
 const Root = styled('div', {
   display: 'flex',
+  overflowY: 'auto',
   alignItems: 'center',
   flexDirection: 'column',
   height: 'calc(100% - 64px)',
+  '::-webkit-scrollbar': {
+    width: '.8rem',
+  },
+  '::-webkit-scrollbar-thumb': {
+    borderRadius: '.8rem',
+    backgroundClip: 'padding-box',
+    border: '2px solid transparent',
+    backgroundColor: 'rgba(128, 128, 128, .7)',
+    boxShadow: 'inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)',
+  },
 });
 
 const InnerWrapper = styled('div', {
   width: '80%',
   display: 'flex',
-  marginTop: '20px',
+  margin: '20px 0',
   background: 'white',
   borderRadius: '5px',
   padding: '20px 50px',
@@ -29,6 +40,9 @@ const InnerWrapper = styled('div', {
     border: '2px solid transparent',
     backgroundColor: 'rgba(128, 128, 128, .7)',
     boxShadow: 'inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)',
+  },
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    padding: '20px',
   },
 });
 
@@ -53,10 +67,11 @@ const TestWrapper = styled('div', {
   borderRadius: '5px',
   background: 'white',
   alignItems: 'center',
+  height: 'fit-content',
   flexDirection: 'column',
+  justifyContent: 'center',
   border: '1px solid rgba(0, 0, 0, 0.2)',
   boxShadow: '1px 1px 5px rgba(0, 0, 0, 0.2)',
-  justifyContent: 'center',
   ':not(:last-child)': {
     marginBottom: '15px',
   },
@@ -73,12 +88,17 @@ const Header = styled('div', {
 const LeftHeader = styled('div', {
   display: 'flex',
   flexDirection: 'row',
+  alignItems: 'center',
 });
 
 const Score = styled(Label2, {
-  width: '70px',
+  minWidth: '70px',
   height: '24px',
+  margin: '6px 0',
   borderRadius: '50px',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    height: '100%',
+  },
 });
 
 const Title = styled(Label2, {
@@ -89,6 +109,7 @@ const DetailsButtonWrapper = styled('div', {
   color: 'blue',
   fontSize: '14px',
   fontWeight: 'bold',
+  textAlign: 'center',
   fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
   ':hover': {
     cursor: 'pointer',
@@ -98,14 +119,14 @@ const DetailsButtonWrapper = styled('div', {
 const Body = styled('div', {
   width: '90%',
   display: 'flex',
-  marginTop: '20px',
+  margin: '20px 0',
   flexDirection: 'column',
 });
 
 const ErrorMessage = styled('div', {
   marginTop: '5px',
+  padding: '0 10px',
   lineHeight: '24px',
-  paddingLeft: '10px',
   border: '1px solid rgba(0, 0, 0, 0.2)',
   fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
 });
@@ -184,12 +205,7 @@ const SubmissionReport: React.FunctionComponent = () => {
         <Tag>Result</Tag>
         {
           data.map((d, i) => (
-            <TestWrapper
-              key={`test-${i}`}
-              style={{
-                minHeight: details[i] ? '120px' : '40px',
-              }}
-            >
+            <TestWrapper key={`test-${i}`}>
               <Header>
                 <LeftHeader>
                   <Score

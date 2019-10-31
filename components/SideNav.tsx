@@ -120,9 +120,7 @@ const accountUtils = [
   { 'Settings': '/settings' },
 ];
 
-const SideNav: React.FunctionComponent<SideNavProps> = ({
-  navbarOpen, setNavBarOpen, navbarOpenCounter, setNavBarOpenCounter,
-}) => {
+const SideNav: React.FunctionComponent<SideNavProps> = ({ navbarOpen, setNavBarOpen }) => {
   const router = useRouter();
   const { courseid } = router.query;
 
@@ -134,10 +132,7 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
         </Link>
         <LeftArrow
           size="18"
-          onClick={() => {
-            setNavBarOpen(!navbarOpen);
-            setNavBarOpenCounter(navbarOpenCounter++);
-          }}
+          onClick={() => setNavBarOpen(!navbarOpen)}
           style={{
             color: '#e0e0e0',
             marginRight: '10px',
@@ -146,10 +141,7 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
         />
         <RightArrow
           size="18"
-          onClick={() => {
-            setNavBarOpen(!navbarOpen);
-            navbarOpenCounter++;
-          }}
+          onClick={() => setNavBarOpen(!navbarOpen)}
           style={{
             width: '100%',
             color: '#e0e0e0',

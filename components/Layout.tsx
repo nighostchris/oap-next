@@ -28,9 +28,8 @@ const RightContainer = styled('div', {
 });
 
 const Layout: React.FunctionComponent = ({ children }) => {
-  const [themeController, setThemeController] = React.useState(0);
-  const [navbarOpenCounter, setNavBarOpenCounter] = React.useState(0);
   const [navbarOpen, setNavBarOpen] = React.useState(true);
+  const [themeController, setThemeController] = React.useState(0);
   const [mobileNavBarOpen, setMobileNavBarOpen] = React.useState(false);
 
   return (
@@ -44,8 +43,6 @@ const Layout: React.FunctionComponent = ({ children }) => {
           <SideNav
             navbarOpen={navbarOpen}
             setNavBarOpen={setNavBarOpen}
-            navbarOpenCounter={navbarOpenCounter}
-            setNavBarOpenCounter={setNavBarOpenCounter}
           />
           <MobileSideNav
             mobileNavBarOpen={mobileNavBarOpen}
