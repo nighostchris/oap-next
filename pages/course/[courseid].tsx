@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { NextPage } from 'next';
 import Layout from '../../components/Layout';
 import TabController from '../../components/course/TabController';
 
-const Course: React.FunctionComponent = () => (
+const Course: NextPage = () => (
   <Layout>
     <TabController />
   </Layout>

@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { NextPage } from 'next';
 import Layout from '../components/Layout';
 import ChatroomLayout from '../components/ChatroomLayout';
 
-const ConversationPage: React.FunctionComponent = () => (
+const ConversationPage: NextPage = () => (
   <Layout>
     <ChatroomLayout />
   </Layout>

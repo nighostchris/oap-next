@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { NextPage } from 'next';
 import Layout from '../../components/Layout';
 import SubmissionReport from '../../components/SubmissionReport';
 
-const Submission: React.FunctionComponent = () => (
+const Submission: NextPage = () => (
   <Layout>
     <SubmissionReport />
   </Layout>
