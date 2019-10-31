@@ -7,26 +7,30 @@ import { Book } from 'styled-icons/fa-solid/Book';
 import { Cubes } from 'styled-icons/fa-solid/Cubes';
 import { Settings } from 'styled-icons/material/Settings';
 import { LeftArrow } from 'styled-icons/boxicons-solid/LeftArrow';
-import { RightArrow } from 'styled-icons/boxicons-solid/RightArrow';
 import { Notifications } from 'styled-icons/material/Notifications';
 import { Conversation } from 'styled-icons/boxicons-solid/Conversation';
-import { SideNavProps } from '../utils/interface';
+import { MobileSideNavProps } from '../utils/interface';
 
 const SideNavBar = styled('div', ({ $theme }) => ({
   height: '100vh',
+  transition: 'width 0.2s ease-in-out',
   backgroundColor: $theme.colors.primary50,
-  '@media (min-width: 320px) and (max-width: 480px)': {
-    display: 'none',
-  },
 }));
 
-const LogoContainer = styled('div', ({ $theme }) => ({
+const Blanket = styled('div', {
+  width: '100vw',
+  height: '100vh',
+  zIndex: -1,
+  position: 'absolute',
+  background: 'rgba(0, 0, 0, .4)',
+});
+
+const LogoContainer = styled('div', {
   height: '64px',
   display: 'flex',
   alignItems: 'center',
-  backgroundColor: $theme.colors.primary,
   justifyContent: 'space-between',
-}));
+});
 
 const StyledLogo = styled(Cubes, {
   color: '#e0e0e0',
@@ -120,44 +124,34 @@ const accountUtils = [
   { 'Settings': '/settings' },
 ];
 
-const SideNav: React.FunctionComponent<SideNavProps> = ({
-  navbarOpen, setNavBarOpen, navbarOpenCounter, setNavBarOpenCounter,
+const MobileSideNav: React.FunctionComponent<MobileSideNavProps> = ({
+  mobileNavBarOpen, setMobileNavBarOpen,
 }) => {
   const router = useRouter();
   const { courseid } = router.query;
 
   return (
-    <SideNavBar>
+    <SideNavBar style={{ width: !mobileNavBarOpen ? '0' : '200px' }}>
+      <Blanket
+        style={{ display: !mobileNavBarOpen ? 'none' : undefined }}
+        onClick={() => setMobileNavBarOpen(!mobileNavBarOpen)}
+      />
       <LogoContainer>
         <Link href="/">
-          <StyledLogo size="50" style={{ display: !navbarOpen ? 'none' : undefined }} />
+          <StyledLogo size="50" />
         </Link>
         <LeftArrow
           size="18"
           onClick={() => {
-            setNavBarOpen(!navbarOpen);
-            setNavBarOpenCounter(navbarOpenCounter++);
+            setMobileNavBarOpen(!mobileNavBarOpen);
           }}
           style={{
             color: '#e0e0e0',
             marginRight: '10px',
-            display: !navbarOpen ? 'none' : undefined,
-          }}
-        />
-        <RightArrow
-          size="18"
-          onClick={() => {
-            setNavBarOpen(!navbarOpen);
-            navbarOpenCounter++;
-          }}
-          style={{
-            width: '100%',
-            color: '#e0e0e0',
-            display: navbarOpen ? 'none' : undefined,
           }}
         />
       </LogoContainer>
-      <NavSection style={{ display: !navbarOpen ? 'none' : undefined }}>
+      <NavSection style={{ display: !mobileNavBarOpen ? 'none' : undefined }}>
         <StyledParagraph3
           overrides={{
             Block: {
@@ -201,7 +195,7 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
         }
         <Breakline />
       </NavSection>
-      <NavSection style={{ display: !navbarOpen ? 'none' : undefined }}>
+      <NavSection style={{ display: !mobileNavBarOpen ? 'none' : undefined }}>
         <StyledParagraph3
           overrides={{
             Block: {
@@ -247,4 +241,4 @@ const SideNav: React.FunctionComponent<SideNavProps> = ({
   );
 };
 
-export default SideNav;
+export default MobileSideNav;

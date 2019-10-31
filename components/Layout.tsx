@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { styled, BaseProvider } from 'baseui';
 import SideNav from './SideNav';
+import MobileSideNav from './MobileSideNav';
 import HeaderBar from './HeaderBar';
 import { lightTheme, darkTheme } from '../utils/theme';
 
@@ -14,9 +15,6 @@ const RootContainer = styled('div', ({ $theme }) => ({
 const LeftContainer = styled('div', {
   position: 'fixed',
   transition: 'width 0.2s ease-in-out',
-  '@media (min-width: 320px) and (max-width: 480px)': {
-    display: 'none',
-  },
 });
 
 const RightContainer = styled('div', {
@@ -33,6 +31,7 @@ const Layout: React.FunctionComponent = ({ children }) => {
   const [themeController, setThemeController] = React.useState(0);
   const [navbarOpenCounter, setNavBarOpenCounter] = React.useState(0);
   const [navbarOpen, setNavBarOpen] = React.useState(true);
+  const [mobileNavBarOpen, setMobileNavBarOpen] = React.useState(false);
 
   return (
     <BaseProvider theme={themeController === 0 ? lightTheme : darkTheme}>
@@ -48,6 +47,10 @@ const Layout: React.FunctionComponent = ({ children }) => {
             navbarOpenCounter={navbarOpenCounter}
             setNavBarOpenCounter={setNavBarOpenCounter}
           />
+          <MobileSideNav
+            mobileNavBarOpen={mobileNavBarOpen}
+            setMobileNavBarOpen={setMobileNavBarOpen}
+          />
         </LeftContainer>
         <RightContainer
           style={{
@@ -57,7 +60,9 @@ const Layout: React.FunctionComponent = ({ children }) => {
         >
           <HeaderBar
             themeController={themeController}
+            mobileNavBarOpen={mobileNavBarOpen}
             setThemeController={setThemeController}
+            setMobileNavBarOpen={setMobileNavBarOpen}
           />
           {children}
         </RightContainer>

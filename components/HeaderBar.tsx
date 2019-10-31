@@ -5,16 +5,17 @@ import { User } from 'styled-icons/boxicons-solid/User';
 import { Paragraph2, Paragraph3 } from 'baseui/typography';
 import { ArrowDropDown } from 'styled-icons/material/ArrowDropDown';
 import { Moon } from 'styled-icons/fa-solid/Moon';
+import { Menu } from 'styled-icons/boxicons-regular/Menu';
 import { Clear } from 'styled-icons/material/Clear';
 import { ClearAll } from 'styled-icons/material/ClearAll';
-import { themeProps } from '../utils/interface';
+import { headerBarProps } from '../utils/interface';
 
 const HBar = styled('div', ({ $theme }) => ({
   height: '64px',
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'flex-end',
   alignItems: 'center',
+  justifyContent: 'flex-end',
   background: $theme.colors.primary,
 }));
 
@@ -43,6 +44,21 @@ const StyledNotifications = styled(Notifications, {
   color: '#e0e0e0',
   ':hover': {
     cursor: 'pointer',
+  },
+});
+
+const StyledMenu = styled(Menu, {
+  left: '15px',
+  color: '#e0e0e0',
+  position: 'absolute',
+  ':hover': {
+    cursor: 'pointer',
+  },
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    display: 'inline-block',
+  },
+  '@media screen and (min-width: 480px)': {
+    display: 'none !important',
   },
 });
 
@@ -195,21 +211,26 @@ const noti = [
   { content: 'Welcome to COMP3021.' },
 ];
 
-const HeaderBar: React.FunctionComponent<themeProps> = ({
-  themeController, setThemeController,
+const HeaderBar: React.FunctionComponent<headerBarProps> = ({
+  mobileNavBarOpen, setMobileNavBarOpen, themeController, setThemeController,
 }) => {
   const [userOpen, setUserOpen] = React.useState(false);
   const [notiOpen, setNotiOpen] = React.useState(false);
 
   return (
     <HBar>
+      <StyledMenu
+        size={26}
+        style={{ display: mobileNavBarOpen ? 'none' : undefined }}
+        onClick={() => setMobileNavBarOpen(!mobileNavBarOpen)}
+      />
       <StyledMoon
-        size="26"
+        size={26}
         onClick={() => setThemeController(Math.abs(themeController - 1))}
       />
       <NotiWrapper>
         <StyledNotifications
-          size="26"
+          size={26}
           onClick={() => setNotiOpen(!notiOpen)}
         />
         <HeaderNotiNumber>{noti.length}</HeaderNotiNumber>
