@@ -3,6 +3,27 @@ import { styled } from 'baseui';
 import { Label3 } from 'baseui/typography';
 import { printDate } from '../../utils/helper';
 
+const Root = styled('div', {
+  width: '90%',
+  height: '90%',
+  display: 'flex',
+  overflowY: 'auto',
+  background: 'white',
+  borderRadius: '8px',
+  alignItems: 'center',
+  flexDirection: 'column',
+  '::-webkit-scrollbar': {
+    width: '.8rem',
+  },
+  '::-webkit-scrollbar-thumb': {
+    backgroundClip: 'padding-box',
+    border: '2px solid transparent',
+    borderRadius: '.8rem',
+    backgroundColor: 'rgba(128, 128, 128, .7)',
+    boxShadow: 'inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)',
+  },
+});
+
 const Container = styled('div', {
   width: '90%',
   display: 'flex',
@@ -10,22 +31,45 @@ const Container = styled('div', {
   alignItems: 'center',
   flexDirection: 'row',
   borderRadius: '10px',
+  marginBottom: '20px',
   backgroundColor: '#bdbdbd',
-  ':not(:last-child)': {
-    marginBottom: '20px',
+  ':first-child': {
+    marginTop: '20px',
+  },
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    flexDirection: 'column',
+  },
+});
+
+const LeftContainer = styled('div', {
+  width: '70%',
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'row',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    width: '100%',
   },
 });
 
 const Dot = styled('span', {
+  flexGrow: 2,
   color: '#1976d2',
   fontSize: '50px',
-  marginLeft: '20px',
+  textAlign: 'center',
+  height: 'fit-content',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    margin: '0 10px',
+  },
 });
 
-const LeftContainer = styled('div', {
+const Details = styled('div', {
+  flexGrow: 1,
   display: 'flex',
   flexDirection: 'column',
-  margin: '15px 0 15px 30px',
+  margin: '15px 0 15px 0',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    margin: '15px 5px 15px 0',
+  },
 });
 
 const StyledLabel3 = styled(Label3, {
@@ -34,9 +78,19 @@ const StyledLabel3 = styled(Label3, {
   },
 });
 
+const Title = styled(StyledLabel3, {
+  ':hover': {
+    cursor: 'pointer',
+  },
+});
+
 const Publish = styled(Label3, {
-  right: '20px',
-  position: 'absolute',
+  width: '30%',
+  textAlign: 'center',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    width: '100%',
+    marginBottom: '10px',
+  },
 });
 
 const noti = [{
@@ -91,32 +145,44 @@ const noti = [{
 ];
 
 const AnnounceTab: React.FunctionComponent = () => (
-  <>
+  <Root>
     {
       noti.map((d, i) => (
         <Container key={i}>
-          <Dot>{ d.read && '•' }</Dot>
           <LeftContainer>
-            <StyledLabel3
-              overrides={{
-                Block: {
-                  style: {
-                    fontSize: '16px',
-                    fontWeight: 'bold',
+            <Dot>{ d.read && '•' }</Dot>
+            <Details>
+              <Title
+                overrides={{
+                  Block: {
+                    style: {
+                      fontSize: '16px',
+                      fontWeight: 'bold',
+                    },
                   },
-                },
-              }}
-            >
-              {d.title}
-            </StyledLabel3>
-            <StyledLabel3>{d.publisher}</StyledLabel3>
-            <StyledLabel3>{d.content}</StyledLabel3>
+                }}
+              >
+                {d.title}
+              </Title>
+              <StyledLabel3>{d.publisher}</StyledLabel3>
+              <StyledLabel3>{d.content}</StyledLabel3>
+            </Details>
           </LeftContainer>
-          <Publish>{printDate(d.publishTime)}</Publish>
+          <Publish
+            overrides={{
+              Block: {
+                style: {
+                  fontWeight: 'bold',
+                },
+              },
+            }}
+          >
+            {printDate(d.publishTime)}
+          </Publish>
         </Container>
       ))
     }
-  </>
+  </Root>
 );
 
 export default AnnounceTab;
