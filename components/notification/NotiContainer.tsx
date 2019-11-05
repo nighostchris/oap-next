@@ -24,7 +24,6 @@ const NotificationContainer = styled('div', {
   width: '70%',
   marginTop: '40px',
   background: 'white',
-  position: 'relative',
   height: 'fit-content',
   border: '1px solid rgba(0, 0, 0, .5)',
   '@media (min-width: 320px) and (max-width: 480px)': {
@@ -53,14 +52,13 @@ const Title = styled(Label2, {
 });
 
 const Button = styled('button', {
-  right: '20px',
   padding: '8px',
   color: 'white',
   border: 'unset',
   outline: 'none',
   fontSize: '14px',
   minWidth: '150px',
-  position: 'absolute',
+  marginLeft: '40px',
   width: 'fit-content',
   fontWeight: 'bolder',
   background: '#1e88e5',
@@ -68,9 +66,8 @@ const Button = styled('button', {
     cursor: 'pointer',
   },
   '@media (min-width: 320px) and (max-width: 480px)': {
-    right: '0',
+    marginLeft: '0',
     marginBottom: '10px',
-    position: 'relative',
   },
 });
 
@@ -78,7 +75,6 @@ const Body = styled('div', {
   padding: '20px',
   height: '550px',
   overflowY: 'auto',
-  marginBottom: '64px',
   width: 'calc(100% - 40px)',
   fontFamily: '"Helvetica Neue",Helvetica,Arial,sans-serif',
   '::-webkit-scrollbar': {
@@ -97,11 +93,9 @@ const Body = styled('div', {
 });
 
 const BottomBar = styled('div', {
-  bottom: '0',
   width: '100%',
   height: '64px',
   display: 'flex',
-  position: 'absolute',
   alignItems: 'center',
   background: '#90a4ae',
 });

@@ -45,6 +45,7 @@ const Container = styled('div', {
 const LeftContainer = styled('div', {
   width: '70%',
   display: 'flex',
+  position: 'unset',
   alignItems: 'center',
   flexDirection: 'row',
   '@media (min-width: 320px) and (max-width: 480px)': {

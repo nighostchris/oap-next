@@ -46,7 +46,7 @@ const ActiveTab = styled(Tab, ({ $theme }) => ({
 }));
 
 const TabController: React.FunctionComponent = () => {
-  const [activeTab, setActiveTab] = React.useState(1);
+  const [activeTab, setActiveTab] = React.useState(0);
 
   return (
     <Root>

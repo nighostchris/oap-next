@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Link from 'next/link';
 import { styled } from 'baseui';
 import { H3, H6, Label2 } from 'baseui/typography';
 import { Markunread } from 'styled-icons/material/Markunread';
@@ -182,7 +183,9 @@ const NotificationLayout: React.FunctionComponent = () => {
     d.map((c: any, i: number) => (
       <Row>
         <div style={{ width: '40%' }}>
-          <Label2 key={`title-${i}`}>{c.title}</Label2>
+          <Link href="/notification/1">
+            <Label2 key={`title-${i}`}>{c.title}</Label2>
+          </Link>
         </div>
         <div style={{ width: '40%' }}>
           <Label2 key={`time-${i}`}>{printDate(c.time)}</Label2>
