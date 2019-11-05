@@ -2,7 +2,7 @@ import * as React from 'react';
 import { styled } from 'baseui';
 import { H3, H6, Label2 } from 'baseui/typography';
 import { Markunread } from 'styled-icons/material/Markunread';
-import { printDate } from '../utils/helper';
+import { printDate } from '../../utils/helper';
 
 const Root = styled('div', {
   width: '100%',

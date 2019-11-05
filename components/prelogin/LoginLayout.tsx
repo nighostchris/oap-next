@@ -22,6 +22,9 @@ const RightContainer = styled('div', {
   position: 'fixed',
   alignItems: 'center',
   flexDirection: 'column',
+  '@media (min-width: 320px) and (max-width: 480px)': {
+    width: '100% !important',
+  },
 });
 
 const Button = styled('button', {

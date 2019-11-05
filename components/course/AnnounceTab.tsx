@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Link from 'next/link';
 import { styled } from 'baseui';
 import { Label3 } from 'baseui/typography';
 import { printDate } from '../../utils/helper';
@@ -152,18 +153,20 @@ const AnnounceTab: React.FunctionComponent = () => (
           <LeftContainer>
             <Dot>{ d.read && '•' }</Dot>
             <Details>
-              <Title
-                overrides={{
-                  Block: {
-                    style: {
-                      fontSize: '16px',
-                      fontWeight: 'bold',
+              <Link href="/notification/1">
+                <Title
+                  overrides={{
+                    Block: {
+                      style: {
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                      },
                     },
-                  },
-                }}
-              >
-                {d.title}
-              </Title>
+                  }}
+                >
+                  {d.title}
+                </Title>
+              </Link>
               <StyledLabel3>{d.publisher}</StyledLabel3>
               <StyledLabel3>{d.content}</StyledLabel3>
             </Details>
