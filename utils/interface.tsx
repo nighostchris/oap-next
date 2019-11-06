@@ -14,3 +14,7 @@ export interface MobileSideNavProps {
   mobileNavBarOpen: boolean,
   setMobileNavBarOpen: (value: boolean | ((prevVar: boolean) => boolean)) => void,
 }
+
+export interface TableProps {
+  row: Array<any>,
+}
