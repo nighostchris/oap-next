@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { styled } from 'baseui';
-import { /*Label1, Label2, Label3*/ } from 'baseui/typography';
+import { H5, Label1, Label2 } from 'baseui/typography';
+import { Select, Value } from 'baseui/select';
+import { SIZE, Input } from 'baseui/input';
 import { Search } from 'baseui/icon';
+import { Button } from 'baseui/button';
 import Table from './Table';
 
 const Root = styled('div', {
@@ -56,6 +59,33 @@ const TableWrapper = styled('div', {
   margin: '20px 0 0 0',
 });
 
+const FormTitle = styled(H5, {
+  marginBlockEnd: '0',
+});
+
+const BreakLine = styled('div', {
+  height: '1px',
+  width: '100%',
+  margin: '15px 0',
+  background: 'white',
+});
+
+const Subtitle = styled(Label1, {
+  margin: '20px 0 10px 0',
+});
+
+const SubLabel = styled(Label2, {
+  margin: '5px 0',
+});
+
+const StyledButton = styled(Button, {
+  marginTop: '30px',
+  padding: '3px !important',
+  fontSize: '14px !important',
+  borderRadius: '5px !important',
+  backgroundColor: '#1e88e5 !important',
+});
+
 const mapData = [{
   name: 'Desmond Tsoi',
   email: 'desmond',
@@ -86,6 +116,11 @@ const data = [...mapData, ...mapData, ...mapData, ...mapData];
 
 const StudentManage: React.FunctionComponent = () => {
   const [search, setSearch] = React.useState('');
+  const [type, setType] = React.useState<Value>([]);
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [id, setID] = React.useState('');
+  const [role, setRole] = React.useState<Value>([]);
 
   const searchTable = (s: string) => data.filter((d) => {
     if (s !== '') {
@@ -114,7 +149,187 @@ const StudentManage: React.FunctionComponent = () => {
         </TableWrapper>
       </LeftContainer>
       <RightContainer>
-        <p>Hello</p>
+        <FormTitle
+          overrides={{
+            Block: {
+              style: {
+                fontSize: '26px',
+                fontWeight: 'bold',
+              },
+            },
+          }}
+        >
+          Manage Users
+        </FormTitle>
+        <BreakLine />
+        <SubLabel
+          overrides={{
+            Block: {
+              style: {
+                fontSize: '15px',
+              },
+            },
+          }}
+        >
+          Action Type
+        </SubLabel>
+        <Select
+          size={SIZE.compact}
+          options={[
+            { id: 'Add New', e: 'an' },
+            { id: 'Add to Course', e: 'atc' },
+            { id: 'Remove', e: 'r' },
+            { id: 'Remove from Course', e: 'rfc' },
+            { id: 'Change Section', e: 'cs' },
+          ]}
+          labelKey="id"
+          valueKey="e"
+          onChange={({ value }) => setType(value)}
+          value={type}
+          overrides={{
+            Root: {
+              style: {
+                outline: 'teal .5px solid',
+                marginTop: '5px',
+              },
+            },
+          }}
+        />
+        <Subtitle
+          overrides={{
+            Block: {
+              style: {
+                fontWeight: 'bold',
+              },
+            },
+          }}
+        >
+          Register New User
+        </Subtitle>
+        <SubLabel
+          overrides={{
+            Block: {
+              style: {
+                fontSize: '15px',
+              },
+            },
+          }}
+        >
+          Name
+        </SubLabel>
+        <Input
+          value={name}
+          size={SIZE.compact}
+          onChange={(e: any) => setName(e.target.value)}
+          overrides={{
+            Root: {
+              style: {
+                outline: 'teal .5px solid',
+              },
+            },
+            InputContainer: {
+              style: (props) => {
+                const { $isFocused } = props;
+                return {
+                  borderColor: $isFocused ? 'transparent' : 'transparent',
+                };
+              },
+            },
+          }}
+        />
+        <SubLabel
+          overrides={{
+            Block: {
+              style: {
+                fontSize: '15px',
+              },
+            },
+          }}
+        >
+          Email
+        </SubLabel>
+        <Input
+          value={email}
+          size={SIZE.compact}
+          onChange={(e: any) => setEmail(e.target.value)}
+          overrides={{
+            Root: {
+              style: {
+                outline: 'teal .5px solid',
+              },
+            },
+            InputContainer: {
+              style: (props) => {
+                const { $isFocused } = props;
+                return {
+                  borderColor: $isFocused ? 'transparent' : 'transparent',
+                };
+              },
+            },
+          }}
+        />
+        <SubLabel
+          overrides={{
+            Block: {
+              style: {
+                fontSize: '15px',
+              },
+            },
+          }}
+        >
+          Student ID
+        </SubLabel>
+        <Input
+          value={id}
+          size={SIZE.compact}
+          onChange={(e: any) => setID(e.target.value)}
+          overrides={{
+            Root: {
+              style: {
+                outline: 'teal .5px solid',
+              },
+            },
+            InputContainer: {
+              style: (props) => {
+                const { $isFocused } = props;
+                return {
+                  borderColor: $isFocused ? 'transparent' : 'transparent',
+                };
+              },
+            },
+          }}
+        />
+        <SubLabel
+          overrides={{
+            Block: {
+              style: {
+                fontSize: '15px',
+              },
+            },
+          }}
+        >
+          Role
+        </SubLabel>
+        <Select
+          size={SIZE.compact}
+          options={[
+            { id: 'Student', e: 's' },
+            { id: 'Teaching Staff', e: 'ts' },
+            { id: 'Admin', e: 'a' },
+          ]}
+          labelKey="id"
+          valueKey="e"
+          onChange={({ value }) => setRole(value)}
+          value={role}
+          overrides={{
+            Root: {
+              style: {
+                outline: 'teal .5px solid',
+              },
+            },
+          }}
+        />
+        <StyledButton>Submit</StyledButton>
       </RightContainer>
     </Root>
   );
