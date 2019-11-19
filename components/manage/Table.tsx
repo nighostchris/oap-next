@@ -1,57 +1,123 @@
 import * as React from 'react';
 import { styled } from 'baseui';
-import { /*Label1, Label2, Label3*/ } from 'baseui/typography';
+import { Label2 } from 'baseui/typography';
+import { Minus } from 'styled-icons/boxicons-regular/Minus';
 import { TableProps } from '../../utils/interface';
 
-const RootTable = styled('table', {
+const RootTable = styled('div', {
   width: '100%',
-  borderCollapse: 'collapse',
-  fontFamily: '"Helvetica Neue",Helvetica,Arial,sans-serif',
 });
 
-const Header = styled('th', {
-  top: '0',
-  padding: '8px',
-  position: 'sticky',
-  textAlign: 'center',
+const StudentList = styled('div', {
+  display: 'flex',
+  overflowY: 'scroll',
+  maxHeight: '500px',
+  height: 'fit-content',
+  flexDirection: 'column',
+  '::-webkit-scrollbar': {
+    width: '.8rem',
+  },
+  '::-webkit-scrollbar-thumb': {
+    backgroundClip: 'padding-box',
+    border: '2px solid transparent',
+    borderRadius: '.8rem',
+    backgroundColor: 'rgba(128, 128, 128, .7)',
+    boxShadow: 'inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)',
+  },
+});
+
+const HeaderRow = styled('div', {
+  display: 'flex',
+  flexDirection: 'row',
   background: '#5ba8ec',
-  ':first-child': {
-    borderTopLeftRadius: '5px',
-  },
-  ':last-child': {
-    borderTopRightRadius: '5px',
-  },
+  width: 'calc(100% - 12px)',
+  borderTopLeftRadius: '5px',
+  borderTopRightRadius: '5px',
 });
 
-const Cell = styled('td', {
-  padding: '6px',
-  textAlign: 'center',
-});
-
-const TableRow = styled('tr', {
+const Row = styled('div', {
+  display: 'flex',
+  flexDirection: 'row',
   backgroundColor: 'white',
   ':nth-child(odd)': {
     backgroundColor: '#e0e0e0',
   },
 });
 
+const Cell = styled(Label2, {
+  flex: '1 1 0px',
+  padding: '6px 0',
+  textAlign: 'center',
+});
+
+const ActionCell = styled(Label2, {
+  padding: '6px 0',
+  flex: '0.5 0.5 0px',
+  textAlign: 'center',
+});
+
+const StyledMinus = styled(Minus, {
+  ':hover': {
+    cursor: 'pointer',
+  },
+});
+
 const Table: React.FunctionComponent<TableProps> = ({ row }) => {
   return (
     <RootTable>
-      <TableRow>
-        <Header>Name</Header>
-        <Header>Email</Header>
-        <Header>Student ID</Header>
-      </TableRow>
-      {
-        row.map((d, i) => (
-          <TableRow key={`row-${i}`}>
-            <Cell>{d.name}</Cell>
-            <Cell>{d.email}</Cell>
-            <Cell>{d.id}</Cell>
-          </TableRow>
-        ))
-      }
+      <HeaderRow>
+        <Cell
+          overrides={{
+            Block: {
+              style: {
+                fontWeight: 'bold',
+              },
+            },
+          }}
+        >
+          Name
+        </Cell>
+        <Cell
+          overrides={{
+            Block: {
+              style: {
+                fontWeight: 'bold',
+              },
+            },
+          }}
+        >
+          Email
+        </Cell>
+        <Cell
+          overrides={{
+            Block: {
+              style: {
+                fontWeight: 'bold',
+              },
+            },
+          }}
+        >
+          Student ID
+        </Cell>
+        <ActionCell />
+      </HeaderRow>
+      <StudentList>
+        {
+          row.map((d, i) => (
+            <Row key={`row-${i}`}>
+              <Cell>{d.name}</Cell>
+              <Cell>{d.email}</Cell>
+              <Cell>{d.id}</Cell>
+              <ActionCell>
+                <StyledMinus
+                  size={26}
+                  onClick={() => console.log(i)}
+                />
+              </ActionCell>
+            </Row>
+          ))
+        }
+      </StudentList>
     </RootTable>
   );
 };

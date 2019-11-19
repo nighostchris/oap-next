@@ -6,10 +6,21 @@ import Table from './Table';
 
 const Root = styled('div', {
   width: '100%',
-  height: '100%',
+  height: 'calc(100% - 64px)',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-evenly',
 });
 
 const LeftContainer = styled('div', {
+  width: '50%',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+});
+
+const RightContainer = styled('div', {
   width: '40%',
   height: '100%',
   display: 'flex',
@@ -42,22 +53,7 @@ const StyledInput = styled('input', {
 });
 
 const TableWrapper = styled('div', {
-  width: '100%',
-  height: '80%',
-  overflowY: 'auto',
-  maxHeight: '450px',
-  borderRadius: '5px',
   margin: '20px 0 0 0',
-  '::-webkit-scrollbar': {
-    width: '.8rem',
-  },
-  '::-webkit-scrollbar-thumb': {
-    backgroundClip: 'padding-box',
-    border: '2px solid transparent',
-    borderRadius: '.8rem',
-    backgroundColor: 'rgba(128, 128, 128, .7)',
-    boxShadow: 'inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)',
-  },
 });
 
 const mapData = [{
@@ -86,7 +82,7 @@ const mapData = [{
   id: '57389402',
 }];
 
-const data = [...mapData, ...mapData, ...mapData];
+const data = [...mapData, ...mapData, ...mapData, ...mapData];
 
 const StudentManage: React.FunctionComponent = () => {
   const [search, setSearch] = React.useState('');
@@ -117,6 +113,9 @@ const StudentManage: React.FunctionComponent = () => {
           />
         </TableWrapper>
       </LeftContainer>
+      <RightContainer>
+        <p>Hello</p>
+      </RightContainer>
     </Root>
   );
 };
