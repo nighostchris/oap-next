@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { styled } from 'baseui';
-import { H5, Label1, Label2 } from 'baseui/typography';
-import { Select, Value } from 'baseui/select';
-import { SIZE, Input } from 'baseui/input';
 import { Search } from 'baseui/icon';
-import { Button } from 'baseui/button';
+import { SIZE } from 'baseui/input';
+import { Select, Value } from 'baseui/select';
+import { H5, Label2 } from 'baseui/typography';
 import Table from './Table';
+import AddUser from './AddUser';
 
 const Root = styled('div', {
   width: '100%',
@@ -70,20 +70,8 @@ const BreakLine = styled('div', {
   background: 'white',
 });
 
-const Subtitle = styled(Label1, {
-  margin: '20px 0 10px 0',
-});
-
 const SubLabel = styled(Label2, {
   margin: '5px 0',
-});
-
-const StyledButton = styled(Button, {
-  marginTop: '30px',
-  padding: '3px !important',
-  fontSize: '14px !important',
-  borderRadius: '5px !important',
-  backgroundColor: '#1e88e5 !important',
 });
 
 const mapData = [{
@@ -117,10 +105,14 @@ const data = [...mapData, ...mapData, ...mapData, ...mapData];
 const StudentManage: React.FunctionComponent = () => {
   const [search, setSearch] = React.useState('');
   const [type, setType] = React.useState<Value>([]);
-  const [name, setName] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [id, setID] = React.useState('');
-  const [role, setRole] = React.useState<Value>([]);
+
+  const checkType = (value: string) => {
+    try {
+      return type[0].e === value;
+    } catch (e) {
+      return false;
+    }
+  };
 
   const searchTable = (s: string) => data.filter((d) => {
     if (s !== '') {
@@ -195,141 +187,9 @@ const StudentManage: React.FunctionComponent = () => {
             },
           }}
         />
-        <Subtitle
-          overrides={{
-            Block: {
-              style: {
-                fontWeight: 'bold',
-              },
-            },
-          }}
-        >
-          Register New User
-        </Subtitle>
-        <SubLabel
-          overrides={{
-            Block: {
-              style: {
-                fontSize: '15px',
-              },
-            },
-          }}
-        >
-          Name
-        </SubLabel>
-        <Input
-          value={name}
-          size={SIZE.compact}
-          onChange={(e: any) => setName(e.target.value)}
-          overrides={{
-            Root: {
-              style: {
-                outline: 'teal .5px solid',
-              },
-            },
-            InputContainer: {
-              style: (props) => {
-                const { $isFocused } = props;
-                return {
-                  borderColor: $isFocused ? 'transparent' : 'transparent',
-                };
-              },
-            },
-          }}
-        />
-        <SubLabel
-          overrides={{
-            Block: {
-              style: {
-                fontSize: '15px',
-              },
-            },
-          }}
-        >
-          Email
-        </SubLabel>
-        <Input
-          value={email}
-          size={SIZE.compact}
-          onChange={(e: any) => setEmail(e.target.value)}
-          overrides={{
-            Root: {
-              style: {
-                outline: 'teal .5px solid',
-              },
-            },
-            InputContainer: {
-              style: (props) => {
-                const { $isFocused } = props;
-                return {
-                  borderColor: $isFocused ? 'transparent' : 'transparent',
-                };
-              },
-            },
-          }}
-        />
-        <SubLabel
-          overrides={{
-            Block: {
-              style: {
-                fontSize: '15px',
-              },
-            },
-          }}
-        >
-          Student ID
-        </SubLabel>
-        <Input
-          value={id}
-          size={SIZE.compact}
-          onChange={(e: any) => setID(e.target.value)}
-          overrides={{
-            Root: {
-              style: {
-                outline: 'teal .5px solid',
-              },
-            },
-            InputContainer: {
-              style: (props) => {
-                const { $isFocused } = props;
-                return {
-                  borderColor: $isFocused ? 'transparent' : 'transparent',
-                };
-              },
-            },
-          }}
-        />
-        <SubLabel
-          overrides={{
-            Block: {
-              style: {
-                fontSize: '15px',
-              },
-            },
-          }}
-        >
-          Role
-        </SubLabel>
-        <Select
-          size={SIZE.compact}
-          options={[
-            { id: 'Student', e: 's' },
-            { id: 'Teaching Staff', e: 'ts' },
-            { id: 'Admin', e: 'a' },
-          ]}
-          labelKey="id"
-          valueKey="e"
-          onChange={({ value }) => setRole(value)}
-          value={role}
-          overrides={{
-            Root: {
-              style: {
-                outline: 'teal .5px solid',
-              },
-            },
-          }}
-        />
-        <StyledButton>Submit</StyledButton>
+        {
+          type !== undefined ? (checkType('an') && <AddUser />) : undefined
+        }
       </RightContainer>
     </Root>
   );
