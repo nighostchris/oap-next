@@ -79,36 +79,43 @@ const mapData = [{
   name: 'Desmond Tsoi',
   email: 'desmond',
   id: '12345678',
+  role: 3,
 },
 {
   name: 'Wallace',
   email: 'wallm',
   id: '27587374',
+  role: 2,
 },
 {
   name: 'Testing',
   email: 'testing',
   id: '22063948',
+  role: 1,
 },
 {
   name: 'Test',
   email: 'test',
   id: '29582012',
+  role: 1,
 },
 {
   name: 'Kris',
   email: 'kristopher',
   id: '57389402',
+  role: 3,
 },
 {
   name: 'Testing',
   email: 'testing123',
   id: '22743948',
+  role: 1,
 },
 {
   name: 'Testing',
   email: 'testing456',
   id: '22496182',
+  role: 1,
 }];
 
 const StudentManage: React.FunctionComponent = () => {
@@ -190,7 +197,7 @@ const StudentManage: React.FunctionComponent = () => {
           }}
         />
         {
-          type !== undefined ? (checkType('an') && <AddUser />) : undefined
+          type !== undefined ? (checkType('an') && <AddUser setUserlist={setUserlist} />) : undefined
         }
       </RightContainer>
     </Root>

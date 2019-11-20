@@ -4,6 +4,7 @@ import { Button } from 'baseui/button';
 import { SIZE, Input } from 'baseui/input';
 import { Select, Value } from 'baseui/select';
 import { Label1, Label2 } from 'baseui/typography';
+import { UserlistProps } from '../../utils/interface';
 
 const Root = styled('div', {
   width: '100%',
@@ -27,11 +28,21 @@ const StyledButton = styled(Button, {
   backgroundColor: '#1e88e5 !important',
 });
 
-const AddUser: React.FunctionComponent = () => {
-  const [name, setName] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [id, setID] = React.useState('');
-  const [role, setRole] = React.useState<Value>([]);
+const AddUser: React.FunctionComponent<UserlistProps> = ({ setUserlist }) => {
+  const [nname, setNName] = React.useState('');
+  const [nemail, setNEmail] = React.useState('');
+  const [nid, setNID] = React.useState('');
+  const [nrole, setNRole] = React.useState<Value>([]);
+
+  const updateUserList = () => {
+    const newUser = {
+      name: nname,
+      email: nemail,
+      id: nid,
+      role: nrole[0].e === 's' ? 1 : nrole[0].e === 'ts' ? 2 : 3,
+    };
+    setUserlist((oldArray: Array<any>) => [...oldArray, newUser]);
+  };
 
   return (
     <Root>
@@ -58,9 +69,9 @@ const AddUser: React.FunctionComponent = () => {
         Name
       </SubLabel>
       <Input
-        value={name}
+        value={nname}
         size={SIZE.compact}
-        onChange={(e: any) => setName(e.target.value)}
+        onChange={(e: any) => setNName(e.target.value)}
         overrides={{
           Root: {
             style: {
@@ -89,9 +100,9 @@ const AddUser: React.FunctionComponent = () => {
         Email
       </SubLabel>
       <Input
-        value={email}
+        value={nemail}
         size={SIZE.compact}
-        onChange={(e: any) => setEmail(e.target.value)}
+        onChange={(e: any) => setNEmail(e.target.value)}
         overrides={{
           Root: {
             style: {
@@ -120,9 +131,9 @@ const AddUser: React.FunctionComponent = () => {
         Student ID
       </SubLabel>
       <Input
-        value={id}
+        value={nid}
         size={SIZE.compact}
-        onChange={(e: any) => setID(e.target.value)}
+        onChange={(e: any) => setNID(e.target.value)}
         overrides={{
           Root: {
             style: {
@@ -159,8 +170,8 @@ const AddUser: React.FunctionComponent = () => {
         ]}
         labelKey="id"
         valueKey="e"
-        onChange={({ value }) => setRole(value)}
-        value={role}
+        onChange={({ value }) => setNRole(value)}
+        value={nrole}
         overrides={{
           Root: {
             style: {
@@ -169,7 +180,9 @@ const AddUser: React.FunctionComponent = () => {
           },
         }}
       />
-      <StyledButton>Submit</StyledButton>
+      <StyledButton onClick={() => updateUserList()}>
+        Submit
+      </StyledButton>
     </Root>
   );
 };

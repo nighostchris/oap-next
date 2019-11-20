@@ -20,3 +20,7 @@ export interface TableProps {
   userlist: Array<any>,
   setUserlist: (value: Array<any> | ((prevVar: Array<any>) => Array<any>)) => void,
 }
+
+export interface UserlistProps {
+  setUserlist: (value: Array<any> | ((prevVar: Array<any>) => Array<any>)) => void,
+}

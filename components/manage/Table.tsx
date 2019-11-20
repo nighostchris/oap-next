@@ -115,6 +115,17 @@ const Table: React.FunctionComponent<TableProps> = ({ search, userlist, setUserl
         >
           ID
         </Cell>
+        <Cell
+          overrides={{
+            Block: {
+              style: {
+                fontWeight: 'bold',
+              },
+            },
+          }}
+        >
+          Role
+        </Cell>
         <ActionCell />
       </HeaderRow>
       <StudentList>
@@ -124,6 +135,11 @@ const Table: React.FunctionComponent<TableProps> = ({ search, userlist, setUserl
               <Cell>{d.name}</Cell>
               <Cell>{d.email}</Cell>
               <Cell>{d.id}</Cell>
+              <Cell>
+                {
+                  d.role === 1 ? 'Student' : (d.role === 2 ? 'Teaching Staff' : 'Admin')
+                }
+              </Cell>
               <ActionCell>
                 <StyledMinus
                   size={26}
