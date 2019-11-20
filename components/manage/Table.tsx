@@ -11,7 +11,7 @@ const RootTable = styled('div', {
 const StudentList = styled('div', {
   display: 'flex',
   overflowY: 'scroll',
-  maxHeight: '500px',
+  maxHeight: '600px',
   height: 'fit-content',
   flexDirection: 'column',
   '::-webkit-scrollbar': {
@@ -62,7 +62,23 @@ const StyledMinus = styled(Minus, {
   },
 });
 
-const Table: React.FunctionComponent<TableProps> = ({ row }) => {
+const Table: React.FunctionComponent<TableProps> = ({ search, userlist, setUserlist }) => {
+  const searchTable = () => userlist.filter((d) => {
+    if (search !== '') {
+      const nameResult = d.name.toLowerCase().includes(search.toLowerCase());
+      const emailResult = d.email.toLowerCase().includes(search.toLowerCase());
+      const idResult = d.id.toString().includes(search);
+      return nameResult || emailResult || idResult;
+    }
+    return true;
+  });
+
+  const updateRow = (id: number) => {
+    const temp = userlist;
+    temp.splice(temp.findIndex((e) => e.id === id), 1);
+    setUserlist([...temp]);
+  };
+
   return (
     <RootTable>
       <HeaderRow>
@@ -97,13 +113,13 @@ const Table: React.FunctionComponent<TableProps> = ({ row }) => {
             },
           }}
         >
-          Student ID
+          ID
         </Cell>
         <ActionCell />
       </HeaderRow>
       <StudentList>
         {
-          row.map((d, i) => (
+          searchTable().map((d, i) => (
             <Row key={`row-${i}`}>
               <Cell>{d.name}</Cell>
               <Cell>{d.email}</Cell>
@@ -111,7 +127,7 @@ const Table: React.FunctionComponent<TableProps> = ({ row }) => {
               <ActionCell>
                 <StyledMinus
                   size={26}
-                  onClick={() => console.log(i)}
+                  onClick={() => updateRow(d.id)}
                 />
               </ActionCell>
             </Row>

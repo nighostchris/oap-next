@@ -16,5 +16,7 @@ export interface MobileSideNavProps {
 }
 
 export interface TableProps {
-  row: Array<any>,
+  search: string,
+  userlist: Array<any>,
+  setUserlist: (value: Array<any> | ((prevVar: Array<any>) => Array<any>)) => void,
 }

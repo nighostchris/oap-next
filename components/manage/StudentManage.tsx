@@ -19,8 +19,8 @@ const LeftContainer = styled('div', {
   width: '50%',
   height: '100%',
   display: 'flex',
+  marginTop: '40px',
   flexDirection: 'column',
-  justifyContent: 'center',
 });
 
 const RightContainer = styled('div', {
@@ -61,6 +61,7 @@ const TableWrapper = styled('div', {
 
 const FormTitle = styled(H5, {
   marginBlockEnd: '0',
+  marginBlockStart: '40px',
 });
 
 const BreakLine = styled('div', {
@@ -98,13 +99,22 @@ const mapData = [{
   name: 'Kris',
   email: 'kristopher',
   id: '57389402',
+},
+{
+  name: 'Testing',
+  email: 'testing123',
+  id: '22743948',
+},
+{
+  name: 'Testing',
+  email: 'testing456',
+  id: '22496182',
 }];
-
-const data = [...mapData, ...mapData, ...mapData, ...mapData];
 
 const StudentManage: React.FunctionComponent = () => {
   const [search, setSearch] = React.useState('');
   const [type, setType] = React.useState<Value>([]);
+  const [userlist, setUserlist] = React.useState([...mapData]);
 
   const checkType = (value: string) => {
     try {
@@ -113,16 +123,6 @@ const StudentManage: React.FunctionComponent = () => {
       return false;
     }
   };
-
-  const searchTable = (s: string) => data.filter((d) => {
-    if (s !== '') {
-      const nameResult = d.name.toLowerCase().includes(s.toLowerCase());
-      const emailResult = d.email.toLowerCase().includes(s.toLowerCase());
-      const idResult = d.id.toString().includes(s);
-      return nameResult || emailResult || idResult;
-    }
-    return true;
-  });
 
   return (
     <Root>
@@ -136,7 +136,9 @@ const StudentManage: React.FunctionComponent = () => {
         </SearchContainer>
         <TableWrapper>
           <Table
-            row={searchTable(search)}
+            search={search}
+            userlist={userlist}
+            setUserlist={setUserlist}
           />
         </TableWrapper>
       </LeftContainer>
