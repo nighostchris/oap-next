@@ -11,7 +11,7 @@ const RootTable = styled('div', {
 const StudentList = styled('div', {
   display: 'flex',
   overflowY: 'scroll',
-  maxHeight: '600px',
+  maxHeight: '400px',
   height: 'fit-content',
   flexDirection: 'column',
   '::-webkit-scrollbar': {
@@ -23,6 +23,9 @@ const StudentList = styled('div', {
     borderRadius: '.8rem',
     backgroundColor: 'rgba(128, 128, 128, .7)',
     boxShadow: 'inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)',
+  },
+  '@media (min-height: 800px)': {
+    maxHeight: '600px',
   },
 });
 

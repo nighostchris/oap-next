@@ -9,11 +9,23 @@ import { UserlistProps } from '../../utils/interface';
 const Root = styled('div', {
   width: '100%',
   display: 'flex',
+  overflowY: 'auto',
+  marginTop: '20px',
   flexDirection: 'column',
+  '::-webkit-scrollbar': {
+    width: '.8rem',
+  },
+  '::-webkit-scrollbar-thumb': {
+    backgroundClip: 'padding-box',
+    border: '2px solid transparent',
+    borderRadius: '.8rem',
+    backgroundColor: 'rgba(128, 128, 128, .7)',
+    boxShadow: 'inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)',
+  },
 });
 
 const Subtitle = styled(Label1, {
-  margin: '20px 0 10px 0',
+  marginBottom: '10px',
 });
 
 const SubLabel = styled(Label2, {
@@ -22,6 +34,7 @@ const SubLabel = styled(Label2, {
 
 const StyledButton = styled(Button, {
   marginTop: '30px',
+  marginBottom: '20px',
   padding: '3px !important',
   fontSize: '14px !important',
   borderRadius: '5px !important',

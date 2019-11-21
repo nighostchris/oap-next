@@ -24,3 +24,8 @@ export interface TableProps {
 export interface UserlistProps {
   setUserlist: (value: Array<any> | ((prevVar: Array<any>) => Array<any>)) => void,
 }
+
+export interface AUTCProps {
+  userlist: Array<any>,
+  setUserlist: (value: Array<any> | ((prevVar: Array<any>) => Array<any>)) => void,
+}

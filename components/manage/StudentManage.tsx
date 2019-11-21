@@ -6,6 +6,7 @@ import { Select, Value } from 'baseui/select';
 import { H5, Label2 } from 'baseui/typography';
 import Table from './Table';
 import AddUser from './AddUser';
+import AddUserToCourse from './AddUserToCourse';
 
 const Root = styled('div', {
   width: '100%',
@@ -74,6 +75,18 @@ const BreakLine = styled('div', {
 const SubLabel = styled(Label2, {
   margin: '5px 0',
 });
+
+/*
+const courseData = [{
+  code: '1021',
+  title: 'Introduction to Computer Science',
+  section: 2,
+},
+{
+  code: '2011',
+  title: 'Programming with C++',
+  section: 3,
+}];*/
 
 const mapData = [{
   name: 'Desmond Tsoi',
@@ -197,7 +210,11 @@ const StudentManage: React.FunctionComponent = () => {
           }}
         />
         {
-          type !== undefined ? (checkType('an') && <AddUser setUserlist={setUserlist} />) : undefined
+          type !== undefined && checkType('an') && <AddUser setUserlist={setUserlist} />
+        }
+        {
+          type !== undefined && checkType('atc')
+            && <AddUserToCourse userlist={userlist} setUserlist={setUserlist} />
         }
       </RightContainer>
     </Root>
