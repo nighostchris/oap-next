@@ -1,20 +1,12 @@
-# oap-next (Last Update: 31/10/2019 16:51)
+# oap-next (Last Update: 21/11/2019 18:35)
 oap-next = Next.js implementation of Online Assessment Platform.\
-[Demo](https://oap-next.chrisliupascal.now.sh/)
+[Demo on Student View](https://oap-next.chrisliupascal.now.sh/)
+[Demo on Admin View](https://oap-next-1s0ck7216.now.sh/manage/student)
 
 ### To-Do List
-* [x] Refurnish course assignment view page
-* [x] Build announcement view page
-* [x] Build Grade view page
-* [x] Basic Dark mode
-* [x] Refurnish notification dropdown
-* [x] Refurnish assignment Upload page
-* [x] Build notification page
-* [x] Build conversation page
 * [ ] Finish Input bar at bottom of conversation page
-* [ ] Build specific notification page
-* [x] Assignment Grade Detail page
 * [ ] Responsive Layout Update (Keep updating)
+* [ ] Build Manage Student Page
 
 ### Installation and Run project
 ```sh
