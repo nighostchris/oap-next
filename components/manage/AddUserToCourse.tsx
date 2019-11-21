@@ -28,18 +28,27 @@ const StyledButton = styled(Button, {
   backgroundColor: '#1e88e5 !important',
 });
 
-const AddUserToCourse: React.FunctionComponent<AUTCProps> = ({ userlist, courseData }) => {
+const AddUserToCourse: React.FunctionComponent<AUTCProps> = (
+  { userlist, courseData, setUserlist },
+) => {
   const processedUserList: any[] = [];
   const processedCourseData: any[] = [];
+
   userlist.forEach((u: any, i: number) => {
-    processedUserList.push({ id: u.name, e: i.toString(), reg: u.reg });
+    processedUserList.push({ ...u, e: i.toString() });
   });
   courseData.forEach((c: any, i: number) => {
-    processedCourseData.push({ id: `COMP${c.code} ${c.title}`, e: i.toString(), code: c.code });
+    processedCourseData.push({
+      id: `COMP${c.code} ${c.title}`,
+      e: i.toString(),
+      code: c.code,
+      section: c.section,
+    });
   });
 
   const [user, setUser] = React.useState<Value>([]);
   const [course, setCourse] = React.useState<Value>([]);
+  const [section, setSection] = React.useState<Value>([]);
 
   const filterCourse = () => {
     if (user.length === 0) {
@@ -56,16 +65,28 @@ const AddUserToCourse: React.FunctionComponent<AUTCProps> = ({ userlist, courseD
     });
   };
 
-  /*
+  const listSection = () => {
+    const sectionArray: any[] = [];
+    if (course.length === 0) {
+      return sectionArray;
+    }
+    for (let i = 1; i <= course[0].section; i++) {
+      sectionArray.push({ id: `L${i}`, e: i.toString() });
+    }
+    return sectionArray;
+  };
+
   const updateUserList = () => {
-    const newUser = {
-      name: nname,
-      email: nemail,
-      id: nid,
-      role: nrole[0].e === 's' ? 1 : nrole[0].e === 'ts' ? 2 : 3,
-    };
-    setUserlist((oldArray: Array<any>) => [...oldArray, newUser]);
-  };*/
+    const temp = userlist;
+    const noE = user[0];
+    delete noE.e;
+    noE.reg.push({ code: course[0].code, section: Number(section[0].e) });
+    temp[temp.findIndex((el) => el.id === user[0].id)] = noE;
+    setUserlist([...temp]);
+    setUser([]);
+    setCourse([]);
+    setSection([]);
+  };
 
   return (
     <Root>
@@ -96,7 +117,7 @@ const AddUserToCourse: React.FunctionComponent<AUTCProps> = ({ userlist, courseD
         options={
           processedUserList
         }
-        labelKey="id"
+        labelKey="name"
         valueKey="e"
         onChange={({ value }) => setUser(value)}
         value={user}
@@ -126,6 +147,7 @@ const AddUserToCourse: React.FunctionComponent<AUTCProps> = ({ userlist, courseD
         }
         labelKey="id"
         valueKey="e"
+        disabled={user.length === 0}
         onChange={({ value }) => setCourse(value)}
         value={course}
         overrides={{
@@ -136,7 +158,38 @@ const AddUserToCourse: React.FunctionComponent<AUTCProps> = ({ userlist, courseD
           },
         }}
       />
-      <StyledButton>
+      <SubLabel
+        overrides={{
+          Block: {
+            style: {
+              fontSize: '15px',
+            },
+          },
+        }}
+      >
+        Section
+      </SubLabel>
+      <Select
+        size={SIZE.compact}
+        options={
+          listSection()
+        }
+        disabled={course.length === 0}
+        labelKey="id"
+        valueKey="e"
+        onChange={({ value }) => setSection(value)}
+        value={section}
+        overrides={{
+          Root: {
+            style: {
+              outline: 'teal .5px solid',
+            },
+          },
+        }}
+      />
+      <StyledButton
+        onClick={() => updateUserList()}
+      >
         Submit
       </StyledButton>
     </Root>
