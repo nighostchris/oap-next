@@ -28,13 +28,33 @@ const StyledButton = styled(Button, {
   backgroundColor: '#1e88e5 !important',
 });
 
-const AddUserToCourse: React.FunctionComponent<AUTCProps> = ({ userlist }) => {
-  const processed: any[] = [];
+const AddUserToCourse: React.FunctionComponent<AUTCProps> = ({ userlist, courseData }) => {
+  const processedUserList: any[] = [];
+  const processedCourseData: any[] = [];
   userlist.forEach((u: any, i: number) => {
-    processed.push({ id: u.name, e: i.toString() });
+    processedUserList.push({ id: u.name, e: i.toString(), reg: u.reg });
+  });
+  courseData.forEach((c: any, i: number) => {
+    processedCourseData.push({ id: `COMP${c.code} ${c.title}`, e: i.toString(), code: c.code });
   });
 
   const [user, setUser] = React.useState<Value>([]);
+  const [course, setCourse] = React.useState<Value>([]);
+
+  const filterCourse = () => {
+    if (user.length === 0) {
+      return processedCourseData;
+    }
+    return processedCourseData.filter((c) => {
+      let check = true;
+      user[0].reg.forEach((c2: any) => {
+        if (c2.code === c.code) {
+          check = false;
+        }
+      });
+      return check;
+    });
+  };
 
   /*
   const updateUserList = () => {
@@ -74,12 +94,40 @@ const AddUserToCourse: React.FunctionComponent<AUTCProps> = ({ userlist }) => {
       <Select
         size={SIZE.compact}
         options={
-          processed
+          processedUserList
         }
         labelKey="id"
         valueKey="e"
         onChange={({ value }) => setUser(value)}
         value={user}
+        overrides={{
+          Root: {
+            style: {
+              outline: 'teal .5px solid',
+            },
+          },
+        }}
+      />
+      <SubLabel
+        overrides={{
+          Block: {
+            style: {
+              fontSize: '15px',
+            },
+          },
+        }}
+      >
+        Course
+      </SubLabel>
+      <Select
+        size={SIZE.compact}
+        options={
+          filterCourse()
+        }
+        labelKey="id"
+        valueKey="e"
+        onChange={({ value }) => setCourse(value)}
+        value={course}
         overrides={{
           Root: {
             style: {

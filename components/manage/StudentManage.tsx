@@ -76,7 +76,6 @@ const SubLabel = styled(Label2, {
   margin: '5px 0',
 });
 
-/*
 const courseData = [{
   code: '1021',
   title: 'Introduction to Computer Science',
@@ -86,49 +85,65 @@ const courseData = [{
   code: '2011',
   title: 'Programming with C++',
   section: 3,
-}];*/
+}];
 
 const mapData = [{
   name: 'Desmond Tsoi',
   email: 'desmond',
   id: '12345678',
   role: 3,
+  reg: [{
+    code: '1021',
+    section: 1,
+  }],
 },
 {
   name: 'Wallace',
   email: 'wallm',
   id: '27587374',
   role: 2,
+  reg: [{
+    code: '1021',
+    section: 1,
+  }],
 },
 {
   name: 'Testing',
   email: 'testing',
   id: '22063948',
   role: 1,
+  reg: [{
+    code: '1021',
+    section: 1,
+  }],
 },
 {
   name: 'Test',
   email: 'test',
   id: '29582012',
   role: 1,
+  reg: [],
 },
 {
   name: 'Kris',
   email: 'kristopher',
   id: '57389402',
   role: 3,
+  reg: [],
 },
 {
   name: 'Testing',
   email: 'testing123',
   id: '22743948',
   role: 1,
+  reg: [],
 },
 {
   name: 'Testing',
   email: 'testing456',
   id: '22496182',
   role: 1,
+  reg: [],
 }];
 
 const StudentManage: React.FunctionComponent = () => {
@@ -214,7 +229,13 @@ const StudentManage: React.FunctionComponent = () => {
         }
         {
           type !== undefined && checkType('atc')
-            && <AddUserToCourse userlist={userlist} setUserlist={setUserlist} />
+            && (
+              <AddUserToCourse
+                userlist={userlist}
+                setUserlist={setUserlist}
+                courseData={courseData}
+              />
+            )
         }
       </RightContainer>
     </Root>

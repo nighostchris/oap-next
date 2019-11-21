@@ -27,5 +27,6 @@ export interface UserlistProps {
 
 export interface AUTCProps {
   userlist: Array<any>,
+  courseData: Array<any>,
   setUserlist: (value: Array<any> | ((prevVar: Array<any>) => Array<any>)) => void,
 }
