@@ -7,6 +7,7 @@ import { H5, Label2 } from 'baseui/typography';
 import Table from './Table';
 import AddUser from './AddUser';
 import AddUserToCourse from './AddUserToCourse';
+import RemoveFromCourse from './RemoveFromCourse';
 
 const Root = styled('div', {
   width: '100%',
@@ -207,7 +208,6 @@ const StudentManage: React.FunctionComponent = () => {
           options={[
             { id: 'Add New', e: 'an' },
             { id: 'Add to Course', e: 'atc' },
-            { id: 'Remove', e: 'r' },
             { id: 'Remove from Course', e: 'rfc' },
             { id: 'Change Section', e: 'cs' },
           ]}
@@ -236,6 +236,15 @@ const StudentManage: React.FunctionComponent = () => {
                 courseData={courseData}
               />
             )
+        }
+        {
+          type !== undefined && checkType('rfc')
+          && (
+            <RemoveFromCourse
+              userlist={userlist}
+              setUserlist={setUserlist}
+            />
+          )
         }
       </RightContainer>
     </Root>

@@ -30,3 +30,8 @@ export interface AUTCProps {
   courseData: Array<any>,
   setUserlist: (value: Array<any> | ((prevVar: Array<any>) => Array<any>)) => void,
 }
+
+export interface RFCProps {
+  userlist: Array<any>,
+  setUserlist: (value: Array<any> | ((prevVar: Array<any>) => Array<any>)) => void,
+}
