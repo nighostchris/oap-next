@@ -49,7 +49,7 @@ const RemoveFromCourse: React.FunctionComponent<RFCProps> = (
 
     user[0].reg.forEach((c: any, i: any) => {
       courseList.push({
-        id: `COMP${c.code} ${c.title}`,
+        id: `COMP${c.code}`,
         e: i.toString(),
       });
     });
@@ -59,9 +59,14 @@ const RemoveFromCourse: React.FunctionComponent<RFCProps> = (
 
   const updateUserList = () => {
     const temp = userlist;
-    const noE = user[0];
-    delete noE.e;
-    temp[temp.findIndex((el) => el.id === user[0].id)] = noE;
+    const resultUser = user[0];
+    const targetUser = Number(user[0].e);
+    if (course.length !== 0) {
+      const targetCourse = Number(course[0].e);
+      delete resultUser.e;
+      resultUser.reg.splice(targetCourse, 1);
+      temp[targetUser] = resultUser;
+    }
     setUserlist([...temp]);
     setUser([]);
     setCourse([]);
