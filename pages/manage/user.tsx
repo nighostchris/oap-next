@@ -3,10 +3,10 @@ import { NextPage } from 'next';
 import Layout from '../../components/Layout';
 import StudentManage from '../../components/manage/StudentManage';
 
-const StudentManagePage: NextPage = () => (
+const UserManagePage: NextPage = () => (
   <Layout>
     <StudentManage />
   </Layout>
 );
 
-export default StudentManagePage;
+export default UserManagePage;

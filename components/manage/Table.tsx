@@ -3,6 +3,7 @@ import { styled } from 'baseui';
 import { Label2 } from 'baseui/typography';
 import { Minus } from 'styled-icons/boxicons-regular/Minus';
 import { TableProps } from '../../utils/interface';
+import Link from 'next/link';
 
 const RootTable = styled('div', {
   width: '100%',
@@ -44,6 +45,10 @@ const Row = styled('div', {
   backgroundColor: 'white',
   ':nth-child(odd)': {
     backgroundColor: '#e0e0e0',
+  },
+  ':hover': {
+    cursor: 'pointer',
+    backgroundColor: '#b3b3b3',
   },
 });
 
@@ -134,22 +139,24 @@ const Table: React.FunctionComponent<TableProps> = ({ search, userlist, setUserl
       <StudentList>
         {
           searchTable().map((d, i) => (
-            <Row key={`row-${i}`}>
-              <Cell>{d.name}</Cell>
-              <Cell>{d.email}</Cell>
-              <Cell>{d.id}</Cell>
-              <Cell>
-                {
-                  d.role === 1 ? 'Student' : (d.role === 2 ? 'Teaching Staff' : 'Admin')
-                }
-              </Cell>
-              <ActionCell>
-                <StyledMinus
-                  size={26}
-                  onClick={() => updateRow(d.id)}
-                />
-              </ActionCell>
-            </Row>
+            <Link href={`/manage/user/${d.id}`}>
+              <Row key={`row-${i}`}>
+                <Cell>{d.name}</Cell>
+                <Cell>{d.email}</Cell>
+                <Cell>{d.id}</Cell>
+                <Cell>
+                  {
+                    d.role === 1 ? 'Student' : (d.role === 2 ? 'Teaching Staff' : 'Admin')
+                  }
+                </Cell>
+                <ActionCell>
+                  <StyledMinus
+                    size={26}
+                    onClick={() => updateRow(d.id)}
+                  />
+                </ActionCell>
+              </Row>
+            </Link>
           ))
         }
       </StudentList>
