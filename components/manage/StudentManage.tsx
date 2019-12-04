@@ -8,6 +8,8 @@ import Table from './Table';
 import AddUser from './AddUser';
 import AddUserToCourse from './AddUserToCourse';
 import RemoveFromCourse from './RemoveFromCourse';
+import ChangeSection from './ChangeSection';
+import Popup from '../Popup';
 
 const Root = styled('div', {
   width: '100%',
@@ -149,6 +151,7 @@ const mapData = [{
 
 const StudentManage: React.FunctionComponent = () => {
   const [search, setSearch] = React.useState('');
+  const [isPop, setIsPop] = React.useState(false);
   const [type, setType] = React.useState<Value>([]);
   const [userlist, setUserlist] = React.useState([...mapData]);
 
@@ -162,6 +165,9 @@ const StudentManage: React.FunctionComponent = () => {
 
   return (
     <Root>
+      <Popup
+        isPop={isPop}
+      />
       <LeftContainer>
         <SearchContainer>
           <StyledSearch size={26} />
@@ -243,6 +249,17 @@ const StudentManage: React.FunctionComponent = () => {
             <RemoveFromCourse
               userlist={userlist}
               setUserlist={setUserlist}
+            />
+          )
+        }
+        {
+          type !== undefined && checkType('cs')
+          && (
+            <ChangeSection
+              userlist={userlist}
+              setUserlist={setUserlist}
+              courseData={courseData}
+              setIsPop={setIsPop}
             />
           )
         }

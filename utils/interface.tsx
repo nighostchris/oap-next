@@ -35,3 +35,14 @@ export interface RFCProps {
   userlist: Array<any>,
   setUserlist: (value: Array<any> | ((prevVar: Array<any>) => Array<any>)) => void,
 }
+
+export interface CSProps {
+  userlist: Array<any>,
+  courseData: Array<any>,
+  setIsPop: (value: boolean | ((prevVar: boolean) => boolean)) => void,
+  setUserlist: (value: Array<any> | ((prevVar: Array<any>) => Array<any>)) => void,
+}
+
+export interface PopupProps {
+  isPop: boolean,
+}
