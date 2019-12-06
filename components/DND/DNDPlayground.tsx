@@ -2,6 +2,8 @@ import * as React from 'react';
 import { styled } from 'baseui';
 import { Button } from 'baseui/button';
 import { Label1, Label3, Label4 } from 'baseui/typography';
+import RootBoard from './RootBoard';
+import Box from './Box';
 
 const Root = styled('div', {
   width: '100%',
@@ -31,6 +33,12 @@ const Menu = styled('div', {
   position: 'absolute',
   height: 'calc(100% - 64px)',
   borderRight: '1px solid rgba(0, 0, 0, .2)',
+});
+
+const Board = styled('div', {
+  marginLeft: '300px',
+  width: 'calc(100% - 300px)',
+  height: 'calc(100% - 64px)',
 });
 
 const SubNav = styled('div', {
@@ -250,7 +258,11 @@ const DNDPlayground: React.FunctionComponent = () => {
             }
           </TabWrapper>
         </SubNav>
+        <Box />
       </Menu>
+      <Board>
+        <RootBoard />
+      </Board>
     </Root>
   );
 };
