@@ -1,4 +1,4 @@
-# oap-next (Last Update: 21/11/2019 18:35)
+# oap-next (Last Update: 6/12/2019 16:28)
 oap-next = Next.js implementation of Online Assessment Platform.\
 [Demo on Student View](https://oap-next.chrisliupascal.now.sh/)
 [Demo on Admin View](https://oap-next-1s0ck7216.now.sh/manage/student)

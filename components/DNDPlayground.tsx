@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { styled } from 'baseui';
 import { Button } from 'baseui/button';
-import { Label1, Label3 } from 'baseui/typography';
+import { Label1, Label3, Label4 } from 'baseui/typography';
 
 const Root = styled('div', {
   width: '100%',
@@ -26,11 +26,41 @@ const Header = styled('div', {
 
 const Menu = styled('div', {
   left: '0',
-  width: '250px',
+  width: '300px',
   background: 'white',
   position: 'absolute',
   height: 'calc(100% - 64px)',
   borderRight: '1px solid rgba(0, 0, 0, .2)',
+});
+
+const SubNav = styled('div', {
+  display: 'flex',
+  flexDirection: 'row',
+  borderBottom: '1px solid rgba(0, 0, 0, .2)',
+});
+
+const TabWrapper = styled('div', {
+  display: 'flex',
+  textAlign: 'center',
+  flexDirection: 'column',
+  width: 'calc((100% - 40px) / 3)',
+});
+
+const Tab = styled('div', {
+  width: '100%',
+  height: '60px',
+  lineHeight: '60px',
+  ':hover': {
+    cursor: 'pointer',
+  },
+});
+
+const TabUnderline = styled('div', {
+  content: '',
+  width: '100%',
+  height: '4px',
+  backgroundColor: '#217CE8',
+  marginTop: '-4px',
 });
 
 const TitleGroup = styled('div', {
@@ -56,7 +86,19 @@ const StyledButton = styled(GeneralButton, {
   borderRadius: '5px !important',
 });
 
+const StyledTabTitle1 = styled(Label4, {
+  height: '100%',
+  lineHeight: '28px',
+});
+
+const StyledTabTitle2 = styled(Label4, {
+  height: '100%',
+  lineHeight: '56px',
+});
+
 const DNDPlayground: React.FunctionComponent = () => {
+  const [menuCtrl, setMenuCtrl] = React.useState(0);
+
   return (
     <Root>
       <Header>
@@ -122,7 +164,92 @@ const DNDPlayground: React.FunctionComponent = () => {
         </ButtonGroup>
       </Header>
       <Menu>
-
+        <SubNav>
+          <TabWrapper>
+            <Tab
+              onClick={() => setMenuCtrl(0)}
+            >
+              <StyledTabTitle1
+                overrides={{
+                  Block: {
+                    style: {
+                      fontWeight: 'bold',
+                      color: menuCtrl === 0 ? 'black' : '#808292',
+                    },
+                  },
+                }}
+              >
+                Original Variables
+              </StyledTabTitle1>
+            </Tab>
+            {
+              menuCtrl === 0 && <TabUnderline />
+            }
+          </TabWrapper>
+          <TabWrapper>
+            <Tab
+              onClick={() => setMenuCtrl(1)}
+            >
+              <StyledTabTitle1
+                overrides={{
+                  Block: {
+                    style: {
+                      fontWeight: 'bold',
+                      color: menuCtrl === 1 ? 'black' : '#808292',
+                    },
+                  },
+                }}
+              >
+                New Variables
+              </StyledTabTitle1>
+            </Tab>
+            {
+              menuCtrl === 1 && <TabUnderline />
+            }
+          </TabWrapper>
+          <TabWrapper>
+            <Tab
+              onClick={() => setMenuCtrl(2)}
+            >
+              <StyledTabTitle2
+                overrides={{
+                  Block: {
+                    style: {
+                      fontWeight: 'bold',
+                      color: menuCtrl === 2 ? 'black' : '#808292',
+                    },
+                  },
+                }}
+              >
+                Functions
+              </StyledTabTitle2>
+            </Tab>
+            {
+              menuCtrl === 2 && <TabUnderline />
+            }
+          </TabWrapper>
+          <TabWrapper>
+            <Tab
+              onClick={() => setMenuCtrl(3)}
+            >
+              <StyledTabTitle2
+                overrides={{
+                  Block: {
+                    style: {
+                      fontWeight: 'bold',
+                      color: menuCtrl === 3 ? 'black' : '#808292',
+                    },
+                  },
+                }}
+              >
+                Operators
+              </StyledTabTitle2>
+            </Tab>
+            {
+              menuCtrl === 3 && <TabUnderline />
+            }
+          </TabWrapper>
+        </SubNav>
       </Menu>
     </Root>
   );
