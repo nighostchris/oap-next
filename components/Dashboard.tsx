@@ -1,8 +1,7 @@
 import * as React from 'react';
-import Link from 'next/link';
 import { styled } from 'baseui';
-import { Card } from 'baseui/card';
-import { Display4, Label1, Label2 } from 'baseui/typography';
+import { Display4 } from 'baseui/typography';
+import Card from './global/Card';
 
 const CardContainer = styled('div', {
   paddingTop: '40px',
@@ -25,17 +24,6 @@ const CardContainer = styled('div', {
   },
 });
 
-const Title = styled('h1', ({ $theme }) => ({
-  fontSize: '20px',
-  fontWeight: 'bold',
-  lineHeight: '26px',
-  marginBottom: '8px',
-  color: $theme.colors.accent50,
-  ':hover': {
-    cursor: 'pointer',
-  },
-}));
-
 const CardRow = styled('div', {
   display: 'flex',
   flexWrap: 'wrap',
@@ -45,27 +33,6 @@ const CardRow = styled('div', {
     flexDirection: 'column',
     alignItems: 'center',
   },
-});
-
-const StyledCard = styled(Card, {
-  width: '250px',
-  border: 'unset',
-  margin: '25px 40px 25px 0',
-  backgroundColor: '#e0e0e0',
-  boxShadow: 'rgb(0, 0, 0, 0.5) 0px 1px 4px',
-  '@media (min-width: 320px) and (max-width: 480px)': {
-    margin: '25px 0',
-  },
-});
-
-const StyledLabel1 = styled(Label1, {
-  color: '#757575 !important',
-  fontWeight: 600,
-});
-
-const StyledLabel2 = styled(Label2, {
-  color: '#757575 !important',
-  fontWeight: 600,
 });
 
 const StyledDisplay4 = styled(Display4, {
@@ -110,7 +77,7 @@ const assignments = [{
 {
   code: '2012',
   number: '2',
-  title: 'Bank System',
+  title: 'Bank System Design',
   dueDate: new Date(2019, 10, 15),
 },
 {
@@ -148,26 +115,14 @@ const Dashboard: React.FunctionComponent = () => (
     <CardRow>
       {
         courses.map((d, index) => (
-          <StyledCard
+          <Card
             key={`${d.code}-${index}`}
-            overrides={{
-              Root: {
-                style: {
-                  marginRight: '40px',
-                },
-              },
-            }}
-          >
-            <Link href={`/course/comp${d.code}`}>
-              <Title>{`COMP ${d.code} ${d.title}`}</Title>
-            </Link>
-            <StyledLabel1>
-              {d.section}
-            </StyledLabel1>
-            <StyledLabel2>
-              {d.instructor}
-            </StyledLabel2>
-          </StyledCard>
+            type="team"
+            title={`COMP ${d.code} ${d.title}`}
+            link="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
+            content={`${d.section} - ${d.instructor}`}
+            teamfooter=" Updated 2hr ago"
+          />
         ))
       }
     </CardRow>
@@ -185,29 +140,13 @@ const Dashboard: React.FunctionComponent = () => (
     <CardRow>
       {
         assignments.map((d, index) => (
-          <StyledCard
+          <Card
             key={`${d.code}-${index}`}
-            overrides={{
-              Root: {
-                style: {
-                  marginRight: '40px',
-                },
-              },
-            }}
-          >
-            <Link href={`/assignment/${d.number}`}>
-              <Title>{`Assignment ${d.number} ${d.title}`}</Title>
-            </Link>
-            <StyledLabel1>
-              {`COMP ${d.code}`}
-            </StyledLabel1>
-            <StyledLabel2>
-              {`
-                Due Date:
-                  ${d.dueDate.getFullYear()}-${d.dueDate.getMonth() + 1}-${d.dueDate.getDate()}
-              `}
-            </StyledLabel2>
-          </StyledCard>
+            type="footer"
+            title={`Assignment ${d.number} ${d.title}`}
+            content={`COMP ${d.code}`}
+            footer={`Due Date: ${d.dueDate.getFullYear()}-${d.dueDate.getMonth() + 1}-${d.dueDate.getDate()}`}
+          />
         ))
       }
     </CardRow>

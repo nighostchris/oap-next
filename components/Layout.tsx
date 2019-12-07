@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { styled, BaseProvider } from 'baseui';
-import SideNav from './SideNav';
+// import SideNav from './SideNav';
 import MobileSideNav from './MobileSideNav';
 import HeaderBar from './HeaderBar';
 import { lightTheme, darkTheme } from '../utils/theme';
@@ -40,10 +40,6 @@ const Layout: React.FunctionComponent = ({ children }) => {
           //   maxWidth: navbarOpen ? '200px' : '40px',
           // }}
         >
-          <SideNav
-            // navbarOpen={navbarOpen}
-            // setNavBarOpen={setNavBarOpen}
-          />
           <MobileSideNav
             mobileNavBarOpen={mobileNavBarOpen}
             setMobileNavBarOpen={setMobileNavBarOpen}
