@@ -6,8 +6,6 @@ import Card from './global/Card';
 const CardContainer = styled('div', {
   paddingTop: '40px',
   paddingLeft: '60px',
-  overflowY: 'auto',
-  height: 'calc(100% - 104px)',
   '::-webkit-scrollbar': {
     width: '.8rem',
   },
