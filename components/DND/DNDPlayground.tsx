@@ -12,7 +12,7 @@ const Root = styled('div', {
   backgroundRepeat: 'repeat',
   height: 'calc(100% - 64px)',
   backgroundSize: '30px 30px',
-  backgroundImage: 'url("/static/images/tile.png")',
+  backgroundImage: 'url("/images/tile.png")',
 });
 
 const Header = styled('div', {

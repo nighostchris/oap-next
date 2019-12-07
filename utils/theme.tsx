@@ -8,7 +8,7 @@ export const lightTheme = createTheme(
     {
       colors: {
         // Header Bar Background
-        primary: '#303f9f',
+        primary: '#2C7BE5',
         // Side Nav Background
         primary50: '#607d8b',
         // Side Nav List Item on hover

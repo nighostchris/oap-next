@@ -2,6 +2,7 @@ import * as React from 'react';
 import Router from 'next/router';
 import { styled } from 'baseui';
 import { Input } from 'baseui/input';
+import Button from '../global/Button';
 
 const Root = styled('div', {
   height: '100vh',
@@ -27,21 +28,21 @@ const RightContainer = styled('div', {
   },
 });
 
-const Button = styled('button', {
-  padding: '8px',
-  color: 'white',
-  border: 'unset',
-  outline: 'none',
-  fontSize: '14px',
-  minWidth: '150px',
-  marginTop: '40px',
-  width: 'fit-content',
-  fontWeight: 'bolder',
-  background: '#1e88e5',
-  ':hover': {
-    cursor: 'pointer',
-  },
-});
+// const Button = styled('button', {
+//   padding: '8px',
+//   color: 'white',
+//   border: 'unset',
+//   outline: 'none',
+//   fontSize: '14px',
+//   minWidth: '150px',
+//   marginTop: '40px',
+//   width: 'fit-content',
+//   fontWeight: 'bolder',
+//   background: '#1e88e5',
+//   ':hover': {
+//     cursor: 'pointer',
+//   },
+// });
 
 const LoginLayout: React.FunctionComponent = () => {
   const [username, setUsername] = React.useState('');
@@ -113,6 +114,8 @@ const LoginLayout: React.FunctionComponent = () => {
           }}
         />
         <Button
+          flavor="success"
+          size="small"
           onClick={login}
         >
           Login
