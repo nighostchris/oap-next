@@ -1,12 +1,9 @@
-# oap-next (Last Update: 6/12/2019 16:28)
+# oap-next (Last Update: 7/12/2019 18:09)
 oap-next = Next.js implementation of Online Assessment Platform.\
-[Demo on Student View](https://oap-next.chrisliupascal.now.sh/)
-[Demo on Admin View](https://oap-next-1s0ck7216.now.sh/manage/student)
+[Demo on Student View](https://oap-next.chrisliupascal.now.sh/dashboard)
 
 ### To-Do List
-* [ ] Finish Input bar at bottom of conversation page
-* [ ] Responsive Layout Update (Keep updating)
-* [ ] Build Manage Student Page
+* [ ] Keep updating every page with theme of Dashkit
 
 ### Installation and Run project
 ```sh
