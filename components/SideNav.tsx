@@ -1,16 +1,4 @@
 import React, { useState, Fragment } from 'react';
-// import Link from 'next/link';
-// import { styled } from 'baseui';
-// import { useRouter } from 'next/router';
-// import { Paragraph3 } from 'baseui/typography';
-// import { Book } from 'styled-icons/fa-solid/Book';
-// import { Cubes } from 'styled-icons/fa-solid/Cubes';
-// import { Settings } from 'styled-icons/material/Settings';
-// import { LeftArrow } from 'styled-icons/boxicons-solid/LeftArrow';
-// import { RightArrow } from 'styled-icons/boxicons-solid/RightArrow';
-// import { Notifications } from 'styled-icons/material/Notifications';
-// import { Conversation } from 'styled-icons/boxicons-solid/Conversation';
-// import { SideNavProps } from '../utils/interface';
 
 interface Link {
   icon?: string
@@ -107,83 +95,6 @@ const Sidebar: React.SFC<SidebarProps> = ({ navigations }) => (
     </div>
   </div>
 );
-
-// const SideNavBar = styled('div', ({ $theme }) => ({
-//   height: '100vh',
-//   backgroundColor: $theme.colors.primary50,
-//   '@media (min-width: 320px) and (max-width: 480px)': {
-//     display: 'none',
-//   },
-// }));
-
-// const LogoContainer = styled('div', ({ $theme }) => ({
-//   height: '64px',
-//   display: 'flex',
-//   alignItems: 'center',
-//   backgroundColor: $theme.colors.primary,
-//   justifyContent: 'space-between',
-// }));
-
-// const StyledLogo = styled(Cubes, {
-//   color: '#e0e0e0',
-//   marginLeft: '20px',
-//   ':hover': {
-//     cursor: 'pointer',
-//   },
-// });
-
-// const StyledParagraph3 = styled(Paragraph3, {
-//   padding: '0 0 10px 0',
-//   width: '80%',
-//   marginBlockStart: '0',
-//   marginBlockEnd: '0',
-// });
-
-// const ListItemText = styled(Paragraph3, {
-//   padding: '10px 0 10px 8px',
-//   marginBlockStart: '0',
-//   marginBlockEnd: '0',
-// });
-
-// const ListItem = styled('div', ({ $theme }) => ({
-//   width: '100%',
-//   display: 'flex',
-//   alignItems: 'center',
-//   ':hover': {
-//     cursor: 'pointer',
-//     backgroundColor: $theme.colors.primary100,
-//   },
-// }));
-
-// const StyledBook = styled(Book, {
-//   paddingLeft: '10%',
-// });
-
-// const NavSection = styled('div', {
-//   display: 'flex',
-//   margin: '20px 0px',
-//   alignItems: 'center',
-//   flexDirection: 'column',
-// });
-
-// const Breakline = styled('div', {
-//   height: '1px',
-//   width: '90%',
-//   backgroundColor: '#b0bec5',
-//   margin: '8px 0 0 0',
-// });
-
-// const StyledNotifications = styled(Notifications, {
-//   paddingLeft: '10%',
-// });
-
-// const StyledSettings = styled(Settings, {
-//   paddingLeft: '10%',
-// });
-
-// const StyledConversation = styled(Conversation, {
-//   paddingLeft: '10%',
-// });
 
 // const courses = [{
 //   code: 'comp1021',
