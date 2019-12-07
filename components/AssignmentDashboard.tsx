@@ -11,6 +11,7 @@ import { Error } from 'styled-icons/boxicons-regular/Error';
 import { XCircle } from 'styled-icons/boxicons-regular/XCircle';
 import { CheckCircle } from 'styled-icons/boxicons-regular/CheckCircle';
 import { printDate } from '../utils/helper';
+import PageHeader from './global/PageHeader';
 
 const Dashboard = styled('div', {
   display: 'flex',
@@ -282,17 +283,100 @@ submission = [...submission, ...submission, ...submission, ...submission];
 
 const CourseDashboard: React.FunctionComponent = () => {
   return (
-    <Dashboard>
-      <UploadContainer>
-        <AssignmentDetails>
-          <CourseCode>{String(data.courseid).toUpperCase()}</CourseCode>
-          <AssignmentID>
-            {`Assignment ${String(data.id).toUpperCase()}`}
-          </AssignmentID>
-          <AssignmentTitle>
-            {data.title}
-          </AssignmentTitle>
-          <Label2
+    <>
+      <PageHeader />
+      <Dashboard>
+        <UploadContainer>
+          <AssignmentDetails>
+            <CourseCode>{String(data.courseid).toUpperCase()}</CourseCode>
+            <AssignmentID>
+              {`Assignment ${String(data.id).toUpperCase()}`}
+            </AssignmentID>
+            <AssignmentTitle>
+              {data.title}
+            </AssignmentTitle>
+            <Label2
+              overrides={{
+                Block: {
+                  style: {
+                    fontWeight: 'bold',
+                  },
+                },
+              }}
+            >
+              {`Due: ${printDate(data.dueDate)}`}
+            </Label2>
+          </AssignmentDetails>
+          <FileUploaderWrapper>
+            <FileUploader
+              overrides={{
+                Root: {
+                  style: {
+                    width: '100%',
+                  },
+                },
+              }}
+            />
+          </FileUploaderWrapper>
+          <TabContainer>
+            <StyledButton>Upload Via OneDrive</StyledButton>
+            <StyledButton>Upload Via Dropbox</StyledButton>
+            <StyledButton>Upload Via Google Drive</StyledButton>
+          </TabContainer>
+        </UploadContainer>
+        <SubmissionContainer>
+          <Tag>Submission Details</Tag>
+          <CategoryContainer>
+            {
+              ['Filename', 'Size', 'Time', 'Status'].map((c) => (
+                <Category>
+                  <Label2
+                    overrides={{
+                      Block: {
+                        style: {
+                          fontWeight: 'bold',
+                        },
+                      },
+                    }}
+                  >
+                    {c}
+                  </Label2>
+                </Category>
+              ))
+            }
+          </CategoryContainer>
+          <BreaklineWrapper>
+            <Breakline />
+          </BreaklineWrapper>
+          <RecordOuterWrapper>
+            {
+              submission.map((s, index) => (
+                <RecordContainer key={`sub-${index}`}>
+                  <FileWrapper>
+                    <ZipLogo size={20} />
+                    <SubName>{s.name}</SubName>
+                  </FileWrapper>
+                  <SubSize>{s.size}</SubSize>
+                  <SubTime>
+                    {`
+                      ${s.time.getHours()}:${s.time.getMinutes()}:${s.time.getSeconds()}
+                    `}
+                  </SubTime>
+                  <Link href="/submission/1">
+                    <StatusLogo>
+                      { s.status === 'success' && <CheckCircle size={24} color="green" /> }
+                      { s.status === 'warning' && <Error size={24} color="#f9a825" /> }
+                      { s.status === 'error' && <XCircle size={24} color="red" /> }
+                    </StatusLogo>
+                  </Link>
+                </RecordContainer>
+              ))
+            }
+          </RecordOuterWrapper>
+        </SubmissionContainer>
+        <StatusBar>
+          <CheckCircle size={24} color="green" />
+          <Description
             overrides={{
               Block: {
                 style: {
@@ -301,115 +385,35 @@ const CourseDashboard: React.FunctionComponent = () => {
               },
             }}
           >
-            {`Due: ${printDate(data.dueDate)}`}
-          </Label2>
-        </AssignmentDetails>
-        <FileUploaderWrapper>
-          <FileUploader
+            Successful
+          </Description>
+          <Error size={24} color="#f9a825" />
+          <Description
             overrides={{
-              Root: {
+              Block: {
                 style: {
-                  width: '100%',
+                  fontWeight: 'bold',
                 },
               },
             }}
-          />
-        </FileUploaderWrapper>
-        <TabContainer>
-          <StyledButton>Upload Via OneDrive</StyledButton>
-          <StyledButton>Upload Via Dropbox</StyledButton>
-          <StyledButton>Upload Via Google Drive</StyledButton>
-        </TabContainer>
-      </UploadContainer>
-      <SubmissionContainer>
-        <Tag>Submission Details</Tag>
-        <CategoryContainer>
-          {
-            ['Filename', 'Size', 'Time', 'Status'].map((c) => (
-              <Category>
-                <Label2
-                  overrides={{
-                    Block: {
-                      style: {
-                        fontWeight: 'bold',
-                      },
-                    },
-                  }}
-                >
-                  {c}
-                </Label2>
-              </Category>
-            ))
-          }
-        </CategoryContainer>
-        <BreaklineWrapper>
-          <Breakline />
-        </BreaklineWrapper>
-        <RecordOuterWrapper>
-          {
-            submission.map((s, index) => (
-              <RecordContainer key={`sub-${index}`}>
-                <FileWrapper>
-                  <ZipLogo size={20} />
-                  <SubName>{s.name}</SubName>
-                </FileWrapper>
-                <SubSize>{s.size}</SubSize>
-                <SubTime>
-                  {`
-                    ${s.time.getHours()}:${s.time.getMinutes()}:${s.time.getSeconds()}
-                  `}
-                </SubTime>
-                <Link href="/submission/1">
-                  <StatusLogo>
-                    { s.status === 'success' && <CheckCircle size={24} color="green" /> }
-                    { s.status === 'warning' && <Error size={24} color="#f9a825" /> }
-                    { s.status === 'error' && <XCircle size={24} color="red" /> }
-                  </StatusLogo>
-                </Link>
-              </RecordContainer>
-            ))
-          }
-        </RecordOuterWrapper>
-      </SubmissionContainer>
-      <StatusBar>
-        <CheckCircle size={24} color="green" />
-        <Description
-          overrides={{
-            Block: {
-              style: {
-                fontWeight: 'bold',
+          >
+            Warning
+          </Description>
+          <XCircle size={24} color="red" />
+          <Description
+            overrides={{
+              Block: {
+                style: {
+                  fontWeight: 'bold',
+                },
               },
-            },
-          }}
-        >
-          Successful
-        </Description>
-        <Error size={24} color="#f9a825" />
-        <Description
-          overrides={{
-            Block: {
-              style: {
-                fontWeight: 'bold',
-              },
-            },
-          }}
-        >
-          Warning
-        </Description>
-        <XCircle size={24} color="red" />
-        <Description
-          overrides={{
-            Block: {
-              style: {
-                fontWeight: 'bold',
-              },
-            },
-          }}
-        >
-          Error
-        </Description>
-      </StatusBar>
-    </Dashboard>
+            }}
+          >
+            Error
+          </Description>
+        </StatusBar>
+      </Dashboard>
+    </>
   );
 };
 
