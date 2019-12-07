@@ -28,7 +28,7 @@ const RightContainer = styled('div', {
 });
 
 const Layout: React.FunctionComponent = ({ children }) => {
-  const [navbarOpen, setNavBarOpen] = React.useState(true);
+  // const [navbarOpen, setNavBarOpen] = React.useState(true);
   const [themeController, setThemeController] = React.useState(0);
   const [mobileNavBarOpen, setMobileNavBarOpen] = React.useState(false);
 
@@ -36,13 +36,13 @@ const Layout: React.FunctionComponent = ({ children }) => {
     <BaseProvider theme={themeController === 0 ? lightTheme : darkTheme}>
       <RootContainer>
         <LeftContainer
-          style={{
-            maxWidth: navbarOpen ? '200px' : '40px',
-          }}
+          // style={{
+          //   maxWidth: navbarOpen ? '200px' : '40px',
+          // }}
         >
           <SideNav
-            navbarOpen={navbarOpen}
-            setNavBarOpen={setNavBarOpen}
+            // navbarOpen={navbarOpen}
+            // setNavBarOpen={setNavBarOpen}
           />
           <MobileSideNav
             mobileNavBarOpen={mobileNavBarOpen}
@@ -51,8 +51,8 @@ const Layout: React.FunctionComponent = ({ children }) => {
         </LeftContainer>
         <RightContainer
           style={{
-            width: navbarOpen ? 'calc(100% - 200px)' : '97%',
-            marginLeft: navbarOpen ? '200px' : '3%',
+            // width: navbarOpen ? 'calc(100% - 200px)' : '97%',
+            // marginLeft: navbarOpen ? '200px' : '3%',
           }}
         >
           <HeaderBar

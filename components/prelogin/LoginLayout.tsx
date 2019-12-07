@@ -115,7 +115,7 @@ const LoginLayout: React.FunctionComponent = () => {
         />
         <Button
           flavor="success"
-          size="small"
+          outline
           onClick={login}
         >
           Login
