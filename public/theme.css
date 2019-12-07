@@ -10011,12 +10011,14 @@ a:focus, button:focus {
   height: 20%;
   border-radius: 50%; }
 
+/*
 .avatar-online .avatar-img,
 .avatar-offline .avatar-img {
   -webkit-mask-image: url(../img/masks/avatar-status.svg);
           mask-image: url(../img/masks/avatar-status.svg);
   -webkit-mask-size: 100% 100%;
           mask-size: 100% 100%; }
+*/
 
 .avatar-online::before {
   background-color: #00D97E; }

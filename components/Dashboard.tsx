@@ -1,25 +1,9 @@
 import * as React from 'react';
 import { styled } from 'baseui';
-import { Display4 } from 'baseui/typography';
 import Card from './global/Card';
 
-const CardContainer = styled('div', {
-  paddingTop: '40px',
-  paddingLeft: '60px',
-  '::-webkit-scrollbar': {
-    width: '.8rem',
-  },
-  '::-webkit-scrollbar-thumb': {
-    backgroundClip: 'padding-box',
-    border: '2px solid transparent',
-    borderRadius: '.8rem',
-    backgroundColor: 'rgba(128, 128, 128, .7)',
-    boxShadow: 'inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05)',
-  },
-  '@media (min-width: 320px) and (max-width: 480px)': {
-    padding: '0',
-    height: 'calc(100% - 64px)',
-  },
+const Root = styled('div', {
+  padding: '40px 60px 0 60px',
 });
 
 const CardRow = styled('div', {
@@ -29,14 +13,6 @@ const CardRow = styled('div', {
   '@media (min-width: 320px) and (max-width: 480px)': {
     flexDirection: 'column',
     alignItems: 'center',
-  },
-});
-
-const StyledDisplay4 = styled(Display4, {
-  fontSize: '30px',
-  '@media (min-width: 320px) and (max-width: 480px)': {
-    marginTop: '20px',
-    textAlign: 'center',
   },
 });
 
@@ -97,18 +73,8 @@ const assignments = [{
 }];
 
 const Dashboard: React.FunctionComponent = () => (
-  <CardContainer>
-    <StyledDisplay4
-      overrides={{
-        Block: {
-          style: ({ $theme }) => ({
-            color: $theme.colors.accent,
-          }),
-        },
-      }}
-    >
-      Courses
-    </StyledDisplay4>
+  <Root>
+    <h1>Courses</h1>
     <CardRow>
       {
         courses.map((d, index) => (
@@ -123,17 +89,7 @@ const Dashboard: React.FunctionComponent = () => (
         ))
       }
     </CardRow>
-    <StyledDisplay4
-      overrides={{
-        Block: {
-          style: ({ $theme }) => ({
-            color: $theme.colors.accent,
-          }),
-        },
-      }}
-    >
-      Assignments
-    </StyledDisplay4>
+    <h1>Assignments</h1>
     <CardRow>
       {
         assignments.map((d, index) => (
@@ -147,7 +103,7 @@ const Dashboard: React.FunctionComponent = () => (
         ))
       }
     </CardRow>
-  </CardContainer>
+  </Root>
 );
 
 export default Dashboard;

@@ -3,7 +3,7 @@ import { styled } from 'baseui';
 import { NextPage } from 'next';
 import { Avatar } from 'baseui/avatar';
 import { Label2 } from 'baseui/typography';
-import Layout from '../../../components/Layout';
+import Layout from '../../../components/root-layout/Root';
 
 const Container = styled('div', {
   width: '100%',

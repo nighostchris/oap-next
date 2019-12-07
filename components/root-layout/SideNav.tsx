@@ -27,18 +27,20 @@ const NavItem: React.SFC<NavItemProps> = ({ link }) => (
       <i className={link.icon} style={{ marginRight: '8px' }} />
       { link.title }
     </Nav.Link>
-    {link.children
-      && (
-      <Navbar.Collapse>
-        <ul className="nav nav-sm flex-column">
-          { link.children.map((item) => (
-            <Nav.Item key={item.href}>
-              <Nav.Link href={item.href}>{item.title}</Nav.Link>
-            </Nav.Item>
-          ))}
-        </ul>
-      </Navbar.Collapse>
-      )}
+    {
+      link.children
+        && (
+          <Navbar.Collapse>
+            <ul className="nav nav-sm flex-column">
+              { link.children.map((item) => (
+                <Nav.Item key={item.href}>
+                  <Nav.Link href={item.href}>{item.title}</Nav.Link>
+                </Nav.Item>
+              ))}
+            </ul>
+          </Navbar.Collapse>
+        )
+    }
   </Nav.Item>
 );
 
@@ -56,13 +58,17 @@ const Sidebar: React.SFC<SidebarProps> = ({ navigations }) => (
       {
         navigations.map((navigation, index) => (
           <Fragment key={navigation.title}>
-            {navigation.title && <h6 className="navbar-heading">{ navigation.title }</h6>}
+            {
+              navigation.title && <h6 className="navbar-heading">{ navigation.title }</h6>
+            }
             <ul className={`navbar-nav ${navigation.title ? 'mb-md-4' : ''}`}>
               {
                 navigation.links.map((link, i) => <NavItem key={`navitem-${i}`} link={link} />)
               }
             </ul>
-            { index !== navigations.length - 1 && <hr className="navbar-divider my-3" />}
+            {
+              index !== navigations.length - 1 && <hr className="navbar-divider my-3" />
+            }
           </Fragment>
         ))
       }
@@ -76,7 +82,11 @@ const Sidebar: React.SFC<SidebarProps> = ({ navigations }) => (
         <div className="dropup">
           <div className="dropdown-toggle">
             <div className="avatar avatar-sm avatar-online">
-              <img src="./assets/img/avatars/profiles/avatar-1.jpg" className="avatar-img rounded-circle" alt="..." />
+              <img
+                alt="..."
+                className="avatar-img rounded-circle"
+                src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
+              />
             </div>
           </div>
           <div className="dropdown-menu" aria-labelledby="sidebarIconCopy">
@@ -97,22 +107,22 @@ const navigations: Array<Navigation> = [
     links: [
       {
         title: 'COMP1021',
-        href: '/comp1021',
+        href: '/1021',
         icon: 'fas fa-book',
       },
       {
-        title: 'COMP1021',
-        href: '/comp1021',
+        title: 'COMP2011',
+        href: '/2011',
         icon: 'fas fa-book',
       },
       {
-        title: 'COMP1021',
-        href: '/comp1021',
+        title: 'COMP2012',
+        href: '/2012',
         icon: 'fas fa-book',
       },
       {
-        title: 'COMP1021',
-        href: '/comp1021',
+        title: 'COMP3021',
+        href: '/3021',
         icon: 'fas fa-book',
       },
     ],
@@ -138,7 +148,6 @@ const navigations: Array<Navigation> = [
     ],
   },
 ];
-
 
 const SideNav: React.FunctionComponent = () => (
   <Navbar className="navbar-vertical fixed-left adaptive-navbar" expand="md">
