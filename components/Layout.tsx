@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { styled, BaseProvider } from 'baseui';
+import { BaseProvider } from 'baseui';
 import SideNav from './SideNav';
 //import HeaderBar from './HeaderBar';
 import { lightTheme, darkTheme } from '../utils/theme';
 
+/*
 const RootContainer = styled('div', ({ $theme }) => ({
   height: '100%',
   display: 'flex',
@@ -11,7 +12,6 @@ const RootContainer = styled('div', ({ $theme }) => ({
   background: $theme.colors.primary500,
 }));
 
-/*
 const RightContainer = styled('div', {
   height: '100vh',
   overflowY: 'hidden',
@@ -45,12 +45,12 @@ const Layout: React.FunctionComponent = ({ children }) => {
 
   return (
     <BaseProvider theme={themeController === 0 ? lightTheme : darkTheme}>
-      <RootContainer>
+      <>
         <SideNav />
         <div className="main-content">
           {children}
         </div>
-      </RootContainer>
+      </>
     </BaseProvider>
   );
 };

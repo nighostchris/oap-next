@@ -25,7 +25,6 @@ const CardContainer = styled('div', {
 const CardRow = styled('div', {
   display: 'flex',
   flexWrap: 'wrap',
-  marginBottom: '40px',
   flexDirection: 'row',
   '@media (min-width: 320px) and (max-width: 480px)': {
     flexDirection: 'column',
