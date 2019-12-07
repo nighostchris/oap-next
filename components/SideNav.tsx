@@ -1,17 +1,5 @@
 import React, { Fragment } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-// import Link from 'next/link';
-// import { styled } from 'baseui';
-// import { useRouter } from 'next/router';
-// import { Paragraph3 } from 'baseui/typography';
-// import { Book } from 'styled-icons/fa-solid/Book';
-// import { Cubes } from 'styled-icons/fa-solid/Cubes';
-// import { Settings } from 'styled-icons/material/Settings';
-// import { LeftArrow } from 'styled-icons/boxicons-solid/LeftArrow';
-// import { RightArrow } from 'styled-icons/boxicons-solid/RightArrow';
-// import { Notifications } from 'styled-icons/material/Notifications';
-// import { Conversation } from 'styled-icons/boxicons-solid/Conversation';
-// import { SideNavProps } from '../utils/interface';
 
 interface Link {
   icon?: string
@@ -104,37 +92,6 @@ const Sidebar: React.SFC<SidebarProps> = ({ navigations }) => (
     </Navbar.Collapse>
   </>
 );
-
-// const courses = [{
-//   code: 'comp1021',
-//   title: 'Introduction to Computer Science',
-//   section: 'L1',
-//   instructor: 'LAM, Gibson',
-// },
-// {
-//   code: 'comp2011',
-//   title: 'Programming with C++',
-//   section: 'L2',
-//   instructor: 'Li, Xin',
-// },
-// {
-//   code: 'comp2012',
-//   title: 'Object-Oriented Programming and Data Structures',
-//   section: 'L2',
-//   instructor: 'Tsoi, Yau Chat',
-// },
-// {
-//   code: 'comp3021',
-//   title: 'Java Programming',
-//   section: 'L1',
-//   instructor: 'Cheung, Shing Chi',
-// }];
-
-// const accountUtils = [
-//   { 'Notifications': '/notification' },
-//   { 'Conversations': '/conversation' },
-//   { 'Settings': '/settings' },
-// ];
 
 const navigations: Array<Navigation> = [
   {
