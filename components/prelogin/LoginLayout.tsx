@@ -10,7 +10,7 @@ const Root = styled('div', {
   marginRight: '500px',
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
-  backgroundImage: 'url("/static/images/hkust.jpg")',
+  backgroundImage: 'url("/images/hkust.jpg")',
 });
 
 const RightContainer = styled('div', {
@@ -58,12 +58,12 @@ const LoginLayout: React.FunctionComponent = () => {
       <RightContainer>
         <img
           style={{ maxWidth: '90%' }}
-          src="/static/images/ust_logo.png"
+          src="/images/ust_logo.png"
           alt=""
         />
         <img
           style={{ marginTop: '20px', maxWidth: '90%' }}
-          src="/static/images/cse_logo.png"
+          src="/images/cse_logo.png"
           alt=""
         />
         <Input
