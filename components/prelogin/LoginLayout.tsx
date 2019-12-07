@@ -2,7 +2,7 @@ import * as React from 'react';
 import Router from 'next/router';
 import { styled } from 'baseui';
 import { Input } from 'baseui/input';
-import Button from '../global/Button';
+import Button from 'react-bootstrap/Button';
 
 const Root = styled('div', {
   height: '100vh',
@@ -114,8 +114,7 @@ const LoginLayout: React.FunctionComponent = () => {
           }}
         />
         <Button
-          flavor="success"
-          outline
+          variant="success"
           onClick={login}
         >
           Login

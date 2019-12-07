@@ -21,39 +21,37 @@ interface NavItemProps {
   link: Link
 }
 
-const NavItem: React.SFC<NavItemProps> = ({ link }) => {
-  return (
-    <Nav.Item>
-      <Nav.Link href={link.href}>
-        <i className={link.icon} style={{ marginRight: '8px' }} />
-        { link.title }
-      </Nav.Link>
-      {link.children
-        && (
-        <Navbar.Collapse>
-          <ul className="nav nav-sm flex-column">
-            { link.children.map((item) => (
-              <Nav.Item key={item.href}>
-                <Nav.Link href={item.href}>{item.title}</Nav.Link>
-              </Nav.Item>
-            ))}
-          </ul>
-        </Navbar.Collapse>
-        )}
-    </Nav.Item>
-  );
-};
+const NavItem: React.SFC<NavItemProps> = ({ link }) => (
+  <Nav.Item>
+    <Nav.Link href={link.href}>
+      <i className={link.icon} style={{ marginRight: '8px' }} />
+      { link.title }
+    </Nav.Link>
+    {link.children
+      && (
+      <Navbar.Collapse>
+        <ul className="nav nav-sm flex-column">
+          { link.children.map((item) => (
+            <Nav.Item key={item.href}>
+              <Nav.Link href={item.href}>{item.title}</Nav.Link>
+            </Nav.Item>
+          ))}
+        </ul>
+      </Navbar.Collapse>
+      )}
+  </Nav.Item>
+);
 
 const Sidebar: React.SFC<SidebarProps> = ({ navigations }) => (
   <>
     <Navbar.Toggle />
-    <a className="navbar-brand" href="index.html">
+    <Navbar.Brand>
       <img
         src="logo.svg"
         className="navbar-brand-img mx-auto"
         alt="..."
       />
-    </a>
+    </Navbar.Brand>
     <Navbar.Collapse>
       {
         navigations.map((navigation, index) => (
@@ -84,7 +82,7 @@ const Sidebar: React.SFC<SidebarProps> = ({ navigations }) => (
           <div className="dropdown-menu" aria-labelledby="sidebarIconCopy">
             <a href="profile-posts.html" className="dropdown-item">Profile</a>
             <a href="settings.html" className="dropdown-item">Settings</a>
-            <hr className="dropdown-divider"/>
+            <hr className="dropdown-divider" />
             <a href="sign-in.html" className="dropdown-item">Logout</a>
           </div>
         </div>
