@@ -24,6 +24,8 @@
     "next": "latest",
     "prop-types": "^15.7.2",
     "react": "^16.7.0",
+    "react-dnd-cjs": "^9.5.1",
+    "react-dnd-html5-backend-cjs": "^9.5.1",
     "react-dom": "^16.7.0",
     "styled-components": "^4.4.0",
     "styled-icons": "^8.4.2",

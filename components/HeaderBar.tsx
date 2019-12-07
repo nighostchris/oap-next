@@ -244,7 +244,7 @@ const HeaderBar: React.FunctionComponent<headerBarProps> = ({
         <NotificationWrap>
           {
             noti.map((n, i) => (
-              <NotificationContainer>
+              <NotificationContainer key={`noti-${i}`}>
                 <Row>
                   <StyledParagraph3 key={i}>{n.content}</StyledParagraph3>
                   <StyledClear size={20} />
