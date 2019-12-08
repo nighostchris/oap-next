@@ -13,7 +13,7 @@ interface CardProps {
 const Card : React.SFC<CardProps> = ({
   type, title, link, content, footer, teamfooter,
 }) => (
-  <div className="card">
+  <div className="card mx-2" style={{ flex: 1 }}>
     <div className="card-body">
       {
         type === 'footer'
@@ -48,7 +48,6 @@ const Card : React.SFC<CardProps> = ({
               <div className="row align-items-center">
                 <div className="col">
                   <p className="card-text small text-muted">
-                    <i className="far fa-clock" />
                     {teamfooter}
                   </p>
                 </div>

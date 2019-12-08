@@ -1,10 +1,16 @@
-import React, { Fragment } from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import React, { Fragment, useState } from 'react';
+import {
+  Navbar,
+  Nav,
+  Container,
+  Accordion,
+} from 'react-bootstrap';
 
 interface Link {
   icon?: string
   href?: string
   title: string
+  updated?: boolean
   children?: Array<Link>
 }
 
@@ -21,28 +27,34 @@ interface NavItemProps {
   link: Link
 }
 
-const NavItem: React.SFC<NavItemProps> = ({ link }) => (
-  <Nav.Item>
-    <Nav.Link href={link.href}>
-      <i className={link.icon} style={{ marginRight: '8px' }} />
-      { link.title }
-    </Nav.Link>
-    {
-      link.children
-        && (
-          <Navbar.Collapse>
-            <ul className="nav nav-sm flex-column">
-              { link.children.map((item) => (
-                <Nav.Item key={item.href}>
-                  <Nav.Link href={item.href}>{item.title}</Nav.Link>
-                </Nav.Item>
-              ))}
-            </ul>
-          </Navbar.Collapse>
-        )
-    }
-  </Nav.Item>
-);
+const NavItem: React.SFC<NavItemProps> = ({ link }) => {
+  const [isExpanded, toggleExpansion] = useState(false);
+  return (
+    <Accordion as={Nav.Item}>
+      <Accordion.Toggle as={Nav.Link} eventKey="0" {...(link.children && { 'data-toggle': 'collapse' })} onClick={() => toggleExpansion(!isExpanded)} aria-expanded={isExpanded}>
+        <i className={link.icon} style={{ marginRight: '8px' }} />
+        { link.title }
+      </Accordion.Toggle>
+      {
+        link.children
+          && (
+            <Accordion.Collapse eventKey="0">
+              <ul className="nav nav-sm flex-column">
+                { link.children.map((item) => (
+                  <Nav.Item key={item.href}>
+                    <Nav.Link href={item.href}>
+                      {item.title}
+                      {item.updated && <span className="badge badge-soft-success ml-auto">New</span>}
+                    </Nav.Link>
+                  </Nav.Item>
+                ))}
+              </ul>
+            </Accordion.Collapse>
+          )
+      }
+    </Accordion>
+  );
+};
 
 const Sidebar: React.SFC<SidebarProps> = ({ navigations }) => (
   <>
@@ -109,6 +121,17 @@ const navigations: Array<Navigation> = [
         title: 'COMP1021',
         href: '/1021',
         icon: 'fas fa-book',
+        children: [
+          {
+            title: 'Assignments',
+            href: '/1021/assignments',
+          },
+          {
+            title: 'Labs',
+            href: '/1021/labs',
+            updated: true,
+          },
+        ],
       },
       {
         title: 'COMP2011',

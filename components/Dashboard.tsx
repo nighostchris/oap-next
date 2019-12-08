@@ -81,10 +81,10 @@ const Dashboard: React.FunctionComponent = () => (
           <Card
             key={`${d.code}-${index}`}
             type="team"
-            title={`COMP ${d.code} ${d.title}`}
+            title={`COMP ${d.code}`}
             link="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
-            content={`${d.section} - ${d.instructor}`}
-            teamfooter=" Updated 2hr ago"
+            content={`${d.title}`}
+            teamfooter={`${d.section} - ${d.instructor}`}
           />
         ))
       }
