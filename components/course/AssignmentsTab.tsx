@@ -1,5 +1,4 @@
 import * as React from 'react';
-import List from '../global/List';
 import Card from '../global/Card';
 
 /*
@@ -71,11 +70,10 @@ const AssignmentsTab: React.FunctionComponent = () => (
         <Card
           type="list"
           title="Assignments"
+          listItem={listItem}
           sortable
           searchable
-        >
-          <List listItem={listItem} />
-        </Card>
+        />
       </div>
     </div>
   </div>
