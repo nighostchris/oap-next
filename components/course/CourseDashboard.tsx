@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
 import PageHeader from '../global/PageHeader';
-import AssignmentTab from './AssignmentTab';
+import AssignmentTab from './AssignmentsTab';
 import GradeTab from './GradeTab';
 import AnnounceTab from './AnnounceTab';
 

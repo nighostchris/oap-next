@@ -73,37 +73,43 @@ const assignments = [{
 }];
 
 const Dashboard: React.FunctionComponent = () => (
-  <Root>
-    <h1>Courses</h1>
-    <CardRow>
-      {
-        courses.map((d, index) => (
-          <Card
-            key={`${d.code}-${index}`}
-            type="team"
-            title={`COMP ${d.code}`}
-            link="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
-            content={`${d.title}`}
-            teamfooter={`${d.section} - ${d.instructor}`}
-          />
-        ))
-      }
-    </CardRow>
-    <h1>Assignments</h1>
-    <CardRow>
-      {
-        assignments.map((d, index) => (
-          <Card
-            key={`${d.code}-${index}`}
-            type="footer"
-            title={`Assignment ${d.number} ${d.title}`}
-            content={`COMP ${d.code}`}
-            footer={`Due Date: ${d.dueDate.getFullYear()}-${d.dueDate.getMonth() + 1}-${d.dueDate.getDate()}`}
-          />
-        ))
-      }
-    </CardRow>
-  </Root>
+  <div className="container-fluid">
+    <div className="row">
+      <div className="col-12">
+        <Root>
+          <h1>Courses</h1>
+          <CardRow>
+            {
+              courses.map((d, index) => (
+                <Card
+                  key={`${d.code}-${index}`}
+                  type="team"
+                  title={`COMP ${d.code}`}
+                  link="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
+                  content={`${d.title}`}
+                  teamfooter={`${d.section} - ${d.instructor}`}
+                />
+              ))
+            }
+          </CardRow>
+          <h1>Assignments</h1>
+          <CardRow>
+            {
+              assignments.map((d, index) => (
+                <Card
+                  key={`${d.code}-${index}`}
+                  type="footer"
+                  title={`Assignment ${d.number} ${d.title}`}
+                  content={`COMP ${d.code}`}
+                  footer={`Due Date: ${d.dueDate.getFullYear()}-${d.dueDate.getMonth() + 1}-${d.dueDate.getDate()}`}
+                />
+              ))
+            }
+          </CardRow>
+        </Root>
+      </div>
+    </div>
+  </div>
 );
 
 export default Dashboard;

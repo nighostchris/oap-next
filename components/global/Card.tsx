@@ -5,16 +5,100 @@ interface CardProps {
   type: string
   title: string
   link?: string
-  content: string
+  content?: string
   footer?: string
   teamfooter?: string
+  sortable?: boolean
+  searchable?: boolean
 }
 
 const Card : React.SFC<CardProps> = ({
-  type, title, link, content, footer, teamfooter,
+  children, type, title, link, content, footer, teamfooter, sortable, searchable,
 }) => (
-  <div className="card mx-2" style={{ flex: 1 }}>
+  <div
+    className="card mx-2"
+    style={{ flex: 1 }}
+    data-toggle={type === 'list' && 'lists'}
+    data-options={type === 'list' && '{"valueNames": ["name"]}'}
+  >
+    {
+      type === 'list'
+        && (
+          <>
+            <div className="card-header">
+              <div className="row align-items-center">
+                <div className="col">
+                  <h4 className="card-header-title">
+                    {title}
+                  </h4>
+                </div>
+                {
+                  sortable
+                    && (
+                      <div className="col-auto">
+                        <div className="dropdown">
+                          <a
+                            href="#!"
+                            data-toggle="dropdown"
+                            aria-expanded="false"
+                            className="small text-muted dropdown-toggle"
+                          >
+                            Sort order
+                          </a>
+                          <div
+                            className="dropdown-menu"
+                            x-placement="bottom-start"
+                            style={{
+                              top: '0',
+                              left: '0',
+                              position: 'absolute',
+                              willChange: 'transform',
+                              transform: 'translate3d(0px, 20px, 0px)',
+                            }}
+                          >
+                            <div className="dropdown-item sort desc" data-sort="name">
+                              Asc
+                            </div>
+                            <div className="dropdown-item sort desc" data-sort="name">
+                              Desc
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                }
+              </div>
+            </div>
+            {
+              searchable
+                && (
+                  <div className="card-header">
+                    <div className="row">
+                      <div className="col-12">
+                        <form>
+                          <div className="input-group input-group-flush input-group-merge">
+                            <input
+                              type="search"
+                              placeholder="Search"
+                              className="form-control form-control-prepended search"
+                            />
+                            <div className="input-group-prepend">
+                              <div className="input-group-text">
+                                <span className="fe fe-search" />
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                )
+            }
+          </>
+        )
+    }
     <div className="card-body">
+      {children}
       {
         type === 'footer'
           && (
