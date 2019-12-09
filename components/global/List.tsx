@@ -69,7 +69,13 @@ const List : React.SFC<ListProps> = ({ listItem }) => (
               }
             </div>
             <div className="col-auto">
-              <Dropdown align="left" actionList={['Edit', 'Delete']} />
+              <Dropdown
+                type="icon"
+                align="left"
+                position="-150px"
+                actionList={['Edit', 'Delete']}
+                functionList={[() => console.log('edit'), () => console.log('Delete')]}
+              />
             </div>
           </div>
         </li>

@@ -1,5 +1,6 @@
 import React from 'react';
 import List from './List';
+import Dropdown from './Dropdown';
 
 interface CardProps {
   //onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
@@ -18,9 +19,36 @@ const Card : React.SFC<CardProps> = ({
   type, title, link, content, footer, teamfooter, sortable, searchable, listItem,
 }) => {
   const [keyword, setKeyword] = React.useState('');
-  const filterListItem = () => (
-    listItem ? listItem.filter((item) => item.content.title.toLowerCase().includes(keyword))
-      : []);
+  const [mode, setMode] = React.useState(0);
+
+  const ascFunc = () => setMode(1);
+  const dscFunc = () => setMode(2);
+
+  const compareListItem = (a: any, b: any) => {
+    if (a.content.title > b.content.title) {
+      return -1;
+    }
+    if (a.content.title < b.content.title) {
+      return 1;
+    }
+    return 0;
+  };
+
+  const filterListItem = () => {
+    console.log(mode);
+    if (listItem) {
+      switch (mode) {
+        case 0:
+          return listItem.filter((item) => item.content.title.toLowerCase().includes(keyword));
+        case 1:
+          return listItem.sort(compareListItem);
+        default:
+          return listItem.sort(compareListItem).reverse();
+      }
+    } else {
+      return [];
+    }
+  };
 
   return (
     <div
@@ -44,34 +72,13 @@ const Card : React.SFC<CardProps> = ({
                     sortable
                       && (
                         <div className="col-auto">
-                          <div className="dropdown">
-                            <a
-                              href="#!"
-                              data-toggle="dropdown"
-                              aria-expanded="false"
-                              className="small text-muted dropdown-toggle"
-                            >
-                              Sort order
-                            </a>
-                            <div
-                              className="dropdown-menu"
-                              x-placement="bottom-start"
-                              style={{
-                                top: '0',
-                                left: '0',
-                                position: 'absolute',
-                                willChange: 'transform',
-                                transform: 'translate3d(0px, 20px, 0px)',
-                              }}
-                            >
-                              <div className="dropdown-item sort desc" data-sort="name">
-                                Asc
-                              </div>
-                              <div className="dropdown-item sort desc" data-sort="name">
-                                Desc
-                              </div>
-                            </div>
-                          </div>
+                          <Dropdown
+                            type="text"
+                            align="left"
+                            position="-80px"
+                            actionList={['Asc', 'Dsc']}
+                            functionList={[ascFunc, dscFunc]}
+                          />
                         </div>
                       )
                   }
