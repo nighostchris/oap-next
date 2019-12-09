@@ -11,7 +11,6 @@ import { Error } from 'styled-icons/boxicons-regular/Error';
 import { XCircle } from 'styled-icons/boxicons-regular/XCircle';
 import { CheckCircle } from 'styled-icons/boxicons-regular/CheckCircle';
 import { printDate } from '../utils/helper';
-import PageHeader from './global/PageHeader';
 
 const Dashboard = styled('div', {
   display: 'flex',
@@ -284,7 +283,6 @@ submission = [...submission, ...submission, ...submission, ...submission];
 const CourseDashboard: React.FunctionComponent = () => {
   return (
     <>
-      <PageHeader />
       <Dashboard>
         <UploadContainer>
           <AssignmentDetails>

@@ -2,10 +2,15 @@ import React from 'react';
 import RandomGradGen from './RandomGradGen';
 
 interface PageHeaderProps {
+  pretitle: string
+  title: string
+  tabTitle: Array<string>
+  rootUrl: string
+  active: number,
 }
 
 const PageHeader : React.SFC<PageHeaderProps> = ({
-  
+  pretitle, title, tabTitle, rootUrl, active,
 }) => (
   <div className="header">
     <RandomGradGen />
@@ -22,8 +27,8 @@ const PageHeader : React.SFC<PageHeaderProps> = ({
             </div>
           </div>
           <div className="col mb-3 ml-n3 ml-md-n2">
-            <h6 className="header-pretitle">COMP 1021</h6>
-            <h1 className="header-title">Assignment 1 - Tic Tac Toe</h1>
+            <h6 className="header-pretitle">{pretitle}</h6>
+            <h1 className="header-title">{title}</h1>
           </div>
           <div className="col-12 col-md-auto mt-2 mt-md-0 mb-md-3">
             <div className="btn btn-primary d-block d-md-inline-block">
@@ -34,12 +39,18 @@ const PageHeader : React.SFC<PageHeaderProps> = ({
         <div className="row align-items-center">
           <div className="col">
             <ul className="nav nav-tabs nav-overflow header-tabs">
-              <li className="nav-item">
-                <a href="profile-posts.html" className="nav-link">Tab 1</a>
-              </li>
-              <li className="nav-item">
-                <a href="profile-groups.html" className="nav-link active">Tab 2</a>
-              </li>
+              {
+                tabTitle.map((t, index) => (
+                  <li className="nav-item">
+                    <a
+                      href={`${rootUrl}/${t.toLowerCase()}`}
+                      className={`nav-link ${index === active && 'active'}`}
+                    >
+                      {t}
+                    </a>
+                  </li>
+                ))
+              }
             </ul>
           </div>
         </div>

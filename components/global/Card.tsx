@@ -41,7 +41,7 @@ const Card : React.SFC<CardProps> = ({
                 </a>
               </div>
               <h2 className="card-title text-center mb-3">
-                <a href="/course/1">{title}</a>
+                <a href="/course/1/overview">{title}</a>
               </h2>
               <p className="card-text text-center text-muted mb-4">{content}</p>
               <hr />
