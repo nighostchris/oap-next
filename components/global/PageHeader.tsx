@@ -41,7 +41,7 @@ const PageHeader : React.SFC<PageHeaderProps> = ({
             <ul className="nav nav-tabs nav-overflow header-tabs">
               {
                 tabTitle.map((t, index) => (
-                  <li className="nav-item">
+                  <li key={`tab-${index}`} className="nav-item">
                     <a
                       href={`${rootUrl}/${t.toLowerCase()}`}
                       className={`nav-link ${index === active && 'active'}`}

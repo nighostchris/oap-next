@@ -41,6 +41,7 @@ const CourseDashboard: React.FunctionComponent = () => {
         active={Number(activeTab(coursetab))}
       />
       { coursetab === 'assignments' && <AssignmentTab /> }
+      { coursetab === 'labs' && <AssignmentTab /> }
       { coursetab === 'announcements' && <AnnounceTab /> }
       { coursetab === 'grades' && <GradeTab /> }
     </>

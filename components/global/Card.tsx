@@ -143,7 +143,14 @@ const Card : React.SFC<CardProps> = ({
     {
       footer
         && (
-          <div className="card-footer bg-dark">
+          <div
+            className="card-footer bg-dark"
+            style={{
+              position: 'inherit',
+              bottom: '0',
+              width: '100%',
+            }}
+          >
             <p style={{ marginBottom: 0, color: 'white' }}>{footer}</p>
           </div>
         )

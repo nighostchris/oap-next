@@ -1,4 +1,5 @@
 import React from 'react';
+import Dropdown from './Dropdown';
 
 interface ListItemProps {
   content: {
@@ -68,23 +69,7 @@ const List : React.SFC<ListProps> = ({ listItem }) => (
               }
             </div>
             <div className="col-auto">
-              <div className="dropdown">
-                <a
-                  href="#!"
-                  role="button"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                  data-toggle="dropdown"
-                  className="dropdown-ellipses dropdown-toggle"
-                >
-                  <i className="fe fe-more-vertical" />
-                </a>
-                <div className="dropdown-menu dropdown-menu-right">
-                  <a href="#!" className="dropdown-item">
-                    Action
-                  </a>
-                </div>
-              </div>
+              <Dropdown align="left" actionList={['Edit', 'Delete']} />
             </div>
           </div>
         </li>

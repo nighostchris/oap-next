@@ -8,6 +8,7 @@ oap-next = Next.js implementation of Online Assessment Platform.\
 
 ### Issue
 1. Different card different height problem
+2. First layer of Sidenav link not able to click
 
 ### Installation and Run project
 ```sh

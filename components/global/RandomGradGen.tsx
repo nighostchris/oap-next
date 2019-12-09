@@ -20,14 +20,14 @@ const RandomGradGen : React.SFC = () => {
     return gradient;
   };
 
+  const style = {
+    width: '100%',
+    height: '200px',
+    background: generate(),
+  };
+
   return (
-    <div
-      style={{
-        width: '100%',
-        height: '200px',
-        background: generate(),
-      }}
-    />
+    <div style={style} />
   );
 };
 
