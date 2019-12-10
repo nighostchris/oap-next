@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
 import PageHeader from '../global/PageHeader';
+import OverviewTab from './OverviewTab';
 import AssignmentTab from './AssignmentsTab';
 import GradeTab from './GradeTab';
 import AnnounceTab from './AnnounceTab';
@@ -40,6 +41,7 @@ const CourseDashboard: React.FunctionComponent = () => {
         rootUrl={rootUrl}
         active={Number(activeTab(coursetab))}
       />
+      { coursetab === 'overview' && <OverviewTab /> }
       { coursetab === 'assignments' && <AssignmentTab /> }
       { coursetab === 'labs' && <AssignmentTab /> }
       { coursetab === 'announcements' && <AnnounceTab /> }
