@@ -3,7 +3,7 @@ import { styled } from 'baseui';
 import { NextPage } from 'next';
 import { Avatar } from 'baseui/avatar';
 import { Label2 } from 'baseui/typography';
-import Layout from '../../../components/root-layout/Root';
+import Root from '../../../components/root-layout/Root';
 
 const Container = styled('div', {
   width: '100%',
@@ -117,7 +117,7 @@ const Section = styled(Cell, {
 });
 
 const SingleUserPage: NextPage = () => (
-  <Layout>
+  <Root>
     <Container>
       <Left>
         <Header>
@@ -316,7 +316,7 @@ const SingleUserPage: NextPage = () => (
         </Table>
       </Right>
     </Container>
-  </Layout>
+  </Root>
 );
 
 export default SingleUserPage;

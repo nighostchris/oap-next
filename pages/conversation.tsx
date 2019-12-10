@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { NextPage } from 'next';
-import Layout from '../components/root-layout/Root';
+import Root from '../components/root-layout/Root';
 import ChatroomLayout from '../components/ChatroomLayout';
 
 const ConversationPage: NextPage = () => (
-  <Layout>
+  <Root>
     <ChatroomLayout />
-  </Layout>
+  </Root>
 );
 
 export default ConversationPage;

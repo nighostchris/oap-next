@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { NextPage } from 'next';
-import Layout from '../../components/root-layout/Root';
+import Root from '../../components/root-layout/Root';
 import AssignmentDashboard from '../../components/AssignmentDashboard';
 
 const Course: NextPage = () => (
-  <Layout>
+  <Root>
     <AssignmentDashboard />
-  </Layout>
+  </Root>
 );
 
 export default Course;

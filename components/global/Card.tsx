@@ -23,7 +23,7 @@ interface CardProps {
 }
 
 const Card : React.SFC<CardProps> = ({
-  type, title, link, content, footer,
+  children, type, title, link, content, footer,
   teamfooter, sortable, searchable, listItem, infoList,
 }) => {
   const [keyword, setKeyword] = React.useState('');
@@ -127,6 +127,9 @@ const Card : React.SFC<CardProps> = ({
       }
       <div className="card-body">
         {
+          type === 'original' ? { children } : undefined
+        }
+        {
           type === 'footer'
             && (
               <>
@@ -209,7 +212,7 @@ const Card : React.SFC<CardProps> = ({
                   </div>
                 </div>
                 <p className="mb-3">
-                  {content}
+                  <div dangerouslySetInnerHTML={{ __html: content as string }} />
                 </p>
               </>
             )

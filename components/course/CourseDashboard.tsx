@@ -4,7 +4,7 @@ import PageHeader from '../global/PageHeader';
 import OverviewTab from './OverviewTab';
 import CourseworkTab from './CourseworkTab';
 import GradeTab from './GradeTab';
-import AnnounceTab from './AnnounceTab';
+import AnnouncementTab from './AnnouncementTab';
 
 const listItem = [
   {
@@ -75,7 +75,7 @@ const CourseDashboard: React.FunctionComponent = () => {
       { coursetab === 'overview' && <OverviewTab /> }
       { coursetab === 'assignments' && <CourseworkTab title="Assignments" coursework={listItem} /> }
       { coursetab === 'labs' && <CourseworkTab title="Labs" coursework={listItem} /> }
-      { coursetab === 'announcements' && <AnnounceTab /> }
+      { coursetab === 'announcements' && <AnnouncementTab /> }
       { coursetab === 'grades' && <GradeTab /> }
     </>
   );

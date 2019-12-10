@@ -1,8 +1,5 @@
 import React from 'react';
 
-interface DropdownItemProps {
-}
-
 const modules = {
   toolbar: [
     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
@@ -19,20 +16,19 @@ const formats = [
   'link', 'image',
 ];
 
-const TextEditor : React.SFC<DropdownItemProps> = () => {
+const TextEditor : React.FunctionComponent = () => {
   const ReactQuill = typeof window === 'object' ? require('react-quill') : () => false;
   const [content, setContent] = React.useState('');
 
   return (
-    <>
+    <div className="text-editor">
       <ReactQuill
         value={content}
         onChange={setContent}
         modules={modules}
         formats={formats}
       />
-      <p>{content}</p>
-    </>
+    </div>
   );
 };
 
