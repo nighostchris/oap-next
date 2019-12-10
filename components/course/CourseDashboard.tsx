@@ -2,9 +2,40 @@ import * as React from 'react';
 import { useRouter } from 'next/router';
 import PageHeader from '../global/PageHeader';
 import OverviewTab from './OverviewTab';
-import AssignmentTab from './AssignmentsTab';
+import CourseworkTab from './CourseworkTab';
 import GradeTab from './GradeTab';
 import AnnounceTab from './AnnounceTab';
+
+const listItem = [
+  {
+    content: {
+      title: 'Assignment 1 - Tic Tac Toe',
+      subtitle: 'Released by Desmond Tsoi on Dec 9, 2019',
+      button: {
+        title: 'Download',
+        link: '',
+      },
+    },
+    avatar: {
+      type: 'icon',
+      src: 'fe fe-pie-chart',
+    },
+  },
+  {
+    content: {
+      title: 'Assignment 2 - Bank System',
+      subtitle: 'Released by Desmond Tsoi on Dec 9, 2019',
+      button: {
+        title: 'Download',
+        link: '',
+      },
+    },
+    avatar: {
+      type: 'img',
+      src: 'https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg',
+    },
+  },
+];
 
 const pageHeaderProps = {
   pretitle: 'Desmond Tsoi - L2',
@@ -42,8 +73,8 @@ const CourseDashboard: React.FunctionComponent = () => {
         active={Number(activeTab(coursetab))}
       />
       { coursetab === 'overview' && <OverviewTab /> }
-      { coursetab === 'assignments' && <AssignmentTab /> }
-      { coursetab === 'labs' && <AssignmentTab /> }
+      { coursetab === 'assignments' && <CourseworkTab title="Assignments" coursework={listItem} /> }
+      { coursetab === 'labs' && <CourseworkTab title="Labs" coursework={listItem} /> }
       { coursetab === 'announcements' && <AnnounceTab /> }
       { coursetab === 'grades' && <GradeTab /> }
     </>

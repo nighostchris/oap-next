@@ -3,10 +3,15 @@ import List from './List';
 import Dropdown from './Dropdown';
 import DropdownItem from './DropdownItem';
 
+interface Info {
+  category: string
+  value: string
+}
+
 interface CardProps {
   //onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
   type: string
-  title: string
+  title?: string
   link?: string
   content?: string
   footer?: string
@@ -14,10 +19,12 @@ interface CardProps {
   listItem?: Array<any>
   sortable?: boolean
   searchable?: boolean
+  infoList?: Array<Info>
 }
 
 const Card : React.SFC<CardProps> = ({
-  type, title, link, content, footer, teamfooter, sortable, searchable, listItem,
+  type, title, link, content, footer,
+  teamfooter, sortable, searchable, listItem, infoList,
 }) => {
   const [keyword, setKeyword] = React.useState('');
   const [mode, setMode] = React.useState(0);
@@ -205,6 +212,31 @@ const Card : React.SFC<CardProps> = ({
                   {content}
                 </p>
               </>
+            )
+        }
+        {
+          type === 'info'
+            && (
+              infoList
+                && (
+                  infoList.map((info, index) => (
+                    <React.Fragment key={`info-${index}`}>
+                      <div className="row align-items-center">
+                        <div className="col">
+                          <h5 className="mb-0">{info.category}</h5>
+                        </div>
+                        <div className="col-auto">
+                          <div className="small text-muted">
+                            {info.value}
+                          </div>
+                        </div>
+                      </div>
+                      {
+                        index !== infoList.length - 1 && <hr />
+                      }
+                    </React.Fragment>
+                  ))
+                )
             )
         }
       </div>
