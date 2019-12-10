@@ -13,12 +13,11 @@ app.prepare().then(() => {
 
   server.get('/auth/callback', (req, res) => {
     res.cookie('ticket', req.query.ticket);
-    console.log(req.query.ticket);
     res.redirect('/dashboard');
   });
 
   server.all('*', (req, res, next) => {
-    if (req.cookies.ticket) {
+    if (req.cookies.ticket || process.env.NODE_ENV !== 'production') {
       next();
     } else {
       res.redirect('https://cas.ust.hk/cas/login?service=http://oap.ust.dev:3000/auth/callback');
