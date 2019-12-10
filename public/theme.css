@@ -9984,7 +9984,7 @@ a:focus, button:focus {
     position: absolute;
     width: 0;
     height: 0;
-    background-image: url(../img/masks/avatar-status.svg), url(../img/masks/avatar-group.svg), url(../img/masks/avatar-group-hover.svg), url(../img/masks/avatar-group-hover-last.svg); }
+    background-image: url(./images/masks/avatar-status.svg), url(./images/masks/avatar-group.svg), url(./images/masks/avatar-group-hover.svg), url(./images/masks/avatar-group-hover-last.svg); }
 
 .avatar-img {
   width: 100%;

@@ -35,7 +35,8 @@
     "no-param-reassign": "off",
     "no-return-assign": "off",
     "no-nested-ternary": "off",
-    "react/no-danger": "off"
+    "react/no-danger": "off",
+    "jsx-a11y/anchor-is-valid":"off"
   },
   "settings": {
     "import/resolver": {

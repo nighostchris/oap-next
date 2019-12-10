@@ -31,7 +31,13 @@ const NavItem: React.SFC<NavItemProps> = ({ link }) => {
   const [isExpanded, toggleExpansion] = useState(false);
   return (
     <Accordion as={Nav.Item}>
-      <Accordion.Toggle as={Nav.Link} eventKey="0" {...(link.children && { 'data-toggle': 'collapse' })} onClick={() => toggleExpansion(!isExpanded)} aria-expanded={isExpanded}>
+      <Accordion.Toggle
+        eventKey="0"
+        as={Nav.Link}
+        aria-expanded={isExpanded}
+        onClick={() => toggleExpansion(!isExpanded)}
+        {...(link.children && { 'data-toggle': 'collapse' })}
+      >
         <i className={link.icon} style={{ marginRight: '8px' }} />
         { link.title }
       </Accordion.Toggle>
@@ -61,7 +67,7 @@ const Sidebar: React.SFC<SidebarProps> = ({ navigations }) => (
     <Navbar.Toggle />
     <Navbar.Brand>
       <img
-        src="logo.svg"
+        src="/logo.svg"
         className="navbar-brand-img mx-auto"
         alt="..."
       />
@@ -119,33 +125,33 @@ const navigations: Array<Navigation> = [
     links: [
       {
         title: 'COMP1021',
-        href: '/1021',
+        href: '/course/1021/overview',
         icon: 'fas fa-book',
         children: [
           {
             title: 'Assignments',
-            href: '/1021/assignments',
+            href: '/course/1021/assignments',
           },
           {
             title: 'Labs',
-            href: '/1021/labs',
+            href: '/course/1021/labs',
             updated: true,
           },
         ],
       },
       {
         title: 'COMP2011',
-        href: '/2011',
+        href: '/course/2011/overview',
         icon: 'fas fa-book',
       },
       {
         title: 'COMP2012',
-        href: '/2012',
+        href: '/course/2012/overview',
         icon: 'fas fa-book',
       },
       {
         title: 'COMP3021',
-        href: '/3021',
+        href: '/course/3021/overview',
         icon: 'fas fa-book',
       },
     ],
