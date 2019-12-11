@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { NextPage } from 'next';
-import Layout from '../../components/root-layout/Root';
+import Root from '../../components/root-layout/Root';
 import NotiContainer from '../../components/notification/NotiContainer';
 
 const Notification: NextPage = () => (
-  <Layout>
+  <Root>
     <NotiContainer />
-  </Layout>
+  </Root>
 );
 
 export default Notification;

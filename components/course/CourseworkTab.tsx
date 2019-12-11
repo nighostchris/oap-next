@@ -32,45 +32,19 @@ const assignments = [{
 }];
 */
 
-const listItem = [
-  {
-    content: {
-      title: 'Assignment 1 - Tic Tac Toe',
-      subtitle: 'Released by Desmond Tsoi on Dec 9, 2019',
-      button: {
-        title: 'Download',
-        link: '',
-      },
-    },
-    avatar: {
-      type: 'icon',
-      src: 'fe fe-pie-chart',
-    },
-  },
-  {
-    content: {
-      title: 'Assignment 2 - Bank System',
-      subtitle: 'Released by Desmond Tsoi on Dec 9, 2019',
-      button: {
-        title: 'Download',
-        link: '',
-      },
-    },
-    avatar: {
-      type: 'img',
-      src: 'https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg',
-    },
-  },
-];
+interface CourseworkTabProps {
+  title: string
+  coursework: Array<any>
+}
 
-const AssignmentsTab: React.FunctionComponent = () => (
+const CourseworkTab: React.FunctionComponent<CourseworkTabProps> = ({ title, coursework }) => (
   <div className="container-fluid">
     <div className="row">
       <div className="col-12">
         <Card
           type="list"
-          title="Assignments"
-          listItem={listItem}
+          title={title}
+          listItem={coursework}
           sortable
           searchable
         />
@@ -79,4 +53,4 @@ const AssignmentsTab: React.FunctionComponent = () => (
   </div>
 );
 
-export default AssignmentsTab;
+export default CourseworkTab;

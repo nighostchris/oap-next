@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 interface DropdownProps {
   type: string
   position: string
-  actionList: Array<string>
-  functionList: Array<any>
   align?: string
 }
 
 const Dropdown : React.SFC<DropdownProps> = ({
-  type, position, actionList, align,
+  children, type, position, align,
 }) => {
   const [toggle, setToggle] = React.useState(false);
+
+  const modifiedChildren = React.Children.map(children, (child) => React.cloneElement(
+    child as ReactElement, { setT: setToggle },
+  ));
 
   const leftStyle = {
     top: '0',
@@ -29,7 +31,6 @@ const Dropdown : React.SFC<DropdownProps> = ({
         aria-expanded={toggle}
         data-toggle="dropdown"
         onClick={(e) => { e.preventDefault(); setToggle(!toggle); }}
-        onBlur={() => setToggle(false)}
         className={`${type === 'icon' ? 'dropdown-ellipses' : 'small text-muted'} dropdown-toggle`}
       >
         {
@@ -42,19 +43,9 @@ const Dropdown : React.SFC<DropdownProps> = ({
         className={`dropdown-menu dropdown-menu-right" ${toggle ? 'show' : ''}`}
         x-placement={align === 'left' ? 'bottom-end' : ''}
         style={align === 'left' ? leftStyle : undefined}
+        onBlur={() => { console.log('remove toggle'); setToggle(false); }}
       >
-        {
-          actionList.map((action, index) => (
-            <a
-              href="#"
-              key={`action-${index}`}
-              className="dropdown-item"
-              onClick={() => console.log('r')}
-            >
-              {action}
-            </a>
-          ))
-        }
+        {modifiedChildren}
       </div>
     </div>
   );

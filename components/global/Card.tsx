@@ -1,11 +1,17 @@
 import React from 'react';
 import List from './List';
 import Dropdown from './Dropdown';
+import DropdownItem from './DropdownItem';
+
+interface Info {
+  category: string
+  value: string
+}
 
 interface CardProps {
   //onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
   type: string
-  title: string
+  title?: string
   link?: string
   content?: string
   footer?: string
@@ -13,10 +19,12 @@ interface CardProps {
   listItem?: Array<any>
   sortable?: boolean
   searchable?: boolean
+  infoList?: Array<Info>
 }
 
 const Card : React.SFC<CardProps> = ({
-  type, title, link, content, footer, teamfooter, sortable, searchable, listItem,
+  children, type, title, link, content, footer,
+  teamfooter, sortable, searchable, listItem, infoList,
 }) => {
   const [keyword, setKeyword] = React.useState('');
   const [mode, setMode] = React.useState(0);
@@ -35,15 +43,17 @@ const Card : React.SFC<CardProps> = ({
   };
 
   const filterListItem = () => {
-    console.log(mode);
     if (listItem) {
+      const filtered = listItem.filter(
+        (item) => item.content.title.toLowerCase().includes(keyword),
+      );
       switch (mode) {
         case 0:
-          return listItem.filter((item) => item.content.title.toLowerCase().includes(keyword));
+          return filtered;
         case 1:
-          return listItem.sort(compareListItem);
+          return filtered.sort(compareListItem);
         default:
-          return listItem.sort(compareListItem).reverse();
+          return filtered.sort(compareListItem).reverse();
       }
     } else {
       return [];
@@ -76,9 +86,10 @@ const Card : React.SFC<CardProps> = ({
                             type="text"
                             align="left"
                             position="-80px"
-                            actionList={['Asc', 'Dsc']}
-                            functionList={[ascFunc, dscFunc]}
-                          />
+                          >
+                            <DropdownItem title="Asc" func={ascFunc} />
+                            <DropdownItem title="Dsc" func={dscFunc} />
+                          </Dropdown>
                         </div>
                       )
                   }
@@ -115,6 +126,9 @@ const Card : React.SFC<CardProps> = ({
           )
       }
       <div className="card-body">
+        {
+          type === 'original' ? { children } : undefined
+        }
         {
           type === 'footer'
             && (
@@ -159,6 +173,73 @@ const Card : React.SFC<CardProps> = ({
           type === 'list'
             && (
               <List listItem={filterListItem()} />
+            )
+        }
+        {
+          type === 'post'
+            && (
+              <>
+                <div className="mb-3">
+                  <div className="row align-items-center">
+                    <div className="col-auto">
+                      <div className="avatar">
+                        <img
+                          alt="..."
+                          src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
+                          className="avatar-img rounded-circle"
+                        />
+                      </div>
+                    </div>
+                    <div className="col ml-n2">
+                      <h4 className="card-title mb-1">
+                        {title}
+                      </h4>
+                      <p className="card-text small text-muted">
+                        <span className="fe fe-clock" />
+                        ` 4 days ago`
+                      </p>
+                    </div>
+                    <div className="col-auto">
+                      <Dropdown
+                        type="icon"
+                        align="left"
+                        position="-150px"
+                      >
+                        <DropdownItem title="Edit" func={() => console.log('edit')} />
+                        <DropdownItem title="Delete" func={() => console.log('delete')} />
+                      </Dropdown>
+                    </div>
+                  </div>
+                </div>
+                <p className="mb-3">
+                  <div dangerouslySetInnerHTML={{ __html: content as string }} />
+                </p>
+              </>
+            )
+        }
+        {
+          type === 'info'
+            && (
+              infoList
+                && (
+                  infoList.map((info, index) => (
+                    <React.Fragment key={`info-${index}`}>
+                      <div className="row align-items-center">
+                        <div className="col">
+                          <h5 className="mb-0">{info.category}</h5>
+                        </div>
+                        <div className="col-auto">
+                          <div className="small text-muted">
+                            {info.value}
+                          </div>
+                        </div>
+                      </div>
+                      {
+                        index !== infoList.length - 1 && <hr />
+                      }
+                    </React.Fragment>
+                  ))
+                )
             )
         }
       </div>

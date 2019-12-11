@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { NextPage } from 'next';
 import Root from '../../../components/root-layout/Root';
-import CourseDashboard from '../../../components/course/CourseDashboard';
+import CourseworkDashboard from '../../../components/assignment/CourseworkDashboard';
 
 const Course: NextPage = () => (
   <Root>
-    <CourseDashboard />
+    <CourseworkDashboard />
   </Root>
 );
 

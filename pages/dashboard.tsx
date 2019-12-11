@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { NextPage } from 'next';
-import Layout from '../components/root-layout/Root';
+import Root from '../components/root-layout/Root';
 import Dashboard from '../components/Dashboard';
 
 const DashboardPage: NextPage = () => (
-  <Layout>
+  <Root>
     <Dashboard />
-  </Layout>
+  </Root>
 );
 
 export default DashboardPage;

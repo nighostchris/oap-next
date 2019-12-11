@@ -1,5 +1,6 @@
 import React from 'react';
 import Dropdown from './Dropdown';
+import DropdownItem from './DropdownItem';
 
 interface ListItemProps {
   content: {
@@ -73,9 +74,10 @@ const List : React.SFC<ListProps> = ({ listItem }) => (
                 type="icon"
                 align="left"
                 position="-150px"
-                actionList={['Edit', 'Delete']}
-                functionList={[() => console.log('edit'), () => console.log('Delete')]}
-              />
+              >
+                <DropdownItem title="Edit" func={() => console.log('edit')} />
+                <DropdownItem title="Delete" func={() => console.log('delete')} />
+              </Dropdown>
             </div>
           </div>
         </li>
