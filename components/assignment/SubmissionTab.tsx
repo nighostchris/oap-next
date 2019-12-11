@@ -13,22 +13,37 @@ const infoList = [
   },
 ];
 
+const thead = ['Filename', 'Size', 'Submission Time', 'Status'];
 
-const thead = ['Filename', 'Size', 'Time', 'Status'];
-const tbody = [
-  <><td><i className="fas fa-clock" />assignment1.zip</td><td>273KB</td><td>Dec 11 2019 10:30:27</td><td><i className="fas fa-clock" /></td></>,
-  <><td><i className="fas fa-clock" />assignment1.zip</td><td>273KB</td><td>Dec 11 2019 10:30:27</td><td><i className="fas fa-clock" /></td></>,
-  <><td><i className="fas fa-clock" />assignment1.zip</td><td>273KB</td><td>Dec 11 2019 10:30:27</td><td><i className="fas fa-clock" /></td></>,
-  <><td><i className="fas fa-clock" />assignment1.zip</td><td>273KB</td><td>Dec 11 2019 10:30:27</td><td><i className="fas fa-clock" /></td></>,
-  <><td><i className="fas fa-clock" />assignment1.zip</td><td>273KB</td><td>Dec 11 2019 10:30:27</td><td><i className="fas fa-clock" /></td></>,
-  <><td><i className="fas fa-clock" />assignment1.zip</td><td>273KB</td><td>Dec 11 2019 10:30:27</td><td><i className="fas fa-clock" /></td></>,
-  <><td><i className="fas fa-clock" />assignment1.zip</td><td>273KB</td><td>Dec 11 2019 10:30:27</td><td><i className="fas fa-clock" /></td></>,
-  <><td><i className="fas fa-clock" />assignment1.zip</td><td>273KB</td><td>Dec 11 2019 10:30:27</td><td><i className="fas fa-clock" /></td></>,
-  <><td><i className="fas fa-clock" />assignment1.zip</td><td>273KB</td><td>Dec 11 2019 10:30:27</td><td><i className="fas fa-clock" /></td></>,
-  <><td><i className="fas fa-clock" />assignment1.zip</td><td>273KB</td><td>Dec 11 2019 10:30:27</td><td><i className="fas fa-clock" /></td></>,
-  <><td><i className="fas fa-clock" />assignment1.zip</td><td>273KB</td><td>Dec 11 2019 10:30:27</td><td><i className="fas fa-clock" /></td></>,
-  <><td><i className="fas fa-clock" />assignment1.zip</td><td>273KB</td><td>Dec 11 2019 10:30:27</td><td><i className="fas fa-clock" /></td></>,
-];
+const tbodyGenerator = (name: string, size: string, time: string, status: string) => (
+  <>
+    <td><i className="fas fa-file-archive" style={{ marginRight: '10px' }} />{name}</td>
+    <td>{size}</td>
+    <td>{time}</td>
+    <td>
+      <i
+        className={status === 'success' ? 'fas fa-check-circle' : (status === 'warning'
+          ? 'fas fa-exclamation-triangle' : 'fas fa-times-circle')}
+        style={{ color: status === 'success' ? '#00A660' : (status === 'warning' ? '#F6C343' : '#D01A3B') }}
+      />
+    </td>
+  </>
+);
+
+const tbody = () => {
+  const temp = [];
+  for (let i = 0; i < 10; i++) {
+    if (i % 2 === 0) {
+      temp.push(tbodyGenerator('assignment1.zip', '273KB', 'Dec 11 2019 10:30:27', 'success'));
+    } else if (i % 3 === 0) {
+      temp.push(tbodyGenerator('assignment2.zip', '36KB', 'Dec 11 2019 10:30:27', 'warning'));
+    } else {
+      temp.push(tbodyGenerator('assignment3.zip', '185KB', 'Dec 11 2019 10:30:27', 'error'));
+    }
+  }
+  return temp;
+};
+
 
 const AnnouncementTab: React.FunctionComponent = () => (
   <div className="container-fluid">
@@ -36,7 +51,7 @@ const AnnouncementTab: React.FunctionComponent = () => (
       <div className="col-12 col-xl-9">
         <Table
           thead={thead}
-          tbody={tbody}
+          tbody={tbody()}
           bordered
           textAlign="center"
         />
