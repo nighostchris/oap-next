@@ -126,7 +126,7 @@ const navigations: Array<Navigation> = [
     links: [
       {
         title: 'COMP1021',
-        href: '/course/1021/overview',
+        href: '/course/1021/announcements',
         icon: 'fas fa-book',
         children: [
           {
@@ -142,17 +142,17 @@ const navigations: Array<Navigation> = [
       },
       {
         title: 'COMP2011',
-        href: '/course/2011/overview',
+        href: '/course/2011/announcements',
         icon: 'fas fa-book',
       },
       {
         title: 'COMP2012',
-        href: '/course/2012/overview',
+        href: '/course/2012/announcements',
         icon: 'fas fa-book',
       },
       {
         title: 'COMP3021',
-        href: '/course/3021/overview',
+        href: '/course/3021/announcements',
         icon: 'fas fa-book',
       },
     ],

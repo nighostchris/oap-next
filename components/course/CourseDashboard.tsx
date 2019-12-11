@@ -14,6 +14,7 @@ const listItem = [
         title: 'Download',
         link: '',
       },
+      id: 1,
     },
     avatar: {
       type: 'icon',
@@ -28,6 +29,7 @@ const listItem = [
         title: 'Download',
         link: '',
       },
+      link: 2,
     },
     avatar: {
       type: 'img',
@@ -56,8 +58,10 @@ const CourseDashboard: React.FunctionComponent = () => {
         return 1;
       case 'labs':
         return 2;
-      default:
+      case 'grades':
         return 3;
+      default:
+        return 0;
     }
   };
 

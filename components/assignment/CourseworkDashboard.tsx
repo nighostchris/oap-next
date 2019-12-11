@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
 import PageHeader from '../global/PageHeader';
+import AnnouncementTab from './AnnouncementTab';
 
 const CourseworkDashboard: React.FunctionComponent = () => {
   const router = useRouter();
@@ -20,13 +21,14 @@ const CourseworkDashboard: React.FunctionComponent = () => {
         return 0;
       case 'submissions':
         return 1;
-      default:
+      case 'grade':
         return 2;
+      default:
+        return 0;
     }
   };
 
   /*
-    { coursetab === 'announcements' && <AnnouncementTab /> }
     { coursetab === 'submissions' && <CourseworkTab title="Assignments" coursework={listItem} /> }
     { coursetab === 'grade' && <CourseworkTab title="Labs" coursework={listItem} /> }
   */
@@ -40,7 +42,7 @@ const CourseworkDashboard: React.FunctionComponent = () => {
         rootUrl={rootUrl}
         active={Number(activeTab(courseworktab))}
       />
-
+      { courseworktab === 'announcements' && <AnnouncementTab /> }
     </>
   );
 };

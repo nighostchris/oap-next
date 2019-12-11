@@ -3,16 +3,12 @@ import Card from '../global/Card';
 
 const infoList = [
   {
-    category: 'Assignments',
-    value: '4',
-  },
-  {
-    category: 'Labs',
-    value: '12',
-  },
-  {
     category: 'Created',
-    value: 'Sept 1, 2019',
+    value: 'Nov 1, 2019',
+  },
+  {
+    category: 'Due Date',
+    value: 'Nov 30, 2019',
   },
 ];
 
