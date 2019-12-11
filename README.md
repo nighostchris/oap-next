@@ -1,10 +1,17 @@
-# oap-next (Last Update: 9/12/2019 15:31)
+# oap-next (Last Update: 11/12/2019 17:19)
 oap-next = Next.js implementation of Online Assessment Platform.\
-[Demo on Student View](https://oap-next.chrisliupascal.now.sh/dashboard)
+[Demo on](https://oap-next.chrisliupascal.now.sh/dashboard)
 
 ### To-Do List
 1. SideNav bottom notification panel
-2. Renovate course dashboard page and relevant tabs
+2. Course Grades Page
+3. Coursework Submission Page
+4. Coursework Grade Page
+5. Extract the Sidenav components for File Explorer functions?
+6. Global Notification Page
+7. Fix the layout in Conversation Page after Dashkit theme applied
+8. Investigate calendar function in dadhboard
+9. Renovate manage student page
 
 ### Issue
 1. Different card different height problem
