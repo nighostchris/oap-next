@@ -12,10 +12,7 @@ interface ListItemProps {
     }
     id: number
   }
-  avatar: {
-    type: string
-    src: string
-  }
+  avatar: JSX.Element
 }
 
 interface ListProps {
@@ -29,28 +26,7 @@ const List : React.SFC<ListProps> = ({ listItem }) => (
         <li key={`listItem-${index}`} className="list-group-item px-0">
           <div className="row align-items-center">
             <div className="col-auto">
-              {
-                item.avatar
-                  && (
-                    <div className="avatar avatar-lg">
-                      {
-                        item.avatar.type === 'icon'
-                          ? (
-                            <span className="avatar-title rounded bg-white text-secondary">
-                              <span className={item.avatar.src} />
-                            </span>
-                          )
-                          : (
-                            <img
-                              alt=""
-                              src={item.avatar.src}
-                              className="avatar-img rounded"
-                            />
-                          )
-                      }
-                    </div>
-                  )
-              }
+              <div className="avatar avatar-lg">{item.avatar}</div>
             </div>
             <div className="col ml-n2">
               <h4 className="card-title mb-1 name">

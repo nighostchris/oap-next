@@ -67,11 +67,13 @@ const Sidebar: React.SFC<SidebarProps> = ({ navigations }) => (
   <>
     <Navbar.Toggle />
     <Navbar.Brand>
-      <img
-        src="/logo.svg"
-        className="navbar-brand-img mx-auto"
-        alt="..."
-      />
+      <a href="/dashboard">
+        <img
+          alt="..."
+          src="/logo.svg"
+          className="navbar-brand-img mx-auto"
+        />
+      </a>
     </Navbar.Brand>
     <Navbar.Collapse>
       {

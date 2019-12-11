@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
 import PageHeader from '../global/PageHeader';
+import SubmissionTab from './SubmissionTab';
 import AnnouncementTab from './AnnouncementTab';
 
 const CourseworkDashboard: React.FunctionComponent = () => {
@@ -11,7 +12,7 @@ const CourseworkDashboard: React.FunctionComponent = () => {
   const pageHeaderProps = {
     pretitle: 'COMP 1021',
     title: 'Assignment 1 - Tic Tac Toe',
-    avatar: '<span class="avatar-title rounded-circle bg-dark text-primary"><span class="fas fa-flask" style="font-size: 60px" /></span>',
+    avatar: <span className="avatar-title rounded-circle bg-dark text-primary"><span className="fas fa-flask" style={{ fontSize: '60px' }} /></span>,
     tabTitle: ['Announcements', 'Submissions', 'Grade'],
   };
 
@@ -29,7 +30,6 @@ const CourseworkDashboard: React.FunctionComponent = () => {
   };
 
   /*
-    { coursetab === 'submissions' && <CourseworkTab title="Assignments" coursework={listItem} /> }
     { coursetab === 'grade' && <CourseworkTab title="Labs" coursework={listItem} /> }
   */
   return (
@@ -43,6 +43,7 @@ const CourseworkDashboard: React.FunctionComponent = () => {
         active={Number(activeTab(courseworktab))}
       />
       { courseworktab === 'announcements' && <AnnouncementTab /> }
+      { courseworktab === 'submissions' && <SubmissionTab /> }
     </>
   );
 };

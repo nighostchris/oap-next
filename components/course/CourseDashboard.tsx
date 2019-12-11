@@ -16,10 +16,7 @@ const listItem = [
       },
       id: 1,
     },
-    avatar: {
-      type: 'icon',
-      src: 'fe fe-pie-chart',
-    },
+    avatar: <span className="avatar-title rounded bg-white text-secondary"><span className="fas fa-flask" style={{ fontSize: '32px' }} /></span>,
   },
   {
     content: {
@@ -31,17 +28,14 @@ const listItem = [
       },
       link: 2,
     },
-    avatar: {
-      type: 'img',
-      src: 'https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg',
-    },
+    avatar: <span className="avatar-title rounded bg-white text-secondary"><span className="fas fa-file-code" style={{ fontSize: '32px' }} /></span>,
   },
 ];
 
 const pageHeaderProps = {
   pretitle: 'Desmond Tsoi - L2',
   title: 'COMP1021 - Introduction to Computer Science',
-  avatar: '<img alt="" src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg" class="avatar-img rounded-circle border border-4 border-card">',
+  avatar: <img alt="" src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg" className="avatar-img rounded-circle border border-4 border-card" />,
   tabTitle: ['Announcements', 'Assignments', 'Labs', 'Grades'],
 };
 
