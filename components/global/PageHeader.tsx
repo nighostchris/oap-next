@@ -4,13 +4,14 @@ import RandomGradGen from './RandomGradGen';
 interface PageHeaderProps {
   pretitle: string
   title: string
+  avatar: string
   tabTitle: Array<string>
   rootUrl: string
   active: number,
 }
 
 const PageHeader : React.SFC<PageHeaderProps> = ({
-  pretitle, title, tabTitle, rootUrl, active,
+  pretitle, title, avatar, tabTitle, rootUrl, active,
 }) => (
   <div className="header">
     <RandomGradGen />
@@ -18,13 +19,10 @@ const PageHeader : React.SFC<PageHeaderProps> = ({
       <div className="header-body mt-n5 mt-md-n6">
         <div className="row align-items-end">
           <div className="col-auto">
-            <div className="avatar avatar-xxl header-avatar-top">
-              <img
-                alt=""
-                src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
-                className="avatar-img rounded-circle border border-4 border-card"
-              />
-            </div>
+            <div
+              className="avatar avatar-xxl header-avatar-top"
+              dangerouslySetInnerHTML={{ __html: avatar }}
+            />
           </div>
           <div className="col mb-3 ml-n3 ml-md-n2">
             <h6 className="header-pretitle">{pretitle}</h6>
