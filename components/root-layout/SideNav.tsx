@@ -160,6 +160,21 @@ const navigations: Array<Navigation> = [
     ],
   },
   {
+    title: 'Admin',
+    links: [
+      {
+        title: 'User Management',
+        href: '/manage/user',
+        icon: 'fas fa-user-edit',
+      },
+      {
+        title: 'Course Management',
+        href: '/manage/course',
+        icon: 'fas fa-school',
+      },
+    ],
+  },
+  {
     title: 'Account',
     links: [
       {
