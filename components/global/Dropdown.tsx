@@ -1,54 +1,61 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
+import { Dropdown } from 'react-bootstrap';
 
-interface DropdownProps {
-  type: string
-  position: string
-  align?: string
+interface DropdownMenuProps {
+  title: string
+  func: any
 }
 
-const Dropdown : React.SFC<DropdownProps> = ({
-  children, type, position, align,
-}) => {
-  const [toggle, setToggle] = React.useState(false);
+interface DropdownProps {
+  title?: string
+  menu: Array<DropdownMenuProps>
+}
 
-  const modifiedChildren = React.Children.map(children, (child) => React.cloneElement(
-    child as ReactElement, { setT: setToggle },
-  ));
-
-  const leftStyle = {
-    top: '0',
-    left: '0',
-    position: 'absolute' as 'absolute',
-    transform: `translate3d(${position}, 25px, 0px)`,
-    willChange: 'transform',
-  };
-
-  return (
-    <div className={`dropdown ${toggle ? 'show' : ''}`}>
-      <a
-        href="#"
-        aria-haspopup="true"
-        aria-expanded={toggle}
-        data-toggle="dropdown"
-        onClick={(e) => { e.preventDefault(); setToggle(!toggle); }}
-        className={`${type === 'icon' ? 'dropdown-ellipses' : 'small text-muted'} dropdown-toggle`}
-      >
-        {
-          type === 'icon'
-            ? <i className="fe fe-more-vertical" />
-            : 'Sort Order'
-        }
-      </a>
-      <div
-        className={`dropdown-menu dropdown-menu-right" ${toggle ? 'show' : ''}`}
-        x-placement={align === 'left' ? 'bottom-end' : ''}
-        style={align === 'left' ? leftStyle : undefined}
-        onBlur={() => { console.log('remove toggle'); setToggle(false); }}
-      >
-        {modifiedChildren}
-      </div>
-    </div>
-  );
+const toggleStyle = {
+  color: '#95AAC9',
+  fontSize: '.8125rem',
+  background: 'transparent',
+  borderColor: 'transparent',
 };
 
-export default Dropdown;
+const iconStyle = {
+  fontSize: '1.0625rem',
+  color: '#D2DDEC',
+};
+
+const DashkitDropdown : React.SFC<DropdownProps> = ({ title, menu }) => (
+  <Dropdown drop="left">
+    <style>
+      {`
+        .dropdown-toggle:before {
+          content: none !important
+        }
+        .dropdown-toggle:focus {
+          box-shadow: none !important
+        }
+      `}
+    </style>
+    <Dropdown.Toggle
+      id="dropdown-basic"
+      style={toggleStyle}
+    >
+      { title }
+      { !title && <i style={iconStyle} className="fe fe-more-vertical" /> }
+    </Dropdown.Toggle>
+    <Dropdown.Menu>
+      {
+        menu.map((menuItem, index) => (
+          <Dropdown.Item
+            href="#"
+            key={`dropdownItem-${index}`}
+            onClick={(e: any) => { e.preventDefault(); menuItem.func(); }}
+          >
+            {menuItem.title}
+          </Dropdown.Item>
+        ))
+      }
+    </Dropdown.Menu>
+  </Dropdown>
+);
+
+export default DashkitDropdown;

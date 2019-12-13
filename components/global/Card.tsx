@@ -1,7 +1,6 @@
 import React from 'react';
 import List from './List';
 import Dropdown from './Dropdown';
-import DropdownItem from './DropdownItem';
 
 interface Info {
   category: string
@@ -51,7 +50,10 @@ const filterListItem = (listItem: (Array<any> | undefined), keyword: string, mod
 
 const listCard = (title: string, listItem: (Array<any> | undefined),
   sortable: boolean, searchable: boolean, keyword: string, setKeyword: any,
-  mode: number, setMode: any) => (
+  mode: number, setMode: any) => {
+  const listItemDropdown = [{ title: 'Asc', func: () => setMode(1) }, { title: 'Dsc', func: () => setMode(2) }];
+
+  return (
     <div className="card mx-2" style={{ flex: 1 }} data-toggle="lists">
       <>
         <div className="card-header">
@@ -65,10 +67,7 @@ const listCard = (title: string, listItem: (Array<any> | undefined),
               sortable
                 && (
                   <div className="col-auto">
-                    <Dropdown type="text" align="left" position="-80px">
-                      <DropdownItem title="Asc" func={() => setMode(1)} />
-                      <DropdownItem title="Dsc" func={() => setMode(2)} />
-                    </Dropdown>
+                    <Dropdown title="Sort By" menu={listItemDropdown} />
                   </div>
                 )
             }
@@ -106,7 +105,8 @@ const listCard = (title: string, listItem: (Array<any> | undefined),
         <List listItem={filterListItem(listItem, keyword, mode)} />
       </div>
     </div>
-);
+  );
+};
 
 const footerCard = (title: string, content: string, footer: string) => (
   <div className="card mx-2" style={{ flex: 1 }}>
@@ -177,47 +177,44 @@ const infoCard = (infoList: Array<Info>) => (
   </div>
 );
 
-const postCard = (title: string, content: string) => (
-  <div className="card mx-2" style={{ flex: 1 }}>
-    <div className="card-body">
-      <div className="mb-3">
-        <div className="row align-items-center">
-          <div className="col-auto">
-            <div className="avatar">
-              <img
-                alt="..."
-                src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
-                className="avatar-img rounded-circle"
-              />
+const postCard = (title: string, content: string) => {
+  const listItemDropdown = [{ title: 'Edit', func: () => {} }, { title: 'Delete', func: () => {} }];
+
+  return (
+    <div className="card mx-2" style={{ flex: 1 }}>
+      <div className="card-body">
+        <div className="mb-3">
+          <div className="row align-items-center">
+            <div className="col-auto">
+              <div className="avatar">
+                <img
+                  alt="..."
+                  src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
+                  className="avatar-img rounded-circle"
+                />
+              </div>
+            </div>
+            <div className="col ml-n2">
+              <h4 className="card-title mb-1">
+                {title}
+              </h4>
+              <p className="card-text small text-muted">
+                <span className="fe fe-clock" />
+                ` 4 days ago`
+              </p>
+            </div>
+            <div className="col-auto">
+              <Dropdown menu={listItemDropdown} />
             </div>
           </div>
-          <div className="col ml-n2">
-            <h4 className="card-title mb-1">
-              {title}
-            </h4>
-            <p className="card-text small text-muted">
-              <span className="fe fe-clock" />
-              ` 4 days ago`
-            </p>
-          </div>
-          <div className="col-auto">
-            <Dropdown
-              type="icon"
-              align="left"
-              position="-150px"
-            >
-              <DropdownItem title="Edit" func={() => {}} />
-              <DropdownItem title="Delete" func={() => {}} />
-            </Dropdown>
-          </div>
         </div>
+        <p className="mb-3">
+          <div dangerouslySetInnerHTML={{ __html: content }} />
+        </p>
       </div>
-      <p className="mb-3">
-        <div dangerouslySetInnerHTML={{ __html: content }} />
-      </p>
     </div>
-  </div>
-);
+  );
+};
 
 const Card : React.SFC<CardProps> = ({
   children, type, title, link, content, footer,

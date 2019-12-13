@@ -179,7 +179,7 @@ const navigations: Array<Navigation> = [
     links: [
       {
         title: 'Notifications',
-        href: '/notification',
+        href: '/notifications',
         icon: 'fas fa-bell',
       },
       {

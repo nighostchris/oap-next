@@ -1,6 +1,5 @@
 import React from 'react';
 import Dropdown from './Dropdown';
-import DropdownItem from './DropdownItem';
 
 interface ListItemProps {
   content: {
@@ -18,6 +17,8 @@ interface ListItemProps {
 interface ListProps {
   listItem: Array<ListItemProps>
 }
+
+const listItemDropdown = [{ title: 'Edit', func: () => {} }, { title: 'Delete', func: () => {} }];
 
 const List : React.SFC<ListProps> = ({ listItem }) => (
   <ul className="list-group list-group-lg list-group-flush list my-n4">
@@ -47,14 +48,7 @@ const List : React.SFC<ListProps> = ({ listItem }) => (
               }
             </div>
             <div className="col-auto">
-              <Dropdown
-                type="icon"
-                align="left"
-                position="-150px"
-              >
-                <DropdownItem title="Edit" func={() => console.log('edit')} />
-                <DropdownItem title="Delete" func={() => console.log('delete')} />
-              </Dropdown>
+              <Dropdown menu={listItemDropdown} />
             </div>
           </div>
         </li>
