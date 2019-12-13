@@ -5,13 +5,13 @@ oap-next = Next.js implementation of Online Assessment Platform.\
 ### To-Do List
 1. SideNav bottom notification panel
 2. Course Grades Page
-3. Coursework Submission Page
+3. Coursework Submission Specific Page
 4. Coursework Grade Page
 5. Extract the Sidenav components for File Explorer functions?
-6. Global Notification Page
+6. Global Notification Specific Page
 7. Fix the layout in Conversation Page after Dashkit theme applied
 8. Investigate calendar function in dadhboard
-9. Renovate manage student page
+9. Renovate manage student page(50%)
 
 ### Issue
 1. Different card different height problem
