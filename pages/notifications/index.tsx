@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { NextPage } from 'next';
 import Root from '../../components/root-layout/Root';
-import NotificationLayout from '../../components/notification/NotificationLayout';
+import NotiDashboard from '../../components/notification/NotiDashboard';
 
 const NotificationPage: NextPage = () => (
   <Root>
-    <NotificationLayout />
+    <NotiDashboard />
   </Root>
 );
 

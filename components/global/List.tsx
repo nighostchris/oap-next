@@ -10,7 +10,7 @@ interface ListItemProps {
       title: string
       link: string
     }
-    id: number
+    link: string
   }
   avatar: JSX.Element
 }
@@ -30,7 +30,7 @@ const List : React.SFC<ListProps> = ({ listItem }) => (
             </div>
             <div className="col ml-n2">
               <h4 className="card-title mb-1 name">
-                <a href={`/coursework/${item.content.id}/announcements`}>{item.content.title}</a>
+                <a href={item.content.link}>{item.content.title}</a>
               </h4>
               <p className="card-text small text-muted">
                 {item.content.subtitle}
