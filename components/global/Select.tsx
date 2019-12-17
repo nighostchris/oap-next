@@ -14,6 +14,9 @@ const Select : React.SFC<SelectProps> = ({
 }) => {
   const handleChange = (e: any) => {
     if (displayColumn) {
+      const temp = optionList.find((o) => `${o[displayColumn]}` === (e.target as HTMLInputElement).value);
+      console.log(temp);
+      console.log(value);
       return optionList.find((o) => `${o[displayColumn]}` === (e.target as HTMLInputElement).value);
     }
     return optionList.find((o) => o === (e.target as HTMLInputElement).value);

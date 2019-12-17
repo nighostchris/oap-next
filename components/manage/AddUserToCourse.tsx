@@ -15,7 +15,7 @@ const AddUserToCourse: React.FunctionComponent<AUTCProps> = (
   const processedCourseData: any[] = [];
 
   processedUserList.push({ name: 'Select...', email: '', id: '', role: 1, reg: [] });
-  processedCourseData.push({ name: 'Select...' });
+  processedCourseData.push({ name: 'Select...', code: '', section: 0 });
 
   userlist.forEach((u: any) => {
     processedUserList.push(u);
@@ -34,9 +34,8 @@ const AddUserToCourse: React.FunctionComponent<AUTCProps> = (
   const [course, setCourse] = React.useState({ name: 'Select...', code: '', section: 0 });
   const [section, setSection] = React.useState({ id: '' });
 
-  const selectCourseFromCorrespondingUser = (course) => {
+  const selectCourseFromCorrespondingUser = (c: any) => {
     let check = true;
-    console.log(userlist.find((u) => u.name === user.name));
     userlist.find((u) => u.name === user.name).reg.forEach((c2: any) => {
       if (c2.code === c.code) {
         check = false;
@@ -81,10 +80,10 @@ const AddUserToCourse: React.FunctionComponent<AUTCProps> = (
           && (
             <Select
               title="Course"
-              optionList={filterCourse()}
+              optionList={filteredCourse()}
               value={course}
               setValue={setCourse}
-              displayColumn="id"
+              displayColumn="name"
             />
           )
       }
