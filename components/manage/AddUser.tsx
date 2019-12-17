@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { UserlistProps } from '../../utils/interface';
 import Select from '../global/Select';
+
+interface UserlistProps {
+  setUserlist: (value: Array<any> | ((prevVar: Array<any>) => Array<any>)) => void,
+}
 
 const optionList = [
   { id: 'Student', e: 's' },

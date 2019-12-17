@@ -26,10 +26,7 @@ const scrollbarStyle = {
 
 const Table : React.SFC<TableProps> = ({
   thead, tbody, textAlign = 'default', scrollable, bordered,
-}) => {
-  console.log(tbody);
-
-  return (
+}) => (
   <div
     className={textAlign === 'center' ? 'text-center' : undefined}
     style={{ ...(scrollable && { 'overflowY': 'auto', 'height': '60vh' }) }}
@@ -57,7 +54,6 @@ const Table : React.SFC<TableProps> = ({
       </tbody>
     </table>
   </div>
-  );
-};
+);
 
 export default Table;

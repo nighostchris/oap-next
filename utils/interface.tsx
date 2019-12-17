@@ -21,15 +21,9 @@ export interface TableProps {
   setUserlist: (value: Array<any> | ((prevVar: Array<any>) => Array<any>)) => void,
 }
 
-export interface UserlistProps {
-  setUserlist: (value: Array<any> | ((prevVar: Array<any>) => Array<any>)) => void,
-}
 
-export interface AUTCProps {
-  userlist: Array<any>,
-  courseData: Array<any>,
-  setUserlist: (value: Array<any> | ((prevVar: Array<any>) => Array<any>)) => void,
-}
+
+
 
 export interface RFCProps {
   userlist: Array<any>,
