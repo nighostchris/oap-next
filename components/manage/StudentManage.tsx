@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { SIZE } from 'baseui/input';
-import { Select, Value } from 'baseui/select';
 import AddUser from './AddUser';
 import AddUserToCourse from './AddUserToCourse';
 import RemoveFromCourse from './RemoveFromCourse';
 import ChangeSection from './ChangeSection';
 import Popup from '../Popup';
 import Table from '../global/Table';
+import Select from '../global/Select';
 
 const courseData = [{
   code: '1021',
@@ -62,19 +61,13 @@ const tbody = () => {
   return temp;
 };
 
+const optionList = ['Select...', 'Add New', 'Add to Course', 'Remove from Course', 'Change Section'];
+
 const StudentManage: React.FunctionComponent = () => {
   const [search, setSearch] = React.useState('');
   const [isPop, setIsPop] = React.useState(false);
-  const [type, setType] = React.useState<Value>([]);
+  const [type, setType] = React.useState(optionList[0]);
   const [userlist, setUserlist] = React.useState([...users]);
-
-  const checkType = (value: string) => {
-    try {
-      return type[0].e === value;
-    } catch (e) {
-      return false;
-    }
-  };
 
   return (
     <div className="container-fluid">
@@ -109,33 +102,17 @@ const StudentManage: React.FunctionComponent = () => {
             <h1 className="header-title">Manage Users</h1>
           </div>
           <div className="form-group">
-            <label>Action Type</label>
             <Select
-              size={SIZE.compact}
-              options={[
-                { id: 'Add New', e: 'an' },
-                { id: 'Add to Course', e: 'atc' },
-                { id: 'Remove from Course', e: 'rfc' },
-                { id: 'Change Section', e: 'cs' },
-              ]}
-              labelKey="id"
-              valueKey="e"
-              onChange={({ value }) => setType(value)}
+              title="Action Type"
               value={type}
-              overrides={{
-                Root: {
-                  style: {
-                    outline: 'teal .5px solid',
-                    marginTop: '5px',
-                  },
-                },
-              }}
+              setValue={setType}
+              optionList={optionList}
             />
             {
-              type !== undefined && checkType('an') && <AddUser setUserlist={setUserlist} />
+              type !== undefined && type === optionList[1] && <AddUser setUserlist={setUserlist} />
             }
             {
-              type !== undefined && checkType('atc')
+              type !== undefined && type === optionList[2]
                 && (
                   <AddUserToCourse
                     userlist={userlist}
@@ -145,7 +122,7 @@ const StudentManage: React.FunctionComponent = () => {
                 )
             }
             {
-              type !== undefined && checkType('rfc')
+              type !== undefined && type === optionList[3]
               && (
                 <RemoveFromCourse
                   userlist={userlist}
@@ -154,7 +131,7 @@ const StudentManage: React.FunctionComponent = () => {
               )
             }
             {
-              type !== undefined && checkType('cs')
+              type !== undefined && type === optionList[4]
               && (
                 <ChangeSection
                   userlist={userlist}
