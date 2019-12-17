@@ -67,6 +67,7 @@ const StudentManage: React.FunctionComponent = () => {
     });
     return temp;
   };
+  console.log(type);
 
   return (
     <div className="container-fluid">

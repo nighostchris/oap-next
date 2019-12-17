@@ -34,15 +34,18 @@ const AddUserToCourse: React.FunctionComponent<AUTCProps> = (
   const [course, setCourse] = React.useState({ name: 'Select...', code: '', section: 0 });
   const [section, setSection] = React.useState({ id: '' });
 
-  const filterCourse = () => processedCourseData.filter((c) => {
+  const selectCourseFromCorrespondingUser = (course) => {
     let check = true;
+    console.log(userlist.find((u) => u.name === user.name));
     userlist.find((u) => u.name === user.name).reg.forEach((c2: any) => {
       if (c2.code === c.code) {
         check = false;
       }
     });
     return check;
-  });
+  };
+
+  const filteredCourse = () => processedCourseData.filter(selectCourseFromCorrespondingUser);
 
   const listSection = () => {
     const sectionArray: any[] = [];

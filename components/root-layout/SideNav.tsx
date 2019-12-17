@@ -34,7 +34,7 @@ const NavItem: React.SFC<NavItemProps> = ({ link }) => {
       <Accordion.Toggle
         eventKey="0"
         as={Nav.Link}
-        href={link.href}
+        {...(link.href && { href: link.href })}
         aria-expanded={isExpanded}
         onClick={() => toggleExpansion(!isExpanded)}
         {...(link.children && { 'data-toggle': 'collapse' })}
@@ -128,7 +128,6 @@ const navigations: Array<Navigation> = [
     links: [
       {
         title: 'COMP1021',
-        href: '/course/1021/announcements',
         icon: 'fas fa-book',
         children: [
           {
