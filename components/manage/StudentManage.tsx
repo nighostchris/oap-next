@@ -53,14 +53,6 @@ const tbodyGenerator = (name: string, email: string, id: string, role: number) =
   </>
 );
 
-const tbody = () => {
-  const temp: any[] = [];
-  users.forEach((user) => {
-    temp.push(tbodyGenerator(user.name, user.email, user.id, user.role));
-  });
-  return temp;
-};
-
 const optionList = ['Select...', 'Add New', 'Add to Course', 'Remove from Course', 'Change Section'];
 
 const StudentManage: React.FunctionComponent = () => {
@@ -68,6 +60,13 @@ const StudentManage: React.FunctionComponent = () => {
   const [isPop, setIsPop] = React.useState(false);
   const [type, setType] = React.useState(optionList[0]);
   const [userlist, setUserlist] = React.useState([...users]);
+  const tbody = () => {
+    const temp: any[] = [];
+    userlist.forEach((user) => {
+      temp.push(tbodyGenerator(user.name, user.email, user.id, user.role));
+    });
+    return temp;
+  };
 
   return (
     <div className="container-fluid">

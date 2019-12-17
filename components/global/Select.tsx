@@ -6,12 +6,13 @@ interface SelectProps {
   value: any
   setValue: any
   optionList: Array<any>
+  displayColumn?: string
 }
 
 const Select : React.SFC<SelectProps> = ({
-  title, value, setValue, optionList,
+  title, value, setValue, optionList, displayColumn,
 }) => (
-  <Form.Group controlId="exampleForm.ControlSelect1">
+  <Form.Group>
     <Form.Label>{title}</Form.Label>
     <Form.Control
       as="select"
@@ -20,7 +21,9 @@ const Select : React.SFC<SelectProps> = ({
     >
       {
         optionList.map((option, index) => (
-          <option key={`type-option-${index}`}>{option}</option>
+          <option key={`type-option-${index}`}>
+            { displayColumn ? `${option[displayColumn]}` : option }
+          </option>
         ))
       }
     </Form.Control>
