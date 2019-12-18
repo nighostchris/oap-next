@@ -11,58 +11,46 @@ interface AUTCProps {
 const AddUserToCourse: React.FunctionComponent<AUTCProps> = (
   { userlist, courseData, setUserlist },
 ) => {
-  const processedUserList: any[] = [];
-  const processedCourseData: any[] = [];
+  const processedUserList = ['Select...', ...userlist.map((u: any) => u.name)];
+  const processedCourseData = ['Select...', ...courseData.map((c: any) => `COMP${c.code} ${c.title}`)];
 
-  processedUserList.push({ name: 'Select...', email: '', id: '', role: 1, reg: [] });
-  processedCourseData.push({ name: 'Select...', code: '', section: 0 });
-
-  userlist.forEach((u: any) => {
-    processedUserList.push(u);
-  });
-  courseData.forEach((c: any) => {
-    processedCourseData.push({
-      name: `COMP${c.code} ${c.title}`,
-      code: c.code,
-      section: c.section,
-    });
-  });
-
-  const [user, setUser] = React.useState({
-    name: 'Select...', email: '', id: '', role: 1, reg: [{ code: '', section: 0 }],
-  });
-  const [course, setCourse] = React.useState({ name: 'Select...', code: '', section: 0 });
-  const [section, setSection] = React.useState({ id: '' });
+  const [user, setUser] = React.useState(processedUserList[0]);
+  const [course, setCourse] = React.useState(processedCourseData[0]);
+  const [section, setSection] = React.useState('Select...');
 
   const selectCourseFromCorrespondingUser = (c: any) => {
     let check = true;
-    userlist.find((u) => u.name === user.name).reg.forEach((c2: any) => {
-      if (c2.code === c.code) {
+    userlist.find((u) => u.name === user).reg.forEach((c2: any) => {
+      if (c.includes(c2.code)) {
         check = false;
       }
     });
     return check;
   };
 
-  const filteredCourse = () => processedCourseData.filter(selectCourseFromCorrespondingUser);
+  const filteredCourse = () => processedCourseData.filter(
+    (c) => selectCourseFromCorrespondingUser(c),
+  );
 
   const listSection = () => {
-    const sectionArray: any[] = [];
-    for (let i = 1; i <= course.section; i++) {
-      sectionArray.push({ id: `L${i}` });
+    const courseCode = course.substring(4, course.indexOf(' '));
+    const courseDetail = courseData.find((c: any) => c.code === courseCode);
+    const sectionArray: any[] = ['Select...'];
+    for (let i = 1; i <= courseDetail.section; i++) {
+      sectionArray.push(`L${i}`);
     }
     return sectionArray;
   };
 
   const updateUserList = () => {
     const temp = userlist;
-    const changedUser = user;
-    changedUser.reg.push({ code: course.code, section: Number(section.id.slice(-1)) });
+    const changedUser = userlist.find((u) => u.name === user);
+    changedUser.reg.push({ code: course.substring(4, course.indexOf(' ')), section: Number(section.slice(-1)) });
     temp[temp.findIndex((el) => el.id === user.id)] = changedUser;
     setUserlist([...temp]);
-    setUser({ name: 'Select...', email: '', id: '', role: 1, reg: [] });
-    setCourse({ name: 'Select...', code: '', section: 0 });
-    setSection({ id: '' });
+    setUser(processedUserList[0]);
+    setCourse(processedCourseData[0]);
+    setSection('Select...');
   };
 
   return (
@@ -73,34 +61,31 @@ const AddUserToCourse: React.FunctionComponent<AUTCProps> = (
         optionList={processedUserList}
         value={user}
         setValue={setUser}
-        displayColumn="name"
       />
       {
-        user.name !== 'Select...'
+        user !== 'Select...'
           && (
             <Select
               title="Course"
               optionList={filteredCourse()}
               value={course}
               setValue={setCourse}
-              displayColumn="name"
             />
           )
       }
       {
-        course.name !== 'Select...'
+        course !== 'Select...'
           && (
           <Select
             title="Section"
             optionList={listSection()}
             value={section}
             setValue={setSection}
-            displayColumn="id"
           />
           )
       }
       {
-        section.id !== ''
+        section !== 'Select...'
           && (
             <Button block variant="primary" onClick={() => updateUserList()}>
               Submit

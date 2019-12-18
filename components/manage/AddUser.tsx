@@ -6,11 +6,7 @@ interface UserlistProps {
   setUserlist: (value: Array<any> | ((prevVar: Array<any>) => Array<any>)) => void,
 }
 
-const optionList = [
-  { id: 'Student', e: 's' },
-  { id: 'Teaching Staff', e: 'ts' },
-  { id: 'Admin', e: 'a' },
-];
+const optionList = ['Student', 'Teaching Staff', 'Admin'];
 
 const AddUser: React.FunctionComponent<UserlistProps> = ({ setUserlist }) => {
   const [nname, setNName] = React.useState('');
@@ -23,7 +19,7 @@ const AddUser: React.FunctionComponent<UserlistProps> = ({ setUserlist }) => {
       name: nname,
       email: nemail,
       id: nid,
-      role: nrole.e === 's' ? 1 : nrole.e === 'ts' ? 2 : 3,
+      role: nrole === 'Student' ? 1 : nrole === 'Teaching Staff' ? 2 : 3,
     };
     setUserlist((oldArray: Array<any>) => [...oldArray, newUser]);
   };
@@ -48,7 +44,6 @@ const AddUser: React.FunctionComponent<UserlistProps> = ({ setUserlist }) => {
         optionList={optionList}
         value={nrole}
         setValue={setNRole}
-        displayColumn="id"
       />
       <Button block variant="primary" onClick={() => updateUserList()}>
         Submit
