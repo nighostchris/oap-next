@@ -1,6 +1,5 @@
 import React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
-import { Provider as StyletronProvider } from 'styletron-react';
 
 class MyDocument extends Document {
   static getInitialProps(props) {
