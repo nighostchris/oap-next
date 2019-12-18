@@ -10928,7 +10928,7 @@ a:focus, button:focus {
 .card-row {
   display: flex;
   flex-direction: row; }
-  @media (max-width: 480px) {
+  @media (max-width: 600px) {
     .card-row {
       flex-direction: column;
     } }

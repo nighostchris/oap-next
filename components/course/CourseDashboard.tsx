@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import PageHeader from '../global/PageHeader';
 import CourseworkTab from './CourseworkTab';
 import AnnouncementTab from './AnnouncementTab';
+import GradeTab from './GradeTab';
 
 const listItem = [
   {
@@ -71,7 +72,7 @@ const CourseDashboard: React.FunctionComponent = () => {
       { coursetab === 'announcements' && <AnnouncementTab /> }
       { coursetab === 'assignments' && <CourseworkTab title="Assignments" coursework={listItem} /> }
       { coursetab === 'labs' && <CourseworkTab title="Labs" coursework={listItem} /> }
-      { coursetab === 'grades' }
+      { coursetab === 'grades' && <GradeTab />}
     </>
   );
 };

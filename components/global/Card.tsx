@@ -8,10 +8,11 @@ interface Info {
 }
 
 interface CardProps {
-  type: 'team' | 'footer' | 'info' | 'post' | 'list'
+  type: 'team' | 'footer' | 'info' | 'post' | 'list' | 'stat'
   title?: string
   link?: string
   content?: string
+  icon?: string
   footer?: string
   teamfooter?: string
   listItem?: Array<any>
@@ -216,8 +217,28 @@ const postCard = (title: string, content: string) => {
   );
 };
 
+const statCard = (title: string, content: string, icon: string) => (
+  <div className="card mx-2" style={{ flex: 1 }}>
+    <div className="card-body">
+      <div className="row align-items-center">
+        <div className="col">
+          <h6 className="card-title text-uppercase text-muted mb-2">
+            {title}
+          </h6>
+          <span className="h2 mb-0">
+            {content}
+          </span>
+        </div>
+        <div className="col-auto">
+          <span className={icon} style={{ fontSize: 22 }} />
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 const Card : React.SFC<CardProps> = ({
-  children, type, title, link, content, footer,
+  children, type, title, link, content, icon, footer,
   teamfooter, sortable, searchable, listItem, infoList,
 }) => {
   const [keyword, setKeyword] = React.useState('');
@@ -231,13 +252,14 @@ const Card : React.SFC<CardProps> = ({
             : (type === 'list' ? listCard(title as string, listItem as any[], sortable as boolean,
               searchable as boolean, keyword as string, setKeyword as any, mode as number,
                 setMode as any)
-              : (
-                <div className="card mx-2" style={{ flex: 1 }}>
-                  <div className="card-body">
-                    {children}
+              : (type === 'stat' ? statCard(title as string, content as string, icon as string)
+                : (
+                  <div className="card mx-2" style={{ flex: 1 }}>
+                    <div className="card-body">
+                      {children}
+                    </div>
                   </div>
-                </div>
-              )))))
+                ))))))
   );
 };
 
