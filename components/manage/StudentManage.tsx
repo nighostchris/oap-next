@@ -1,9 +1,6 @@
 import * as React from 'react';
 import AddUser from './AddUser';
 import AddUserToCourse from './AddUserToCourse';
-import RemoveFromCourse from './RemoveFromCourse';
-import ChangeSection from './ChangeSection';
-import Popup from '../Popup';
 import Table from '../global/Table';
 import Select from '../global/Select';
 
@@ -57,7 +54,6 @@ const optionList = ['Select...', 'Add New', 'Add to Course', 'Remove from Course
 
 const StudentManage: React.FunctionComponent = () => {
   const [search, setSearch] = React.useState('');
-  const [isPop, setIsPop] = React.useState(false);
   const [type, setType] = React.useState(optionList[0]);
   const [userlist, setUserlist] = React.useState([...users]);
   const tbody = () => {
@@ -72,9 +68,6 @@ const StudentManage: React.FunctionComponent = () => {
     <div className="container-fluid">
       <div className="row">
         <div className="col-12 col-xl-7">
-          <Popup
-            isPop={isPop}
-          />
           <div className="input-group input-group-merge mb-3">
             <input
               type="text"
@@ -119,26 +112,6 @@ const StudentManage: React.FunctionComponent = () => {
                     courseData={courseData}
                   />
                 )
-            }
-            {
-              type !== undefined && type === optionList[3]
-              && (
-                <RemoveFromCourse
-                  userlist={userlist}
-                  setUserlist={setUserlist}
-                />
-              )
-            }
-            {
-              type !== undefined && type === optionList[4]
-              && (
-                <ChangeSection
-                  userlist={userlist}
-                  setUserlist={setUserlist}
-                  courseData={courseData}
-                  setIsPop={setIsPop}
-                />
-              )
             }
           </div>
         </div>

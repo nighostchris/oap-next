@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { NextPage } from 'next';
-import LoginLayout from '../components/prelogin/LoginLayout';
+import Root from '../components/root-layout/Root';
+import Dashboard from '../components/Dashboard';
 
 const IndexPage: NextPage = () => (
-  <LoginLayout />
+  <Root>
+    <Dashboard />
+  </Root>
 );
 
 export default IndexPage;

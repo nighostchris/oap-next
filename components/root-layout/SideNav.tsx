@@ -67,7 +67,7 @@ const Sidebar: React.SFC<SidebarProps> = ({ navigations }) => (
   <>
     <Navbar.Toggle />
     <Navbar.Brand>
-      <a href="/dashboard">
+      <a href="/">
         <img
           alt="..."
           src="/logo.svg"
@@ -131,30 +131,108 @@ const navigations: Array<Navigation> = [
         icon: 'fas fa-book',
         children: [
           {
+            title: 'Announcements',
+            href: '/course/1021/announcements',
+            updated: true,
+          },
+          {
             title: 'Assignments',
             href: '/course/1021/assignments',
+            updated: true,
+
           },
           {
             title: 'Labs',
             href: '/course/1021/labs',
             updated: true,
           },
+          {
+            title: 'Grades',
+            href: '/course/1021/grades',
+            updated: true,
+          },
         ],
       },
       {
         title: 'COMP2011',
-        href: '/course/2011/announcements',
         icon: 'fas fa-book',
+        children: [
+          {
+            title: 'Announcements',
+            href: '/course/2011/announcements',
+            updated: true,
+          },
+          {
+            title: 'Assignments',
+            href: '/course/2011/assignments',
+            updated: true,
+
+          },
+          {
+            title: 'Labs',
+            href: '/course/2011/labs',
+            updated: true,
+          },
+          {
+            title: 'Grades',
+            href: '/course/2011/grades',
+            updated: true,
+          },
+        ],
       },
       {
         title: 'COMP2012',
-        href: '/course/2012/announcements',
         icon: 'fas fa-book',
+        children: [
+          {
+            title: 'Announcements',
+            href: '/course/2012/announcements',
+            updated: true,
+          },
+          {
+            title: 'Assignments',
+            href: '/course/2012/assignments',
+            updated: true,
+
+          },
+          {
+            title: 'Labs',
+            href: '/course/2012/labs',
+            updated: true,
+          },
+          {
+            title: 'Grades',
+            href: '/course/2012/grades',
+            updated: true,
+          },
+        ],
       },
       {
         title: 'COMP3021',
-        href: '/course/3021/announcements',
         icon: 'fas fa-book',
+        children: [
+          {
+            title: 'Announcements',
+            href: '/course/3021/announcements',
+            updated: true,
+          },
+          {
+            title: 'Assignments',
+            href: '/course/3021/assignments',
+            updated: true,
+
+          },
+          {
+            title: 'Labs',
+            href: '/course/3021/labs',
+            updated: true,
+          },
+          {
+            title: 'Grades',
+            href: '/course/3021/grades',
+            updated: true,
+          },
+        ],
       },
     ],
   },

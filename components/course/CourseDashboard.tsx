@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useRouter } from 'next/router';
 import PageHeader from '../global/PageHeader';
 import CourseworkTab from './CourseworkTab';
-import GradeTab from './GradeTab';
 import AnnouncementTab from './AnnouncementTab';
 
 const listItem = [
@@ -72,7 +71,7 @@ const CourseDashboard: React.FunctionComponent = () => {
       { coursetab === 'announcements' && <AnnouncementTab /> }
       { coursetab === 'assignments' && <CourseworkTab title="Assignments" coursework={listItem} /> }
       { coursetab === 'labs' && <CourseworkTab title="Labs" coursework={listItem} /> }
-      { coursetab === 'grades' && <GradeTab /> }
+      { coursetab === 'grades' }
     </>
   );
 };

@@ -1,20 +1,5 @@
 import * as React from 'react';
-import { styled } from 'baseui';
 import Card from './global/Card';
-
-const Root = styled('div', {
-  padding: '40px 60px 0 60px',
-});
-
-const CardRow = styled('div', {
-  display: 'flex',
-  flexWrap: 'wrap',
-  flexDirection: 'row',
-  '@media (min-width: 320px) and (max-width: 480px)': {
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-});
 
 const courses = [{
   code: '1021',
@@ -76,9 +61,9 @@ const Dashboard: React.FunctionComponent = () => (
   <div className="container-fluid">
     <div className="row">
       <div className="col-12">
-        <Root>
+        <div style={{ padding: '30px' }}>
           <h1>Courses</h1>
-          <CardRow>
+          <div className="card-row">
             {
               courses.map((d, index) => (
                 <Card
@@ -91,9 +76,9 @@ const Dashboard: React.FunctionComponent = () => (
                 />
               ))
             }
-          </CardRow>
+          </div>
           <h1>Assignments</h1>
-          <CardRow>
+          <div className="card-row">
             {
               assignments.map((d, index) => (
                 <Card
@@ -105,8 +90,8 @@ const Dashboard: React.FunctionComponent = () => (
                 />
               ))
             }
-          </CardRow>
-        </Root>
+          </div>
+        </div>
       </div>
     </div>
   </div>
