@@ -218,8 +218,8 @@ const postCard = (title: string, content: string) => {
 };
 
 const statCard = (title: string, content: string, icon: string) => (
-  <div className="card mx-2" style={{ flex: 1 }}>
-    <div className="card-body" style={{ padding: '0.6rem 2rem' }}>
+  <div className="card mx-4" style={{ flex: 1 }}>
+    <div className="card-body" style={{ padding: '0.6rem 4rem' }}>
       <div className="row align-items-center">
         <div className="col">
           <h6 className="card-title text-uppercase text-muted mb-2">
