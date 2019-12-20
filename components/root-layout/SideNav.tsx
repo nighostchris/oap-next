@@ -111,10 +111,7 @@ const Sidebar: React.SFC<SidebarProps> = ({ navigations }) => (
             </div>
           </div>
           <div className="dropdown-menu" aria-labelledby="sidebarIconCopy">
-            <a href="profile-posts.html" className="dropdown-item">Profile</a>
-            <a href="settings.html" className="dropdown-item">Settings</a>
-            <hr className="dropdown-divider" />
-            <a href="sign-in.html" className="dropdown-item">Logout</a>
+            <a href="#" className="dropdown-item">Logout</a>
           </div>
         </div>
       </div>

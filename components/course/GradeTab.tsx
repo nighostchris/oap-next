@@ -52,7 +52,8 @@ const generateTable = (category: any, title: string) => {
               <tr>
                 <th className="px-0 bg-transparent border-top-0"><span className="h6">Name</span></th>
                 <th className="px-0 bg-transparent border-top-0"><span className="h6">Marks</span></th>
-                <th className="px-0 bg-transparent border-top-0 text-right"> <span className="h6">%</span></th>
+                <th className="px-0 bg-transparent border-top-0"><span className="h6">Out Of</span></th>
+                <th className="px-0 bg-transparent border-top-0 text-right"><span className="h6">%</span></th>
               </tr>
             </thead>
             <tbody>
@@ -61,6 +62,7 @@ const generateTable = (category: any, title: string) => {
                   <tr key={`${title}-${index}`}>
                     <td className="px-0">{c.title}</td>
                     <td className="px-0">{c.mark}</td>
+                    <td className="px-0">{c.full}</td>
                     <td className="px-0 text-right">{`${(c.mark / c.full * 100).toPrecision(3)}%`}</td>
                   </tr>
                 ))

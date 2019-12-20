@@ -68,7 +68,7 @@ const StudentManage: React.FunctionComponent = () => {
     <div className="container-fluid">
       <div className="row">
         <div className="col-12 col-xl-7">
-          <div className="input-group input-group-merge mb-3">
+          <div className="input-group input-group-merge mb-3 pt-4">
             <input
               type="text"
               value={search}
