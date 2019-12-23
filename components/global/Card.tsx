@@ -152,8 +152,16 @@ const teamCard = (link: string, title: string, content: string, teamfooter: stri
   </div>
 );
 
-const infoCard = (infoList: Array<Info>) => (
+const infoCard = (title: string, infoList: Array<Info>) => (
   <div className="card mx-2" style={{ flex: 1 }}>
+    {
+      title
+        && (
+          <div className="card-header" style={{ fontWeight: 'bold' }}>
+            {title}
+          </div>
+        )
+    }
     <div className="card-body">
       {
         infoList.map((info, index) => (
@@ -247,7 +255,7 @@ const Card : React.SFC<CardProps> = ({
   return (
     type === 'team' ? teamCard(link as string, title as string, content as string, teamfooter as string)
       : (type === 'footer' ? footerCard(title as string, content as string, footer as string)
-        : (type === 'info' ? infoCard(infoList as Info[])
+        : (type === 'info' ? infoCard(title as string, infoList as Info[])
           : (type === 'post' ? postCard(title as string, content as string)
             : (type === 'list' ? listCard(title as string, listItem as any[], sortable as boolean,
               searchable as boolean, keyword as string, setKeyword as any, mode as number,

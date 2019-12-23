@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import PageHeader from '../global/PageHeader';
 import SubmissionTab from './SubmissionTab';
 import AnnouncementTab from './AnnouncementTab';
+import GradeTab from './GradeTab';
 
 const CourseworkDashboard: React.FunctionComponent = () => {
   const router = useRouter();
@@ -29,9 +30,6 @@ const CourseworkDashboard: React.FunctionComponent = () => {
     }
   };
 
-  /*
-    { coursetab === 'grade' && <CourseworkTab title="Labs" coursework={listItem} /> }
-  */
   return (
     <>
       <PageHeader
@@ -44,6 +42,7 @@ const CourseworkDashboard: React.FunctionComponent = () => {
       />
       { courseworktab === 'announcements' && <AnnouncementTab /> }
       { courseworktab === 'submissions' && <SubmissionTab /> }
+      { courseworktab === 'grade' && <GradeTab /> }
     </>
   );
 };
