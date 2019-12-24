@@ -153,7 +153,7 @@ const teamCard = (link: string, title: string, content: string, teamfooter: stri
 );
 
 const infoCard = (title: string, infoList: Array<Info>) => (
-  <div className="card mx-2" style={{ flex: 1 }}>
+  <div className="card" style={{ flex: 1 }}>
     {
       title
         && (
