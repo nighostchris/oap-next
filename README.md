@@ -1,12 +1,11 @@
-# oap-next (Last Update: 20/12/2019 17:17)
+# oap-next (Last Update: 24/12/2019 14:39)
 oap-next = Next.js implementation of Online Assessment Platform.\
 [Demo on](https://oap-next.chrisliupascal.now.sh/dashboard)
 
 ### To-Do List
 1. SideNav bottom notification panel
-2. Coursework Grade Page
-3. Setting Page
-4. Conversation Page
+2. Setting Page
+3. Conversation Page
 4. Extract the Sidenav components for File Explorer function (?)
 5. Investigate calendar function in dashboard
 6. Investigate Test Case dnd function

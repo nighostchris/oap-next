@@ -23,7 +23,7 @@ const ConversationLayout: React.FunctionComponent = () => {
               </div>
             </div>
           </div>
-          <span className="fas fa-edit" style={{ fontSize: '22px', marginLeft: '10px' }} />
+          <span className="fas fa-edit" />
         </div>
         <div className="conversation-left-scrollable">
           {
@@ -33,22 +33,30 @@ const ConversationLayout: React.FunctionComponent = () => {
                   alt=""
                   src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
                   className="avatar avatar-sm rounded-circle"
-                  style={{ objectFit: 'cover' }}
                 />
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <h4>Desmond Tsoi</h4>
                   <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <h6>Thanks for your question</h6>
-                    <h6>Dec 19</h6>
+                    <h6 className="mb-0">Thanks for your question</h6>
+                    <h6 className="mb-0 ml-4">Dec 19</h6>
                   </div>
                 </div>
               </div>
             ))
           }
-          
         </div>
       </div>
       <div className="conversation-right">
+        <div className="conversation-right-header">
+          <div className="header-content">
+            <img
+              alt=""
+              src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
+              className="avatar avatar-sm rounded-circle"
+            />
+            <h3 className="mb-0 ml-3">Desmond Tsoi</h3>
+          </div>
+        </div>
       </div>
     </div>
   );
