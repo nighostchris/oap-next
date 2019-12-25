@@ -8056,7 +8056,6 @@ a.text-white:hover, a.text-white:focus {
   margin-left: 0; }
 
 .card {
-  display: block;
   margin-bottom: 1.5rem;
   border-color: #EDF2F9;
   box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03); }
