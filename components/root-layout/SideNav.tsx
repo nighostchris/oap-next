@@ -258,7 +258,7 @@ const navigations: Array<Navigation> = [
       },
       {
         title: 'Conversations',
-        href: '/conversation',
+        href: '/conversations',
         icon: 'fas fa-comment-dots',
       },
       {
