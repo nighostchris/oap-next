@@ -18411,3 +18411,6 @@ button:focus
   border: 2px solid transparent;
   background-color: rgba(128, 128, 128, .7);
   box-shadow: inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05); }
+
+.ql-clipboard {
+  display: none; }

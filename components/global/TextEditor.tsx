@@ -21,7 +21,7 @@ const TextEditor : React.FunctionComponent = () => {
   const [content, setContent] = React.useState('');
 
   return (
-    <div className="text-editor">
+    <div className="text-editor mb-5">
       <ReactQuill
         value={content}
         onChange={setContent}
