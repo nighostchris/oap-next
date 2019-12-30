@@ -4,8 +4,7 @@ oap-next = Next.js implementation of Online Assessment Platform.\
 
 ### To-Do List
 1. SideNav bottom notification panel
-2. Setting Page
-3. Conversation Page
+2. Conversation Page (halfly done)
 4. Extract the Sidenav components for File Explorer function (?)
 5. Investigate calendar function in dashboard
 6. Investigate Test Case dnd function

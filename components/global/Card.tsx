@@ -55,7 +55,7 @@ const listCard = (title: string, listItem: (Array<any> | undefined),
   const listItemDropdown = [{ title: 'Asc', func: () => setMode(1) }, { title: 'Dsc', func: () => setMode(2) }];
 
   return (
-    <div className="card mx-2" style={{ flex: 1 }} data-toggle="lists">
+    <div className="card" style={{ flex: 1 }} data-toggle="lists">
       <>
         <div className="card-header">
           <div className="row align-items-center">
