@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Dropzone from 'react-dropzone';
 import Card from '../global/Card';
 import Table from '../global/Table';
 
@@ -47,6 +48,18 @@ const tbody = () => {
 
 const AnnouncementTab: React.FunctionComponent = () => (
   <div className="container-fluid">
+    <Dropzone onDrop={(acceptedFiles) => console.log(acceptedFiles)}>
+      {
+        ({ getRootProps, getInputProps }) => (
+          <section className="dropzone dropzone-single mb-3 dz-clickable">
+            <div {...getRootProps()} className="dz-default dz-message">
+              <input {...getInputProps()} />
+              <p className="mb-0">Drag here and upload</p>
+            </div>
+          </section>
+        )
+      }
+    </Dropzone>
     <div className="row">
       <div className="col-12 col-xl-9">
         <Table
