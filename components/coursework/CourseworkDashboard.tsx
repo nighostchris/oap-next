@@ -4,6 +4,7 @@ import PageHeader from '../global/PageHeader';
 import SubmissionTab from './SubmissionTab';
 import AnnouncementTab from './AnnouncementTab';
 import GradeTab from './GradeTab';
+import SettingsTab from './SettingsTab';
 
 const CourseworkDashboard: React.FunctionComponent = () => {
   const router = useRouter();
@@ -13,7 +14,7 @@ const CourseworkDashboard: React.FunctionComponent = () => {
   const pageHeaderProps: any = {
     pretitle: 'COMP 1021',
     title: 'Assignment 1 - Tic Tac Toe',
-    tabTitle: ['Announcements', 'Submissions', 'Grade'],
+    tabTitle: ['Announcements', 'Submissions', 'Grade', 'Settings'],
   };
   pageHeaderProps.avatar = <span className="avatar-title rounded-circle bg-dark text-primary"><span className={`fas fa-${pageHeaderProps.title.includes('Lab') ? 'flask' : 'laptop-code'}`} style={{ fontSize: '60px' }} /></span>;
 
@@ -25,6 +26,8 @@ const CourseworkDashboard: React.FunctionComponent = () => {
         return 1;
       case 'grade':
         return 2;
+      case 'settings':
+        return 3;
       default:
         return 0;
     }
@@ -43,6 +46,7 @@ const CourseworkDashboard: React.FunctionComponent = () => {
       { courseworktab === 'announcements' && <AnnouncementTab /> }
       { courseworktab === 'submissions' && <SubmissionTab /> }
       { courseworktab === 'grade' && <GradeTab /> }
+      { courseworktab === 'settings' && <SettingsTab /> }
     </>
   );
 };

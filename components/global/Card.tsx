@@ -114,9 +114,9 @@ const footerCard = (title: string, content: string, footer: string) => (
     <div className="card-body">
       <h3 className="card-title">{title}</h3>
       <p className="card-text">{content}</p>
-      <div className="btn btn-primary">
+      <a className="btn btn-primary" href="/coursework/1/announcements">
         <i className="fas fa-arrow-right" />
-      </div>
+      </a>
     </div>
     <div className="card-footer bg-dark" style={{ position: 'inherit', bottom: '0', width: '100%' }}>
       <p style={{ marginBottom: 0, color: 'white' }}>{footer}</p>
