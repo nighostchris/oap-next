@@ -10,12 +10,12 @@ const CourseworkDashboard: React.FunctionComponent = () => {
   const { courseworkid, courseworktab } = router.query;
   const rootUrl = `/coursework/${courseworkid}`;
 
-  const pageHeaderProps = {
+  const pageHeaderProps: any = {
     pretitle: 'COMP 1021',
     title: 'Assignment 1 - Tic Tac Toe',
-    avatar: <span className="avatar-title rounded-circle bg-dark text-primary"><span className="fas fa-flask" style={{ fontSize: '60px' }} /></span>,
     tabTitle: ['Announcements', 'Submissions', 'Grade'],
   };
+  pageHeaderProps.avatar = <span className="avatar-title rounded-circle bg-dark text-primary"><span className={`fas fa-${pageHeaderProps.title.includes('Lab') ? 'flask' : 'laptop-code'}`} style={{ fontSize: '60px' }} /></span>;
 
   const activeTab = (tab: string | string[]) => {
     switch (tab) {

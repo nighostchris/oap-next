@@ -95,11 +95,6 @@ const Sidebar: React.SFC<SidebarProps> = ({ navigations }) => (
       }
       <div className="mt-auto" />
       <div className="navbar-user d-none d-md-flex">
-        <div className="navbar-user-link">
-          <span className="icon">
-            <i className="fas fa-bell" />
-          </span>
-        </div>
         <div className="dropup">
           <div className="dropdown-toggle">
             <div className="avatar avatar-sm avatar-online">
