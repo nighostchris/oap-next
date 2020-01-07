@@ -3,6 +3,7 @@ import { ButtonGroup, Button, Nav } from 'react-bootstrap';
 import DragCard from './DragCard';
 import DropBoard from './DropBoard';
 import Assertions from './Assertions';
+import LogicStatements from './LogicStatements';
 
 const TestCaseBoard: React.FunctionComponent = () => {
   const [leftBarTab, setLeftBarTab] = React.useState('operators');
@@ -47,6 +48,10 @@ const TestCaseBoard: React.FunctionComponent = () => {
                   <Assertions funcName="AssertEquals" parameters={2} />
                   <Assertions funcName="AssertTrue" parameters={1} />
                   <Assertions funcName="AssertFalse" parameters={1} />
+                  <LogicStatements operators=">" />
+                  <LogicStatements operators="<" />
+                  <LogicStatements operators="==" />
+                  <LogicStatements operators="!=" />
                 </div>
               )
           }
