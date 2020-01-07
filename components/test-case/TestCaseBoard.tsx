@@ -2,9 +2,10 @@ import * as React from 'react';
 import { ButtonGroup, Button, Nav } from 'react-bootstrap';
 import DragCard from './DragCard';
 import DropBoard from './DropBoard';
+import Assertions from './Assertions';
 
 const TestCaseBoard: React.FunctionComponent = () => {
-  const [leftBarTab, setLeftBarTab] = React.useState('functions');
+  const [leftBarTab, setLeftBarTab] = React.useState('operators');
 
   return (
     <div className="col-12 px-0" style={{ height: '100vh' }}>
@@ -17,7 +18,7 @@ const TestCaseBoard: React.FunctionComponent = () => {
         <Button variant="outline-primary" style={{ position: 'absolute', right: '.75rem' }}>Save</Button>
       </div>
       <div className="row mx-0" style={{ height: 'calc(100% - 60px)' }}>
-        <div className="col-12 col-xl-3 px-0" style={{ borderRight: '1px solid #E3EBF6' }}>
+        <div className="col-12 col-xl-4 px-0" style={{ borderRight: '1px solid #E3EBF6' }}>
           <Nav fill variant="tabs" activeKey={leftBarTab} className="nav-overflow nav-tabs-sm justify-content-center px-2">
             <Nav.Item>
               <Nav.Link eventKey="functions" onSelect={() => setLeftBarTab('functions')}>Functions</Nav.Link>
@@ -38,8 +39,19 @@ const TestCaseBoard: React.FunctionComponent = () => {
                 </div>
               )
           }
+          {
+            leftBarTab === 'operators'
+              && (
+                <div>
+                  <Assertions funcName="AssertSame" parameters={2} />
+                  <Assertions funcName="AssertEquals" parameters={2} />
+                  <Assertions funcName="AssertTrue" parameters={1} />
+                  <Assertions funcName="AssertFalse" parameters={1} />
+                </div>
+              )
+          }
         </div>
-        <div className="col-12 col-xl-9 px-0" style={{ overflowX: 'auto' }}>
+        <div className="col-12 col-xl-8 px-0" style={{ overflowX: 'auto' }}>
           <DropBoard dropBoardType="functions" testCaseName="Test Case 1" />
         </div>
       </div>
