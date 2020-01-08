@@ -3,12 +3,14 @@ import { useDrag, useDrop } from 'react-dnd-cjs';
 import DragCard from './DragCard';
 
 interface AssertionsProps {
-  operators: string,
+  operators: string
+  statL?: string
+  statR?: string
 }
 
-const LogicStatements: React.FC<AssertionsProps> = ({ operators }) => {
-  const [statementLeft, setStatementLeft] = React.useState();
-  const [statementRight, setStatementRight] = React.useState();
+const LogicStatements: React.FC<AssertionsProps> = ({ operators, statL, statR }) => {
+  const [statementLeft, setStatementLeft] = React.useState(statL);
+  const [statementRight, setStatementRight] = React.useState(statR);
 
   const changeStatement = (position: number, item: any) => {
     if (position === 0) {
@@ -19,7 +21,7 @@ const LogicStatements: React.FC<AssertionsProps> = ({ operators }) => {
   };
 
   const [{ isDragging }, drag] = useDrag({
-    item: { type: 'logicStatements', ops: operators },
+    item: { type: 'logicStatements', ops: operators, statL: statementLeft, statR: statementRight },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -47,7 +49,7 @@ const LogicStatements: React.FC<AssertionsProps> = ({ operators }) => {
       className="card my-3 mx-auto"
       style={{ width: 'fit-content', minWidth: '200px', opacity: isDragging ? 0.7 : 1 }}
     >
-      <div className="card-body p-3" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <div className="card-body justify-content-center align-items-center p-3" style={{ display: 'flex', flexDirection: 'row' }}>
         <div
           ref={dropLeft}
           className="mx-3"
@@ -64,7 +66,12 @@ const LogicStatements: React.FC<AssertionsProps> = ({ operators }) => {
         <div
           ref={dropRight}
           className="mx-3"
-          style={{ width: '50px', height: '40px', border: '1px solid black', background: isOverRight ? 'grey' : undefined }}
+          style={{
+            width: statementRight ? 'fit-content' : '50px',
+            height: statementRight ? 'fit-content' : '40px',
+            border: statementRight ? undefined : '1px solid black',
+            background: isOverRight ? 'grey' : undefined,
+          }}
         >
           { statementRight && <DragCard dragCardType="functions" dragCardName={statementRight} /> }
         </div>
