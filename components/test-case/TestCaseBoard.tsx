@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ButtonGroup, Button, Nav } from 'react-bootstrap';
-import DragCard from './DragCard';
+import DragCard from './Functions';
 import DropBoard from './DropBoard';
 import Assertions from './Assertions';
 import LogicStatements from './LogicStatements';
@@ -35,8 +35,8 @@ const TestCaseBoard: React.FunctionComponent = () => {
             leftBarTab === 'functions'
               && (
                 <div>
-                  <DragCard dragCardType="functions" dragCardName="getName()" />
-                  <DragCard dragCardType="functions" dragCardName="hasReadyUnits()" />
+                  <DragCard funcName="getName" parameters={0} />
+                  <DragCard funcName="hasReadyUnits" parameters={1} />
                 </div>
               )
           }
@@ -57,7 +57,7 @@ const TestCaseBoard: React.FunctionComponent = () => {
           }
         </div>
         <div className="col-12 col-xl-8 px-0" style={{ overflowX: 'auto' }}>
-          <DropBoard dropBoardType="functions" testCaseName="Test Case 1" />
+          <DropBoard testCaseName="Test Case 1" />
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd-cjs';
-import DragCard from './DragCard';
+import DragCard from './Functions';
 
 interface AssertionsProps {
   operators: string
@@ -60,7 +60,7 @@ const LogicStatements: React.FC<AssertionsProps> = ({ operators, statL, statR })
             background: isOverLeft ? 'grey' : undefined,
           }}
         >
-          { statementLeft && <DragCard dragCardType="functions" dragCardName={statementLeft} /> }
+          { statementLeft && <DragCard funcName={statementLeft} parameters={1} /> }
         </div>
         <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>{operators}</h3>
         <div
@@ -73,7 +73,7 @@ const LogicStatements: React.FC<AssertionsProps> = ({ operators, statL, statR })
             background: isOverRight ? 'grey' : undefined,
           }}
         >
-          { statementRight && <DragCard dragCardType="functions" dragCardName={statementRight} /> }
+          { statementRight && <DragCard funcName={statementRight} parameters={1} /> }
         </div>
       </div>
     </div>

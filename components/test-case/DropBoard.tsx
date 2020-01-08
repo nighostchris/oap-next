@@ -1,26 +1,26 @@
 import React from 'react';
 import { useDrop } from 'react-dnd-cjs';
-import DragCard from './DragCard';
+import DragCard from './Functions';
 import Assertions from './Assertions';
 
 interface DropBoardProps {
-  dropBoardType: string,
   testCaseName: string,
 }
 
 const data: any[] = [];
 
-const DropBoard: React.FC<DropBoardProps> = ({ dropBoardType, testCaseName }) => {
+const DropBoard: React.FC<DropBoardProps> = ({ testCaseName }) => {
   const addFunction = (item: any) => {
+    console.log("hovering");
     if (item.type === 'functions') {
-      data.push(<DragCard dragCardType={dropBoardType} dragCardName={item.name} />);
+      data.push(<DragCard funcName={item.name} parameters={item.paras} />);
     } else {
       data.push(<Assertions funcName={item.name} parameters={item.paras} />);
     }
   };
 
   const [{ isOver }, drop] = useDrop({
-    accept: [dropBoardType, 'assertions'],
+    accept: ['functions', 'assertions'],
     drop: (item) => addFunction(item),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
