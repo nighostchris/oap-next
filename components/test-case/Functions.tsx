@@ -1,26 +1,31 @@
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd-cjs';
+import DataInput from './DataInput';
 
 interface DragCardProps {
   funcName: string,
   parameters: number,
 }
 
-const Functions: React.FC<DragCardProps> = ({ funcName, parameters }) => {
-  const [{ isDragging }, drag] = useDrag({
-    item: { type: 'functions', name: funcName, paras: parameters },
-    end: (monitor) => console.log(monitor),
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  });
+/*
+{
+  type: 'functions',
+  name: funcName,
+  paras: parameters,
+  child: [
+    { type: 'dataInput', value: item.value },
+    { type: 'dataInput', value: item.value },
+  ],
+}
+*/
 
+const Functions: React.FC<DragCardProps> = ({ funcName, parameters }) => {
   const dropArray = [];
   const [functionParameters, setFunctionParameters] = React.useState([...new Array(parameters)]);
 
   const changeFunctionParameters = (position: number, item: any) => {
     const temp = functionParameters;
-    temp[position] = { type: item.type, value: item.value };
+    temp[position] = { type: 'dataInput', value: item.value, setValue: item.setValue };
     setFunctionParameters([...temp]);
   };
 
@@ -33,6 +38,19 @@ const Functions: React.FC<DragCardProps> = ({ funcName, parameters }) => {
       }),
     }));
   }
+
+  const [{ isDragging }, drag] = useDrag({
+    item: {
+      type: 'functions',
+      name: funcName,
+      paras: parameters,
+      child: functionParameters,
+      setChild: setFunctionParameters,
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
 
   return (
     <div
@@ -48,13 +66,20 @@ const Functions: React.FC<DragCardProps> = ({ funcName, parameters }) => {
               ref={d[1]}
               className="mx-3"
               style={{
-                width: functionParameters[index] ? 'fit-content' : '50px',
-                height: functionParameters[index] ? 'fit-content' : '40px',
+                width: functionParameters[index] ? undefined : '50px',
+                height: functionParameters[index] ? undefined : '40px',
                 border: functionParameters[index] ? undefined : '1px solid black',
                 background: d[0].isOver ? 'grey' : undefined,
               }}
             >
-              {functionParameters[index] && functionParameters[index].value}
+              { functionParameters[index]
+                && (
+                  <DataInput
+                    initValue={functionParameters[index].value}
+                    parent={functionParameters}
+                    setParent={setFunctionParameters}
+                  />
+                )}
             </div>
           ))
         }

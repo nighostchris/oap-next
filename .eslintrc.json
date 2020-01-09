@@ -31,6 +31,7 @@
     "react/no-danger": "off",
     "react/prop-types": "off",
     "no-return-assign": "off",
+    "object-shorthand": "off",
     "no-param-reassign": "off",
     "no-nested-ternary": "off",
     "no-mixed-operators": "off",

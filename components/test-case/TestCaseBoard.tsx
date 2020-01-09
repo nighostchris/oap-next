@@ -1,12 +1,32 @@
 import * as React from 'react';
+import { useDrop } from 'react-dnd-cjs';
 import { ButtonGroup, Button, Nav } from 'react-bootstrap';
 import DragCard from './Functions';
 import DropBoard from './DropBoard';
 import Assertions from './Assertions';
 import LogicStatements from './LogicStatements';
+import DataInput from './DataInput';
 
 const TestCaseBoard: React.FunctionComponent = () => {
   const [leftBarTab, setLeftBarTab] = React.useState('operators');
+
+  const deleteDrop = (item: any) => {
+    if (item.type === 'dataInput') {
+      const temp = item.parent;
+      console.log(temp);
+      temp.filter((d: any) => d.value !== item.value);
+      console.log(temp);
+      item.setParent([...temp]);
+    }
+  };
+
+  const [{ isOver }, dropBin] = useDrop({
+    accept: ['dataInput'],
+    drop: (item) => deleteDrop(item),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  });
 
   return (
     <div className="col-12 px-0" style={{ height: '100vh' }}>
@@ -55,9 +75,28 @@ const TestCaseBoard: React.FunctionComponent = () => {
                 </div>
               )
           }
+          {
+            leftBarTab === 'fields'
+              && (
+                <div>
+                  <DataInput initValue="" />
+                </div>
+              )
+          }
         </div>
         <div className="col-12 col-xl-8 px-0" style={{ overflowX: 'auto' }}>
           <DropBoard testCaseName="Test Case 1" />
+          <i
+            ref={dropBin}
+            className="fas fa-archive"
+            style={{
+              background: isOver ? 'grey' : undefined,
+              position: 'absolute',
+              top: '20px',
+              right: '20px',
+              fontSize: '40px',
+            }}
+          />
         </div>
       </div>
     </div>

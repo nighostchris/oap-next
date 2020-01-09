@@ -1,11 +1,24 @@
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd-cjs';
 import LogicStatements from './LogicStatements';
+import Functions from './Functions';
 
 interface AssertionsProps {
   funcName: string,
   parameters: number,
 }
+
+/*
+{
+  type: 'assertions',
+  name: 'funcName',
+  paras: parameters,
+  child: [
+    { type: 'logicStatements', ... },
+    { type: 'functions', ... },
+  ],
+}
+*/
 
 const Assertions: React.FC<AssertionsProps> = ({ funcName, parameters }) => {
   const [leftLogicStatement, setLeftLogicStatement] = React.useState();
@@ -15,6 +28,9 @@ const Assertions: React.FC<AssertionsProps> = ({ funcName, parameters }) => {
     let result = null;
     if (item.type === 'logicStatements') {
       result = <LogicStatements operators={item.ops} statL={item.statL} statR={item.statR} />;
+    }
+    if (item.type === 'functions') {
+      result = <Functions funcName={item.name} parameters={item.paras} />;
     }
 
     if (position === 0) {
@@ -32,7 +48,7 @@ const Assertions: React.FC<AssertionsProps> = ({ funcName, parameters }) => {
   });
 
   const [{ isOver }, dropLeft] = useDrop({
-    accept: 'logicStatements',
+    accept: ['logicStatements', 'functions'],
     drop: (item) => changeLogicStatement(0, item),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),

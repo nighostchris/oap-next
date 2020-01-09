@@ -8,6 +8,17 @@ interface AssertionsProps {
   statR?: string
 }
 
+/*
+{
+  type: 'logicStatements',
+  operators: '>',
+  child: [
+    { type: 'dataInput', value: item.value },
+    { type: 'functions', ... },
+  ],
+}
+*/
+
 const LogicStatements: React.FC<AssertionsProps> = ({ operators, statL, statR }) => {
   const [statementLeft, setStatementLeft] = React.useState(statL);
   const [statementRight, setStatementRight] = React.useState(statR);
