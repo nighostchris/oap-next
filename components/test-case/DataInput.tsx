@@ -44,6 +44,7 @@ export const DataInput: React.FC<DataInputProps> = ({ position, value, setValue 
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: 'dataInput',
+      position: position,
       value: value,
       setValue: setValue,
     },
@@ -60,7 +61,7 @@ export const DataInput: React.FC<DataInputProps> = ({ position, value, setValue 
     >
       <div className="card-body p-3">
         <input
-          value={value[position].value}
+          value={value[position].value || ''}
           onChange={(e) => changeValue(e.target.value)}
           className="form-control form-control-prepended"
         />

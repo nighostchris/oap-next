@@ -1,8 +1,9 @@
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd-cjs';
-import DragCard from './Functions';
+import Functions from './Functions';
+import { DataInput } from './DataInput';
 
-interface AssertionsProps {
+interface LogicStatementsProps {
   operators: string
   statL?: string
   statR?: string
@@ -19,38 +20,51 @@ interface AssertionsProps {
 }
 */
 
-const LogicStatements: React.FC<AssertionsProps> = ({ operators, statL, statR }) => {
-  const [statementLeft, setStatementLeft] = React.useState(statL);
-  const [statementRight, setStatementRight] = React.useState(statR);
+const LogicStatements: React.FC<LogicStatementsProps> = ({ operators }) => {
+  const dropArray = [];
+  const [LSParameters, setLSParameters] = React.useState([...new Array(2)]);
+  console.log(LSParameters);
 
-  const changeStatement = (position: number, item: any) => {
-    if (position === 0) {
-      setStatementLeft(item.name);
-    } else {
-      setStatementRight(item.name);
+  const updateLSParameters = (position: number, item: any) => {
+    const temp = LSParameters;
+    if (item.type === 'dataInput') {
+      if (item.value !== undefined) {
+        temp[position] = item.value[item.position];
+      } else {
+        temp[position] = { type: item.type, value: item.value };
+      }
     }
+    if (item.type === 'functions') {
+      temp[position] = {
+        type: item.type,
+        name: item.name,
+        paras: item.paras,
+        child: item.child,
+        setChild: item.setChild,
+      };
+    }
+    setLSParameters([...temp]);
   };
 
+  for (let i = 0; i < 2; i++) {
+    dropArray.push(useDrop({
+      accept: ['functions', 'dataInput'],
+      drop: (item) => updateLSParameters(i, item),
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+      }),
+    }));
+  }
+
   const [{ isDragging }, drag] = useDrag({
-    item: { type: 'logicStatements', ops: operators, statL: statementLeft, statR: statementRight },
+    item: {
+      type: 'logicStatements',
+      ops: operators,
+      child: LSParameters,
+      setChild: setLSParameters,
+    },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
-    }),
-  });
-
-  const [{ isOverLeft }, dropLeft] = useDrop({
-    accept: 'functions',
-    drop: (item) => changeStatement(0, item),
-    collect: (monitor) => ({
-      isOverLeft: !!monitor.isOver(),
-    }),
-  });
-
-  const [{ isOverRight }, dropRight] = useDrop({
-    accept: 'functions',
-    drop: (item) => changeStatement(1, item),
-    collect: (monitor) => ({
-      isOverRight: !!monitor.isOver(),
     }),
   });
 
@@ -62,29 +76,37 @@ const LogicStatements: React.FC<AssertionsProps> = ({ operators, statL, statR })
     >
       <div className="card-body justify-content-center align-items-center p-3" style={{ display: 'flex', flexDirection: 'row' }}>
         <div
-          ref={dropLeft}
+          ref={dropArray[0][1]}
           className="mx-3"
           style={{
-            width: statementLeft ? 'fit-content' : '50px',
-            height: statementLeft ? 'fit-content' : '40px',
-            border: statementLeft ? undefined : '1px solid black',
-            background: isOverLeft ? 'grey' : undefined,
+            width: LSParameters[0] ? 'fit-content' : '50px',
+            height: LSParameters[0] ? 'fit-content' : '40px',
+            border: LSParameters[0] ? undefined : '1px solid black',
+            background: dropArray[0][0].isOver ? 'grey' : undefined,
           }}
         >
-          { statementLeft && <DragCard funcName={statementLeft} parameters={1} /> }
+          {
+            LSParameters[0] && (LSParameters[0].type === 'dataInput'
+              ? <DataInput position={0} value={LSParameters} setValue={setLSParameters} />
+              : <Functions funcName={LSParameters[0].name} parameters={LSParameters[0].paras} child={LSParameters[0].child} />)
+          }
         </div>
         <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>{operators}</h3>
         <div
-          ref={dropRight}
+          ref={dropArray[1][1]}
           className="mx-3"
           style={{
-            width: statementRight ? 'fit-content' : '50px',
-            height: statementRight ? 'fit-content' : '40px',
-            border: statementRight ? undefined : '1px solid black',
-            background: isOverRight ? 'grey' : undefined,
+            width: LSParameters[1] ? 'fit-content' : '50px',
+            height: LSParameters[1] ? 'fit-content' : '40px',
+            border: LSParameters[1] ? undefined : '1px solid black',
+            background: dropArray[1][0].isOver ? 'grey' : undefined,
           }}
         >
-          { statementRight && <DragCard funcName={statementRight} parameters={1} /> }
+          {
+            LSParameters[1] && (LSParameters[1].type === 'dataInput'
+              ? <DataInput position={1} value={LSParameters} setValue={setLSParameters} />
+              : <Functions funcName={LSParameters[1].name} parameters={LSParameters[1].paras} child={LSParameters[1].child} />)
+          }
         </div>
       </div>
     </div>

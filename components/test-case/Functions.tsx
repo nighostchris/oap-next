@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDrag, useDrop } from 'react-dnd-cjs';
 import { DataInput } from './DataInput';
 
 interface DragCardProps {
   funcName: string,
   parameters: number,
+  child?: any,
 }
 
 /*
@@ -19,9 +20,13 @@ interface DragCardProps {
 }
 */
 
-const Functions: React.FC<DragCardProps> = ({ funcName, parameters }) => {
+const Functions: React.FC<DragCardProps> = ({ funcName, parameters, child }) => {
   const dropArray = [];
   const [functionParameters, setFunctionParameters] = React.useState([...new Array(parameters)]);
+
+  useEffect(() => {
+    if (child) { setFunctionParameters([...child]); }
+  }, [child]);
 
   const updateFunctionParameters = (position: number, item: any) => {
     const temp = functionParameters;
