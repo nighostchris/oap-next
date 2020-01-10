@@ -5,18 +5,16 @@ import DragCard from './Functions';
 import DropBoard from './DropBoard';
 import Assertions from './Assertions';
 import LogicStatements from './LogicStatements';
-import DataInput from './DataInput';
+import { StatelessDataInput } from './DataInput';
 
 const TestCaseBoard: React.FunctionComponent = () => {
   const [leftBarTab, setLeftBarTab] = React.useState('operators');
 
   const deleteDrop = (item: any) => {
     if (item.type === 'dataInput') {
-      const temp = item.parent;
-      console.log(temp);
-      temp.filter((d: any) => d.value !== item.value);
-      console.log(temp);
-      item.setParent([...temp]);
+      const temp = item.value;
+      temp.splice(item.position, 1);
+      item.setValue([...temp]);
     }
   };
 
@@ -79,7 +77,7 @@ const TestCaseBoard: React.FunctionComponent = () => {
             leftBarTab === 'fields'
               && (
                 <div>
-                  <DataInput initValue="" />
+                  <StatelessDataInput />
                 </div>
               )
           }

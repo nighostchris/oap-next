@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd-cjs';
-import DataInput from './DataInput';
+import { DataInput } from './DataInput';
 
 interface DragCardProps {
   funcName: string,
@@ -23,16 +23,16 @@ const Functions: React.FC<DragCardProps> = ({ funcName, parameters }) => {
   const dropArray = [];
   const [functionParameters, setFunctionParameters] = React.useState([...new Array(parameters)]);
 
-  const changeFunctionParameters = (position: number, item: any) => {
+  const updateFunctionParameters = (position: number, item: any) => {
     const temp = functionParameters;
-    temp[position] = { type: 'dataInput', value: item.value, setValue: item.setValue };
+    temp[position] = { type: 'dataInput', value: item.value };
     setFunctionParameters([...temp]);
   };
 
   for (let i = 0; i < parameters; i++) {
     dropArray.push(useDrop({
       accept: 'dataInput',
-      drop: (item) => changeFunctionParameters(i, item),
+      drop: (item) => updateFunctionParameters(i, item),
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
       }),
@@ -75,9 +75,9 @@ const Functions: React.FC<DragCardProps> = ({ funcName, parameters }) => {
               { functionParameters[index]
                 && (
                   <DataInput
-                    initValue={functionParameters[index].value}
-                    parent={functionParameters}
-                    setParent={setFunctionParameters}
+                    position={index}
+                    value={functionParameters}
+                    setValue={setFunctionParameters}
                   />
                 )}
             </div>

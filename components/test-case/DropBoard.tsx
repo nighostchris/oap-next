@@ -11,7 +11,6 @@ const data: any[] = [];
 
 const DropBoard: React.FC<DropBoardProps> = ({ testCaseName }) => {
   const addFunction = (item: any) => {
-    console.log("hovering");
     if (item.type === 'functions') {
       data.push(<DragCard funcName={item.name} parameters={item.paras} />);
     } else {

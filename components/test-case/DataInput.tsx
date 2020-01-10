@@ -2,22 +2,16 @@ import React from 'react';
 import { useDrag } from 'react-dnd-cjs';
 
 interface DataInputProps {
-  initValue?: any,
-  parent?: any,
-  setParent?: any,
+  position: number,
+  value: any,
+  setValue: any,
 }
 
-const DataInput: React.FC<DataInputProps> = ({ initValue, parent, setParent }) => {
-  const [value, setValue] = React.useState(initValue);
-  console.log(value);
-
+export const StatelessDataInput: React.FC = () => {
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: 'dataInput',
-      value: value,
-      setValue: setValue,
-      parent: parent,
-      setParent: setParent,
+      value: undefined,
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -32,8 +26,7 @@ const DataInput: React.FC<DataInputProps> = ({ initValue, parent, setParent }) =
     >
       <div className="card-body p-3">
         <input
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          disabled
           className="form-control form-control-prepended"
         />
       </div>
@@ -41,4 +34,37 @@ const DataInput: React.FC<DataInputProps> = ({ initValue, parent, setParent }) =
   );
 };
 
-export default DataInput;
+export const DataInput: React.FC<DataInputProps> = ({ position, value, setValue }) => {
+  const changeValue = (v: any) => {
+    const temp = value;
+    temp[position].value = v;
+    setValue([...temp]);
+  };
+
+  const [{ isDragging }, drag] = useDrag({
+    item: {
+      type: 'dataInput',
+      value: value,
+      setValue: setValue,
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
+
+  return (
+    <div
+      ref={drag}
+      className="card my-3 mx-auto"
+      style={{ width: 'fit-content', minWidth: '200px', opacity: isDragging ? 0.7 : 1 }}
+    >
+      <div className="card-body p-3">
+        <input
+          value={value[position].value}
+          onChange={(e) => changeValue(e.target.value)}
+          className="form-control form-control-prepended"
+        />
+      </div>
+    </div>
+  );
+};
