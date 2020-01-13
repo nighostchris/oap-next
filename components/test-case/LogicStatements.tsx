@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDrag, useDrop } from 'react-dnd-cjs';
 import Functions from './Functions';
 import { DataInput } from './DataInput';
 
 interface LogicStatementsProps {
   operators: string
-  statL?: string
-  statR?: string
+  child?: any
 }
 
 /*
@@ -20,10 +19,13 @@ interface LogicStatementsProps {
 }
 */
 
-const LogicStatements: React.FC<LogicStatementsProps> = ({ operators }) => {
+const LogicStatements: React.FC<LogicStatementsProps> = ({ operators, child }) => {
   const dropArray = [];
   const [LSParameters, setLSParameters] = React.useState([...new Array(2)]);
-  console.log(LSParameters);
+
+  useEffect(() => {
+    if (child) { setLSParameters([...child]); }
+  }, [child]);
 
   const updateLSParameters = (position: number, item: any) => {
     const temp = LSParameters;
