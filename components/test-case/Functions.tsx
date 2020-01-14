@@ -5,7 +5,10 @@ import { DataInput } from './DataInput';
 interface DragCardProps {
   funcName: string,
   parameters: number,
+  pos?: any,
   child?: any,
+  parent?: any,
+  setParent?: any,
 }
 
 /*
@@ -20,7 +23,9 @@ interface DragCardProps {
 }
 */
 
-const Functions: React.FC<DragCardProps> = ({ funcName, parameters, child }) => {
+const Functions: React.FC<DragCardProps> = ({
+  funcName, parameters, pos, child, parent, setParent,
+}) => {
   const dropArray = [];
   const [functionParameters, setFunctionParameters] = React.useState([...new Array(parameters)]);
 
@@ -49,8 +54,10 @@ const Functions: React.FC<DragCardProps> = ({ funcName, parameters, child }) => 
       type: 'functions',
       name: funcName,
       paras: parameters,
+      pos: pos,
       child: functionParameters,
-      setChild: setFunctionParameters,
+      parent: parent,
+      setParent: setParent,
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -80,9 +87,9 @@ const Functions: React.FC<DragCardProps> = ({ funcName, parameters, child }) => 
               { functionParameters[index]
                 && (
                   <DataInput
-                    position={index}
-                    value={functionParameters}
-                    setValue={setFunctionParameters}
+                    pos={index}
+                    parent={functionParameters}
+                    setParent={setFunctionParameters}
                   />
                 )}
             </div>

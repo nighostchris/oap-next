@@ -11,15 +11,20 @@ const TestCaseBoard: React.FunctionComponent = () => {
   const [leftBarTab, setLeftBarTab] = React.useState('operators');
 
   const deleteDrop = (item: any) => {
-    if (item.type === 'dataInput') {
-      const temp = item.value;
-      temp.splice(item.position, 1);
+    if (item.type === 'assertions') {
+      const temp = item.child;
+      temp.splice(item.pos, 1);
       item.setValue([...temp]);
+    }
+    if (item.type === 'dataInput' || item.type === 'logicStatements' || item.type === 'functions') {
+      const temp = item.parent;
+      temp[item.pos] = undefined;
+      item.setParent([...temp]);
     }
   };
 
   const [{ isOver }, dropBin] = useDrop({
-    accept: ['dataInput'],
+    accept: ['dataInput', 'functions', 'logicStatements', 'assertions'],
     drop: (item) => deleteDrop(item),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),

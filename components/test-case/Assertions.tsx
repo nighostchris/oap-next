@@ -100,10 +100,10 @@ const Assertions: React.FC<AssertionsProps> = ({ funcName, parameters }) => {
             >
               {
                 assertParameters[index] && (assertParameters[index].type === 'dataInput'
-                  ? <DataInput position={0} value={assertParameters} setValue={setAssertParameters} />
+                  ? <DataInput pos={0} parent={assertParameters} setParent={setAssertParameters} />
                   : (assertParameters[index].type === 'functions'
-                    ? <Functions funcName={assertParameters[index].name} parameters={assertParameters[index].paras} child={assertParameters[index].child} />
-                    : <LogicStatements operators={assertParameters[index].ops} child={assertParameters[index].child} />))
+                    ? <Functions funcName={assertParameters[index].name} parameters={assertParameters[index].paras} pos={index} child={assertParameters[index].child} parent={assertParameters} setParent={setAssertParameters} />
+                    : <LogicStatements operators={assertParameters[index].ops} pos={index} child={assertParameters[index].child} parent={assertParameters} setParent={setAssertParameters} />))
               }
             </div>
           ))

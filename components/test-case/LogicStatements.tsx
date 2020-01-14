@@ -5,7 +5,10 @@ import { DataInput } from './DataInput';
 
 interface LogicStatementsProps {
   operators: string
+  pos?: any
   child?: any
+  parent?: any
+  setParent?: any
 }
 
 /*
@@ -19,7 +22,9 @@ interface LogicStatementsProps {
 }
 */
 
-const LogicStatements: React.FC<LogicStatementsProps> = ({ operators, child }) => {
+const LogicStatements: React.FC<LogicStatementsProps> = ({
+  operators, pos, child, parent, setParent,
+}) => {
   const dropArray = [];
   const [LSParameters, setLSParameters] = React.useState([...new Array(2)]);
 
@@ -62,8 +67,10 @@ const LogicStatements: React.FC<LogicStatementsProps> = ({ operators, child }) =
     item: {
       type: 'logicStatements',
       ops: operators,
+      pos: pos,
       child: LSParameters,
-      setChild: setLSParameters,
+      parent: parent,
+      setParent: setParent,
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -89,8 +96,8 @@ const LogicStatements: React.FC<LogicStatementsProps> = ({ operators, child }) =
         >
           {
             LSParameters[0] && (LSParameters[0].type === 'dataInput'
-              ? <DataInput position={0} value={LSParameters} setValue={setLSParameters} />
-              : <Functions funcName={LSParameters[0].name} parameters={LSParameters[0].paras} child={LSParameters[0].child} />)
+              ? <DataInput pos={0} parent={LSParameters} setParent={setLSParameters} />
+              : <Functions funcName={LSParameters[0].name} parameters={LSParameters[0].paras} pos={0} child={LSParameters[0].child} parent={LSParameters} setParent={setLSParameters} />)
           }
         </div>
         <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>{operators}</h3>
@@ -106,8 +113,8 @@ const LogicStatements: React.FC<LogicStatementsProps> = ({ operators, child }) =
         >
           {
             LSParameters[1] && (LSParameters[1].type === 'dataInput'
-              ? <DataInput position={1} value={LSParameters} setValue={setLSParameters} />
-              : <Functions funcName={LSParameters[1].name} parameters={LSParameters[1].paras} child={LSParameters[1].child} />)
+              ? <DataInput pos={1} parent={LSParameters} setParent={setLSParameters} />
+              : <Functions funcName={LSParameters[1].name} parameters={LSParameters[1].paras} pos={1} child={LSParameters[1].child} parent={LSParameters} setParent={setLSParameters} />)
           }
         </div>
       </div>
