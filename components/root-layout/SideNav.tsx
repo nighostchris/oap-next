@@ -1,10 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import {
-  Navbar,
-  Nav,
-  Container,
-  Accordion,
-} from 'react-bootstrap';
+import { Navbar, Nav, Container, Accordion } from 'react-bootstrap';
 import { useQuery, gql } from '@apollo/client';
 
 interface Link {
