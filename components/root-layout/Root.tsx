@@ -1,5 +1,6 @@
 import * as React from 'react';
 import SideNav from './SideNav';
+import withApollo from '../../lib/apollo';
 
 const Root: React.FunctionComponent = ({ children }) => (
   <>
@@ -10,4 +11,4 @@ const Root: React.FunctionComponent = ({ children }) => (
   </>
 );
 
-export default Root;
+export default withApollo(Root);

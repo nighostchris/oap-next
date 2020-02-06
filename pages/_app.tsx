@@ -29,7 +29,7 @@ class MyApp extends App<any> {
     return (
       <DndProvider backend={HTML5Backend}>
         <link rel="stylesheet" href={this.darkModeCheck()} />
-        <Component {...pageProps} />
+          <Component {...pageProps} />
       </DndProvider>
     );
   }

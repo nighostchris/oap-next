@@ -20,10 +20,6 @@ interface Navigation {
   links: Array<Link>
 }
 
-interface SidebarProps {
-  navigations: Array<Navigation>
-}
-
 interface NavItemProps {
   link: Link
 }
@@ -64,208 +60,6 @@ const NavItem: React.SFC<NavItemProps> = ({ link }) => {
   );
 };
 
-const Sidebar: React.SFC<SidebarProps> = ({ navigations }) => (
-  <>
-    <Navbar.Toggle />
-    <Navbar.Brand>
-      <a href="/">
-        <img
-          alt="..."
-          src="/logo.svg"
-          className="navbar-brand-img mx-auto"
-        />
-      </a>
-    </Navbar.Brand>
-    <Navbar.Collapse>
-      {
-        navigations.map((navigation, index) => (
-          <Fragment key={navigation.title}>
-            {
-              navigation.title && <h6 className="navbar-heading">{ navigation.title }</h6>
-            }
-            <ul className={`navbar-nav ${navigation.title ? 'mb-md-4' : ''}`}>
-              {
-                navigation.links.map((link, i) => <NavItem key={`navitem-${i}`} link={link} />)
-              }
-            </ul>
-            {
-              index !== navigations.length - 1 && <hr className="navbar-divider my-3" />
-            }
-          </Fragment>
-        ))
-      }
-      <div className="mt-auto" />
-      <div className="navbar-user d-none d-md-flex">
-        <div className="dropup">
-          <div className="dropdown-toggle">
-            <div className="avatar avatar-sm avatar-online">
-              <img
-                alt="..."
-                className="avatar-img rounded-circle"
-                src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
-              />
-            </div>
-          </div>
-          <div className="dropdown-menu" aria-labelledby="sidebarIconCopy">
-            <a href="#" className="dropdown-item">Logout</a>
-          </div>
-        </div>
-      </div>
-    </Navbar.Collapse>
-  </>
-);
-
-const navigations: Array<Navigation> = [
-  {
-    title: 'Courses',
-    links: [
-      {
-        title: 'COMP1021',
-        icon: 'fas fa-book',
-        children: [
-          {
-            title: 'Announcements',
-            href: '/course/1021/announcements',
-            updated: true,
-          },
-          {
-            title: 'Assignments',
-            href: '/course/1021/assignments',
-            updated: true,
-
-          },
-          {
-            title: 'Labs',
-            href: '/course/1021/labs',
-            updated: true,
-          },
-          {
-            title: 'Grades',
-            href: '/course/1021/grades',
-            updated: true,
-          },
-        ],
-      },
-      {
-        title: 'COMP2011',
-        icon: 'fas fa-book',
-        children: [
-          {
-            title: 'Announcements',
-            href: '/course/2011/announcements',
-            updated: true,
-          },
-          {
-            title: 'Assignments',
-            href: '/course/2011/assignments',
-            updated: true,
-
-          },
-          {
-            title: 'Labs',
-            href: '/course/2011/labs',
-            updated: true,
-          },
-          {
-            title: 'Grades',
-            href: '/course/2011/grades',
-            updated: true,
-          },
-        ],
-      },
-      {
-        title: 'COMP2012',
-        icon: 'fas fa-book',
-        children: [
-          {
-            title: 'Announcements',
-            href: '/course/2012/announcements',
-            updated: true,
-          },
-          {
-            title: 'Assignments',
-            href: '/course/2012/assignments',
-            updated: true,
-
-          },
-          {
-            title: 'Labs',
-            href: '/course/2012/labs',
-            updated: true,
-          },
-          {
-            title: 'Grades',
-            href: '/course/2012/grades',
-            updated: true,
-          },
-        ],
-      },
-      {
-        title: 'COMP3021',
-        icon: 'fas fa-book',
-        children: [
-          {
-            title: 'Announcements',
-            href: '/course/3021/announcements',
-            updated: true,
-          },
-          {
-            title: 'Assignments',
-            href: '/course/3021/assignments',
-            updated: true,
-
-          },
-          {
-            title: 'Labs',
-            href: '/course/3021/labs',
-            updated: true,
-          },
-          {
-            title: 'Grades',
-            href: '/course/3021/grades',
-            updated: true,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    title: 'Admin',
-    links: [
-      {
-        title: 'User Management',
-        href: '/manage/user',
-        icon: 'fas fa-user-edit',
-      },
-      {
-        title: 'Course Management',
-        href: '/manage/course',
-        icon: 'fas fa-school',
-      },
-    ],
-  },
-  {
-    title: 'Account',
-    links: [
-      {
-        title: 'Notifications',
-        href: '/notifications',
-        icon: 'fas fa-bell',
-      },
-      {
-        title: 'Conversations',
-        href: '/conversations',
-        icon: 'fas fa-comment-dots',
-      },
-      {
-        title: 'Settings',
-        href: '/settings',
-        icon: 'fas fa-cog',
-      },
-    ],
-  },
-];
-
 const GET_ENROLLED_COURSES = gql`
   query currentEnrolledCourses {
     users(where: {
@@ -295,9 +89,72 @@ const GET_ENROLLED_COURSES = gql`
 
 const SideNav: React.FunctionComponent = () => {
   const { loading, error, data } = useQuery(GET_ENROLLED_COURSES);
+  const navigations: Array<Navigation> = [];
 
   if (!loading) {
-    console.log(data);
+    const linksList: Array<Link> = [];
+
+    data.users[0].enrolled_courses.forEach((e: any) => {
+      const code = e.section.course.code;
+
+      const subSection: Array<Link> = [];
+      ['Announcements', 'Assignments', 'Labs', 'Grades'].forEach((s: string) => {
+        subSection.push({
+          title: s,
+          href: `/course/${code.toLowerCase()}/${s.toLowerCase()}`,
+          updated: true,
+        });
+      });
+
+      linksList.push({
+        title: code,
+        icon: 'fas fa-book',
+        children: subSection,
+      });
+    });
+    linksList.sort((a, b) => {
+      return a.title.localeCompare(b.title);
+    });
+
+    navigations.push({
+      title: 'Courses',
+      links: linksList,
+    },
+    {
+      title: 'Admin',
+      links: [
+        {
+          title: 'User Management',
+          href: '/manage/user',
+          icon: 'fas fa-user-edit',
+        },
+        {
+          title: 'Course Management',
+          href: '/manage/course',
+          icon: 'fas fa-school',
+        },
+      ],
+    },
+    {
+      title: 'Account',
+      links: [
+        {
+          title: 'Notifications',
+          href: '/notifications',
+          icon: 'fas fa-bell',
+        },
+        {
+          title: 'Conversations',
+          href: '/conversations',
+          icon: 'fas fa-comment-dots',
+        },
+        {
+          title: 'Settings',
+          href: '/settings',
+          icon: 'fas fa-cog',
+        },
+      ],
+    });
   }
 
   if (error) {
@@ -307,7 +164,55 @@ const SideNav: React.FunctionComponent = () => {
   return (
     <Navbar className="navbar-vertical fixed-left adaptive-navbar" expand="md">
       <Container fluid>
-        <Sidebar navigations={navigations} />
+        <Navbar.Toggle />
+        <Navbar.Brand>
+          <a href="/">
+            <img
+              alt="..."
+              src="/logo.svg"
+              className="navbar-brand-img mx-auto"
+            />
+          </a>
+        </Navbar.Brand>
+        <Navbar.Collapse>
+          {
+            navigations.map((navigation: any, index: number) => (
+              <Fragment key={navigation.title}>
+                {
+                  console.log(navigation)
+                }
+                {
+                  navigation.title && <h6 className="navbar-heading">{ navigation.title }</h6>
+                }
+                <ul className={`navbar-nav ${navigation.title ? 'mb-md-4' : ''}`}>
+                  {
+                    navigation.links.map((link: any, i: number) => <NavItem key={`navitem-${i}`} link={link} />)
+                  }
+                </ul>
+                {
+                  index !== navigations.length - 1 && <hr className="navbar-divider my-3" />
+                }
+              </Fragment>
+            ))
+          }
+          <div className="mt-auto" />
+          <div className="navbar-user d-none d-md-flex">
+            <div className="dropup">
+              <div className="dropdown-toggle">
+                <div className="avatar avatar-sm avatar-online">
+                  <img
+                    alt="..."
+                    className="avatar-img rounded-circle"
+                    src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
+                  />
+                </div>
+              </div>
+              <div className="dropdown-menu" aria-labelledby="sidebarIconCopy">
+                <a href="#" className="dropdown-item">Logout</a>
+              </div>
+            </div>
+          </div>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );
