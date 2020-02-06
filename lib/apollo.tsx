@@ -1,166 +1,167 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-multi-assign */
 import React from 'react';
-import PropTypes from 'prop-types';
 import Head from 'next/head';
-import cookie from 'cookie';
+// import cookie from 'cookie';
 import {
   ApolloClient,
   InMemoryCache,
   NormalizedCacheObject,
   HttpLink,
   ApolloLink,
+  ApolloProvider,
 } from '@apollo/client';
-import { getDataFromTree } from '@apollo/react-ssr';
+// import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
+import { NextPage } from 'next';
+
 import fetch from 'isomorphic-unfetch';
 
 const isBrowser: boolean = typeof window === 'undefined';
 
-function parseCookies(req?: any, options = {}) {
-  return cookie.parse(
-    req ? req.headers.cookie || '' : document.cookie,
-    options,
-  );
-}
-
 let apolloClient: ApolloClient<NormalizedCacheObject> | null = null;
 
-// Polyfill fetch() on the server (used by apollo-client)
-if (!isBrowser) {
-  (global as any).fetch = fetch;
-}
+/**
+ * Creates and configures the ApolloClient
+ */
+// eslint-disable-next-line max-len
+function createApolloClient(initialState: NormalizedCacheObject = {}, cookie?: string): ApolloClient<NormalizedCacheObject> {
+  const headers = cookie ? { cookie } : undefined;
 
-interface Options {
-  getToken: () => string;
-}
-
-function create(initialState: any, { getToken }: Options) {
   const httpLink = new HttpLink({
-    uri: 'http://localhost:4000/graphql',
-    credentials: 'include',
+    uri: 'http://localhost:8080/v1/graphql', // Server URL (must be absolute)
+    credentials: 'include', // Additional fetch() options like `credentials` or `headers`
+    headers,
+    fetch,
   });
 
   const authLink = new ApolloLink((operation, forward) => {
-    const token = getToken();
     operation.setContext({
       headers: {
-        authorization: `Bearer ${token}`,
+        authorization: cookie,
       },
     });
     return forward(operation);
   });
 
+  // const link = createPersistedQueryLink().concat(authLink);
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
   return new ApolloClient({
-    connectToDevTools: isBrowser,
     ssrMode: !isBrowser, // Disables forceFetch on the server (so queries are only run once)
     link: authLink.concat(httpLink),
-    cache: new InMemoryCache().restore(initialState || {}),
+    cache: new InMemoryCache().restore(initialState),
+    connectToDevTools: true,
   });
 }
 
-function initApollo(initialState: any, options: Options) {
+/**
+ * Always creates a new apollo client on the server
+ * Creates or reuses apollo client in the browser.
+ */
+function initApolloClient(initialState?: NormalizedCacheObject, cookie?: string) {
   // Make sure to create a new client for every server-side request so that data
   // isn't shared between connections (which would be bad)
   if (!isBrowser) {
-    return create(initialState, options);
+    return createApolloClient(initialState, cookie);
   }
 
   // Reuse client on the client-side
   if (!apolloClient) {
-    apolloClient = create(initialState, options);
+    apolloClient = createApolloClient(initialState);
   }
 
   return apolloClient;
 }
 
-// eslint-disable-next-line arrow-body-style
-export default (App: any) => {
-  return class WithData extends React.Component {
-    // eslint-disable-next-line react/static-property-placement
-    static displayName = `WithData(${App.displayName})`;
+/**
+ * Creates and provides the apolloContext
+ * to a next.js PageTree. Use it by wrapping
+ * your PageComponent via HOC pattern.
+ */
+function withApollo<PageProps>(PageComponent: NextPage<PageProps>, { ssr = true } = {}) {
+  // eslint-disable-next-line max-len
+  type ApolloPageProps = PageProps & { apolloClient?: ApolloClient<NormalizedCacheObject> | null; apolloState?: NormalizedCacheObject; }
+  const WithApollo: NextPage<ApolloPageProps> = ({ apolloClient, apolloState, ...pageProps }) => {
+    const client = apolloClient || initApolloClient(apolloState);
+    return (
+      <ApolloProvider client={client}>
+        <PageComponent {...pageProps as any as PageProps} />
+      </ApolloProvider>
+    );
+  };
 
-    // eslint-disable-next-line react/static-property-placement
-    static propTypes = {
-      // eslint-disable-next-line react/forbid-prop-types
-      apolloState: PropTypes.object.isRequired,
-    };
+  // Set the correct displayName in development
+  if (process.env.NODE_ENV !== 'production') {
+    const displayName = PageComponent.displayName || PageComponent.name || 'Component';
 
-    static async getInitialProps(ctx: any) {
-      const {
-        Component,
-        router,
-        ctx: { req, res },
-      } = ctx;
-      const apollo = initApollo(
-        {},
-        {
-          getToken: () => parseCookies(req).qid,
-        },
-      );
+    if (displayName === 'App') {
+      console.warn('This withApollo HOC only works with PageComponents.');
+    }
 
-      ctx.ctx.apolloClient = apollo;
+    WithApollo.displayName = `withApollo(${displayName})`;
+  }
 
-      let appProps = {};
-      if (App.getInitialProps) {
-        appProps = await App.getInitialProps(ctx);
+  if (ssr || PageComponent.getInitialProps) {
+    WithApollo.getInitialProps = async (ctx) => {
+      const { AppTree } = ctx;
+
+      // Initialize ApolloClient, add it to the ctx object so
+      // we can use it in `PageComponent.getInitialProp`.
+      // eslint-disable-next-line max-len
+      const cookie = ctx && ctx.req && ctx.req.headers && ctx.req.headers.cookie && String(ctx.req.headers.cookie);
+      // @ts-ignore
+      const apolloClient = (ctx.apolloClient = initApolloClient({}, cookie));
+
+      // Run wrapped getInitialProps methods
+      let pageProps = {} as PageProps;
+      if (PageComponent.getInitialProps) {
+        pageProps = await PageComponent.getInitialProps(ctx);
       }
 
-      if (res && res.finished) {
+      // Only on the server:
+      if (!isBrowser) {
         // When redirecting, the response is finished.
         // No point in continuing to render
-        return {};
-      }
-
-      if (!isBrowser) {
-        // Run all graphql queries in the component tree
-        // and extract the resulting data
-        try {
-          // Run all GraphQL queries
-          await getDataFromTree(
-            <App
-              {...appProps}
-              Component={Component}
-              router={router}
-              apolloClient={apollo}
-            />,
-          );
-        } catch (error) {
-          // Prevent Apollo Client GraphQL errors from crashing SSR.
-          // Handle them in components via the data.error prop:
-          // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-query-data-error
-          // eslint-disable-next-line no-console
-          console.error('Error while running `getDataFromTree`', error);
+        if (ctx.res && ctx.res.finished) {
+          return pageProps;
         }
 
-        // getDataFromTree does not call componentWillUnmount
-        // head side effect therefore need to be cleared manually
-        Head.rewind();
+        // Only if ssr is enabled
+        if (ssr) {
+          try {
+            // Run all GraphQL queries
+            const { getDataFromTree } = await import('@apollo/react-ssr');
+            await getDataFromTree(
+              <AppTree
+                pageProps={{
+                  ...pageProps,
+                  apolloClient,
+                }}
+              />,
+            );
+          } catch (error) {
+            // Prevent Apollo Client GraphQL errors from crashing SSR.
+            // Handle them in components via the data.error prop:
+            // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-query-data-error
+            console.error('Error while running `getDataFromTree`', error);
+          }
+
+          // getDataFromTree does not call componentWillUnmount
+          // head side effect therefore need to be cleared manually
+          Head.rewind();
+        }
       }
 
-      // Extract query data from the Apollo's store
-      const apolloState = apollo.cache.extract();
+      // Extract query data from the Apollo store
+      const apolloState = apolloClient.cache.extract();
 
       return {
-        ...appProps,
+        ...pageProps,
         apolloState,
       };
-    }
+    };
+  }
 
-    // eslint-disable-next-line react/sort-comp
-    apolloClient: ApolloClient<NormalizedCacheObject>;
+  return WithApollo;
+}
 
-    constructor(props: any) {
-      super(props);
-      // `getDataFromTree` renders the component first, the client is passed off as a property.
-      // After that rendering is done using Next's normal rendering pipeline
-      this.apolloClient = initApollo(props.apolloState, {
-        getToken: () => parseCookies().token,
-      });
-    }
-
-    render() {
-      return <App {...this.props} apolloClient={this.apolloClient} />;
-    }
-  };
-};
+export default withApollo;

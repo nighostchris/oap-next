@@ -1,9 +1,7 @@
 import React from 'react';
 import App from 'next/app';
-import { ApolloProvider } from '@apollo/client';
 import { DndProvider } from 'react-dnd-cjs';
 import HTML5Backend from 'react-dnd-html5-backend-cjs';
-import withApollo from '../lib/apollo';
 
 class MyApp extends App<any> {
   componentDidMount() {
@@ -26,17 +24,15 @@ class MyApp extends App<any> {
   }
 
   render() {
-    const { Component, pageProps, apolloClient } = this.props;
+    const { Component, pageProps } = this.props;
 
     return (
-      <ApolloProvider client={apolloClient}>
-        <DndProvider backend={HTML5Backend}>
-          <link rel="stylesheet" href={this.darkModeCheck()} />
-          <Component {...pageProps} />
-        </DndProvider>
-      </ApolloProvider>
+      <DndProvider backend={HTML5Backend}>
+        <link rel="stylesheet" href={this.darkModeCheck()} />
+        <Component {...pageProps} />
+      </DndProvider>
     );
   }
 }
 
-export default withApollo(MyApp);
+export default MyApp;

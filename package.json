@@ -15,6 +15,8 @@
     "@types/cookie": "^0.3.3",
     "@types/react-flatpickr": "^3.8.0",
     "@zeit/next-css": "^1.0.1",
+    "apollo-client": "^2.6.8",
+    "apollo-link-persisted-queries": "^0.2.2",
     "bootstrap": "^4.4.1",
     "cookie": "^0.4.0",
     "cookie-parser": "^1.4.4",

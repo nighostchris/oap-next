@@ -5,6 +5,7 @@ import {
   Container,
   Accordion,
 } from 'react-bootstrap';
+import { useQuery, gql } from '@apollo/client';
 
 interface Link {
   icon?: string
@@ -265,12 +266,51 @@ const navigations: Array<Navigation> = [
   },
 ];
 
-const SideNav: React.FunctionComponent = () => (
-  <Navbar className="navbar-vertical fixed-left adaptive-navbar" expand="md">
-    <Container fluid>
-      <Sidebar navigations={navigations} />
-    </Container>
-  </Navbar>
-);
+const GET_ENROLLED_COURSES = gql`
+  query currentEnrolledCourses {
+    users(where: {
+      enrolled_courses: {
+        section: {
+          course: {
+            semester_id: {
+              _eq: "1"
+            }
+          }
+        }
+      },
+      itsc: {
+        _eq: "kristopher"
+      }
+    }) {
+      enrolled_courses {
+        section {
+          course {
+            code
+          }
+        }
+      }
+    }
+  }
+`;
+
+const SideNav: React.FunctionComponent = () => {
+  const { loading, error, data } = useQuery(GET_ENROLLED_COURSES);
+
+  if (!loading) {
+    console.log(data);
+  }
+
+  if (error) {
+    console.log(error);
+  }
+
+  return (
+    <Navbar className="navbar-vertical fixed-left adaptive-navbar" expand="md">
+      <Container fluid>
+        <Sidebar navigations={navigations} />
+      </Container>
+    </Navbar>
+  );
+};
 
 export default SideNav;
