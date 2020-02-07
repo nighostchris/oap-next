@@ -7,40 +7,15 @@ import AnnouncementTab from './AnnouncementTab';
 import GradeTab from './GradeTab';
 import timestampConverter from '../../utilities/timestampConverter';
 
-const listItem = [
-  {
-    content: {
-      title: 'Assignment 1 - Tic Tac Toe',
-      subtitle: 'Released by Desmond Tsoi on Dec 9, 2019',
-      button: {
-        title: 'Download',
-        link: '',
-      },
-      link: '/coursework/1/announcements',
-    },
-    avatar: <span className="avatar-title rounded bg-white text-secondary"><span className="fas fa-flask" style={{ fontSize: '32px' }} /></span>,
-  },
-  {
-    content: {
-      title: 'Assignment 2 - Bank System',
-      subtitle: 'Released by Desmond Tsoi on Dec 9, 2019',
-      button: {
-        title: 'Download',
-        link: '',
-      },
-      link: '/coursework/2/announcements',
-    },
-    avatar: <span className="avatar-title rounded bg-white text-secondary"><span className="fas fa-file-code" style={{ fontSize: '32px' }} /></span>,
-  },
-];
-
 const GET_COURSE_DATA = gql`
   query getCourseData($code: String!) {
     courses(where: {code: {_eq: $code}}) {
       code
       name
       assignments {
+        id
         name
+        created_at
       }
       created_at
       sections(where: {students: {user: {itsc: {_eq: "kristopher"}}}}) {
@@ -59,6 +34,7 @@ const CourseDashboard: React.FunctionComponent = () => {
   });
 
   const infoList = [];
+  const listItem: any[] = [];
   const pageHeaderProps = {
     pretitle: '',
     title: '',
@@ -79,6 +55,21 @@ const CourseDashboard: React.FunctionComponent = () => {
     pageHeaderProps['title'] = `${data.courses[0].code} - ${data.courses[0].name}`;
     pageHeaderProps['avatar'] = <img alt="" src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg" className="avatar-img rounded-circle border border-4 border-card" />;
     pageHeaderProps['tabTitle'] = ['Announcements', 'Assignments', 'Labs', 'Grades'];
+
+    data.courses[0].assignments.forEach((assignment: any) => {
+      listItem.push({
+        content: {
+          title: assignment.name,
+          subtitle: `Released by Desmond Tsoi on ${timestampConverter(new Date(assignment.created_at), false)}`,
+          button: {
+            title: 'Download',
+            link: '',
+          },
+          link: `/coursework/${assignment.id}/announcements`,
+        },
+        avatar: <span className="avatar-title rounded bg-white text-secondary"><span className="fas fa-flask" style={{ fontSize: '32px' }} /></span>,
+      });
+    });
   }
 
   if (error) {

@@ -43,6 +43,10 @@ const Dashboard: React.FunctionComponent = () => {
         assignmentLists.push(e1);
       });
     });
+
+    courseLists.sort((a, b) => {
+      return a.course.code.localeCompare(b.course.code);
+    });
   }
 
   if (error) {

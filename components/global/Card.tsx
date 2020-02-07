@@ -137,7 +137,7 @@ const teamCard = (link: string, title: string, content: string, teamfooter: stri
         </a>
       </div>
       <h2 className="card-title text-center mb-3">
-        <a href="/course/1/announcements">{title}</a>
+        <a href={`/course/${title.toLowerCase()}/announcements`}>{title}</a>
       </h2>
       <p className="card-text text-center text-muted mb-4">{content}</p>
       <hr />
