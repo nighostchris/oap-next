@@ -174,9 +174,6 @@ const SideNav: React.FunctionComponent = () => {
             navigations.map((navigation: any, index: number) => (
               <Fragment key={navigation.title}>
                 {
-                  console.log(navigation)
-                }
-                {
                   navigation.title && <h6 className="navbar-heading">{ navigation.title }</h6>
                 }
                 <ul className={`navbar-nav ${navigation.title ? 'mb-md-4' : ''}`}>

@@ -6,13 +6,7 @@ const GET_DASHBOARD_DATA = gql`
   query getDashboardData {
     users(where: {
       enrolled_courses: {
-        section: {
-          course: {
-            semester_id: {
-              _eq: "1"
-            }
-          }
-        }
+        section: { course: { semester_id: { _eq: "1" } } }
       },
       itsc: {
         _eq: "kristopher"
@@ -46,7 +40,6 @@ const Dashboard: React.FunctionComponent = () => {
     data.users[0].enrolled_courses.forEach((e: any) => {
       courseLists.push(e.section);
       e.section.course.assignments.forEach((e1: any) => {
-        
         assignmentLists.push(e1);
       });
     });
