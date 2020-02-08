@@ -1,9 +1,9 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 
-const coursesCrawler = () => {
-  axios.get('https://w5.ab.ust.hk/wcq/cgi-bin/1930/subject/COMP').then((res) => {
-    const $ = cheerio.load(res.data);
+export default (_req: any, res: any) => {
+  axios.get('https://w5.ab.ust.hk/wcq/cgi-bin/1930/subject/COMP').then((axiosRes) => {
+    const $ = cheerio.load(axiosRes.data);
     const courseList: any[] = [];
     $('div .course').each((_i: any, e: any) => {
       const [code, name] = $(e).find('h2').text().split(' - ');
@@ -28,8 +28,6 @@ const coursesCrawler = () => {
       });
     });
 
-    return courseList;
+    res.json(courseList);
   });
 };
-
-export default coursesCrawler;
