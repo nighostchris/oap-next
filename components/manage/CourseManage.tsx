@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import Table from '../global/Table';
 
 const courses = [
@@ -22,6 +22,7 @@ const tbodyGenerator = (code: string, name: string, semester: number, year: numb
 );
 
 const CourseManage: React.FunctionComponent = () => {
+  const [show, setShow] = React.useState(false);
   const [search, setSearch] = React.useState('');
   const tbody = () => {
     const temp: any[] = [];
@@ -60,9 +61,23 @@ const CourseManage: React.FunctionComponent = () => {
           <div className="header header-body">
             <h1 className="header-title">Manage Courses</h1>
           </div>
-          <Button variant="primary" block>Sync</Button>
+          <Button variant="primary" block onClick={() => setShow(true)}>Sync</Button>
         </div>
       </div>
+      <Modal size="lg" show={show} onHide={() => setShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title className="mb-0" style={{ fontSize: '1.5rem' }}>Sync Courses List</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShow(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={() => setShow(false)}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
