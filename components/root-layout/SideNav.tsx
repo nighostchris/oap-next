@@ -93,7 +93,7 @@ const SideNav: React.FunctionComponent = () => {
       const code = e.section.course.code;
 
       const subSection: Array<Link> = [];
-      ['Announcements', 'Assignments', 'Labs', 'Grades'].forEach((s: string) => {
+      ['Announcements', 'Courseworks', 'Grades'].forEach((s: string) => {
         subSection.push({
           title: s,
           href: `/course/${code.toLowerCase()}/${s.toLowerCase()}`,
