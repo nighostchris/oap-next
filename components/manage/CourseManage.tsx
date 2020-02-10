@@ -1,8 +1,9 @@
 import * as React from 'react';
 import axios from 'axios';
 import { useQuery, gql } from '@apollo/client';
-import { Button, Modal, Spinner, Accordion, Card, Row, Form } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import Table from '../global/Table';
+import SyncCourseModal from './SyncCourseModal';
 
 const thead = ['Code', 'Name', 'Semester', 'Year', 'Section', 'Public'];
 
@@ -41,7 +42,6 @@ const CourseManage: React.FunctionComponent = () => {
   const [addCourseList, setAddCourseList] = React.useState<boolean[]>([]);
   const [addSectionList, setAddSectionList] = React.useState<any[]>([]);
   const [loadingCourseList, setLoadingCourseList] = React.useState(false);
-
   const { loading, error, data } = useQuery(GET_ALL_COURSES);
   const courses: any[] = [];
 
@@ -55,25 +55,6 @@ const CourseManage: React.FunctionComponent = () => {
     return temp;
   };
 
-  const changeAddCourseList = (index: number) => {
-    const temp = addCourseList;
-    let temp2 = addSectionList;
-    temp[index] = !temp[index];
-    if (addCourseList[index]) {
-      temp2[index] = temp2[index].map(() => true);
-    } else {
-      temp2[index] = temp2[index].map(() => false);
-    }
-    setAddCourseList([...temp]);
-    setAddSectionList([...temp2]);
-  }
-
-  const changeAddSectionList = (index: number, sIndex: number) => {
-    const temp = addSectionList;
-    temp[index][sIndex] = !temp[index][sIndex];
-    setAddSectionList([...temp]);
-  }
-
   const getCoursesList = async () => {
     setLoadingCourseList(true);
     const axiosResponse = await axios.get('https://ust-courses.now.sh/api/courses');
@@ -85,7 +66,7 @@ const CourseManage: React.FunctionComponent = () => {
     setAddSectionList([...tempAddSectionList]);
     setLoadingCourseList(false);
     setNewCourseList([...axiosResponse.data]);
-  }
+  };
 
   if (error) {
     console.log(error);
@@ -134,70 +115,18 @@ const CourseManage: React.FunctionComponent = () => {
             <h1 className="header-title">Manage Courses</h1>
           </div>
           <Button variant="primary" block onClick={() => { setShow(true); getCoursesList(); }}>Sync</Button>
+          <SyncCourseModal
+            show={show}
+            setShow={setShow}
+            newCourseList={newCourseList}
+            addCourseList={addCourseList}
+            addSectionList={addSectionList}
+            loadingCourseList={loadingCourseList}
+            setAddCourseList={setAddCourseList}
+            setAddSectionList={setAddSectionList}
+          />
         </div>
       </div>
-      <Modal size="lg" show={show} onHide={() => setShow(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title className="mb-0" style={{ fontSize: '1.5rem' }}>Sync Courses List</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {
-            loadingCourseList && (
-              <Spinner animation="border" role="status">
-                <span className="sr-only">Loading...</span>
-              </Spinner>
-            )
-          }
-          {
-            !loadingCourseList && (
-              <Accordion>
-                {
-                  newCourseList.map((course, index) => (
-                    <Card className="mb-0" key={`courses-card-${index}`}>
-                      <Row className="mx-0" style={{ alignItems: 'center' }}>
-                        <input
-                          type="checkbox"
-                          className="ml-4"
-                          checked={addCourseList[index]}
-                          onChange={() => changeAddCourseList(index)}
-                        />
-                        <Accordion.Toggle as={Card.Header} eventKey={index.toString()}>
-                          {`${course.code} ${course.name}`}
-                        </Accordion.Toggle>
-                      </Row>
-                      <Accordion.Collapse eventKey={index.toString()}>
-                        <Card.Body className="ml-4">
-                          {
-                            course.sections.map((section: string, sIndex: number) => (
-                              <React.Fragment key={`section-${sIndex}`}>
-                                <Form.Check
-                                  inline
-                                  type="checkbox"
-                                  label={section}
-                                  checked={addSectionList[index][sIndex]}
-                                  onChange={() => changeAddSectionList(index, sIndex)}
-                                />
-                              </React.Fragment>
-                            ))
-                          }
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
-                  ))
-                }
-              </Accordion>
-            )
-          }
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShow(false)}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={() => setShow(false)}>
-            Insert into Database
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   );
 };
