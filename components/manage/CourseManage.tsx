@@ -1,6 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
-import { Button, Modal, Spinner, Accordion, Card } from 'react-bootstrap';
+import { Button, Modal, Spinner, Accordion, Card, Form } from 'react-bootstrap';
 import Table from '../global/Table';
 
 const courses = [
@@ -26,6 +26,8 @@ const CourseManage: React.FunctionComponent = () => {
   const [show, setShow] = React.useState(false);
   const [search, setSearch] = React.useState('');
   const [courseList, setCourseList] = React.useState<any[]>([]);
+  const [addCourseList, setAddCourseList] = React.useState<boolean[]>([]);
+  //const [addSectionList, setAddSectionList] = React.useState<any[]>([]);
   const [loadingCourseList, setLoadingCourseList] = React.useState(false);
 
   const tbody = () => {
@@ -38,7 +40,13 @@ const CourseManage: React.FunctionComponent = () => {
 
   const getCoursesList = async () => {
     setLoadingCourseList(true);
-    const axiosResponse = await axios.get('http://localhost:3000/api/courses');
+    const axiosResponse = await axios.get('https://ust-courses.now.sh/api/courses');
+    setAddCourseList([...new Array(axiosResponse.data.length).fill(false)]);
+    // const tempAddSectionList: any[] = [];
+    // axiosResponse.data.map((c: any) => {
+    //   tempAddSectionList.push(new Array(c.sections.length).fill(false));
+    // });
+    // setAddSectionList([...tempAddSectionList]);
     setLoadingCourseList(false);
     setCourseList([...axiosResponse.data]);
   }
@@ -93,9 +101,12 @@ const CourseManage: React.FunctionComponent = () => {
                 {
                   courseList.map((course, index) => (
                     <Card className="mb-0">
-                      <Accordion.Toggle as={Card.Header} eventKey={index.toString()}>
-                        {`${course.code} ${course.name}`}
-                      </Accordion.Toggle>
+                      <Card.Header>
+                        <Form.Check type="checkbox" checked={addCourseList[index]} />
+                        <Accordion.Toggle as={Button} eventKey={index.toString()}>
+                          {`${course.code} ${course.name}`}
+                        </Accordion.Toggle>
+                      </Card.Header>
                       <Accordion.Collapse eventKey={index.toString()}>
                         <Card.Body>Hello! I'm the body</Card.Body>
                       </Accordion.Collapse>
