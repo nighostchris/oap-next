@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import next from 'next';
 // import { auth } from 'express-openid-connect';
 // import jwt from 'jsonwebtoken';
@@ -10,6 +11,9 @@ const requestHandler = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
+  server.use(cors({
+    origin: 'http://localhost:3000'
+  }));
   // server.use(auth({
   //   issuerBaseURL: 'https://castest.ust.hk/cas/oidc',
   //   baseURL: 'https://oap.ust.dev',

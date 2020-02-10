@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import axios from 'axios';
+import { Button, Modal, Spinner, Accordion, Card } from 'react-bootstrap';
 import Table from '../global/Table';
 
 const courses = [
@@ -24,6 +25,9 @@ const tbodyGenerator = (code: string, name: string, semester: number, year: numb
 const CourseManage: React.FunctionComponent = () => {
   const [show, setShow] = React.useState(false);
   const [search, setSearch] = React.useState('');
+  const [courseList, setCourseList] = React.useState<any[]>([]);
+  const [loadingCourseList, setLoadingCourseList] = React.useState(false);
+
   const tbody = () => {
     const temp: any[] = [];
     courses.forEach((course) => {
@@ -31,6 +35,13 @@ const CourseManage: React.FunctionComponent = () => {
     });
     return temp;
   };
+
+  const getCoursesList = async () => {
+    setLoadingCourseList(true);
+    const axiosResponse = await axios.get('http://localhost:3000/api/courses');
+    setLoadingCourseList(false);
+    setCourseList([...axiosResponse.data]);
+  }
 
   return (
     <div className="container-fluid">
@@ -61,14 +72,40 @@ const CourseManage: React.FunctionComponent = () => {
           <div className="header header-body">
             <h1 className="header-title">Manage Courses</h1>
           </div>
-          <Button variant="primary" block onClick={() => setShow(true)}>Sync</Button>
+          <Button variant="primary" block onClick={() => { setShow(true); getCoursesList(); }}>Sync</Button>
         </div>
       </div>
       <Modal size="lg" show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title className="mb-0" style={{ fontSize: '1.5rem' }}>Sync Courses List</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Body>
+          {
+            loadingCourseList && (
+              <Spinner animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+              </Spinner>
+            )
+          }
+          {
+            !loadingCourseList && (
+              <Accordion>
+                {
+                  courseList.map((course, index) => (
+                    <Card className="mb-0">
+                      <Accordion.Toggle as={Card.Header} eventKey={index.toString()}>
+                        {`${course.code} ${course.name}`}
+                      </Accordion.Toggle>
+                      <Accordion.Collapse eventKey={index.toString()}>
+                        <Card.Body>Hello! I'm the body</Card.Body>
+                      </Accordion.Collapse>
+                    </Card>
+                  ))
+                }
+              </Accordion>
+            )
+          }
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShow(false)}>
             Close

@@ -45,7 +45,7 @@ const Table : React.SFC<TableProps> = ({
       <tbody>
         {
           tbody.map((tr, index) => (
-            <tr>
+            <tr key={`tr-${index}`}>
               <th scope="row">{index}</th>
               { tr }
             </tr>
