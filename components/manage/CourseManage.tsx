@@ -1,13 +1,8 @@
 import * as React from 'react';
 import axios from 'axios';
+import { useQuery, gql } from '@apollo/client';
 import { Button, Modal, Spinner, Accordion, Card, Row, Form } from 'react-bootstrap';
 import Table from '../global/Table';
-
-const courses = [
-  {
-    code: 'COMP1021', name: 'Introduction to Computer Science', semester: 1930, year: 2020, section: 'L1', isShown: false,
-  },
-];
 
 const thead = ['Code', 'Name', 'Semester', 'Year', 'Section', 'Public'];
 
@@ -22,19 +17,41 @@ const tbodyGenerator = (code: string, name: string, semester: number, year: numb
   </>
 );
 
+const GET_ALL_COURSES = gql`
+  query getAllCourses {
+    sections {
+      name
+      course {
+        code
+        name
+        semester {
+          semester
+          year
+        }
+        is_shown
+      }
+    }
+  }
+`;
+
 const CourseManage: React.FunctionComponent = () => {
   const [show, setShow] = React.useState(false);
   const [search, setSearch] = React.useState('');
-  const [courseList, setCourseList] = React.useState<any[]>([]);
+  const [newCourseList, setNewCourseList] = React.useState<any[]>([]);
   const [addCourseList, setAddCourseList] = React.useState<boolean[]>([]);
   const [addSectionList, setAddSectionList] = React.useState<any[]>([]);
   const [loadingCourseList, setLoadingCourseList] = React.useState(false);
 
+  const { loading, error, data } = useQuery(GET_ALL_COURSES);
+  const courses: any[] = [];
+
   const tbody = () => {
     const temp: any[] = [];
-    courses.forEach((course) => {
-      temp.push(tbodyGenerator(course.code, course.name, course.semester, course.year, course.section, course.isShown));
-    });
+    if (courses !== []) {
+      courses.forEach((course) => {
+        temp.push(tbodyGenerator(course.code, course.name, course.semester, course.year, course.section, course.isShown));
+      });
+    }
     return temp;
   };
 
@@ -67,13 +84,30 @@ const CourseManage: React.FunctionComponent = () => {
     });
     setAddSectionList([...tempAddSectionList]);
     setLoadingCourseList(false);
-    setCourseList([...axiosResponse.data]);
+    setNewCourseList([...axiosResponse.data]);
+  }
+
+  if (error) {
+    console.log(error);
+  }
+
+  if (!loading) {
+    data.sections.forEach((section: any) => {
+      courses.push({
+        code: section.course.code,
+        name: section.course.name,
+        semester: section.course.semester.semester,
+        year: section.course.semester.year,
+        section: section.name,
+        isShown: section.course.is_shown,
+      });
+    });
   }
 
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-12 col-xl-7">
+        <div className="col-12 col-xl-7 pt-4">
           <div className="input-group input-group-merge mb-3 pt-4">
             <input
               type="text"
@@ -95,7 +129,7 @@ const CourseManage: React.FunctionComponent = () => {
             textAlign="center"
           />
         </div>
-        <div className="col-12 col-xl-5">
+        <div className="col-12 col-xl-5 pt-4">
           <div className="header header-body">
             <h1 className="header-title">Manage Courses</h1>
           </div>
@@ -118,7 +152,7 @@ const CourseManage: React.FunctionComponent = () => {
             !loadingCourseList && (
               <Accordion>
                 {
-                  courseList.map((course, index) => (
+                  newCourseList.map((course, index) => (
                     <Card className="mb-0" key={`courses-card-${index}`}>
                       <Row className="mx-0" style={{ alignItems: 'center' }}>
                         <input
