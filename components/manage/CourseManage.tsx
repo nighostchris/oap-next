@@ -1,6 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
-import { Button, Modal, Spinner, Accordion, Card, Form } from 'react-bootstrap';
+import { Button, Modal, Spinner, Accordion, Card, Row, Form } from 'react-bootstrap';
 import Table from '../global/Table';
 
 const courses = [
@@ -27,7 +27,7 @@ const CourseManage: React.FunctionComponent = () => {
   const [search, setSearch] = React.useState('');
   const [courseList, setCourseList] = React.useState<any[]>([]);
   const [addCourseList, setAddCourseList] = React.useState<boolean[]>([]);
-  //const [addSectionList, setAddSectionList] = React.useState<any[]>([]);
+  const [addSectionList, setAddSectionList] = React.useState<any[]>([]);
   const [loadingCourseList, setLoadingCourseList] = React.useState(false);
 
   const tbody = () => {
@@ -38,15 +38,34 @@ const CourseManage: React.FunctionComponent = () => {
     return temp;
   };
 
+  const changeAddCourseList = (index: number) => {
+    const temp = addCourseList;
+    let temp2 = addSectionList;
+    temp[index] = !temp[index];
+    if (addCourseList[index]) {
+      temp2[index] = temp2[index].map(() => true);
+    } else {
+      temp2[index] = temp2[index].map(() => false);
+    }
+    setAddCourseList([...temp]);
+    setAddSectionList([...temp2]);
+  }
+
+  const changeAddSectionList = (index: number, sIndex: number) => {
+    const temp = addSectionList;
+    temp[index][sIndex] = !temp[index][sIndex];
+    setAddSectionList([...temp]);
+  }
+
   const getCoursesList = async () => {
     setLoadingCourseList(true);
     const axiosResponse = await axios.get('https://ust-courses.now.sh/api/courses');
     setAddCourseList([...new Array(axiosResponse.data.length).fill(false)]);
-    // const tempAddSectionList: any[] = [];
-    // axiosResponse.data.map((c: any) => {
-    //   tempAddSectionList.push(new Array(c.sections.length).fill(false));
-    // });
-    // setAddSectionList([...tempAddSectionList]);
+    const tempAddSectionList: any[] = [];
+    axiosResponse.data.map((c: any) => {
+      tempAddSectionList.push(new Array(c.sections.length).fill(false));
+    });
+    setAddSectionList([...tempAddSectionList]);
     setLoadingCourseList(false);
     setCourseList([...axiosResponse.data]);
   }
@@ -100,15 +119,34 @@ const CourseManage: React.FunctionComponent = () => {
               <Accordion>
                 {
                   courseList.map((course, index) => (
-                    <Card className="mb-0">
-                      <Card.Header>
-                        <Form.Check type="checkbox" checked={addCourseList[index]} />
-                        <Accordion.Toggle as={Button} eventKey={index.toString()}>
+                    <Card className="mb-0" key={`courses-card-${index}`}>
+                      <Row className="mx-0" style={{ alignItems: 'center' }}>
+                        <input
+                          type="checkbox"
+                          className="ml-4"
+                          checked={addCourseList[index]}
+                          onChange={() => changeAddCourseList(index)}
+                        />
+                        <Accordion.Toggle as={Card.Header} eventKey={index.toString()}>
                           {`${course.code} ${course.name}`}
                         </Accordion.Toggle>
-                      </Card.Header>
+                      </Row>
                       <Accordion.Collapse eventKey={index.toString()}>
-                        <Card.Body>Hello! I'm the body</Card.Body>
+                        <Card.Body className="ml-4">
+                          {
+                            course.sections.map((section: string, sIndex: number) => (
+                              <React.Fragment key={`section-${sIndex}`}>
+                                <Form.Check
+                                  inline
+                                  type="checkbox"
+                                  label={section}
+                                  checked={addSectionList[index][sIndex]}
+                                  onChange={() => changeAddSectionList(index, sIndex)}
+                                />
+                              </React.Fragment>
+                            ))
+                          }
+                        </Card.Body>
                       </Accordion.Collapse>
                     </Card>
                   ))
@@ -122,7 +160,7 @@ const CourseManage: React.FunctionComponent = () => {
             Close
           </Button>
           <Button variant="primary" onClick={() => setShow(false)}>
-            Save Changes
+            Insert into Database
           </Button>
         </Modal.Footer>
       </Modal>
