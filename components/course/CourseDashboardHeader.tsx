@@ -31,7 +31,7 @@ const CourseDashboardHeader: React.FunctionComponent<CourseDashboardHeaderProps>
   const pageHeaderProps = {
     pretitle: '',
     title: '',
-    avatar: <img alt="" src="" className="avatar-img rounded-circle border border-4 border-card" />,
+    avatar: <span />,
     tabTitle: ['Announcements', 'Courseworks', 'Grades']
   };
 

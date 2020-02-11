@@ -29,7 +29,7 @@ const CourseworkDashboardHeader: React.FunctionComponent<CourseworkDashboardHead
   const pageHeaderProps = {
     pretitle: '',
     title: '',
-    avatar: <img alt="" src="" className="avatar-img rounded-circle border border-4 border-card" />,
+    avatar: <span />,
     tabTitle: ['Announcements', 'Submissions', 'Grades', 'Settings']
   };
 
@@ -40,7 +40,7 @@ const CourseworkDashboardHeader: React.FunctionComponent<CourseworkDashboardHead
   if (!loading) {
     pageHeaderProps['pretitle'] = data.assignments[0].course.code;
     pageHeaderProps['title'] = data.assignments[0].name;
-    pageHeaderProps['avatar'] = <span className="avatar-title rounded-circle bg-dark text-primary"><span className={`fas fa-${pageHeaderProps.title.includes('Lab') ? 'flask' : 'laptop-code'}`} style={{ fontSize: '60px' }} /></span>;
+    pageHeaderProps['avatar'] = <span className={`fas fa-${pageHeaderProps.title.includes('Lab') ? 'flask' : 'laptop-code'}`} style={{ fontSize: '60px' }} />;
     pageHeaderProps['tabTitle'] = ['Announcements', 'Submissions', 'Grades', 'Settings'];
   }
 
