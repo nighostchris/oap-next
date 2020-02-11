@@ -1,29 +1,25 @@
-import React from 'react';
+import * as React from 'react';
 import { useRouter } from 'next/router';
-import { Button } from 'react-bootstrap';
 import { useQuery, gql } from '@apollo/client';
 import Card from '../global/Card';
-import CourseDashboardHeader from './CourseDashboardHeader';
+import CourseworkDashboardHeader from './CourseworkDashboardHeader';
 import timestampConverter from '../../utilities/timestampConverter';
 
 const content = "<p>I've spent a lot of time thinking about our design process and trying to figure out a better order for us to tackle things. Right now it feels like we're everywhere with tools and process, so here's my suggestion:</p><ol><li><strong>Define the goals</strong>: Create a template for expressing what the purpose of a project is and why we're investing time and money in tackling it.</li><li><strong>Sketch a solution</strong>: Use tried and true paper and pencil to express ideas and share them with others at the company before going too deep on design.</li><li><strong>User test with Figma</strong>: Use the page linking in Figma to get a rough clickable prototype and test this with real users.</li><li><strong>Prototype with code</strong>: Built and HTML/CSS with dummied data to test how things feel before building a true front-end.</li></ol>";
 
 const GET_ANNOUNCEMENTS_TAB_DATA = gql`
-  query getAnnouncementsTabData($code: String!) {
-    courses(where: {code: {_eq: $code}}) {
+  query getAnnouncementsTabData($id: bigint!) {
+    assignments(where: {id: {_eq: $id}}) {
       created_at
-      assignments {
-        id
-      }
     }
   }
 `;
 
-const AnnouncementsTab: React.FunctionComponent = () => {
+const AnnouncementTab: React.FunctionComponent = () => {
   const router = useRouter();
-  const { courseid } = router.query;
+  const { courseworkid } = router.query;
   const { loading, error, data } = useQuery(GET_ANNOUNCEMENTS_TAB_DATA, {
-    variables: { code: String(courseid).toUpperCase() }
+    variables: { id: courseworkid }
   });
   const infoList = [];
 
@@ -33,17 +29,14 @@ const AnnouncementsTab: React.FunctionComponent = () => {
 
   if (!loading) {
     infoList.push({
-      category: 'Assignments',
-      value: String(data.courses[0].assignments.length),
-    }, {
       category: 'Created',
-      value: timestampConverter(new Date(data.courses[0].created_at), false),
+      value: timestampConverter(new Date(data.assignments[0].created_at), false),
     });
   }
 
-  return (
+  return(
     <>
-      <CourseDashboardHeader activeTab={0} />
+      <CourseworkDashboardHeader activeTab={0} />
       <div className="container-fluid">
         <div className="row">
           <div className="col-12 col-xl-9">
@@ -62,7 +55,6 @@ const AnnouncementsTab: React.FunctionComponent = () => {
               type="info"
               infoList={infoList}
             />
-            <Button href={`${router.asPath}/add`} variant="primary" block>New Announcement</Button>
           </div>
         </div>
       </div>
@@ -70,4 +62,4 @@ const AnnouncementsTab: React.FunctionComponent = () => {
   );
 };
 
-export default AnnouncementsTab;
+export default AnnouncementTab;

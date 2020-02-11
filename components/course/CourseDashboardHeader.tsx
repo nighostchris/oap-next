@@ -7,8 +7,8 @@ interface CourseDashboardHeaderProps {
   activeTab: number
 }
 
-const GET_COURSE_DATA = gql`
-  query getCourseData($code: String!) {
+const GET_COURSE_HEADER_DATA = gql`
+  query getCourseHeaderData($code: String!) {
     courses(where: {code: {_eq: $code}}) {
       code
       name
@@ -24,7 +24,7 @@ const CourseDashboardHeader: React.FunctionComponent<CourseDashboardHeaderProps>
   const router = useRouter();
   const { courseid } = router.query;
   const rootUrl = `/course/${courseid}`;
-  const { loading, error, data } = useQuery(GET_COURSE_DATA, {
+  const { loading, error, data } = useQuery(GET_COURSE_HEADER_DATA, {
     variables: { code: String(courseid).toUpperCase() }
   });
 
