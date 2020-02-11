@@ -1,6 +1,7 @@
 import React from 'react';
 import List from './List';
 import Dropdown from './Dropdown';
+import { differentialTimestampConverter } from '../../utilities/timestampConverter';
 
 interface Info {
   category: string
@@ -13,6 +14,7 @@ interface CardProps {
   title?: string
   link?: string
   content?: string
+  publish_at?: string
   icon?: string
   footer?: string
   teamfooter?: string
@@ -187,7 +189,7 @@ const infoCard = (title: string, infoList: Array<Info>) => (
   </div>
 );
 
-const postCard = (title: string, content: string) => {
+const postCard = (title: string, content: string, publish_at: string) => {
   const listItemDropdown = [{ title: 'Edit', func: () => {} }, { title: 'Delete', func: () => {} }];
 
   return (
@@ -210,7 +212,7 @@ const postCard = (title: string, content: string) => {
               </h4>
               <p className="card-text small text-muted">
                 <span className="fe fe-clock" />
-                ` 4 days ago`
+                {` ${differentialTimestampConverter(new Date(publish_at))}`}
               </p>
             </div>
             <div className="col-auto">
@@ -219,7 +221,7 @@ const postCard = (title: string, content: string) => {
           </div>
         </div>
         <p className="mb-3">
-          <div dangerouslySetInnerHTML={{ __html: content }} />
+          <section dangerouslySetInnerHTML={{ __html: content }} />
         </p>
       </div>
     </div>
@@ -247,7 +249,7 @@ const statCard = (title: string, content: string, icon: string) => (
 );
 
 const Card : React.SFC<CardProps> = ({
-  children, type, id, title, link, content, icon, footer,
+  children, type, id, title, link, content, publish_at, icon, footer,
   teamfooter, sortable, searchable, listItem, infoList,
 }) => {
   const [keyword, setKeyword] = React.useState('');
@@ -257,7 +259,7 @@ const Card : React.SFC<CardProps> = ({
     type === 'team' ? teamCard(id as number, link as string, title as string, content as string, teamfooter as string)
       : (type === 'footer' ? footerCard(title as string, content as string, footer as string)
         : (type === 'info' ? infoCard(title as string, infoList as Info[])
-          : (type === 'post' ? postCard(title as string, content as string)
+          : (type === 'post' ? postCard(title as string, content as string, publish_at as string)
             : (type === 'list' ? listCard(title as string, listItem as any[], sortable as boolean,
               searchable as boolean, keyword as string, setKeyword as any, mode as number,
                 setMode as any)

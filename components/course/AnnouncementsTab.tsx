@@ -15,6 +15,11 @@ const GET_ANNOUNCEMENTS_TAB_DATA = gql`
       assignments {
         id
       }
+      announcements(order_by: {publish_at: desc}) {
+        title
+        content
+        publish_at
+      }
     }
   }
 `;
@@ -26,6 +31,7 @@ const AnnouncementsTab: React.FunctionComponent = () => {
     variables: { id: courseid }
   });
   const infoList = [];
+  let announcementsList: any[] = [];
 
   if (error) {
     console.log(error);
@@ -39,6 +45,8 @@ const AnnouncementsTab: React.FunctionComponent = () => {
       category: 'Created',
       value: timestampConverter(new Date(data.courses[0].created_at), false),
     });
+
+    announcementsList = data.courses[0].announcements;
   }
 
   return (
@@ -48,11 +56,13 @@ const AnnouncementsTab: React.FunctionComponent = () => {
         <div className="row">
           <div className="col-12 col-xl-9">
             {
-              [0, 1, 2, 3, 4, 5].map(() => (
+              announcementsList.map((ann, index) => (
                 <Card
+                  key={`announcement-${index}`}
                   type="post"
-                  title="Assignment 1 - Tic Tac Toe"
-                  content={content}
+                  title={ann.title}
+                  content={ann.content}
+                  publish_at={ann.publish_at}
                 />
               ))
             }
