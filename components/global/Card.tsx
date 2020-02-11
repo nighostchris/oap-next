@@ -9,6 +9,7 @@ interface Info {
 
 interface CardProps {
   type: 'team' | 'footer' | 'info' | 'post' | 'list' | 'stat'
+  id?: number
   title?: string
   link?: string
   content?: string
@@ -124,20 +125,20 @@ const footerCard = (title: string, content: string, footer: string) => (
   </div>
 );
 
-const teamCard = (link: string, title: string, content: string, teamfooter: string) => (
+const teamCard = (id: number, link: string, title: string, content: string, teamfooter: string) => (
   <div className="card mx-2" style={{ flex: 1 }}>
     <div className="card-body">
       <div className="text-center">
-        <a href="team-overview.html" className="card-avatar avatar avatar-lg mx-auto">
+        <div className="card-avatar avatar avatar-lg mx-auto">
           <img
             src={link}
             alt=""
             className="avatar-img rounded"
           />
-        </a>
+        </div>
       </div>
       <h2 className="card-title text-center mb-3">
-        <a href={`/course/${title.toLowerCase()}/announcements`}>{title}</a>
+        <a href={`/course/${id}/announcements`}>{title}</a>
       </h2>
       <p className="card-text text-center text-muted mb-4">{content}</p>
       <hr />
@@ -246,14 +247,14 @@ const statCard = (title: string, content: string, icon: string) => (
 );
 
 const Card : React.SFC<CardProps> = ({
-  children, type, title, link, content, icon, footer,
+  children, type, id, title, link, content, icon, footer,
   teamfooter, sortable, searchable, listItem, infoList,
 }) => {
   const [keyword, setKeyword] = React.useState('');
   const [mode, setMode] = React.useState(0);
 
   return (
-    type === 'team' ? teamCard(link as string, title as string, content as string, teamfooter as string)
+    type === 'team' ? teamCard(id as number, link as string, title as string, content as string, teamfooter as string)
       : (type === 'footer' ? footerCard(title as string, content as string, footer as string)
         : (type === 'info' ? infoCard(title as string, infoList as Info[])
           : (type === 'post' ? postCard(title as string, content as string)

@@ -5,7 +5,7 @@ import { useQuery, gql } from '@apollo/client';
 import Card from '../global/Card';
 import Table from '../global/Table';
 import CourseworkDashboardHeader from './CourseworkDashboardHeader';
-import timestampConverter from '../../utilities/timestampConverter';
+import { timestampConverter } from '../../utilities/timestampConverter';
 
 const thead = ['Filename', 'Size', 'Submission Time', 'Status'];
 

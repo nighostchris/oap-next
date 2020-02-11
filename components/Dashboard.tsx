@@ -16,6 +16,7 @@ const GET_DASHBOARD_DATA = gql`
         section {
           name
           course {
+            id
             name
             code
             assignments {
@@ -65,6 +66,7 @@ const Dashboard: React.FunctionComponent = () => {
                   <Card
                     key={`dashboard-course-card-${index}`}
                     type="team"
+                    id={d.course.id}
                     title={`${d.course.code}`}
                     link="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
                     content={`${d.course.name}`}

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useQuery, gql } from '@apollo/client';
 import Card from '../global/Card';
 import CourseworkDashboardHeader from './CourseworkDashboardHeader';
-import timestampConverter from '../../utilities/timestampConverter';
+import { timestampConverter } from '../../utilities/timestampConverter';
 
 const content = "<p>I've spent a lot of time thinking about our design process and trying to figure out a better order for us to tackle things. Right now it feels like we're everywhere with tools and process, so here's my suggestion:</p><ol><li><strong>Define the goals</strong>: Create a template for expressing what the purpose of a project is and why we're investing time and money in tackling it.</li><li><strong>Sketch a solution</strong>: Use tried and true paper and pencil to express ideas and share them with others at the company before going too deep on design.</li><li><strong>User test with Figma</strong>: Use the page linking in Figma to get a rough clickable prototype and test this with real users.</li><li><strong>Prototype with code</strong>: Built and HTML/CSS with dummied data to test how things feel before building a true front-end.</li></ol>";
 

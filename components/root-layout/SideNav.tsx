@@ -74,6 +74,7 @@ const GET_ENROLLED_COURSES = gql`
       enrolled_courses {
         section {
           course {
+            id
             code
           }
         }
@@ -90,19 +91,17 @@ const SideNav: React.FunctionComponent = () => {
     const linksList: Array<Link> = [];
 
     data.users[0].enrolled_courses.forEach((e: any) => {
-      const code = e.section.course.code;
-
       const subSection: Array<Link> = [];
       ['Announcements', 'Courseworks', 'Grades'].forEach((s: string) => {
         subSection.push({
           title: s,
-          href: `/course/${code.toLowerCase()}/${s.toLowerCase()}`,
+          href: `/course/${e.section.course.id}/${s.toLowerCase()}`,
           updated: true,
         });
       });
 
       linksList.push({
-        title: code,
+        title: e.section.course.code,
         icon: 'fas fa-book',
         children: subSection,
       });

@@ -8,8 +8,8 @@ interface CourseDashboardHeaderProps {
 }
 
 const GET_COURSE_HEADER_DATA = gql`
-  query getCourseHeaderData($code: String!) {
-    courses(where: {code: {_eq: $code}}) {
+  query getCourseHeaderData($id: bigint!) {
+    courses(where: {id: {_eq: $id}}) {
       code
       name
       created_at
@@ -25,7 +25,7 @@ const CourseDashboardHeader: React.FunctionComponent<CourseDashboardHeaderProps>
   const { courseid } = router.query;
   const rootUrl = `/course/${courseid}`;
   const { loading, error, data } = useQuery(GET_COURSE_HEADER_DATA, {
-    variables: { code: String(courseid).toUpperCase() }
+    variables: { id: courseid }
   });
 
   const pageHeaderProps = {

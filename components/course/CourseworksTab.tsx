@@ -4,11 +4,11 @@ import { useRouter } from 'next/router';
 import { useQuery, gql } from '@apollo/client';
 import Card from '../global/Card';
 import CourseDashboardHeader from './CourseDashboardHeader';
-import timestampConverter from '../../utilities/timestampConverter';
+import { timestampConverter } from '../../utilities/timestampConverter';
 
 const GET_COURSEWORKTAB_DATA = gql`
-  query getCourseData($code: String!) {
-    courses(where: {code: {_eq: $code}}) {
+  query getCourseData($id: bigint!) {
+    courses(where: {id: {_eq: $id}}) {
       assignments {
         id
         name
@@ -22,7 +22,7 @@ const CourseworksTab: React.FunctionComponent = () => {
   const router = useRouter();
   const { courseid } = router.query;
   const { loading, error, data } = useQuery(GET_COURSEWORKTAB_DATA, {
-    variables: { code: String(courseid).toUpperCase() }
+    variables: { id: courseid }
   });
   const listItem: any[] = [];
 

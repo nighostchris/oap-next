@@ -1,5 +1,10 @@
 import React from 'react';
 
+interface TextEditorProps {
+  content: string
+  setContent: (value: string | ((prevVar: string) => string)) => void
+}
+
 const modules = {
   toolbar: [
     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
@@ -16,15 +21,18 @@ const formats = [
   'link', 'image',
 ];
 
-const TextEditor : React.FunctionComponent = () => {
+const TextEditor : React.FunctionComponent<TextEditorProps> = ({ content, setContent }) => {
   const ReactQuill = typeof window === 'object' ? require('react-quill') : () => false;
-  const [content, setContent] = React.useState('');
+
+  const handleChange = (value: any) => {
+    setContent(value);
+  }
 
   return (
     <div className="text-editor mb-5">
       <ReactQuill
         value={content}
-        onChange={setContent}
+        onChange={handleChange}
         modules={modules}
         formats={formats}
       />
