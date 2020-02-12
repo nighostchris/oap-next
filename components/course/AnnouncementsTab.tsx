@@ -4,18 +4,18 @@ import { Button } from 'react-bootstrap';
 import { useQuery, gql } from '@apollo/client';
 import Card from '../global/Card';
 import CourseDashboardHeader from './CourseDashboardHeader';
-import { timestampConverter } from '../../utilities/timestampConverter';
+import { timestampConverter, reverseTimestampConverter } from '../../utilities/timestampConverter';
 
 const content = "<p>I've spent a lot of time thinking about our design process and trying to figure out a better order for us to tackle things. Right now it feels like we're everywhere with tools and process, so here's my suggestion:</p><ol><li><strong>Define the goals</strong>: Create a template for expressing what the purpose of a project is and why we're investing time and money in tackling it.</li><li><strong>Sketch a solution</strong>: Use tried and true paper and pencil to express ideas and share them with others at the company before going too deep on design.</li><li><strong>User test with Figma</strong>: Use the page linking in Figma to get a rough clickable prototype and test this with real users.</li><li><strong>Prototype with code</strong>: Built and HTML/CSS with dummied data to test how things feel before building a true front-end.</li></ol>";
 
 const GET_ANNOUNCEMENTS_TAB_DATA = gql`
-  query getAnnouncementsTabData($id: bigint!) {
+  query getAnnouncementsTabData($id: bigint!, $now: timestamp!) {
     courses(where: {id: {_eq: $id}}) {
       created_at
       assignments {
         id
       }
-      announcements(order_by: {publish_at: desc}) {
+      announcements(where: {publish_at: {_lte: $now}}, order_by: {publish_at: desc}) {
         title
         content
         publish_at
@@ -28,7 +28,7 @@ const AnnouncementsTab: React.FunctionComponent = () => {
   const router = useRouter();
   const { courseid } = router.query;
   const { loading, error, data } = useQuery(GET_ANNOUNCEMENTS_TAB_DATA, {
-    variables: { id: courseid }
+    variables: { id: courseid, now: reverseTimestampConverter(new Date()) }
   });
   const infoList = [];
   let announcementsList: any[] = [];

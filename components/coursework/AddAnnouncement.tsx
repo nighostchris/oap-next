@@ -1,14 +1,24 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
-import { useMutation, gql } from '@apollo/client';
+import { useQuery, useMutation, gql } from '@apollo/client';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import Flatpickr from 'react-flatpickr';
 import TextEditor from '../global/TextEditor';
 import { reverseTimestampConverter } from '../../utilities/timestampConverter';
 
+const GET_COURSE_FROM_ASSIGNMENT_ID = gql`
+  query getCourseFromAssignmentID($id: bigint!) {
+    assignments(where: {id: {_eq: $id}}) {
+      course {
+        id
+      }
+    }
+  }
+`;
+
 const INSERT_NEW_ANNOUNCEMENT = gql`
-  mutation insertNewAnnouncement($title: String!, $content: String!, $course_id: bigint!, $publish_at: timestamp!) {
-    insert_announcements(objects: {title: $title, content: $content, course_id: $course_id, publish_at: $publish_at}) {
+  mutation insertNewAnnouncement($title: String!, $content: String!, $course_id: bigint!, $assignment_id: bigint!, $publish_at: timestamp!) {
+    insert_announcements(objects: {title: $title, content: $content, course_id: $course_id, assignment_id: $assignment_id, publish_at: $publish_at}) {
       returning {
         id
       }
@@ -18,13 +28,25 @@ const INSERT_NEW_ANNOUNCEMENT = gql`
 
 const AddAnnouncement: React.FunctionComponent = () => {
   const router = useRouter();
-  const { courseid } = router.query;
+  const { courseworkid } = router.query;
   const [title, setTitle] = React.useState('');
   const [content, setContent] = React.useState('');
   const [date, setDate] = React.useState<Date[]>([]);
   const [inserting, setInserting] = React.useState(false);
   const [customTime, setCustomTime] = React.useState(false);
   const [insertA, { loading, error, data }] = useMutation(INSERT_NEW_ANNOUNCEMENT);
+  const query = useQuery(GET_COURSE_FROM_ASSIGNMENT_ID, {
+    variables: { id: courseworkid }
+  });
+  let courseid: number;
+
+  if (query.error) {
+    console.log(error);
+  }
+
+  if (!query.loading) {
+    courseid = query.data.assignments[0].course.id;
+  }
 
   const insertAnnouncement = () => {
     setInserting(true);
@@ -33,6 +55,7 @@ const AddAnnouncement: React.FunctionComponent = () => {
         title: title,
         content: content,
         course_id: courseid,
+        assignment_id: courseworkid,
         publish_at: customTime ? reverseTimestampConverter(date[0]) : reverseTimestampConverter(new Date())
       }
     });
