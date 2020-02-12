@@ -7,41 +7,30 @@ import Table from '../global/Table';
 import CourseworkDashboardHeader from './CourseworkDashboardHeader';
 import { timestampConverter } from '../../utilities/timestampConverter';
 
-const thead = ['Filename', 'Size', 'Submission Time', 'Status'];
-
-const tbodyGenerator = (name: string, size: string, time: string, status: string) => (
-  <>
-    <td><i className="fas fa-file-archive" style={{ marginRight: '10px' }} />{name}</td>
-    <td>{size}</td>
-    <td>{time}</td>
-    <td>
-      <i
-        className={status === 'success' ? 'fas fa-check-circle' : (status === 'warning'
-          ? 'fas fa-exclamation-triangle' : 'fas fa-times-circle')}
-        style={{ color: status === 'success' ? '#00A660' : (status === 'warning' ? '#F6C343' : '#D01A3B') }}
-      />
-    </td>
-  </>
-);
-
-const tbody = () => {
-  const temp = [];
-  for (let i = 0; i < 10; i++) {
-    if (i % 2 === 0) {
-      temp.push(tbodyGenerator('assignment1.zip', '273KB', 'Dec 11 2019 10:30:27', 'success'));
-    } else if (i % 3 === 0) {
-      temp.push(tbodyGenerator('assignment2.zip', '36KB', 'Dec 11 2019 10:30:27', 'warning'));
-    } else {
-      temp.push(tbodyGenerator('assignment3.zip', '185KB', 'Dec 11 2019 10:30:27', 'error'));
-    }
-  }
-  return temp;
-};
-
 const GET_SUBMISSIONS_TAB_DATA = gql`
   query getSubmissionsTabData($id: bigint!) {
     assignments(where: {id: {_eq: $id}}) {
       created_at
+      assignment_configs {
+        due_at
+      }
+    }
+    submissions(where: {
+      assignment_config: {
+        assignment_id: {
+          _eq: $id
+        }
+      },
+      user: {
+        itsc: {
+          _eq: "kristopher"
+        }
+      }
+    }) {
+      upload_name
+      size
+      created_at
+      fail_reason
     }
   }
 `;
@@ -53,6 +42,22 @@ const SubmissionsTab: React.FunctionComponent = () => {
     variables: { id: courseworkid }
   });
   const infoList = [];
+  const submissionsList: any[] = [];
+  const thead = ['Filename', 'Size', 'Submission Time', 'Status'];
+  const tbodyGenerator = (name: string, size: string, time: string, status: string) => (
+    <>
+      <td><i className="fas fa-file-archive" style={{ marginRight: '10px' }} />{name}</td>
+      <td>{size}</td>
+      <td>{time}</td>
+      <td>
+        <i
+          className={status === 'success' ? 'fas fa-check-circle' : (status === 'warning'
+            ? 'fas fa-exclamation-triangle' : 'fas fa-times-circle')}
+          style={{ color: status === 'success' ? '#00A660' : (status === 'warning' ? '#F6C343' : '#D01A3B') }}
+        />
+      </td>
+    </>
+  );
 
   if (error) {
     console.log(error);
@@ -61,8 +66,28 @@ const SubmissionsTab: React.FunctionComponent = () => {
   if (!loading) {
     infoList.push({
       category: 'Created',
-      value: timestampConverter(new Date(data.assignments[0].created_at), false),
+      value: timestampConverter(new Date(data.assignments[0].created_at), false)
+    }, {
+      category: 'Due At',
+      value: timestampConverter(new Date(data.assignments[0].assignment_configs[0].due_at), true)
     });
+
+    data.submissions.forEach((submission: any) => {
+      let status;
+
+      if (submission.fail_reason === null) {
+        status = 'success'
+      } else {
+        status = 'failure'
+      }
+
+      submissionsList.push(tbodyGenerator(
+        submission.upload_name,
+        submission.size,
+        timestampConverter(new Date(submission.created_at), true),
+        status
+      ));
+    })
   }
 
   return(
@@ -85,7 +110,7 @@ const SubmissionsTab: React.FunctionComponent = () => {
           <div className="col-12 col-xl-9">
             <Table
               thead={thead}
-              tbody={tbody()}
+              tbody={submissionsList}
               bordered
               textAlign="center"
             />
