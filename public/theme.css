@@ -11004,15 +11004,20 @@ a:focus, button:focus {
 .channel {
   display: flex;
   flex-direction: row;
-  height: 64px;
-  padding: 0 8px;
-  justify-content: center;
+  height: 80px;
+  width: 100%;
+  padding: 0 12px;
+  justify-content: left;
   align-items: center; }
   @media(max-width: 900px) {
     .channel > div {
       display: none !important; }
     .channel > img {
       margin-right: 0 !important; } }
+
+.channel:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.2); }
 
 .channel > img {
   width: 3rem;

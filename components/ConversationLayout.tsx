@@ -34,11 +34,13 @@ const ConversationLayout: React.FunctionComponent = () => {
                   src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
                   className="avatar avatar-sm rounded-circle"
                 />
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', width: 'calc(100% - 60px)' }}>
                   <h4>Desmond Tsoi</h4>
-                  <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <h6 className="mb-0">Thanks for your question</h6>
-                    <h6 className="mb-0 ml-4">Dec 19</h6>
+                  <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'left' }}>
+                    <h6 className="mb-0" style={{ width: '80%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                      Thanks for your question. I will probably reply by
+                    </h6>
+                    <h6 className="mb-0" style={{ width: '20%', textAlign: 'end' }}>Dec 19</h6>
                   </div>
                 </div>
               </div>
