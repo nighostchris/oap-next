@@ -1,8 +1,5 @@
-/* eslint-disable no-shadow */
-/* eslint-disable no-multi-assign */
 import React from 'react';
 import Head from 'next/head';
-// import cookie from 'cookie';
 import {
   ApolloClient,
   InMemoryCache,
@@ -11,7 +8,6 @@ import {
   ApolloLink,
   ApolloProvider,
 } from '@apollo/client';
-// import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 import { NextPage } from 'next';
 
 import fetch from 'isomorphic-unfetch';
@@ -23,7 +19,6 @@ let apolloClient: ApolloClient<NormalizedCacheObject> | null = null;
 /**
  * Creates and configures the ApolloClient
  */
-// eslint-disable-next-line max-len
 function createApolloClient(initialState: NormalizedCacheObject = {}, cookie?: string): ApolloClient<NormalizedCacheObject> {
   const headers = cookie ? { cookie } : undefined;
 
