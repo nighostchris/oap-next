@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useQuery, gql } from '@apollo/client';
 import AddUser from './AddUser';
 import AddUserToCourse from './AddUserToCourse';
 import Table from '../global/Table';
@@ -39,35 +40,48 @@ const users = [
   },
 ];
 
-const thead = ['Name', 'Email', 'ID', 'Role'];
+const thead = ['Name', 'Email', 'Role'];
 
-const tbodyGenerator = (name: string, email: string, id: string, role: number) => (
+const tbodyGenerator = (name: string, email: string, role: number) => (
   <>
     <td>{name}</td>
     <td>{email}</td>
-    <td>{id}</td>
     <td>{role === 1 ? 'Student' : (role === 2 ? 'Teaching Staff' : 'Admin')}</td>
   </>
 );
 
 const optionList = ['Select...', 'Add New', 'Add to Course', 'Remove from Course', 'Change Section'];
 
+const GET_ALL_USERS = gql`
+  query getAllUsers {
+    users {
+      name
+      itsc
+    }
+  }
+`;
+
 const StudentManage: React.FunctionComponent = () => {
   const [search, setSearch] = React.useState('');
   const [type, setType] = React.useState(optionList[0]);
   const [userlist, setUserlist] = React.useState([...users]);
-  const tbody = () => {
-    const temp: any[] = [];
-    userlist.forEach((user) => {
-      temp.push(tbodyGenerator(user.name, user.email, user.id, user.role));
+  const { loading, error, data } = useQuery(GET_ALL_USERS);
+  const userList: any[] = [];
+
+  if (error) {
+    console.log(error);
+  }
+
+  if (!loading) {
+    data.users.map((user: any) => {
+      userList.push(tbodyGenerator(user.name, user.itsc, 1));
     });
-    return temp;
-  };
+  }
 
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-12 col-xl-7">
+        <div className="col-12 col-xl-7 pt-4">
           <div className="input-group input-group-merge mb-3 pt-4">
             <input
               type="text"
@@ -84,12 +98,12 @@ const StudentManage: React.FunctionComponent = () => {
           </div>
           <Table
             thead={thead}
-            tbody={tbody()}
+            tbody={userList}
             bordered
             textAlign="center"
           />
         </div>
-        <div className="col-12 col-xl-5">
+        <div className="col-12 col-xl-5 pt-4">
           <div className="header header-body">
             <h1 className="header-title">Manage Users</h1>
           </div>
