@@ -60,8 +60,37 @@ const ConversationLayout: React.FunctionComponent = () => {
             <h3 className="mb-0 ml-3">Desmond Tsoi</h3>
           </div>
         </div>
-        <div className="chat-content">
-          <p>testing</p>
+        <div className="chat-content px-4">
+          <div className="chatbar">
+            <div className="otherchat px-3">
+              Hello Desmond
+            </div>
+          </div>
+          <div className="chatbar">
+            <div className="otherchat px-3">
+              Hello Desmond Hello DesmondHello DesmondHello DesmondHello DesmondHello DesmondHello Desmond
+            </div>
+          </div>
+          <div className="chatbar">
+            <div className="mychat px-3">
+              Hello Desmond
+            </div>
+          </div>
+          <div className="chatbar">
+            <div className="mychat px-3">
+              Hello DesmondHello DesmondHello DesmondHello DesmondHello DesmondHello Desmond
+            </div>
+          </div>
+          <div className="chatbar">
+            <div className="otherchat px-3">
+              Hello Desmond
+            </div>
+          </div>
+          <div className="chatbar">
+            <div className="otherchat px-3">
+              Hello Desmond
+            </div>
+          </div>
         </div>
         <div className="chat-inputbox px-3">
           <textarea
