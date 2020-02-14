@@ -6,6 +6,13 @@ const ConversationLayout: React.FunctionComponent = () => {
   const [search, setSearch] = React.useState('');
   const [input, setInput] = React.useState('');
 
+  React.useEffect(() => {
+    const chatContentDiv = document.getElementById("chat-content");
+    if (chatContentDiv !== null) {
+      chatContentDiv.scrollTop = chatContentDiv.scrollHeight;
+    }
+  })
+
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100vh' }}>
       <div className="conversation-left">
@@ -60,35 +67,15 @@ const ConversationLayout: React.FunctionComponent = () => {
             <h3 className="mb-0 ml-3">Desmond Tsoi</h3>
           </div>
         </div>
-        <div className="chat-content px-4">
+        <div id="chat-content" className="chat-content px-4">
           <div className="chatbar">
             <div className="otherchat px-3">
               Hello Desmond
             </div>
           </div>
           <div className="chatbar">
-            <div className="otherchat px-3">
+            <div className="mychat px-3">
               Hello Desmond Hello DesmondHello DesmondHello DesmondHello DesmondHello DesmondHello Desmond
-            </div>
-          </div>
-          <div className="chatbar">
-            <div className="mychat px-3">
-              Hello Desmond
-            </div>
-          </div>
-          <div className="chatbar">
-            <div className="mychat px-3">
-              Hello DesmondHello DesmondHello DesmondHello DesmondHello DesmondHello Desmond
-            </div>
-          </div>
-          <div className="chatbar">
-            <div className="otherchat px-3">
-              Hello Desmond
-            </div>
-          </div>
-          <div className="chatbar">
-            <div className="otherchat px-3">
-              Hello Desmond
             </div>
           </div>
         </div>
