@@ -4,6 +4,7 @@ const dummy = Array(20).fill(0);
 
 const ConversationLayout: React.FunctionComponent = () => {
   const [search, setSearch] = React.useState('');
+  const [input, setInput] = React.useState('');
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100vh' }}>
@@ -58,6 +59,18 @@ const ConversationLayout: React.FunctionComponent = () => {
             />
             <h3 className="mb-0 ml-3">Desmond Tsoi</h3>
           </div>
+        </div>
+        <div className="chat-content">
+          <p>testing</p>
+        </div>
+        <div className="chat-inputbox px-3">
+          <textarea
+            value={input}
+            style={{ resize: 'none' }}
+            className="form-control"
+            placeholder="Please type..."
+            onChange={(e) => setInput(e.target.value)}
+          />
         </div>
       </div>
     </div>

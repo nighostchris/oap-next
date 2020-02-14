@@ -20,7 +20,6 @@ const CSSLoader: React.FunctionComponent = () => {
   }
 
   if (!loading) {
-    console.log(data);
     dark_mode = data.settings[0].dark_mode;
   }
 
