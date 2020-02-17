@@ -1,17 +1,82 @@
 import * as React from 'react';
+import { useQuery, gql, useLazyQuery } from '@apollo/client';
+import { timestampConverter } from '../utilities/timestampConverter';
+import ChatboxLayout from './ChatboxLayout';
 
-const dummy = Array(20).fill(0);
+const GET_CHANNELS = gql`
+  query getChannels {
+    channels(
+      where: {
+        _or: [
+          { user: { itsc: { _eq: "kristopher" } } },
+          { userByReceiver: { itsc: { _eq: "kristopher" } } }
+        ]
+      }
+    ) {
+      id
+      user {
+        name,
+        itsc
+      }
+      userByReceiver {
+        name,
+        itsc
+      }
+      conversations(order_by: {created_at: desc}, limit: 1) {
+        message
+        created_at
+      }
+    }
+  }
+`;
+
+const GET_CONVERSATIONS_BY_ID = gql`
+  query getConversationsByID($id: bigint!) {
+    channels(where: {id: {_eq: $id}}) {
+      user {
+        name
+        itsc
+      }
+      userByReceiver {
+        name
+        itsc
+      }
+      conversations {
+        message
+        created_at
+        user {
+          itsc
+        }
+      }
+    }
+  }
+`;
 
 const ConversationLayout: React.FunctionComponent = () => {
+  const { loading, error, data } = useQuery(GET_CHANNELS);
+  const [getConversationsByID, { loading: load, error: err, data: d }] = useLazyQuery(GET_CONVERSATIONS_BY_ID);
   const [search, setSearch] = React.useState('');
   const [input, setInput] = React.useState('');
+  let messagesList;
+  let channels: any[] = [];
 
-  React.useEffect(() => {
-    const chatContentDiv = document.getElementById("chat-content");
-    if (chatContentDiv !== null) {
-      chatContentDiv.scrollTop = chatContentDiv.scrollHeight;
+  if (error) {
+    console.log(error);
+  }
+
+  if (!loading) {
+    channels =  data.channels;
+  }
+
+  if (err) {
+    console.log(err);
+  }
+
+  if (!load) {
+    if (d !== undefined) {
+      messagesList = d.channels[0];
     }
-  })
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100vh' }}>
@@ -35,20 +100,26 @@ const ConversationLayout: React.FunctionComponent = () => {
         </div>
         <div className="conversation-left-scrollable">
           {
-            dummy.map(() => (
-              <div className="channel">
+            channels.map((channel, index) => (
+              <div
+                className="channel"
+                key={`channel-${index}`}
+                onClick={() => getConversationsByID({ variables: { id: channel.id } })}
+              >
                 <img
                   alt=""
                   src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
                   className="avatar avatar-sm rounded-circle"
                 />
                 <div style={{ display: 'flex', flexDirection: 'column', width: 'calc(100% - 60px)' }}>
-                  <h4>Desmond Tsoi</h4>
+                  <h4>{ channel.user.itsc === 'kristopher' ? channel.userByReceiver.name : channel.user.name }</h4>
                   <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'left' }}>
-                    <h6 className="mb-0" style={{ width: '80%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-                      Thanks for your question. I will probably reply by
+                    <h6 className="mb-0" style={{ width: '74%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                      { channel.conversations[0] && channel.conversations[0].message }
                     </h6>
-                    <h6 className="mb-0" style={{ width: '20%', textAlign: 'end' }}>Dec 19</h6>
+                    <h6 className="mb-0" style={{ width: '26%', textAlign: 'end' }}>
+                      { channel.conversations[0] && timestampConverter(new Date(channel.conversations[0].created_at), false).slice(0, -6) }
+                    </h6>
                   </div>
                 </div>
               </div>
@@ -56,39 +127,11 @@ const ConversationLayout: React.FunctionComponent = () => {
           }
         </div>
       </div>
-      <div className="conversation-right">
-        <div className="conversation-right-header">
-          <div className="header-content">
-            <img
-              alt=""
-              src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
-              className="avatar avatar-sm rounded-circle"
-            />
-            <h3 className="mb-0 ml-3">Desmond Tsoi</h3>
-          </div>
-        </div>
-        <div id="chat-content" className="chat-content px-4">
-          <div className="chatbar">
-            <div className="otherchat px-3">
-              Hello Desmond
-            </div>
-          </div>
-          <div className="chatbar">
-            <div className="mychat px-3">
-              Hello Desmond Hello DesmondHello DesmondHello DesmondHello DesmondHello DesmondHello Desmond
-            </div>
-          </div>
-        </div>
-        <div className="chat-inputbox px-3">
-          <textarea
-            value={input}
-            style={{ resize: 'none' }}
-            className="form-control"
-            placeholder="Please type..."
-            onChange={(e) => setInput(e.target.value)}
-          />
-        </div>
-      </div>
+      <ChatboxLayout
+        input={input}
+        setInput={setInput}
+        messagesList={messagesList}
+      />
     </div>
   );
 };

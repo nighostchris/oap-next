@@ -11071,6 +11071,8 @@ a:focus, button:focus {
   justify-content: left;
   align-items: center; }
   @media(max-width: 900px) {
+    .channel {
+      justify-content: center; }
     .channel > div {
       display: none !important; }
     .channel > img {
