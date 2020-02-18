@@ -66,8 +66,6 @@ const AddAnnouncement: React.FunctionComponent = () => {
     }
   
     if (!loading) {
-      console.log(data);
-      console.log(error);
       if (error === undefined) {
         setInserting(false);
         router.push(`${router.asPath.replace('/add', '')}`);

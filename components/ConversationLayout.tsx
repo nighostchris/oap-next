@@ -30,34 +30,10 @@ const GET_CHANNELS = gql`
   }
 `;
 
-const GET_CONVERSATIONS_BY_ID = gql`
-  query getConversationsByID($id: bigint!) {
-    channels(where: {id: {_eq: $id}}) {
-      user {
-        name
-        itsc
-      }
-      userByReceiver {
-        name
-        itsc
-      }
-      conversations {
-        message
-        created_at
-        user {
-          itsc
-        }
-      }
-    }
-  }
-`;
-
 const ConversationLayout: React.FunctionComponent = () => {
-  const { loading, error, data } = useQuery(GET_CHANNELS);
-  const [getConversationsByID, { loading: load, error: err, data: d }] = useLazyQuery(GET_CONVERSATIONS_BY_ID);
+  const { loading, error, data, refetch: channel_refetch } = useQuery(GET_CHANNELS);
+  const [selectedChannel, setSelectedChannel] = React.useState(-1);
   const [search, setSearch] = React.useState('');
-  const [input, setInput] = React.useState('');
-  let messagesList;
   let channels: any[] = [];
 
   if (error) {
@@ -66,16 +42,6 @@ const ConversationLayout: React.FunctionComponent = () => {
 
   if (!loading) {
     channels =  data.channels;
-  }
-
-  if (err) {
-    console.log(err);
-  }
-
-  if (!load) {
-    if (d !== undefined) {
-      messagesList = d.channels[0];
-    }
   }
 
   return (
@@ -104,7 +70,7 @@ const ConversationLayout: React.FunctionComponent = () => {
               <div
                 className="channel"
                 key={`channel-${index}`}
-                onClick={() => getConversationsByID({ variables: { id: channel.id } })}
+                onClick={() => setSelectedChannel(channel.id)}
               >
                 <img
                   alt=""
@@ -127,11 +93,7 @@ const ConversationLayout: React.FunctionComponent = () => {
           }
         </div>
       </div>
-      <ChatboxLayout
-        input={input}
-        setInput={setInput}
-        messagesList={messagesList}
-      />
+      <ChatboxLayout selectedChannel={selectedChannel} channel_refetch={channel_refetch} />
     </div>
   );
 };

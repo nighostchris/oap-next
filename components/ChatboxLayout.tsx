@@ -1,21 +1,92 @@
 import * as React from 'react';
+import { useQuery, useMutation, gql } from '@apollo/client';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { timestampConverter } from '../utilities/timestampConverter';
 
 interface ChatboxLayoutProps {
-  input: string
-  setInput: (value: string | ((prevVar: string) => string)) => void
-  messagesList: any
+  selectedChannel: number
+  channel_refetch: any
 }
 
-const ChatboxLayout: React.FunctionComponent<ChatboxLayoutProps> = ({ input, setInput, messagesList }) => {
-  console.log(messagesList);
+const GET_CONVERSATIONS_BY_ID = gql`
+  query getConversationsByID($id: bigint!) {
+    channels(where: {id: {_eq: $id}}) {
+      id
+      user {
+        id
+        name
+        itsc
+      }
+      userByReceiver {
+        id
+        name
+        itsc
+      }
+      conversations {
+        message
+        created_at
+        user {
+          itsc
+        }
+      }
+    }
+  }
+`;
+
+const INSERT_CONVERSATIONS = gql`
+  mutation insertConversations($channel_id: bigint!, $message: String!, $user_id: bigint!) {
+    insert_conversations(objects: {channel_id: $channel_id, message: $message, user_id: $user_id}) {
+      returning {
+        created_at
+      }
+    }
+  }
+`;
+
+const ChatboxLayout: React.FunctionComponent<ChatboxLayoutProps> = ({ selectedChannel, channel_refetch }) => {
+  const [input, setInput] = React.useState('');
+  const [insertConversations] = useMutation(INSERT_CONVERSATIONS);
+  const { loading: load, error: err, data, refetch } = useQuery(GET_CONVERSATIONS_BY_ID, {
+    variables: { id: selectedChannel }
+  });
+  let messagesList: any;
+
   React.useEffect(() => {
     const chatContentDiv = document.getElementById("chat-content");
     if (chatContentDiv !== null) {
       chatContentDiv.scrollTop = chatContentDiv.scrollHeight;
     }
-  })
+  });
+
+  if (err) {
+    console.log(err);
+  }
+
+  if (!load && data) {
+    messagesList = data.channels[0];
+  }
+
+  const onEnterPress = (e: any) => {
+    if (input !== '') {
+      if (e.keyCode === 13 && e.shiftKey === false) {
+        e.preventDefault();
+        insertConversations({
+          variables: {
+            channel_id: messagesList.id,
+            message: input,
+            user_id: messagesList.user.itsc === 'kristopher' ? messagesList.user.id : messagesList.userByReceiver.id
+          }
+        }).then(() => {
+          refetch();
+          channel_refetch();
+          setInput('');
+        }).catch((error) => {
+          console.log(error);
+          setInput('');
+        });
+      }
+    }
+  }
 
   return (
     <div className="conversation-right">
@@ -27,7 +98,7 @@ const ChatboxLayout: React.FunctionComponent<ChatboxLayoutProps> = ({ input, set
             className="avatar avatar-sm rounded-circle"
           />
           <h3 className="mb-0 ml-3">
-            { 
+            {
               messagesList && (messagesList.user.itsc === 'kristopher' ? messagesList.userByReceiver.name : messagesList.user.name)
             }
           </h3>
@@ -58,6 +129,7 @@ const ChatboxLayout: React.FunctionComponent<ChatboxLayoutProps> = ({ input, set
           className="form-control"
           placeholder="Please type..."
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={onEnterPress}
         />
       </div>
     </div>
