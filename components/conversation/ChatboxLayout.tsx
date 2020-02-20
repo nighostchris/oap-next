@@ -44,12 +44,27 @@ const INSERT_CONVERSATIONS = gql`
 `;
 
 const ChatboxLayout: React.FunctionComponent<ChatboxLayoutProps> = ({ selectedChannel, channel_refetch }) => {
-  const [input, setInput] = React.useState('');
-  const [insertConversations] = useMutation(INSERT_CONVERSATIONS);
-  const { loading: load, error: err, data, refetch } = useQuery(GET_CONVERSATIONS_BY_ID, {
-    variables: { id: selectedChannel }
-  });
   let messagesList: any;
+  const [input, setInput] = React.useState('');
+
+  const [insertConversations] = useMutation(INSERT_CONVERSATIONS, {
+    onCompleted: () => {
+      refetch();
+      channel_refetch();
+      setInput('');
+    },
+    onError: (error) => {
+      console.log(error);
+      setInput('');
+    }
+  });
+
+  const { loading, data, refetch } = useQuery(GET_CONVERSATIONS_BY_ID, {
+    variables: { id: selectedChannel },
+    onError: (error) => {
+      console.log(error);
+    }
+  });
 
   React.useEffect(() => {
     const chatContentDiv = document.getElementById("chat-content");
@@ -58,11 +73,7 @@ const ChatboxLayout: React.FunctionComponent<ChatboxLayoutProps> = ({ selectedCh
     }
   });
 
-  if (err) {
-    console.log(err);
-  }
-
-  if (!load && data) {
+  if (!loading && data) {
     messagesList = data.channels[0];
   }
 
@@ -75,14 +86,7 @@ const ChatboxLayout: React.FunctionComponent<ChatboxLayoutProps> = ({ selectedCh
             channel_id: messagesList.id,
             message: input,
             user_id: messagesList.user.itsc === 'kristopher' ? messagesList.user.id : messagesList.userByReceiver.id
-          }
-        }).then(() => {
-          refetch();
-          channel_refetch();
-          setInput('');
-        }).catch((error) => {
-          console.log(error);
-          setInput('');
+          },
         });
       }
     }

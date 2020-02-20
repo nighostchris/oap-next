@@ -32,17 +32,21 @@ const GET_CHANNELS = gql`
 `;
 
 const ConversationLayout: React.FunctionComponent = () => {
-  const { loading, error, data, refetch: channel_refetch } = useQuery(GET_CHANNELS);
+  let channels: any[] = [];
   const [selectedChannel, setSelectedChannel] = React.useState(-1);
   const [search, setSearch] = React.useState('');
-  let channels: any[] = [];
 
-  if (error) {
-    console.log(error);
-  }
+  const { loading, data, refetch } = useQuery(GET_CHANNELS, {
+    onError: (error) => {
+      console.log(error);
+    }
+  });
 
-  if (!loading) {
-    channels =  data.channels;
+  if (!loading && data) {
+    let temp = data.channels;
+    channels = temp.slice().sort((a: any, b: any) => {
+      return new Date(b.conversations[0].created_at).getTime() - new Date(a.conversations[0].created_at).getTime();
+    });
   }
 
   return (
@@ -67,7 +71,7 @@ const ConversationLayout: React.FunctionComponent = () => {
         </div>
         <div className="conversation-left-scrollable">
           {
-            channels.map((channel, index) => (
+            channels.map((channel: any, index: number) => (
               <div
                 className="channel"
                 key={`channel-${index}`}
@@ -95,7 +99,7 @@ const ConversationLayout: React.FunctionComponent = () => {
         </div>
       </div>
       {
-        selectedChannel > 0 && <ChatboxLayout selectedChannel={selectedChannel} channel_refetch={channel_refetch} />
+        selectedChannel > 0 && <ChatboxLayout selectedChannel={selectedChannel} channel_refetch={refetch} />
       }
       {
         selectedChannel < 0 && (
@@ -105,7 +109,7 @@ const ConversationLayout: React.FunctionComponent = () => {
           //   </div>
           //   <div id="chat-content" className="chat-content px-4" />
           // </div>
-          <NewConversation />
+          <NewConversation setSelectedChannel={setSelectedChannel} channel_refetch={refetch} />
         )
       }
     </div>
