@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NextPage } from 'next';
 import Root from '../components/root-layout/Root';
-import ConversationLayout from '../components/ConversationLayout';
+import ConversationLayout from '../components/conversation/ConversationLayout';
 
 const ConversationPage: NextPage = () => (
   <Root>

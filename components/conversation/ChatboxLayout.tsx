@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { timestampConverter } from '../utilities/timestampConverter';
+import { timestampConverter } from '../../utilities/timestampConverter';
 
 interface ChatboxLayoutProps {
   selectedChannel: number
@@ -92,11 +92,15 @@ const ChatboxLayout: React.FunctionComponent<ChatboxLayoutProps> = ({ selectedCh
     <div className="conversation-right">
       <div className="conversation-right-header">
         <div className="header-content">
-          <img
-            alt=""
-            src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
-            className="avatar avatar-sm rounded-circle"
-          />
+          {
+            messagesList && (
+              <img
+                alt=""
+                src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
+                className="avatar avatar-sm rounded-circle"
+              />
+            )
+          }
           <h3 className="mb-0 ml-3">
             {
               messagesList && (messagesList.user.itsc === 'kristopher' ? messagesList.userByReceiver.name : messagesList.user.name)
@@ -122,16 +126,20 @@ const ChatboxLayout: React.FunctionComponent<ChatboxLayoutProps> = ({ selectedCh
           ))
         }
       </div>
-      <div className="chat-inputbox px-3">
-        <textarea
-          value={input}
-          style={{ resize: 'none' }}
-          className="form-control"
-          placeholder="Please type..."
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={onEnterPress}
-        />
-      </div>
+      {
+        messagesList && (
+          <div className="chat-inputbox px-3">
+            <textarea
+              value={input}
+              style={{ resize: 'none' }}
+              className="form-control"
+              placeholder="Please type..."
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={onEnterPress}
+            />
+          </div>
+        )
+      }
     </div>
   );
 };

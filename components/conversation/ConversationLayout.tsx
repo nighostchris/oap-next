@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { useQuery, gql, useLazyQuery } from '@apollo/client';
-import { timestampConverter } from '../utilities/timestampConverter';
+import { useQuery, gql } from '@apollo/client';
+import { timestampConverter } from '../../utilities/timestampConverter';
 import ChatboxLayout from './ChatboxLayout';
+import NewConversation from './NewConversation';
 
 const GET_CHANNELS = gql`
   query getChannels {
@@ -62,7 +63,7 @@ const ConversationLayout: React.FunctionComponent = () => {
               </div>
             </div>
           </div>
-          <span className="fas fa-edit" />
+          <span className="fas fa-edit" style={{ cursor: 'pointer' }} />
         </div>
         <div className="conversation-left-scrollable">
           {
@@ -93,7 +94,20 @@ const ConversationLayout: React.FunctionComponent = () => {
           }
         </div>
       </div>
-      <ChatboxLayout selectedChannel={selectedChannel} channel_refetch={channel_refetch} />
+      {
+        selectedChannel > 0 && <ChatboxLayout selectedChannel={selectedChannel} channel_refetch={channel_refetch} />
+      }
+      {
+        selectedChannel < 0 && (
+          // <div className="conversation-right">
+          //   <div className="conversation-right-header">
+          //     <div className="header-content" />
+          //   </div>
+          //   <div id="chat-content" className="chat-content px-4" />
+          // </div>
+          <NewConversation />
+        )
+      }
     </div>
   );
 };
