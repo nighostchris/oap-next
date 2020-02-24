@@ -5,6 +5,7 @@ import { useMutation, useLazyQuery, gql } from '@apollo/client';
 interface NewConversationProps {
   setSelectedChannel: any
   channel_refetch: any
+  setOpenNewConversation: any
 }
 
 const SEARCH_USERS = gql`
@@ -37,7 +38,9 @@ const INSERT_CONVERSATION = gql`
   }
 `;
 
-const NewConversation: React.FunctionComponent<NewConversationProps> = ({ channel_refetch, setSelectedChannel }) => {
+const NewConversation: React.FunctionComponent<NewConversationProps> = ({
+  channel_refetch, setSelectedChannel, setOpenNewConversation,
+}) => {
   const [input, setInput] = React.useState('');
   const [search, setSearch] = React.useState('');
   const [channelID, setChannelID] = React.useState(-1);
@@ -55,6 +58,7 @@ const NewConversation: React.FunctionComponent<NewConversationProps> = ({ channe
     onCompleted: () => {
       channel_refetch();
       setSelectedChannel(channelID);
+      setOpenNewConversation(false);
     }
   });
 

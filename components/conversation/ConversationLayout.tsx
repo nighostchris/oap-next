@@ -33,8 +33,9 @@ const GET_CHANNELS = gql`
 
 const ConversationLayout: React.FunctionComponent = () => {
   let channels: any[] = [];
-  const [selectedChannel, setSelectedChannel] = React.useState(-1);
   const [search, setSearch] = React.useState('');
+  const [selectedChannel, setSelectedChannel] = React.useState(-1);
+  const [openNewConversation, setOpenNewConversation] = React.useState(false);
 
   const { loading, data, refetch } = useQuery(GET_CHANNELS, {
     onError: (error) => {
@@ -67,7 +68,11 @@ const ConversationLayout: React.FunctionComponent = () => {
               </div>
             </div>
           </div>
-          <span className="fas fa-edit" style={{ cursor: 'pointer' }} />
+          <span
+            className="fas fa-edit"
+            style={{ cursor: 'pointer' }}
+            onClick={() => { setOpenNewConversation(true); setSelectedChannel(-1); }}
+          />
         </div>
         <div className="conversation-left-scrollable">
           {
@@ -75,7 +80,7 @@ const ConversationLayout: React.FunctionComponent = () => {
               <div
                 className="channel"
                 key={`channel-${index}`}
-                onClick={() => setSelectedChannel(channel.id)}
+                onClick={() => { setSelectedChannel(channel.id); setOpenNewConversation(false); }}
               >
                 <img
                   alt=""
@@ -102,14 +107,22 @@ const ConversationLayout: React.FunctionComponent = () => {
         selectedChannel > 0 && <ChatboxLayout selectedChannel={selectedChannel} channel_refetch={refetch} />
       }
       {
-        selectedChannel < 0 && (
-          // <div className="conversation-right">
-          //   <div className="conversation-right-header">
-          //     <div className="header-content" />
-          //   </div>
-          //   <div id="chat-content" className="chat-content px-4" />
-          // </div>
-          <NewConversation setSelectedChannel={setSelectedChannel} channel_refetch={refetch} />
+        (selectedChannel < 0 && !openNewConversation) && (
+          <div className="conversation-right">
+            <div className="conversation-right-header">
+              <div className="header-content" />
+            </div>
+            <div id="chat-content" className="chat-content px-4" />
+          </div>
+        )
+      }
+      {
+        openNewConversation && (
+          <NewConversation
+            setSelectedChannel={setSelectedChannel}
+            channel_refetch={refetch}
+            setOpenNewConversation={setOpenNewConversation}
+          />
         )
       }
     </div>
