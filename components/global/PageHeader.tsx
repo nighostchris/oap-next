@@ -20,7 +20,7 @@ const PageHeader : React.SFC<PageHeaderProps> = ({
         <div className="row align-items-end">
           <div className="col-auto">
             <div className="avatar avatar-xxl header-avatar-top">
-              <span className="avatar-title rounded-circle bg-dark text-primary">
+              <span className="avatar-title rounded-circle bg-light text-primary">
                 {avatar}
               </span>
             </div>
