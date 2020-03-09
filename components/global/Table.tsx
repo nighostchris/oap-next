@@ -28,7 +28,7 @@ const Table : React.SFC<TableProps> = ({
   thead, tbody, textAlign = 'default', scrollable, bordered,
 }) => (
   <div
-    className={textAlign === 'center' ? 'text-center' : undefined}
+    className={`${textAlign === 'center' ? 'text-center' : undefined} table-responsive mb-0`}
     style={{ ...(scrollable && { 'overflowY': 'auto', 'height': '60vh' }) }}
   >
     <table className={`table ${bordered && 'table-bordered'}`}>

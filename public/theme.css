@@ -12266,6 +12266,10 @@ a:focus, button:focus {
   display: flex;
   align-items: center; }
 
+.chat-inputbox > textarea {
+  height: 70px;
+}
+
 .conversation-left-header {
   display: flex;
   overflow: hidden;
@@ -12343,3 +12347,6 @@ a:focus, button:focus {
 .ql-clipboard {
   display: none; }
   
+.quill-html img {
+  max-width: 100%;
+}

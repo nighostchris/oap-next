@@ -220,7 +220,7 @@ const postCard = (title: string, content: string, publish_at: string) => {
             </div>
           </div>
         </div>
-        <p className="mb-3">
+        <p className="mb-3 quill-html">
           <section dangerouslySetInnerHTML={{ __html: content }} />
         </p>
       </div>

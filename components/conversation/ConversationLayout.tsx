@@ -93,7 +93,7 @@ const ConversationLayout: React.FunctionComponent = () => {
                     <h6 className="mb-0" style={{ width: '74%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
                       { channel.conversations[0] && channel.conversations[0].message }
                     </h6>
-                    <h6 className="mb-0" style={{ width: '26%', textAlign: 'end' }}>
+                    <h6 className="mb-0" style={{ minWidth: '100px', width: '26%', textAlign: 'end' }}>
                       { channel.conversations[0] && timestampConverter(new Date(channel.conversations[0].created_at), false).slice(0, -6) }
                     </h6>
                   </div>
