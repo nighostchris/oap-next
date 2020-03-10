@@ -3,7 +3,7 @@ import Select from '../../global/Select';
 import { useRouter } from 'next/router';
 import { Button } from 'react-bootstrap';
 
-interface AddAssBasicProps {
+interface AddAssignmentBasicProps {
   courses: any
   setCourses: any
   courseIDList: any
@@ -19,7 +19,7 @@ interface AddAssBasicProps {
   handleNext: any
 }
 
-const AddAssBasic: React.FunctionComponent<AddAssBasicProps> = ({
+const AddAssignmentBasic: React.FunctionComponent<AddAssignmentBasicProps> = ({
   courses, setCourses, courseIDList, courseListSelect, title, setTitle, type, setType,
   description, setDescription, descriptionHTML, setDescriptionHTML, handleNext,
 }) => {
@@ -126,4 +126,4 @@ const AddAssBasic: React.FunctionComponent<AddAssBasicProps> = ({
   );
 };
 
-export default AddAssBasic;
+export default AddAssignmentBasic;

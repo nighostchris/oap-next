@@ -3,22 +3,22 @@ import Flatpickr from 'react-flatpickr';
 import { Form, Button } from 'react-bootstrap';
 
 interface AddAssignmentTimeConstraintProps {
-  showAt: any
-  setShowAt: any
-  showAtTime: any
-  setShowAtTime: any
-  startCollectionAt: any
-  setStartCollectionAt: any
-  startCollectionTime: any
-  setStartCollectionTime: any
-  dueAt: any
-  setDueAt: any
-  stopCollectionAt: any
-  setStopCollectionAt: any
-  releaseGradeAt: any
-  setReleaseGradeAt: any
-  releaseGradeTime: any
-  setReleaseGradeTime: any
+  showAt: boolean
+  setShowAt: (value: boolean | ((prevVar: boolean) => boolean)) => void
+  showAtTime: Date[]
+  setShowAtTime: (value: Date[] | ((prevVar: Date[]) => Date[])) => void
+  startCollectionAt: boolean
+  setStartCollectionAt: (value: boolean | ((prevVar: boolean) => boolean)) => void
+  startCollectionTime: Date[]
+  setStartCollectionTime: (value: Date[] | ((prevVar: Date[]) => Date[])) => void
+  dueAt: Date[]
+  setDueAt: (value: Date[] | ((prevVar: Date[]) => Date[])) => void
+  stopCollectionAt: Date[]
+  setStopCollectionAt: (value: Date[] | ((prevVar: Date[]) => Date[])) => void
+  releaseGradeAt: boolean
+  setReleaseGradeAt: (value: boolean | ((prevVar: boolean) => boolean)) => void
+  releaseGradeTime: Date[]
+  setReleaseGradeTime: (value: Date[] | ((prevVar: Date[]) => Date[])) => void
   handleNext: any
   handleBack: any
 }
