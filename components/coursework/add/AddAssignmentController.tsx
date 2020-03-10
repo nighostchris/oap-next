@@ -1,16 +1,32 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import { Button, Nav } from 'react-bootstrap';
+import { useQuery, gql } from '@apollo/client';
 import AddAssignmentBasic from './AddAssignmentBasic';
 import AddAssignmentTimeConstraint from './AddAssignmentTimeConstraints';
 
+const GET_COURSES = gql`
+  query getCourses {
+    courses {
+      id
+      code
+      name
+    }
+  }
+`;
+
 const AddAssignmentController: React.FunctionComponent = () => {
-  const router = useRouter();
   const emptyDateArray: Date[] = [];
+
+  const query = useQuery(GET_COURSES);
+
+  let courseIDList: any[] = [];
+  let courseListSelect: any[] = [];
+
   const [activeTab, setActiveTab] = React.useState(0);
 
+  const [courses, setCourses] = React.useState('');
   const [title, setTitle] = React.useState('');
-  const [type, setType] = React.useState('assignment');
+  const [type, setType] = React.useState('Assignments');
   const [description, setDescription] = React.useState('');
   const [descriptionHTML, setDescriptionHTML] = React.useState('');
 
@@ -25,6 +41,15 @@ const AddAssignmentController: React.FunctionComponent = () => {
   const [releaseGradeAt, setReleaseGradeAt] = React.useState(false);
   const [releaseGradeTime, setReleaseGradeTime] = React.useState(emptyDateArray);
 
+  if (query.error) {
+    console.log(query.error);
+  }
+
+  if (!query.loading) {
+    courseListSelect = query.data.courses.map((course: any) => `${course.code} ${course.name}`);
+    courseIDList = query.data.courses.map((course: any) => course.id);
+  }
+
   const handleBack = (e: any) => {
     e.preventDefault();
     setActiveTab(activeTab - 1);
@@ -33,11 +58,6 @@ const AddAssignmentController: React.FunctionComponent = () => {
   const handleNext = (e: any) => {
     e.preventDefault();
     setActiveTab(activeTab + 1);
-  }
-
-  const handleActiveTab = (e: any, tabNumber: number) => {
-    e.preventDefault();
-    setActiveTab(tabNumber);
   }
 
   return (
@@ -56,8 +76,8 @@ const AddAssignmentController: React.FunctionComponent = () => {
                   <Nav fill variant="tabs" activeKey={activeTab} className="header-tabs">
                     {
                       ["info-circle", "calendar-alt", "file"].map((icon, index) => (
-                        <Nav.Item>
-                          <Nav.Link eventKey={index} onClick={(e: any) => handleActiveTab(e, index)}>
+                        <Nav.Item key={`coursework-progress-${index}`}>
+                          <Nav.Link eventKey={index} onClick={(e: any) => e.preventDefault()} style={{ cursor: 'default' }}>
                             <i className={`fas fa-${icon}`} />
                           </Nav.Link>
                         </Nav.Item>
@@ -72,6 +92,10 @@ const AddAssignmentController: React.FunctionComponent = () => {
             activeTab === 0 && (
               <>
                 <AddAssignmentBasic
+                  courses={courses}
+                  setCourses={setCourses}
+                  courseIDList={courseIDList}
+                  courseListSelect={courseListSelect}
                   title={title}
                   setTitle={setTitle}
                   type={type}

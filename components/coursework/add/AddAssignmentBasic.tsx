@@ -1,8 +1,12 @@
 import * as React from 'react';
-import { useRouter } from 'next/router';
 import Select from '../../global/Select';
+import { useRouter } from 'next/router';
 
 interface AddAssBasicProps {
+  courses: any
+  setCourses: any
+  courseIDList: any
+  courseListSelect: any
   title: string
   setTitle: any
   type: any
@@ -14,14 +18,30 @@ interface AddAssBasicProps {
 }
 
 const AddAssBasic: React.FunctionComponent<AddAssBasicProps> = ({
-  title, setTitle, type, setType,
+  courses, setCourses, courseIDList, courseListSelect, title, setTitle, type, setType,
   description, setDescription, descriptionHTML, setDescriptionHTML,
 }) => {
   const router = useRouter();
   const { courseid } = router.query;
 
+  React.useEffect(() => {
+    if (courseid) {
+      courseIDList.forEach((id: any, index: number) => {
+        if (courseid == id) {
+          setCourses(courseListSelect[index]);
+        }
+      });
+    }
+  });
+  
   return(
     <>
+      <Select
+        title="Course"
+        value={courses}
+        setValue={setCourses}
+        optionList={courseListSelect}
+      />
       <div className="form-group">
         <label>Title</label>
         <input

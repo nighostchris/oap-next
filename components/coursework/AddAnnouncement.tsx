@@ -41,7 +41,7 @@ const AddAnnouncement: React.FunctionComponent = () => {
   let courseid: number;
 
   if (query.error) {
-    console.log(error);
+    console.log(query.error);
   }
 
   if (!query.loading) {

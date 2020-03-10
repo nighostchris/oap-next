@@ -62,10 +62,10 @@ const AddAssignmentTimeConstraint: React.FunctionComponent<AddAssignmentTimeCons
       <div className="row mb-6">
         <div className="col-12 col-md-6">
           <label className="mb-1">
-            Late Permission
+            Date of starting collection of Assignment
           </label>
           <small className="form-text text-muted">
-            Choose when you allow late submission for students.
+            Ignore it if you wish to start collecting assignments once it is released.
           </small>
           <Form.Check
             type="switch"
