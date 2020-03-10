@@ -11460,7 +11460,6 @@ a:focus, button:focus {
   color: #12263F;
   box-shadow: none; }
   .flatpickr-calendar * {
-    color: inherit !important;
     fill: currentColor !important; }
   .flatpickr-calendar.arrowTop:before {
     border-bottom-color: #D2DDEC; }

@@ -22,7 +22,7 @@ const AddAssignmentController: React.FunctionComponent = () => {
   let courseIDList: any[] = [];
   let courseListSelect: any[] = [];
 
-  const [activeTab, setActiveTab] = React.useState(0);
+  const [activeTab, setActiveTab] = React.useState(1);
 
   const [courses, setCourses] = React.useState('');
   const [title, setTitle] = React.useState('');
@@ -55,8 +55,7 @@ const AddAssignmentController: React.FunctionComponent = () => {
     setActiveTab(activeTab - 1);
   }
 
-  const handleNext = (e: any) => {
-    e.preventDefault();
+  const handleNext = () => {
     setActiveTab(activeTab + 1);
   }
 
@@ -104,16 +103,8 @@ const AddAssignmentController: React.FunctionComponent = () => {
                   setDescription={setDescription}
                   descriptionHTML={descriptionHTML}
                   setDescriptionHTML={setDescriptionHTML}
+                  handleNext={handleNext}
                 />
-                <Button
-                  block
-                  href="#"
-                  className="mb-6"
-                  variant="primary"
-                  onClick={(e: any) => handleNext(e)}
-                >
-                  Next
-                </Button>
               </>
             )
           }
@@ -137,31 +128,9 @@ const AddAssignmentController: React.FunctionComponent = () => {
                   setReleaseGradeAt={setReleaseGradeAt}
                   releaseGradeTime={releaseGradeTime}
                   setReleaseGradeTime={setReleaseGradeTime}
+                  handleNext={handleNext}
+                  handleBack={handleBack}
                 />
-                <div className="row" style={{ justifyContent: 'space-between' }}>
-                  <div className="col-12 col-md-5">
-                    <Button
-                      block
-                      href="#"
-                      className="mb-6"
-                      variant="primary"
-                      onClick={(e: any) => handleBack(e)}
-                    >    
-                      Back
-                    </Button>
-                  </div>
-                  <div className="col-12 col-md-5">
-                    <Button
-                      block
-                      href="#"
-                      className="mb-6"
-                      variant="primary"
-                      onClick={(e: any) => handleNext(e)}
-                    >    
-                      Next
-                    </Button>
-                  </div>
-                </div>
               </>
             )
           }
