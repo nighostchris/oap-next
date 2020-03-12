@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useQuery, gql } from '@apollo/client';
 import Card from './global/Card';
+import { timestampConverter } from '../utilities/timestampConverter';
 
 const GET_DASHBOARD_DATA = gql`
   query getDashboardData {
@@ -23,6 +24,9 @@ const GET_DASHBOARD_DATA = gql`
               name
               course {
                 code
+              }
+              assignment_configs {
+                due_at
               }
             }
           }
@@ -47,6 +51,10 @@ const Dashboard: React.FunctionComponent = () => {
 
     courseLists.sort((a, b) => {
       return a.course.code.localeCompare(b.course.code);
+    });
+
+    assignmentLists.sort((a, b) => {
+      return new Date(a.assignment_configs[0].due_at).getTime() - new Date(b.assignment_configs[0].due_at).getTime();
     });
   }
 
@@ -84,7 +92,7 @@ const Dashboard: React.FunctionComponent = () => {
                     type="footer"
                     title={d.name}
                     content={d.course.code}
-                    footer={`Due Date: 2020-07-15`}
+                    footer={`Due Date: ${timestampConverter(new Date(d.assignment_configs[0].due_at), false)}`}
                   />
                 ))
               }
