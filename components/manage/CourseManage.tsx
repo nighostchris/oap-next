@@ -1,22 +1,8 @@
 import * as React from 'react';
 import axios from 'axios';
 import { useQuery, gql } from '@apollo/client';
-import { Button } from 'react-bootstrap';
-import Table from '../global/Table';
+import { Button, Badge, ListGroup } from 'react-bootstrap';
 import SyncCourseModal from './SyncCourseModal';
-
-const thead = ['Code', 'Name', 'Semester', 'Year', 'Section', 'Public'];
-
-const tbodyGenerator = (code: string, name: string, semester: number, year: number, section: string, isShown: boolean) => (
-  <>
-    <td>{code}</td>
-    <td>{name}</td>
-    <td>{semester}</td>
-    <td>{year}</td>
-    <td>{section}</td>
-    <td>{isShown ? 'Public' : 'Private'}</td>
-  </>
-);
 
 const GET_ALL_COURSES = gql`
   query getAllCourses {
@@ -37,23 +23,28 @@ const GET_ALL_COURSES = gql`
 
 const CourseManage: React.FunctionComponent = () => {
   const [show, setShow] = React.useState(false);
-  const [search, setSearch] = React.useState('');
   const [newCourseList, setNewCourseList] = React.useState<any[]>([]);
   const [addCourseList, setAddCourseList] = React.useState<boolean[]>([]);
   const [addSectionList, setAddSectionList] = React.useState<any[]>([]);
   const [loadingCourseList, setLoadingCourseList] = React.useState(false);
+  const [keyword, setKeyword] = React.useState('');
   const { loading, error, data } = useQuery(GET_ALL_COURSES);
   const courses: any[] = [];
 
-  const tbody = () => {
-    const temp: any[] = [];
-    if (courses !== []) {
-      courses.forEach((course) => {
-        temp.push(tbodyGenerator(course.code, course.name, course.semester, course.year, course.section, course.isShown));
-      });
+  const semesterNameConverter = (code: string) => {
+    if (code.indexOf("10") > 0) {
+      return "Fall";
     }
-    return temp;
-  };
+    if (code.indexOf("20") > 0) {
+      return "Winter";
+    }
+    if (code.indexOf("30") > 0) {
+      return "Spring";
+    }
+    if (code.indexOf("40") > 0) {
+      return "Summer";
+    }
+  }
 
   const getCoursesList = async () => {
     setLoadingCourseList(true);
@@ -88,44 +79,89 @@ const CourseManage: React.FunctionComponent = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-12 col-xl-7 pt-4">
-          <div className="input-group input-group-merge mb-3 pt-4">
-            <input
-              type="text"
-              value={search}
-              placeholder="Search"
-              onChange={(e) => setSearch(e.target.value)}
-              className="form-control form-control-prepended"
-            />
-            <div className="input-group-prepend">
-              <div className="input-group-text">
-                <span className="fas fa-search" />
+        <div className="col-12">
+          <div className="card mt-5" style={{ flex: 1 }} data-toggle="lists">
+            <div className="card-header">
+              <div className="row align-items-center">
+                <div className="col">
+                  <h2 className="card-header-title">
+                    Manage Courses
+                  </h2>
+                </div>
+                <div className="col-auto">
+                  <div className="dropleft">
+                    <Button variant="primary" className="px-5" onClick={() => { setShow(true); getCoursesList(); }}>Sync</Button>
+                  </div>
+                </div>
               </div>
             </div>
+            <div className="card-header">
+              <div className="row">
+                <div className="col-12">
+                  <form>
+                    <div className="input-group input-group-flush input-group-merge">
+                      <input
+                        type="search"
+                        value={keyword}
+                        placeholder="Search"
+                        onChange={(e) => setKeyword(e.target.value)}
+                        className="form-control form-control-prepended search"
+                      />
+                      <div className="input-group-prepend">
+                        <div className="input-group-text">
+                          <span className="fe fe-search" />
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div className="card-body">
+              <ListGroup as="ul" variant="flush" className="list-group-lg list my-n4">
+                {
+                  courses.map((course: any, index: number) => (
+                    <ListGroup.Item className="px-0" key={`course-${index}`}>
+                      <div className="row align-items-center">
+                        <div className="col ml-n2">
+                          <h3 className="card-title mb-0">
+                            {`${course.code} - ${course.name}`}
+                          </h3>
+                          <div className="row ml-0 mt-2">
+                            <h2 className="mb-0 mr-4">
+                              <Badge variant="info">{course.section}</Badge>
+                            </h2>
+                            <h2 className="mb-0 mr-4">
+                              <Badge variant="primary">
+                                {`${course.year} ${semesterNameConverter(course.semester.toString())}`}
+                              </Badge>
+                            </h2>
+                            <h2 className="mb-0">
+                              <Badge variant={course.isShown ? "success" : "warning"}>{course.isShown ? 'Public' : 'Private'}</Badge>
+                            </h2>
+                          </div>
+                        </div>
+                        <div className="col-auto">
+                          <a href="" className="btn btn-sm btn-white d-none d-md-inline-block">Delete</a>
+                        </div>
+                      </div>
+                    </ListGroup.Item>
+                  ))
+                }
+              </ListGroup>
+            </div>
           </div>
-          <Table
-            thead={thead}
-            tbody={tbody()}
-            bordered
-            textAlign="center"
-          />
         </div>
-        <div className="col-12 col-xl-5 pt-4">
-          <div className="header header-body">
-            <h1 className="header-title">Manage Courses</h1>
-          </div>
-          <Button variant="primary" block onClick={() => { setShow(true); getCoursesList(); }}>Sync</Button>
-          <SyncCourseModal
-            show={show}
-            setShow={setShow}
-            newCourseList={newCourseList}
-            addCourseList={addCourseList}
-            addSectionList={addSectionList}
-            loadingCourseList={loadingCourseList}
-            setAddCourseList={setAddCourseList}
-            setAddSectionList={setAddSectionList}
-          />
-        </div>
+        <SyncCourseModal
+          show={show}
+          setShow={setShow}
+          newCourseList={newCourseList}
+          addCourseList={addCourseList}
+          addSectionList={addSectionList}
+          loadingCourseList={loadingCourseList}
+          setAddCourseList={setAddCourseList}
+          setAddSectionList={setAddSectionList}
+        />
       </div>
     </div>
   );
