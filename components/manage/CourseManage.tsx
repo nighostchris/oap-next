@@ -1,14 +1,16 @@
 import * as React from 'react';
 import axios from 'axios';
-import { useQuery, gql } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery, gql } from '@apollo/client';
 import { Button, Badge, ListGroup } from 'react-bootstrap';
 import SyncCourseModal from './SyncCourseModal';
 
 const GET_ALL_COURSES = gql`
   query getAllCourses {
     sections {
+      id
       name
       course {
+        id
         code
         name
         semester {
@@ -21,15 +23,94 @@ const GET_ALL_COURSES = gql`
   }
 `;
 
+const DELETE_SECTION = gql`
+  mutation deleteSection($section_id: bigint!) {
+    delete_sections(where: {id: {_eq: $section_id}}) {
+      returning {
+        course_id
+      }
+    }
+  }
+`;
+
+const GET_SECTIONS_COUNT_BY_COURSE = gql`
+  query getSectionsCountByCourse($course_id: bigint!) {
+    courses(where: {id: {_eq: $course_id}}) {
+      id
+      sections_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+`;
+
+const DELETE_COURSE = gql`
+  mutation deleteCourse($course_id: bigint!) {
+    delete_courses(where: {id: {_eq: $course_id}}) {
+      returning {
+        id
+      }
+    }
+  }
+`;
+
 const CourseManage: React.FunctionComponent = () => {
   const [show, setShow] = React.useState(false);
   const [newCourseList, setNewCourseList] = React.useState<any[]>([]);
   const [addCourseList, setAddCourseList] = React.useState<boolean[]>([]);
   const [addSectionList, setAddSectionList] = React.useState<any[]>([]);
   const [loadingCourseList, setLoadingCourseList] = React.useState(false);
+  const [deleteSpinner, setDeleteSpinner] = React.useState(false);
   const [keyword, setKeyword] = React.useState('');
-  const { loading, error, data } = useQuery(GET_ALL_COURSES);
+  const { refetch, loading, error, data } = useQuery(GET_ALL_COURSES);
   const courses: any[] = [];
+
+  const [deleteCourse] = useMutation(DELETE_COURSE, {
+    onCompleted: () => {
+      setDeleteSpinner(false);
+      refetch();
+    },
+    onError: (error) => {
+      console.log(error);
+    }
+  });
+
+  const [deleteSection] = useMutation(DELETE_SECTION, {
+    onCompleted: (data) => {
+      getSectionsCountByCourse({
+        variables: { course_id: data.course_id }
+      });
+    },
+    onError: (error) => {
+      console.log(error);
+    }
+  });
+
+  const [getSectionsCountByCourse] = useLazyQuery(GET_SECTIONS_COUNT_BY_COURSE, {
+    onCompleted: (data) => {
+      if (!data.courses[0].sections_aggregate.aggregate.count) {
+        deleteCourse({
+          variables: { course_id: data.courses[0].id }
+        });
+      } else {
+        setDeleteSpinner(false);
+        refetch();
+      }
+    },
+    onError: (error) => {
+      console.log(error);
+    }
+  });
+
+  const handleDeleteSection = (e: any, section_id: any) => {
+    e.preventDefault();
+    setDeleteSpinner(true);
+    deleteSection({
+      variables: { section_id: section_id }
+    });
+  }
 
   const semesterNameConverter = (code: string) => {
     if (code.indexOf("10") > 0) {
@@ -70,11 +151,13 @@ const CourseManage: React.FunctionComponent = () => {
   if (!loading) {
     data.sections.forEach((section: any) => {
       courses.push({
+        course_id: section.course.id,
         code: section.course.code,
         name: section.course.name,
         semester: section.course.semester.semester,
         year: section.course.semester.year,
         section: section.name,
+        section_id: section.id,
         isShown: section.course.is_shown,
       });
     });
@@ -146,7 +229,13 @@ const CourseManage: React.FunctionComponent = () => {
                           </div>
                         </div>
                         <div className="col-auto">
-                          <a href="" className="btn btn-sm btn-white d-none d-md-inline-block">Delete</a>
+                          <a
+                            href=""
+                            className="btn btn-sm btn-white d-none d-md-inline-block"
+                            onClick={(e: any) => handleDeleteSection(e, course.section_id)}
+                          >
+                            { deleteSpinner ? 'Deleting...' : 'Delete' }
+                          </a>
                         </div>
                       </div>
                     </ListGroup.Item>
