@@ -46,6 +46,10 @@ const CourseManage: React.FunctionComponent = () => {
     }
   }
 
+  const filterCourse = () => {
+    return courses.filter((course) => course.code.includes(keyword));
+  }
+
   const getCoursesList = async () => {
     setLoadingCourseList(true);
     const axiosResponse = await axios.get('https://ust-courses.now.sh/api/courses');
@@ -120,7 +124,7 @@ const CourseManage: React.FunctionComponent = () => {
             <div className="card-body">
               <ListGroup as="ul" variant="flush" className="list-group-lg list my-n4">
                 {
-                  courses.map((course: any, index: number) => (
+                  filterCourse().map((course: any, index: number) => (
                     <ListGroup.Item className="px-0" key={`course-${index}`}>
                       <div className="row align-items-center">
                         <div className="col ml-n2">
