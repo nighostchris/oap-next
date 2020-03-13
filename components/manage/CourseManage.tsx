@@ -23,6 +23,14 @@ const GET_ALL_COURSES = gql`
   }
 `;
 
+const GET_ALL_SEMESTERS = gql`
+  query getAllSemesters {
+    semesters {
+      semester
+    }
+  }
+`;
+
 const DELETE_SECTION = gql`
   mutation deleteSection($section_id: bigint!) {
     delete_sections(where: {id: {_eq: $section_id}}) {
@@ -58,6 +66,7 @@ const DELETE_COURSE = gql`
 
 const CourseManage: React.FunctionComponent = () => {
   const [show, setShow] = React.useState(false);
+  const [semester, setSemester]: any[] = React.useState([]);
   const [newCourseList, setNewCourseList] = React.useState<any[]>([]);
   const [addCourseList, setAddCourseList] = React.useState<boolean[]>([]);
   const [addSectionList, setAddSectionList] = React.useState<any[]>([]);
@@ -66,6 +75,16 @@ const CourseManage: React.FunctionComponent = () => {
   const [keyword, setKeyword] = React.useState('');
   const { refetch, loading, error, data } = useQuery(GET_ALL_COURSES);
   const courses: any[] = [];
+
+  const [getAllSemesters] = useLazyQuery(GET_ALL_SEMESTERS, {
+    onCompleted: (data) => {
+      const allSemesters: any[] = [];
+      data.semesters.forEach((s: any) => {
+        allSemesters.push(s.semester);
+      })
+      checkNewSemester(allSemesters);
+    }
+  });
 
   const [deleteCourse] = useMutation(DELETE_COURSE, {
     onCompleted: () => {
@@ -131,18 +150,29 @@ const CourseManage: React.FunctionComponent = () => {
     return courses.filter((course) => course.code.includes(keyword));
   }
 
-  const getCoursesList = async () => {
+  const getCoursesList = () => {
     setLoadingCourseList(true);
-    const axiosResponse = await axios.get('https://ust-courses.now.sh/api/courses');
-    setAddCourseList([...new Array(axiosResponse.data.length).fill(false)]);
-    const tempAddSectionList: any[] = [];
-    axiosResponse.data.map((c: any) => {
-      tempAddSectionList.push(new Array(c.sections.length).fill(false));
-    });
-    setAddSectionList([...tempAddSectionList]);
-    setLoadingCourseList(false);
-    setNewCourseList([...axiosResponse.data]);
+    getAllSemesters();
   };
+
+  const checkNewSemester = async (allSemesters: any) => {
+    const axiosResponse = await axios.get('https://ust-courses.now.sh/api/current-semester');
+    const fetchedSemester = axiosResponse.data;
+    if (allSemesters.includes(parseInt(fetchedSemester))) {
+      setLoadingCourseList(false);
+      console.log("No new semesters detected");
+    } else {
+      const axiosResponse = await axios.get('https://ust-courses.now.sh/api/courses');
+      setAddCourseList([...new Array(axiosResponse.data.length).fill(false)]);
+      const tempAddSectionList: any[] = [];
+      axiosResponse.data.map((c: any) => {
+        tempAddSectionList.push(new Array(c.sections.length).fill(false));
+      });
+      setAddSectionList([...tempAddSectionList]);
+      setLoadingCourseList(false);
+      setNewCourseList([...axiosResponse.data]);
+    }
+  }
 
   if (error) {
     console.log(error);

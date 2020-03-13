@@ -1,4 +1,5 @@
 import React from 'react';
+import { useMutation, gql } from '@apollo/client';
 import { Modal, Spinner, Accordion, Card, Row, Form, Button } from 'react-bootstrap';
 
 interface SyncCourseModalProps {
@@ -17,6 +18,13 @@ const SyncCourseModal : React.SFC<SyncCourseModalProps> = ({
   setAddCourseList, setAddSectionList,
 }) => {
 
+  const insertCourses = () => {
+    addCourseList.forEach((addCourse) => {
+      if (addCourse) {
+        // add course mutation
+      }
+    })
+  }
 
   const changeAddCourseList = (index: number) => {
     const temp = addCourseList;
@@ -36,6 +44,8 @@ const SyncCourseModal : React.SFC<SyncCourseModalProps> = ({
     temp[index][sIndex] = !temp[index][sIndex];
     setAddSectionList([...temp]);
   }
+
+  console.log(newCourseList, addSectionList);
 
   return (
     <Modal size="lg" show={show} onHide={() => setShow(false)}>
