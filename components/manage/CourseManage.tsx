@@ -66,7 +66,7 @@ const DELETE_COURSE = gql`
 
 const CourseManage: React.FunctionComponent = () => {
   const [show, setShow] = React.useState(false);
-  const [semester, setSemester]: any[] = React.useState([]);
+  const [semester, setSemester] = React.useState('');
   const [newCourseList, setNewCourseList] = React.useState<any[]>([]);
   const [addCourseList, setAddCourseList] = React.useState<boolean[]>([]);
   const [addSectionList, setAddSectionList] = React.useState<any[]>([]);
@@ -155,13 +155,13 @@ const CourseManage: React.FunctionComponent = () => {
     getAllSemesters();
   };
 
-  const checkNewSemester = async (allSemesters: any) => {
-    const axiosResponse = await axios.get('https://ust-courses.now.sh/api/current-semester');
-    const fetchedSemester = axiosResponse.data;
-    if (allSemesters.includes(parseInt(fetchedSemester))) {
-      setLoadingCourseList(false);
-      console.log("No new semesters detected");
-    } else {
+  const checkNewSemester = async (_allSemesters: any) => {
+    const currentSemesterAxiosResponse = await axios.get('https://ust-courses.now.sh/api/current-semester');
+    const fetchedSemester = currentSemesterAxiosResponse.data;
+    setSemester(fetchedSemester);
+    // if (allSemesters.includes(parseInt(fetchedSemester))) {
+    //   setLoadingCourseList(false);
+    // } else {
       const axiosResponse = await axios.get('https://ust-courses.now.sh/api/courses');
       setAddCourseList([...new Array(axiosResponse.data.length).fill(false)]);
       const tempAddSectionList: any[] = [];
@@ -171,7 +171,7 @@ const CourseManage: React.FunctionComponent = () => {
       setAddSectionList([...tempAddSectionList]);
       setLoadingCourseList(false);
       setNewCourseList([...axiosResponse.data]);
-    }
+    // }
   }
 
   if (error) {
@@ -278,6 +278,7 @@ const CourseManage: React.FunctionComponent = () => {
         <SyncCourseModal
           show={show}
           setShow={setShow}
+          semester={semester}
           newCourseList={newCourseList}
           addCourseList={addCourseList}
           addSectionList={addSectionList}
