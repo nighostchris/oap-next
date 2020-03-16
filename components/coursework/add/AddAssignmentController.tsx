@@ -146,7 +146,7 @@ const AddAssignmentController: React.FunctionComponent = () => {
           due_at: reverseTimestampConverter(dueAt[0]),
           stop_collection_at: reverseTimestampConverter(stopCollectionAt[0]),
           release_grade_at: releaseGradeAt ? reverseTimestampConverter(releaseGradeTime[0]) : null,
-          submission_chances: chances ? chances : null,
+          submission_chances: Number(chances) ? Number(chances) : null,
           grade_immediately: gradeImmediately,
           show_immediate_scores: releaseGradeAt ? true : false,
           config_yaml: configYAML

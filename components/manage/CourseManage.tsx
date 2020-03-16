@@ -71,7 +71,6 @@ const CourseManage: React.FunctionComponent = () => {
   const [addCourseList, setAddCourseList] = React.useState<boolean[]>([]);
   const [addSectionList, setAddSectionList] = React.useState<any[]>([]);
   const [loadingCourseList, setLoadingCourseList] = React.useState(false);
-  const [deleteSpinner, setDeleteSpinner] = React.useState(false);
   const [keyword, setKeyword] = React.useState('');
   const { refetch, loading, error, data } = useQuery(GET_ALL_COURSES);
   const courses: any[] = [];
@@ -88,7 +87,6 @@ const CourseManage: React.FunctionComponent = () => {
 
   const [deleteCourse] = useMutation(DELETE_COURSE, {
     onCompleted: () => {
-      setDeleteSpinner(false);
       refetch();
     },
     onError: (error) => {
@@ -99,7 +97,7 @@ const CourseManage: React.FunctionComponent = () => {
   const [deleteSection] = useMutation(DELETE_SECTION, {
     onCompleted: (data) => {
       getSectionsCountByCourse({
-        variables: { course_id: data.course_id }
+        variables: { course_id: data.delete_sections.returning[0].course_id }
       });
     },
     onError: (error) => {
@@ -114,7 +112,6 @@ const CourseManage: React.FunctionComponent = () => {
           variables: { course_id: data.courses[0].id }
         });
       } else {
-        setDeleteSpinner(false);
         refetch();
       }
     },
@@ -125,7 +122,6 @@ const CourseManage: React.FunctionComponent = () => {
 
   const handleDeleteSection = (e: any, section_id: any) => {
     e.preventDefault();
-    setDeleteSpinner(true);
     deleteSection({
       variables: { section_id: section_id }
     });
@@ -240,7 +236,7 @@ const CourseManage: React.FunctionComponent = () => {
                   filterCourse().map((course: any, index: number) => (
                     <ListGroup.Item className="px-0" key={`course-${index}`}>
                       <div className="row align-items-center">
-                        <div className="col ml-n2">
+                        <div className="col ml-4">
                           <h3 className="card-title mb-0">
                             {`${course.code} - ${course.name}`}
                           </h3>
@@ -264,7 +260,7 @@ const CourseManage: React.FunctionComponent = () => {
                             className="btn btn-sm btn-white d-none d-md-inline-block"
                             onClick={(e: any) => handleDeleteSection(e, course.section_id)}
                           >
-                            { deleteSpinner ? 'Deleting...' : 'Delete' }
+                            Delete
                           </a>
                         </div>
                       </div>
