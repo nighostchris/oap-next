@@ -91,7 +91,6 @@ const CourseManage: React.FunctionComponent = () => {
 
   const [deleteCourse] = useMutation(DELETE_COURSE, {
     onCompleted: () => {
-      console.log('deleteCourse');
       setDeleteCourseLoading(false);
       setDeleteCourseModalShow(false);
       refetch();
@@ -100,45 +99,41 @@ const CourseManage: React.FunctionComponent = () => {
       console.log(error);
       setDeleteCourseLoading(false);
     },
-    notifyOnNetworkStatusChange: true
   });
 
-  const [getSectionsCountByCourse] = useLazyQuery(GET_SECTIONS_COUNT_BY_COURSE, {
+  const [getSectionsCountByCourse, { called, loading: l, data: d }] = useLazyQuery(GET_SECTIONS_COUNT_BY_COURSE, {
+    fetchPolicy: 'no-cache',
     onCompleted: (data) => {
-      console.log('getSectionsCountByCourse');
       if (!data.courses[0].sections_aggregate.aggregate.count) {
-        console.log("empty section");
         deleteCourse({
           variables: { course_id: data.courses[0].id }
         });
       } else {
-        console.log("not empty section");
         setDeleteCourseLoading(false);
         setDeleteCourseModalShow(false);
         refetch();
       }
-      console.log('getSectionsCountByCourseEnd');
     },
     onError: (error) => {
       console.log(error);
       setDeleteCourseLoading(false);
     },
-    notifyOnNetworkStatusChange: true
   });
+
+  if (called && !loading) {
+    console.log(d);
+  }
 
   const [deleteSection] = useMutation(DELETE_SECTION, {
     onCompleted: (data) => {
-      console.log('deleteSection');
       getSectionsCountByCourse({
         variables: { course_id: data.delete_sections.returning[0].course_id }
       });
-      console.log('deleteSectionEnd');
     },
     onError: (error) => {
       console.log(error);
       setDeleteCourseLoading(false);
     },
-    notifyOnNetworkStatusChange: true
   });
 
   const handleDeleteSection = (e: any, section_id: any) => {
