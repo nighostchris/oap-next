@@ -43,14 +43,19 @@ interface SyncCourseModalProps {
   addSectionList: any[]
   setAddSectionList: (value: any[] | ((prevVar: any[]) => any[])) => void
   loadingCourseList: boolean
+  refetch: any
 }
 
 const SyncCourseModal : React.SFC<SyncCourseModalProps> = ({
   show, setShow, newCourseList, addCourseList, addSectionList, loadingCourseList,
-  semester, setAddCourseList, setAddSectionList,
+  semester, setAddCourseList, setAddSectionList, refetch,
 }) => {
   const [insertIntoDatabaseLoading, setInsertIntoDatabaseLoading] = React.useState(false);
   const [insertSection] = useMutation(INSERT_SECTION, {
+    onCompleted: () => {
+      console.log(insertSection);
+      refetch();
+    },
     onError: (error) => {
       console.log(error);
       setInsertIntoDatabaseLoading(false);
@@ -72,6 +77,7 @@ const SyncCourseModal : React.SFC<SyncCourseModalProps> = ({
           })
         }
       });
+      console.log("insertCourse");
     },
     onError: (error) => {
       console.log(error);
@@ -93,7 +99,9 @@ const SyncCourseModal : React.SFC<SyncCourseModalProps> = ({
           });
         }
       });
+      console.log("insertSemester");
       setInsertIntoDatabaseLoading(false);
+      setShow(false);
     },
     onError: (error) => {
       console.log(error);
@@ -142,8 +150,6 @@ const SyncCourseModal : React.SFC<SyncCourseModalProps> = ({
     setAddSectionList([...temp]);
     setAddCourseList([...temp2]);
   }
-
-  // console.log(newCourseList, addCourseList, addSectionList);
 
   return (
     <Modal size="lg" show={show} onHide={() => setShow(false)}>

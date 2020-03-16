@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useLazyQuery, useMutation, useQuery, gql } from '@apollo/client';
 import { Button, Badge, ListGroup } from 'react-bootstrap';
 import SyncCourseModal from './SyncCourseModal';
+import DeleteCourseModal from './DeleteCourseModal';
 
 const GET_ALL_COURSES = gql`
   query getAllCourses {
@@ -66,12 +67,15 @@ const DELETE_COURSE = gql`
 
 const CourseManage: React.FunctionComponent = () => {
   const [show, setShow] = React.useState(false);
+  const [deleteCourseModalShow, setDeleteCourseModalShow] = React.useState(false);
   const [semester, setSemester] = React.useState('');
   const [newCourseList, setNewCourseList] = React.useState<any[]>([]);
   const [addCourseList, setAddCourseList] = React.useState<boolean[]>([]);
   const [addSectionList, setAddSectionList] = React.useState<any[]>([]);
   const [loadingCourseList, setLoadingCourseList] = React.useState(false);
   const [keyword, setKeyword] = React.useState('');
+  const [sectionID, setSectionID] = React.useState(-1);
+  const [deleteCourseLoading, setDeleteCourseLoading] = React.useState(false);
   const { refetch, loading, error, data } = useQuery(GET_ALL_COURSES);
   const courses: any[] = [];
 
@@ -87,44 +91,60 @@ const CourseManage: React.FunctionComponent = () => {
 
   const [deleteCourse] = useMutation(DELETE_COURSE, {
     onCompleted: () => {
+      console.log('deleteCourse');
+      setDeleteCourseLoading(false);
+      setDeleteCourseModalShow(false);
       refetch();
     },
     onError: (error) => {
       console.log(error);
-    }
-  });
-
-  const [deleteSection] = useMutation(DELETE_SECTION, {
-    onCompleted: (data) => {
-      getSectionsCountByCourse({
-        variables: { course_id: data.delete_sections.returning[0].course_id }
-      });
+      setDeleteCourseLoading(false);
     },
-    onError: (error) => {
-      console.log(error);
-    }
+    notifyOnNetworkStatusChange: true
   });
 
   const [getSectionsCountByCourse] = useLazyQuery(GET_SECTIONS_COUNT_BY_COURSE, {
     onCompleted: (data) => {
+      console.log('getSectionsCountByCourse');
       if (!data.courses[0].sections_aggregate.aggregate.count) {
+        console.log("empty section");
         deleteCourse({
           variables: { course_id: data.courses[0].id }
         });
       } else {
+        console.log("not empty section");
+        setDeleteCourseLoading(false);
+        setDeleteCourseModalShow(false);
         refetch();
       }
+      console.log('getSectionsCountByCourseEnd');
     },
     onError: (error) => {
       console.log(error);
-    }
+      setDeleteCourseLoading(false);
+    },
+    notifyOnNetworkStatusChange: true
+  });
+
+  const [deleteSection] = useMutation(DELETE_SECTION, {
+    onCompleted: (data) => {
+      console.log('deleteSection');
+      getSectionsCountByCourse({
+        variables: { course_id: data.delete_sections.returning[0].course_id }
+      });
+      console.log('deleteSectionEnd');
+    },
+    onError: (error) => {
+      console.log(error);
+      setDeleteCourseLoading(false);
+    },
+    notifyOnNetworkStatusChange: true
   });
 
   const handleDeleteSection = (e: any, section_id: any) => {
     e.preventDefault();
-    deleteSection({
-      variables: { section_id: section_id }
-    });
+    setSectionID(section_id);
+    setDeleteCourseModalShow(true);
   }
 
   const semesterNameConverter = (code: string) => {
@@ -281,6 +301,15 @@ const CourseManage: React.FunctionComponent = () => {
           loadingCourseList={loadingCourseList}
           setAddCourseList={setAddCourseList}
           setAddSectionList={setAddSectionList}
+          refetch={refetch}
+        />
+        <DeleteCourseModal
+          show={deleteCourseModalShow}
+          setShow={setDeleteCourseModalShow}
+          deleteCourseLoading={deleteCourseLoading}
+          setDeleteCourseLoading={setDeleteCourseLoading}
+          deleteSection={deleteSection}
+          section_id={sectionID}
         />
       </div>
     </div>
