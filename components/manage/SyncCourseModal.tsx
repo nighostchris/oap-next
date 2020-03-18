@@ -89,8 +89,8 @@ const SyncCourseModal : React.SFC<SyncCourseModalProps> = ({
   const [insertSemester] = useMutation(INSERT_SEMESTER, {
     onCompleted: (data) => {
       const semester_id = data.insert_semesters.returning[0].id;
-      addCourseList.forEach((addCourse, index) => {
-        if (addCourse) {
+      addSectionList.forEach((addCourse, index) => {
+        if (addCourse.filter((t: boolean) => t).length > 0) {
           insertCourse({
             variables: {
               code: newCourseList[index].code,
@@ -100,6 +100,7 @@ const SyncCourseModal : React.SFC<SyncCourseModalProps> = ({
           });
         }
       });
+
       console.log("insertSemester");
       setInsertIntoDatabaseLoading(false);
       setShow(false);
