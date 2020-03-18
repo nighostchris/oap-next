@@ -50,6 +50,7 @@ const SyncCourseModal : React.SFC<SyncCourseModalProps> = ({
   show, setShow, newCourseList, addCourseList, addSectionList, loadingCourseList,
   semester, setAddCourseList, setAddSectionList, refetch,
 }) => {
+  const [allChecked, setAllChecked] = React.useState(false);
   const [insertIntoDatabaseLoading, setInsertIntoDatabaseLoading] = React.useState(false);
   const [insertSection] = useMutation(INSERT_SECTION, {
     onCompleted: () => {
@@ -127,10 +128,15 @@ const SyncCourseModal : React.SFC<SyncCourseModalProps> = ({
     const temp = addCourseList;
     let temp2 = addSectionList;
     temp[index] = !temp[index];
+    if (temp.filter((t: boolean) => t).length === temp.length) {
+      setAllChecked(true);
+    }
+
     if (addCourseList[index]) {
       temp2[index] = temp2[index].map(() => true);
     } else {
       temp2[index] = temp2[index].map(() => false);
+      setAllChecked(false);
     }
     setAddCourseList([...temp]);
     setAddSectionList([...temp2]);
@@ -140,16 +146,34 @@ const SyncCourseModal : React.SFC<SyncCourseModalProps> = ({
     const temp = addSectionList;
     let temp2 = addCourseList;
     if (temp[index][sIndex]) {
-      if (temp[index].filter((t: boolean) => t).length === 1) {
+      if (temp[index].filter((t: boolean) => t).length - 1 !== temp[index].length) {
         temp2[index] = false;
+        setAllChecked(false);
       }
     } else {
-      temp2[index] = true;
+      if (temp[index].filter((t: boolean) => t).length + 1 === temp[index].length && temp2.filter((t: boolean) => t).length + 1 === temp2.length) {
+        setAllChecked(true);
+      }
+      if (temp[index].filter((t: boolean) => t).length + 1 === temp[index].length) {
+        temp2[index] = true;
+      }
     }
     temp[index][sIndex] = !temp[index][sIndex];
     setAddSectionList([...temp]);
     setAddCourseList([...temp2]);
   }
+
+  const handleAddAllCoursesAndSections = () => {
+    let temp = addCourseList;
+    let temp2 = addSectionList;
+    temp = temp.map(() => !allChecked);
+    temp2 = temp2.map((course) => course.map(() => !allChecked));
+    setAddCourseList([...temp]);
+    setAddSectionList([...temp2]);
+    setAllChecked(!allChecked);
+  }
+
+  console.log(addSectionList, addCourseList);
 
   return (
     <Modal size="lg" show={show} onHide={() => setShow(false)}>
@@ -171,42 +195,52 @@ const SyncCourseModal : React.SFC<SyncCourseModalProps> = ({
         }
         {
           !loadingCourseList && (
-            <Accordion>
-              {
-                newCourseList.map((course, index) => (
-                  <Card className="mb-0" key={`courses-card-${index}`}>
-                    <Row className="mx-0" style={{ alignItems: 'center' }}>
-                      <input
-                        type="checkbox"
-                        className="ml-4"
-                        checked={addCourseList[index]}
-                        onChange={() => changeAddCourseList(index)}
-                      />
-                      <Accordion.Toggle as={Card.Header} eventKey={index.toString()}>
-                        {`${course.code} ${course.name}`}
-                      </Accordion.Toggle>
-                    </Row>
-                    <Accordion.Collapse eventKey={index.toString()}>
-                      <Card.Body className="ml-4">
-                        {
-                          course.sections.map((section: string, sIndex: number) => (
-                            <React.Fragment key={`section-${sIndex}`}>
-                              <Form.Check
-                                inline
-                                type="checkbox"
-                                label={section}
-                                checked={addSectionList[index][sIndex]}
-                                onChange={() => changeAddSectionList(index, sIndex)}
-                              />
-                            </React.Fragment>
-                          ))
-                        }
-                      </Card.Body>
-                    </Accordion.Collapse>
-                  </Card>
-                ))
-              }
-            </Accordion>
+            <>
+              <Form.Check
+                inline
+                type="checkbox"
+                label="Select All"
+                checked={allChecked}
+                className="ml-2 mb-3"
+                onChange={() => handleAddAllCoursesAndSections()}
+              />
+              <Accordion>
+                {
+                  newCourseList.map((course, index) => (
+                    <Card className="mb-0" key={`courses-card-${index}`}>
+                      <Row className="mx-0" style={{ alignItems: 'center' }}>
+                        <input
+                          type="checkbox"
+                          className="ml-4"
+                          checked={addCourseList[index]}
+                          onChange={() => changeAddCourseList(index)}
+                        />
+                        <Accordion.Toggle as={Card.Header} eventKey={index.toString()}>
+                          {`${course.code} ${course.name}`}
+                        </Accordion.Toggle>
+                      </Row>
+                      <Accordion.Collapse eventKey={index.toString()}>
+                        <Card.Body className="ml-4">
+                          {
+                            course.sections.map((section: string, sIndex: number) => (
+                              <React.Fragment key={`section-${sIndex}`}>
+                                <Form.Check
+                                  inline
+                                  type="checkbox"
+                                  label={section}
+                                  checked={addSectionList[index][sIndex]}
+                                  onChange={() => changeAddSectionList(index, sIndex)}
+                                />
+                              </React.Fragment>
+                            ))
+                          }
+                        </Card.Body>
+                      </Accordion.Collapse>
+                    </Card>
+                  ))
+                }
+              </Accordion>
+            </>
           )
         }
       </Modal.Body>
