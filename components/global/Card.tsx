@@ -1,7 +1,6 @@
 import React from 'react';
 import List from './List';
 import Dropdown from './Dropdown';
-import { differentialTimestampConverter } from '../../utilities/timestampConverter';
 
 interface Info {
   category: string
@@ -9,12 +8,11 @@ interface Info {
 }
 
 interface CardProps {
-  type: 'team' | 'footer' | 'info' | 'post' | 'list' | 'stat'
+  type: 'team' | 'footer' | 'info' | 'list' | 'stat'
   id?: number
   title?: string
   link?: string
   content?: string
-  publish_at?: string
   icon?: string
   footer?: string
   teamfooter?: string
@@ -189,45 +187,6 @@ const infoCard = (title: string, infoList: Array<Info>) => (
   </div>
 );
 
-const postCard = (title: string, content: string, publish_at: string) => {
-  const listItemDropdown = [{ title: 'Edit', func: () => {} }, { title: 'Delete', func: () => {} }];
-
-  return (
-    <div className="card mx-2" style={{ flex: 1 }}>
-      <div className="card-body">
-        <div className="mb-3">
-          <div className="row align-items-center">
-            <div className="col-auto">
-              <div className="avatar">
-                <img
-                  alt="..."
-                  src="https://www.cse.ust.hk/admin/people/faculty/photos/desmond.jpg"
-                  className="avatar-img rounded-circle"
-                />
-              </div>
-            </div>
-            <div className="col ml-n2">
-              <h4 className="card-title mb-1">
-                {title}
-              </h4>
-              <p className="card-text small text-muted">
-                <span className="fe fe-clock" />
-                {` ${differentialTimestampConverter(new Date(publish_at))}`}
-              </p>
-            </div>
-            <div className="col-auto">
-              <Dropdown menu={listItemDropdown} />
-            </div>
-          </div>
-        </div>
-        <p className="mb-3 quill-html">
-          <section dangerouslySetInnerHTML={{ __html: content }} />
-        </p>
-      </div>
-    </div>
-  );
-};
-
 const statCard = (title: string, content: string, icon: string) => (
   <div className="card mx-4" style={{ flex: 1 }}>
     <div className="card-body" style={{ padding: '0.6rem 4rem' }}>
@@ -249,7 +208,7 @@ const statCard = (title: string, content: string, icon: string) => (
 );
 
 const Card : React.SFC<CardProps> = ({
-  children, type, id, title, link, content, publish_at, icon, footer,
+  children, type, id, title, link, content, icon, footer,
   teamfooter, sortable, searchable, listItem, infoList,
 }) => {
   const [keyword, setKeyword] = React.useState('');
@@ -259,7 +218,6 @@ const Card : React.SFC<CardProps> = ({
     type === 'team' ? teamCard(id as number, link as string, title as string, content as string, teamfooter as string)
       : (type === 'footer' ? footerCard(title as string, content as string, footer as string)
         : (type === 'info' ? infoCard(title as string, infoList as Info[])
-          : (type === 'post' ? postCard(title as string, content as string, publish_at as string)
             : (type === 'list' ? listCard(title as string, listItem as any[], sortable as boolean,
               searchable as boolean, keyword as string, setKeyword as any, mode as number,
                 setMode as any)
@@ -270,7 +228,7 @@ const Card : React.SFC<CardProps> = ({
                       {children}
                     </div>
                   </div>
-                ))))))
+                )))))
   );
 };
 
