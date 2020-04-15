@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { Button } from 'react-bootstrap';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, useMutation, gql } from '@apollo/client';
 import Card from '../global/Card';
 import Dropdown from '../global/Dropdown';
 import CourseDashboardHeader from './CourseDashboardHeader';
@@ -17,9 +17,20 @@ const GET_ANNOUNCEMENTS_TAB_DATA = gql`
         id
       }
       announcements(where: {publish_at: {_lte: $now}}, order_by: {publish_at: desc}) {
+        id
         title
         content
         publish_at
+      }
+    }
+  }
+`;
+
+const DELETE_ANNOUNCEMENT_BY_ID = gql`
+  mutation deleteAnnouncement($announcement_id: bigint!) {
+    delete_announcements(where: {id: {_eq: $announcement_id}}) {
+      returning {
+        id
       }
     }
   }
@@ -49,6 +60,8 @@ const AnnouncementsTab: React.FunctionComponent = () => {
 
     announcementsList = data.courses[0].announcements;
   }
+
+  const [deleteAnnouncementByID] = useMutation(DELETE_ANNOUNCEMENT_BY_ID);
 
   return (
     <>
@@ -83,8 +96,8 @@ const AnnouncementsTab: React.FunctionComponent = () => {
                         <div className="col-auto">
                           <Dropdown
                             menu={[
-                              { title: 'Delete', func: () => {} }
-                            ]} 
+                              { title: 'Delete', func: () => deleteAnnouncementByID({ variables: { announcement_id: ann.id } }) }
+                            ]}
                           />
                         </div>
                       </div>
