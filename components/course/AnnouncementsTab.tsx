@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from 'react-bootstrap';
-import { useQuery, useMutation, gql } from '@apollo/client';
+import { useLazyQuery, useMutation, gql } from '@apollo/client';
 import Card from '../global/Card';
 import Dropdown from '../global/Dropdown';
 import CourseDashboardHeader from './CourseDashboardHeader';
@@ -39,29 +39,43 @@ const DELETE_ANNOUNCEMENT_BY_ID = gql`
 const AnnouncementsTab: React.FunctionComponent = () => {
   const router = useRouter();
   const { courseid } = router.query;
-  const { loading, error, data } = useQuery(GET_ANNOUNCEMENTS_TAB_DATA, {
-    variables: { id: courseid, now: reverseTimestampConverter(new Date()) }
+
+  // const infoList: any[] = [];
+  // let announcementsList: any[] = [];
+
+  const [infoList, setInfoList]: any[] = React.useState([]);
+  const [announcementsList, setAnnouncementsList]: any[] = React.useState([]);
+
+  const [getAnnouncementsTabData] = useLazyQuery(GET_ANNOUNCEMENTS_TAB_DATA, {
+    variables: { id: courseid, now: reverseTimestampConverter(new Date()) },
+    onCompleted: (data) => {
+      setInfoList([{
+        category: 'Assignments',
+        value: String(data.courses[0].assignments.length),
+      }, {
+        category: 'Created',
+        value: timestampConverter(new Date(data.courses[0].created_at), false),
+      }]);
+  
+      setAnnouncementsList(data.courses[0].announcements);
+    },
+    onError: (error) => {
+      console.log(error);
+    }
   });
-  const infoList = [];
-  let announcementsList: any[] = [];
 
-  if (error) {
-    console.log(error);
-  }
+  const [deleteAnnouncementByID] = useMutation(DELETE_ANNOUNCEMENT_BY_ID, {
+    onCompleted: () => {
+      getAnnouncementsTabData();
+    },
+    onError: (error) => {
+      console.log(error);
+    }
+  });
 
-  if (!loading) {
-    infoList.push({
-      category: 'Assignments',
-      value: String(data.courses[0].assignments.length),
-    }, {
-      category: 'Created',
-      value: timestampConverter(new Date(data.courses[0].created_at), false),
-    });
-
-    announcementsList = data.courses[0].announcements;
-  }
-
-  const [deleteAnnouncementByID] = useMutation(DELETE_ANNOUNCEMENT_BY_ID);
+  useEffect(() => {
+    getAnnouncementsTabData();
+  }, []);
 
   return (
     <>
@@ -70,7 +84,7 @@ const AnnouncementsTab: React.FunctionComponent = () => {
         <div className="row">
           <div className="col-12 col-xl-9">
             {
-              announcementsList.map((ann, index) => (
+              announcementsList.map((ann: any, index: number) => (
                 <div className="card mx-2" style={{ flex: 1 }} key={`announcement-${index}`}>
                   <div className="card-body">
                     <div className="mb-3">
