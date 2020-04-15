@@ -40,9 +40,6 @@ const AnnouncementsTab: React.FunctionComponent = () => {
   const router = useRouter();
   const { courseid } = router.query;
 
-  // const infoList: any[] = [];
-  // let announcementsList: any[] = [];
-
   const [infoList, setInfoList]: any[] = React.useState([]);
   const [announcementsList, setAnnouncementsList]: any[] = React.useState([]);
 
