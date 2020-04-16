@@ -190,7 +190,7 @@ const SideNav: React.FunctionComponent = () => {
           <div className="navbar-user d-none d-md-flex">
             <div className="dropup">
               <div className="dropdown-toggle">
-                <div className="avatar avatar-sm avatar-online">
+                <div className="avatar avatar-sm">
                   <img
                     alt="..."
                     className="avatar-img rounded-circle"

@@ -50,7 +50,7 @@ const NewConversation: React.FunctionComponent<NewConversationProps> = ({
   const [searchUsers] = useLazyQuery(SEARCH_USERS, {
     variables: { name: `%${search}%` },
     onCompleted: (data) => {
-      setSearchUsersList([...data.users]);
+      setSearchUsersList([...data.users].filter(user => user.itsc !== "kristopher"));
     }
   });
 
