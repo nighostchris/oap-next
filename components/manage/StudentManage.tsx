@@ -1,56 +1,7 @@
 import * as React from 'react';
-import { useQuery, gql } from '@apollo/client';
-import AddUser from './AddUser';
-import AddUserToCourse from './AddUserToCourse';
-import Table from '../global/Table';
-import Select from '../global/Select';
-
-const courseData = [{
-  code: '1021',
-  title: 'Introduction to Computer Science',
-  section: 2,
-},
-{
-  code: '2011',
-  title: 'Programming with C++',
-  section: 3,
-}];
-
-const users = [
-  {
-    name: 'Desmond Tsoi', email: 'desmond', id: '12345678', role: 3, reg: [{ code: '1021', section: 1 }],
-  },
-  {
-    name: 'Wallace', email: 'wallm', id: '27587374', role: 2, reg: [{ code: '1021', section: 1 }],
-  },
-  {
-    name: 'Testing', email: 'testing', id: '22063948', role: 1, reg: [{ code: '1021', section: 1 }],
-  },
-  {
-    name: 'Test', email: 'test', id: '29582012', role: 1, reg: [],
-  },
-  {
-    name: 'Kris', email: 'kristopher', id: '57389402', role: 3, reg: [],
-  },
-  {
-    name: 'Testing', email: 'testing123', id: '22743948', role: 1, reg: [],
-  },
-  {
-    name: 'Testing', email: 'testing456', id: '22496182', role: 1, reg: [],
-  },
-];
-
-const thead = ['Name', 'Email', 'Role'];
-
-const tbodyGenerator = (name: string, email: string, role: number) => (
-  <>
-    <td>{name}</td>
-    <td>{email}</td>
-    <td>{role === 1 ? 'Student' : (role === 2 ? 'Teaching Staff' : 'Admin')}</td>
-  </>
-);
-
-const optionList = ['Select...', 'Add New', 'Add to Course', 'Remove from Course', 'Change Section'];
+import { useLazyQuery, gql } from '@apollo/client';
+import { ListGroup } from 'react-bootstrap';
+import { useEffect } from 'react';
 
 const GET_ALL_USERS = gql`
   query getAllUsers {
@@ -62,71 +13,91 @@ const GET_ALL_USERS = gql`
 `;
 
 const StudentManage: React.FunctionComponent = () => {
-  const [search, setSearch] = React.useState('');
-  const [type, setType] = React.useState(optionList[0]);
-  const [userlist, setUserlist] = React.useState([...users]);
-  const { loading, error, data } = useQuery(GET_ALL_USERS);
-  const userList: any[] = [];
+  const [keyword, setKeyword] = React.useState('');
+  const [userList, setUserList]: any[] = React.useState([]);
 
-  if (error) {
-    console.log(error);
+  const [getAllUsers] = useLazyQuery(GET_ALL_USERS, {
+    onCompleted: (data) => {
+      setUserList([...data.users]);
+    },
+    onError: (error) => {
+      console.log(error);
+    }
+  });
+
+  const filterUser = () => {
+    return userList.filter((user: any) => user.name.includes(keyword));
   }
 
-  if (!loading) {
-    data.users.map((user: any) => {
-      userList.push(tbodyGenerator(user.name, user.itsc, 1));
-    });
-  }
+  useEffect(() => {
+    getAllUsers();
+  }, []);
 
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-12 col-xl-7 pt-4">
-          <div className="input-group input-group-merge mb-3 pt-4">
-            <input
-              type="text"
-              value={search}
-              placeholder="Search"
-              onChange={(e) => setSearch(e.target.value)}
-              className="form-control form-control-prepended"
-            />
-            <div className="input-group-prepend">
-              <div className="input-group-text">
-                <span className="fas fa-search" />
+        <div className="col-12">
+          <div className="card mt-5" style={{ flex: 1 }} data-toggle="lists">
+            <div className="card-header">
+              <div className="row align-items-center">
+                <div className="col">
+                  <h2 className="card-header-title">
+                    Manage Users
+                  </h2>
+                </div>
               </div>
             </div>
-          </div>
-          <Table
-            thead={thead}
-            tbody={userList}
-            bordered
-            textAlign="center"
-          />
-        </div>
-        <div className="col-12 col-xl-5 pt-4">
-          <div className="header header-body">
-            <h1 className="header-title">Manage Users</h1>
-          </div>
-          <div className="form-group">
-            <Select
-              title="Action Type"
-              value={type}
-              setValue={setType}
-              optionList={optionList}
-            />
-            {
-              type !== undefined && type === optionList[1] && <AddUser setUserlist={setUserlist} />
-            }
-            {
-              type !== undefined && type === optionList[2]
-                && (
-                  <AddUserToCourse
-                    userlist={userlist}
-                    setUserlist={setUserlist}
-                    courseData={courseData}
-                  />
-                )
-            }
+            <div className="card-header">
+              <div className="row">
+                <div className="col-12">
+                  <form>
+                    <div className="input-group input-group-flush input-group-merge">
+                      <input
+                        type="search"
+                        value={keyword}
+                        placeholder="Search"
+                        onChange={(e) => setKeyword(e.target.value)}
+                        className="form-control form-control-prepended search"
+                      />
+                      <div className="input-group-prepend">
+                        <div className="input-group-text">
+                          <span className="fe fe-search" />
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div className="card-body">
+              <ListGroup as="ul" variant="flush" className="list-group-lg list my-n4">
+                {
+                  filterUser().map((user: any, index: number) => (
+                    <ListGroup.Item className="px-0" key={`course-${index}`}>
+                      <div className="row align-items-center">
+                        <div className="col ml-4">
+                          <h3 className="card-title mb-0">
+                            {user.name}
+                          </h3>
+                          <p className="card-text small text-muted">
+                            {user.itsc}
+                          </p>
+                        </div>
+                        <div className="col-auto">
+                          <a
+                            href=""
+                            className="btn btn-sm btn-white d-none d-md-inline-block"
+                            /*onClick={(e: any) => handleDeleteSection(e, course.section_id)}*/
+                          >
+                            Delete
+                          </a>
+                        </div>
+                      </div>
+                    </ListGroup.Item>
+                  ))
+                }
+              </ListGroup>
+            </div>
           </div>
         </div>
       </div>
