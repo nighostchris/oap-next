@@ -26,7 +26,7 @@ const StudentManage: React.FunctionComponent = () => {
   });
 
   const filterUser = () => {
-    return userList.filter((user: any) => user.name.includes(keyword));
+    return userList.filter((user: any) => user.name.toLowerCase().includes(keyword));
   }
 
   useEffect(() => {
@@ -82,15 +82,6 @@ const StudentManage: React.FunctionComponent = () => {
                           <p className="card-text small text-muted">
                             {user.itsc}
                           </p>
-                        </div>
-                        <div className="col-auto">
-                          <a
-                            href=""
-                            className="btn btn-sm btn-white d-none d-md-inline-block"
-                            /*onClick={(e: any) => handleDeleteSection(e, course.section_id)}*/
-                          >
-                            Delete
-                          </a>
                         </div>
                       </div>
                     </ListGroup.Item>

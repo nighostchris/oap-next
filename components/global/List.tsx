@@ -18,7 +18,7 @@ interface ListProps {
   listItem: Array<ListItemProps>
 }
 
-const listItemDropdown = [{ title: 'Edit', func: () => {} }, { title: 'Delete', func: () => {} }];
+const listItemDropdown = [{ title: 'Delete', func: () => {} }];
 
 const List : React.SFC<ListProps> = ({ listItem }) => (
   <ul className="list-group list-group-lg list-group-flush list my-n4">
