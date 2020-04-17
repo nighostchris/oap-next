@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
 import { useRouter } from 'next/router';
-import { useQuery, gql } from '@apollo/client';
+import { useLazyQuery, useMutation, gql } from '@apollo/client';
 import Dropdown from '../global/Dropdown';
 import CourseDashboardHeader from './CourseDashboardHeader';
 import { timestampConverter } from '../../utilities/timestampConverter';
@@ -28,18 +28,85 @@ const DELETE_COURSEWORK = gql`
   }
 `;
 
+const DELETE_ANNOUNCEMENT_BY_COURSEWORK_ID = gql`
+  mutation deleteAnnouncement($coursework_id: bigint!) {
+    delete_announcements(where: {assignment_id: {_eq: $coursework_id}}) {
+      returning {
+        assignment_id
+      }
+    }
+  }
+`;
+
+const DELETE_ASSIGNMENT_CONFIG = gql`
+  mutation deleteAssignmentConfig($coursework_id: bigint!) {
+    delete_assignment_configs(where: {assignment_id: {_eq: $coursework_id}}) {
+      returning {
+        assignment_id
+      }
+    }
+  }
+`;
+
 const CourseworksTab: React.FunctionComponent = () => {
   const router = useRouter();
   const { courseid } = router.query;
 
   const [mode, setMode] = React.useState(0);
   const [keyword, setKeyword] = React.useState('');
+  const [listItem, setListItem]: any[] = React.useState([]);
   const listItemDropdown = [{ title: 'Asc', func: () => setMode(1) }, { title: 'Dsc', func: () => setMode(2) }];
 
-  const { loading, error, data } = useQuery(GET_COURSEWORKTAB_DATA, {
-    variables: { id: courseid }
+  const [getCourseworkTabData] = useLazyQuery(GET_COURSEWORKTAB_DATA, {
+    variables: { id: courseid },
+    onCompleted: (data) => {
+      let temp: any[] = [];
+      data.courses[0].assignments.forEach((assignment: any) => {
+        temp.push({
+          id: assignment.id,
+          content: {
+            title: assignment.name,
+            subtitle: `Released by Desmond Tsoi on ${timestampConverter(new Date(assignment.created_at), false)}`,
+            button: {
+              title: 'Download',
+              link: '',
+            },
+            link: `/coursework/${assignment.id}/announcements`,
+          },
+          avatar: <span className="avatar-title rounded bg-white text-secondary"><span className="fas fa-flask" style={{ fontSize: '32px' }} /></span>,
+        });
+      });
+
+      setListItem([...temp]);
+    },
+    onError: (error) => {
+      console.log(error);
+    }
   });
-  const listItem: any[] = [];
+
+  React.useEffect(() => {
+    getCourseworkTabData();
+  }, []);
+
+  const [deleteAssignmentConfig] = useMutation(DELETE_ASSIGNMENT_CONFIG);
+  
+  const [deleteAnnouncementByCourseworkID] = useMutation(DELETE_ANNOUNCEMENT_BY_COURSEWORK_ID);
+  
+  const [deleteCoursework] = useMutation(DELETE_COURSEWORK);
+
+  const handleDeleteCoursework = (id: any) => {
+    deleteAnnouncementByCourseworkID({ variables: { coursework_id: id } })
+      .then(() => {
+        deleteAssignmentConfig({ variables: { coursework_id: id } })
+          .then(() => {
+            deleteCoursework({ variables: { id: id } })
+              .then(() => getCourseworkTabData())
+              .catch((error) => console.log(error));
+          })
+          .catch((error) => console.log(error));
+      })
+      .catch((error) => console.log(error));
+  }
 
   const compareListItem = (a: any, b: any) => {
     if (a.content.title > b.content.title) {
@@ -68,27 +135,6 @@ const CourseworksTab: React.FunctionComponent = () => {
       return [];
     }
   };
-
-  if(!error) {
-    console.log(error);
-  }
-
-  if (!loading) {
-    data.courses[0].assignments.forEach((assignment: any) => {
-      listItem.push({
-        content: {
-          title: assignment.name,
-          subtitle: `Released by Desmond Tsoi on ${timestampConverter(new Date(assignment.created_at), false)}`,
-          button: {
-            title: 'Download',
-            link: '',
-          },
-          link: `/coursework/${assignment.id}/announcements`,
-        },
-        avatar: <span className="avatar-title rounded bg-white text-secondary"><span className="fas fa-flask" style={{ fontSize: '32px' }} /></span>,
-      });
-    });
-  }
 
   return (
     <>
@@ -158,7 +204,7 @@ const CourseworksTab: React.FunctionComponent = () => {
                             }
                           </div>
                           <div className="col-auto">
-                            <Dropdown menu={[{ title: 'Delete', func: () => {} }]} />
+                            <Dropdown menu={[{ title: 'Delete', func: () => handleDeleteCoursework(item.id) }]} />
                           </div>
                         </div>
                       </li>
