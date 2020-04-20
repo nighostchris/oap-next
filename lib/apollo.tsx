@@ -23,7 +23,7 @@ function createApolloClient(initialState: NormalizedCacheObject = {}, cookie?: s
   const headers = cookie ? { cookie } : undefined;
 
   const httpLink = new HttpLink({
-    uri: 'http://localhost:8080/v1/graphql', // Server URL (must be absolute)
+    uri: 'http://100.125.62.114:8080/v1/graphql', // Server URL (must be absolute)
     credentials: 'include', // Additional fetch() options like `credentials` or `headers`
     headers,
     fetch,
