@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDrop } from 'react-dnd-cjs';
+import { useDrag, useDrop } from 'react-dnd-cjs';
 import DragCard from './Functions';
 import Assertions from './Assertions';
 
@@ -9,7 +9,31 @@ interface DropBoardProps {
 
 const data: any[] = [];
 
-const DropBoard: React.FC<DropBoardProps> = ({ testCaseName }) => {
+export const StatelessNewTest: React.FC = () => {
+  const [{ isDragging }, drag] = useDrag({
+    item: {
+      type: 'test',
+      value: undefined,
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
+
+  return (
+    <div
+      ref={drag}
+      className="card my-3 mx-auto"
+      style={{ width: 'fit-content', minWidth: '200px', opacity: isDragging ? 0.7 : 1 }}
+    >
+      <div className="card-body p-3">
+        <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>New Test Case</h3>
+      </div>
+    </div>
+  );
+};
+
+export const DropBoard: React.FC<DropBoardProps> = ({ testCaseName }) => {
   const addFunction = (item: any) => {
     if (item.type === 'functions') {
       data.push(<DragCard funcName={item.name} parameters={item.paras} />);
@@ -51,5 +75,3 @@ const DropBoard: React.FC<DropBoardProps> = ({ testCaseName }) => {
     </div>
   );
 };
-
-export default DropBoard;
