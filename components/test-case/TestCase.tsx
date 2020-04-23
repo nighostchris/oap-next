@@ -2,14 +2,17 @@ import React from 'react';
 import { useDrag, useDrop } from 'react-dnd-cjs';
 import DragCard from './Functions';
 import Assertions from './Assertions';
+import { TestCaseContext } from './contexts/TestCaseContext';
 
-interface DropBoardProps {
-  testCaseName: string,
+interface TestCaseProps {
+  id: number,
+  name: string,
+  child: Array<any>
 }
 
 const data: any[] = [];
 
-export const StatelessNewTest: React.FC = () => {
+export const StatelessTestCase: React.FC = () => {
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: 'test',
@@ -33,7 +36,10 @@ export const StatelessNewTest: React.FC = () => {
   );
 };
 
-export const DropBoard: React.FC<DropBoardProps> = ({ testCaseName }) => {
+export const TestCase: React.FC<TestCaseProps> = ({ id, name, child }) => {
+  console.log(id, name, child);
+  const { dispatch: testsDispatch } = React.useContext(TestCaseContext);
+
   const addFunction = (item: any) => {
     if (item.type === 'functions') {
       data.push(<DragCard funcName={item.name} parameters={item.paras} />);
@@ -55,7 +61,13 @@ export const DropBoard: React.FC<DropBoardProps> = ({ testCaseName }) => {
       <div className="col-12 col-xl-3 px-0 mx-4 mt-4">
         <div className="card" style={{ width: 'fit-content' }}>
           <div className="card-body">
-            <h3 className="card-title">{testCaseName}</h3>
+            <h3 className="card-title">
+              <input
+                value={name}
+                onChange={(e) => testsDispatch({ type: 'RENAME_TEST', id: id, name: e.target.value })}
+                className="form-control form-control-prepended"
+              />
+            </h3>
             <div
               ref={drop}
               style={{
