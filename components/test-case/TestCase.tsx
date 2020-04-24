@@ -1,22 +1,18 @@
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd-cjs';
-import DragCard from './Functions';
-import Assertions from './Assertions';
+import { Assertions } from './Assertions';
 import { TestCaseContext } from './contexts/TestCaseContext';
 
 interface TestCaseProps {
-  id: number,
-  name: string,
+  id: number
+  name: string
   child: Array<any>
 }
-
-const data: any[] = [];
 
 export const StatelessTestCase: React.FC = () => {
   const [{ isDragging }, drag] = useDrag({
     item: {
-      type: 'test',
-      value: undefined,
+      type: 'test'
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -37,20 +33,11 @@ export const StatelessTestCase: React.FC = () => {
 };
 
 export const TestCase: React.FC<TestCaseProps> = ({ id, name, child }) => {
-  console.log(id, name, child);
   const { dispatch: testsDispatch } = React.useContext(TestCaseContext);
 
-  const addFunction = (item: any) => {
-    if (item.type === 'functions') {
-      data.push(<DragCard funcName={item.name} parameters={item.paras} />);
-    } else {
-      data.push(<Assertions funcName={item.name} parameters={item.paras} />);
-    }
-  };
-
   const [{ isOver }, drop] = useDrop({
-    accept: ['functions', 'assertions'],
-    drop: (item) => addFunction(item),
+    accept: ['assertion'],
+    drop: (item: any) => testsDispatch({ type: 'ADD_ASSERTION', id: id, name: item.name }),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
@@ -79,7 +66,11 @@ export const TestCase: React.FC<TestCaseProps> = ({ id, name, child }) => {
                 minWidth: '200px',
               }}
             >
-              { data.map((d) => (d)) }
+              {
+                child.map((c) => (
+                  c.type === 'assertion' ? <Assertions id={[id, c.id]} name={c.name} child={c.child} /> : undefined
+                ))
+              }
             </div>
           </div>
         </div>

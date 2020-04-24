@@ -1,77 +1,23 @@
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd-cjs';
-import LogicStatements from './LogicStatements';
-import Functions from './Functions';
 import { DataInput } from './DataInput';
+import { TestCaseContext } from './contexts/TestCaseContext';
+
+interface StatelessAssertion {
+  name: string
+}
 
 interface AssertionsProps {
-  funcName: string,
-  parameters: number,
+  id: Array<number>
+  name: string
+  child: Array<any>
 }
 
-/*
-{
-  type: 'assertions',
-  name: 'funcName',
-  paras: parameters,
-  child: [
-    { type: 'logicStatements', ... },
-    { type: 'functions', ... },
-  ],
-}
-*/
-
-const Assertions: React.FC<AssertionsProps> = ({ funcName, parameters }) => {
-  const dropArray = [];
-  const [assertParameters, setAssertParameters] = React.useState([...new Array(2)]);
-  console.log(assertParameters);
-
-  const updateAssertParameters = (position: number, item: any) => {
-    const temp = assertParameters;
-    if (item.type === 'dataInput') {
-      if (item.value !== undefined) {
-        temp[position] = item.value[item.position];
-      } else {
-        temp[position] = { type: item.type, value: item.value };
-      }
-    }
-    if (item.type === 'functions') {
-      temp[position] = {
-        type: item.type,
-        name: item.name,
-        paras: item.paras,
-        child: item.child,
-        setChild: item.setChild,
-      };
-    }
-    if (item.type === 'logicStatements') {
-      temp[position] = {
-        type: item.type,
-        ops: item.ops,
-        child: item.child,
-        setChild: item.setChild,
-      };
-    }
-    setAssertParameters([...temp]);
-  };
-
-  for (let i = 0; i < parameters; i++) {
-    dropArray.push(useDrop({
-      accept: ['logicStatements', 'functions', 'dataInput'],
-      drop: (item) => updateAssertParameters(i, item),
-      collect: (monitor) => ({
-        isOver: !!monitor.isOver(),
-      }),
-    }));
-  }
-
+export const StatelessAssertion: React.FC<StatelessAssertion> = ({ name }) => {
   const [{ isDragging }, drag] = useDrag({
     item: {
-      type: 'assertions',
-      name: funcName,
-      paras: parameters,
-      child: assertParameters,
-      setChild: setAssertParameters,
+      type: 'assertion',
+      name: name
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -84,27 +30,84 @@ const Assertions: React.FC<AssertionsProps> = ({ funcName, parameters }) => {
       className="card my-3 mx-auto"
       style={{ width: 'fit-content', minWidth: '200px', opacity: isDragging ? 0.7 : 1 }}
     >
+      <div className="card-body p-3">
+        <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>{`${name}()`}</h3>
+      </div>
+    </div>
+  );
+};
+
+export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
+  const { dispatch: testsDispatch } = React.useContext(TestCaseContext);
+  const [dropped, setDropped] = React.useState([false, false]);
+
+  console.log(dropped);
+  // const [{ isDragging }, drag] = useDrag({
+  //   item: {
+  //     type: 'assertions',
+  //     name: funcName,
+  //     paras: parameters,
+  //     child: assertParameters,
+  //     setChild: setAssertParameters,
+  //   },
+  //   collect: (monitor) => ({
+  //     isDragging: !!monitor.isDragging(),
+  //   }),
+  // });
+
+  const [{ isOver: fpIsOver }, fpDrop] = useDrop({
+    accept: ['dataInput'],
+    drop: (item: any) => {
+      if (item.type === 'dataInput') {
+        testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
+        let temp = [...dropped];
+        temp[0] = true;
+        setDropped([...temp]);
+      }
+    },
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  });
+
+  const [{ isOver: spIsOver }, spDrop] = useDrop({
+    accept: ['dataInput'],
+    drop: (item: any) => {
+      testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
+      let temp = [...dropped];
+      temp[1] = true;
+      setDropped([...temp]);
+    },
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  });
+
+  return (
+    <div
+      // ref={drag}
+      className="card my-3 mx-auto"
+      style={{ width: 'fit-content', minWidth: '200px', /*opacity: isDragging ? 0.7 : 1*/ }}
+    >
       <div className="card-body justify-content-center align-items-center p-3" style={{ display: 'flex', flexDirection: 'row' }}>
-        <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>{`${funcName}(`}</h3>
+        <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>{`${name}(`}</h3>
         {
-          dropArray.map((d, index) => (
+          [0, 1].map((i: number) => (
             <div
-              ref={d[1]}
+              ref={!i ? fpDrop : spDrop}
               className="mx-3"
               style={{
-                width: assertParameters[index] ? undefined : '50px',
-                height: assertParameters[index] ? undefined : '40px',
-                border: assertParameters[index] ? undefined : '1px solid black',
-                background: d[0].isOver ? 'grey' : undefined,
+                width: !i ? (!dropped[0] ? '50px' : undefined) : (!dropped[1] ? '50px' : undefined),
+                height: !i ? (!dropped[0] ? '40px' : undefined) : (!dropped[1] ? '40px' : undefined),
+                border: !i ? (!dropped[0] ? '1px solid black' : undefined) : (!dropped[1] ? '1px solid black' : undefined),
+                background: !i ? (fpIsOver ? 'grey' : undefined) : (spIsOver ? 'grey' : undefined),
               }}
             >
-              {
-                assertParameters[index] && (assertParameters[index].type === 'dataInput'
-                  ? <DataInput pos={0} parent={assertParameters} setParent={setAssertParameters} />
-                  : (assertParameters[index].type === 'functions'
-                    ? <Functions funcName={assertParameters[index].name} parameters={assertParameters[index].paras} pos={index} child={assertParameters[index].child} parent={assertParameters} setParent={setAssertParameters} />
-                    : <LogicStatements operators={assertParameters[index].ops} pos={index} child={assertParameters[index].child} parent={assertParameters} setParent={setAssertParameters} />))
-              }
+            {
+              child.filter((c) => c.id === i).map((c: any) => (
+                c.type === 'dataInput' ? <DataInput id={[...id, c.id]} name={c.name} /> : undefined
+              ))
+            }
             </div>
           ))
         }
@@ -113,5 +116,3 @@ const Assertions: React.FC<AssertionsProps> = ({ funcName, parameters }) => {
     </div>
   );
 };
-
-export default Assertions;

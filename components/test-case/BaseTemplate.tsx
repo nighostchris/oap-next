@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { useDrop } from 'react-dnd-cjs';
 import { ButtonGroup, Button, Nav } from 'react-bootstrap';
-import DragCard from './Functions';
-import { TestCase, StatelessTestCase } from './TestCase';
-import Assertions from './Assertions';
-import LogicStatements from './LogicStatements';
 import { StatelessDataInput } from './DataInput';
+import { StatelessAssertion } from './Assertions';
+import { TestCase, StatelessTestCase } from './TestCase';
 import { TestCaseContext, testsReducer } from './contexts/TestCaseContext';
 
 const BaseTemplate: React.FunctionComponent = () => {
@@ -37,8 +35,7 @@ const BaseTemplate: React.FunctionComponent = () => {
 
   const [{ isOver: isOverDropTest }, dropTest] = useDrop({
     accept: ['test'],
-    //drop: () => setTestList([...testList, { name: 'Test Case 1', child: [] }]),
-    drop: () => { console.log("dropped"); testsDispatch({ type: 'ADD_TEST' })},
+    drop: () => testsDispatch({ type: 'ADD_TEST' }),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
@@ -97,6 +94,8 @@ const BaseTemplate: React.FunctionComponent = () => {
                 <div>
                   <StatelessDataInput />
                   <StatelessTestCase />
+                  <StatelessAssertion name="assertEquals" />
+                  <StatelessDataInput />
                 </div>
               )
           }
