@@ -1,5 +1,10 @@
 import React from 'react';
 
+interface VariableInterface {
+  class: string
+  params: Array<any>
+}
+
 interface TestCaseInterface {
   id: number
   name: string
@@ -7,10 +12,12 @@ interface TestCaseInterface {
 };
 
 interface InitialStateType {
+  variables: Array<VariableInterface>
   tests: Array<TestCaseInterface>
 };
 
 const initialState = {
+  variables: [],
   tests: []
 };
 
@@ -28,6 +35,27 @@ export const testsReducer = (state: any, action: any) => {
       return {
         ...state,
         tests: state.tests.map((test: any, index: number) => index === action.id ? { ...test, name: action.name } : test)
+      };
+    case 'ADD_VARIABLE':
+      return {
+        ...state,
+        variables: [...state.variables, { class: '', params: [] }]
+      };
+    case 'MODIFY_VARIABLE_CLASS':
+      return {
+        ...state,
+        variables: state.variables.map((variable: any, index: number) => index === action.vid ? { ...variable, class: action.class } : variable)
+      };
+    case 'MODIFY_VARIABLE_PARAMS':
+      return {
+        ...state,
+        variables: state.variables.map((variable: any, index: number) => index === action.vid
+          ? {
+            ...variable,
+            params: variable.params.map((param: any, index: number) => index === action.pid ? action.param : param )
+          }
+          : variable
+        )
       };
     case 'ADD_ASSERTION':
       return {
@@ -47,7 +75,7 @@ export const testsReducer = (state: any, action: any) => {
           }
           : test
         )
-      }
+      };
     case 'ADD_DATA_INPUT':
       return {
         ...state,

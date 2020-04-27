@@ -45,7 +45,7 @@ export const TestCase: React.FC<TestCaseProps> = ({ id, name, child }) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <div className="col-12 col-xl-3 px-0 mx-4 mt-4">
+      <div className="px-0 mx-4 mt-4">
         <div className="card" style={{ width: 'fit-content' }}>
           <div className="card-body">
             <h3 className="card-title">

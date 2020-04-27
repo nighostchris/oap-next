@@ -7,9 +7,17 @@ import { StatelessAssertionFunction } from './Functions';
 import { TestCase, StatelessTestCase } from './TestCase';
 import { TestCaseContext, testsReducer } from './contexts/TestCaseContext';
 
+const testReflectionResult = [{
+  class: "Archer",
+  params: ["char", "int", "int"]
+}, {
+  class: "Player",
+  params: ["string"]
+}];
+
 const BaseTemplate: React.FunctionComponent = () => {
   const [leftBarTab, setLeftBarTab] = React.useState('fields');
-  const [testsState, testsDispatch] = React.useReducer(testsReducer, { tests: [] });
+  const [testsState, testsDispatch] = React.useReducer(testsReducer, { tests: [], variables: [] });
 
   console.log(testsState);
 
@@ -101,35 +109,45 @@ const BaseTemplate: React.FunctionComponent = () => {
               )
           }
         </div>
-        <div
-          ref={dropTest}
-          className="col-12 col-xl-8 px-0"
-          style={{
-            display: 'flex',
-            overflowX: 'auto',
-            flexDirection: 'row',
-            background: isOverDropTest ? 'grey' : undefined,
-          }}
-        >
-          {
-            testsState.tests.map((test: any) => (
-              <TestCaseContext.Provider value={{ state: testsState, dispatch: testsDispatch }}>
-                <TestCase id={test.id} name={test.name} child={test.child} />
-              </TestCaseContext.Provider>
-            ))
-          }
-          <i
-            ref={dropBin}
-            className="fas fa-archive"
+        <TestCaseContext.Provider value={{ state: testsState, dispatch: testsDispatch }}>
+          <div
+            ref={dropTest}
+            className="col-12 col-xl-8 px-0"
             style={{
-              background: isOver ? 'grey' : undefined,
-              position: 'absolute',
-              top: '20px',
-              right: '20px',
-              fontSize: '40px',
+              display: 'flex',
+              overflowX: 'auto',
+              flexDirection: 'column',
+              background: isOverDropTest ? 'grey' : undefined,
             }}
-          />
-        </div>
+          >
+            <div className="px-0 mx-4 mt-4">
+              <div className="card mb-0" style={{ width: 'fit-content', minWidth: '400px' }}>
+                <div className="card-body">
+                  <h3 className="card-title mb-4">Pre-Setup Stage</h3>
+                  <Button variant="outline-primary" style={{ fontSize: '36px', fontWeight: 'bold', width: '50%' }}>+</Button>
+                </div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+            {
+              testsState.tests.map((test: any) => (
+                <TestCase id={test.id} name={test.name} child={test.child} />
+              ))
+            }
+            </div>
+            <i
+              ref={dropBin}
+              className="fas fa-archive"
+              style={{
+                background: isOver ? 'grey' : undefined,
+                position: 'absolute',
+                top: '20px',
+                right: '20px',
+                fontSize: '40px',
+              }}
+            />
+          </div>
+        </TestCaseContext.Provider>
       </div>
     </div>
   );

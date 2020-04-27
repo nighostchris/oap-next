@@ -42,7 +42,6 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
   const { dispatch: testsDispatch } = React.useContext(TestCaseContext);
   const [dropped, setDropped] = React.useState([false, false]);
 
-  console.log(dropped);
   // const [{ isDragging }, drag] = useDrag({
   //   item: {
   //     type: 'assertions',
