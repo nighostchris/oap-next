@@ -84,76 +84,76 @@ const GET_ENROLLED_COURSES = gql`
 `;
 
 const SideNav: React.FunctionComponent = () => {
-  const { loading, error, data } = useQuery(GET_ENROLLED_COURSES);
+  //const { loading, error, data } = useQuery(GET_ENROLLED_COURSES);
   const navigations: Array<Navigation> = [];
 
-  if (!loading) {
-    const linksList: Array<Link> = [];
+  // if (!loading) {
+  //   const linksList: Array<Link> = [];
 
-    data.users[0].enrolled_courses.forEach((e: any) => {
-      const subSection: Array<Link> = [];
-      ['Announcements', 'Courseworks', 'Grades'].forEach((s: string) => {
-        subSection.push({
-          title: s,
-          href: `/course/${e.section.course.id}/${s.toLowerCase()}`,
-          updated: true,
-        });
-      });
+  //   data.users[0].enrolled_courses.forEach((e: any) => {
+  //     const subSection: Array<Link> = [];
+  //     ['Announcements', 'Courseworks', 'Grades'].forEach((s: string) => {
+  //       subSection.push({
+  //         title: s,
+  //         href: `/course/${e.section.course.id}/${s.toLowerCase()}`,
+  //         updated: true,
+  //       });
+  //     });
 
-      linksList.push({
-        title: e.section.course.code,
-        icon: 'fas fa-book',
-        children: subSection,
-      });
-    });
-    linksList.sort((a, b) => {
-      return a.title.localeCompare(b.title);
-    });
+  //     linksList.push({
+  //       title: e.section.course.code,
+  //       icon: 'fas fa-book',
+  //       children: subSection,
+  //     });
+  //   });
+  //   linksList.sort((a, b) => {
+  //     return a.title.localeCompare(b.title);
+  //   });
 
-    navigations.push({
-      title: 'Courses',
-      links: linksList,
-    },
-    {
-      title: 'Admin',
-      links: [
-        {
-          title: 'User Management',
-          href: '/manage/user',
-          icon: 'fas fa-user-edit',
-        },
-        {
-          title: 'Course Management',
-          href: '/manage/course',
-          icon: 'fas fa-school',
-        },
-      ],
-    },
-    {
-      title: 'Account',
-      links: [
-        {
-          title: 'Notifications',
-          href: '/notifications',
-          icon: 'fas fa-bell',
-        },
-        {
-          title: 'Conversations',
-          href: '/conversations',
-          icon: 'fas fa-comment-dots',
-        },
-        {
-          title: 'Settings',
-          href: '/settings',
-          icon: 'fas fa-cog',
-        },
-      ],
-    });
-  }
+  //   navigations.push({
+  //     title: 'Courses',
+  //     links: linksList,
+  //   },
+  //   {
+  //     title: 'Admin',
+  //     links: [
+  //       {
+  //         title: 'User Management',
+  //         href: '/manage/user',
+  //         icon: 'fas fa-user-edit',
+  //       },
+  //       {
+  //         title: 'Course Management',
+  //         href: '/manage/course',
+  //         icon: 'fas fa-school',
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: 'Account',
+  //     links: [
+  //       {
+  //         title: 'Notifications',
+  //         href: '/notifications',
+  //         icon: 'fas fa-bell',
+  //       },
+  //       {
+  //         title: 'Conversations',
+  //         href: '/conversations',
+  //         icon: 'fas fa-comment-dots',
+  //       },
+  //       {
+  //         title: 'Settings',
+  //         href: '/settings',
+  //         icon: 'fas fa-cog',
+  //       },
+  //     ],
+  //   });
+  // }
 
-  if (error) {
-    console.log(error);
-  }
+  // if (error) {
+  //   console.log(error);
+  // }
 
   return (
     <Navbar className="navbar-vertical fixed-left adaptive-navbar" expand="md">

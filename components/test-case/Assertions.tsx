@@ -3,7 +3,7 @@ import { useDrag, useDrop } from 'react-dnd-cjs';
 import { DataInput } from './DataInput';
 import { TestCaseContext } from './contexts/TestCaseContext';
 
-interface StatelessAssertion {
+interface StatelessAssertionProps {
   name: string
 }
 
@@ -13,7 +13,7 @@ interface AssertionsProps {
   child: Array<any>
 }
 
-export const StatelessAssertion: React.FC<StatelessAssertion> = ({ name }) => {
+export const StatelessAssertion: React.FC<StatelessAssertionProps> = ({ name }) => {
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: 'assertion',

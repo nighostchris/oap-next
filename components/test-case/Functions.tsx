@@ -1,63 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDrag, useDrop } from 'react-dnd-cjs';
 import { DataInput } from './DataInput';
 
-interface DragCardProps {
-  funcName: string,
-  parameters: number,
-  pos?: any,
-  child?: any,
-  parent?: any,
-  setParent?: any,
+interface AssertionFunctionProps {
+  id: Array<number>
+  name: string
+  child: Array<any>
 }
 
-/*
-{
-  type: 'functions',
-  name: funcName,
-  paras: parameters,
-  child: [
-    { type: 'dataInput', value: item.value },
-    { type: 'dataInput', value: item.value },
-  ],
+interface StatelessAssertionFunctionProps {
+  name: string
 }
-*/
 
-const Functions: React.FC<DragCardProps> = ({
-  funcName, parameters, pos, child, parent, setParent,
-}) => {
-  const dropArray = [];
-  const [functionParameters, setFunctionParameters] = React.useState([...new Array(parameters)]);
-
-  useEffect(() => {
-    if (child) { setFunctionParameters([...child]); }
-  }, [child]);
-
-  const updateFunctionParameters = (position: number, item: any) => {
-    const temp = functionParameters;
-    temp[position] = { type: 'dataInput', value: item.value };
-    setFunctionParameters([...temp]);
-  };
-
-  for (let i = 0; i < parameters; i++) {
-    dropArray.push(useDrop({
-      accept: 'dataInput',
-      drop: (item) => updateFunctionParameters(i, item),
-      collect: (monitor) => ({
-        isOver: !!monitor.isOver(),
-      }),
-    }));
-  }
-
+export const StatelessAssertionFunction: React.FC<StatelessAssertionFunctionProps> = ({ name }) => {
   const [{ isDragging }, drag] = useDrag({
     item: {
-      type: 'functions',
-      name: funcName,
-      paras: parameters,
-      pos: pos,
-      child: functionParameters,
-      parent: parent,
-      setParent: setParent,
+      type: 'assertion-function',
+      name: name
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -70,8 +29,51 @@ const Functions: React.FC<DragCardProps> = ({
       className="card my-3 mx-auto"
       style={{ width: 'fit-content', minWidth: '200px', opacity: isDragging ? 0.7 : 1 }}
     >
+      <div className="card-body p-3">
+        <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>{`${name}()`}</h3>
+      </div>
+    </div>
+  );
+};
+
+export const AssertionFunction: React.FC<AssertionFunctionProps> = ({ id, name, child }) => {
+  console.log(id, name, child);
+  const dropArray = [];
+  const [functionParameters, setFunctionParameters] = React.useState([...new Array(child.length)]);
+
+  for (let i = 0; i < child.length; i++) {
+    dropArray.push(useDrop({
+      accept: ['dataInput', 'instance'],
+      drop: () => {},
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+      }),
+    }));
+  }
+
+  // const [{ isDragging }, drag] = useDrag({
+  //   item: {
+  //     type: 'functions',
+  //     name: funcName,
+  //     paras: parameters,
+  //     pos: pos,
+  //     child: functionParameters,
+  //     parent: parent,
+  //     setParent: setParent,
+  //   },
+  //   collect: (monitor) => ({
+  //     isDragging: !!monitor.isDragging(),
+  //   }),
+  // });
+
+  return (
+    <div
+      //ref={drag}
+      className="card my-3 mx-auto"
+      style={{ width: 'fit-content', minWidth: '200px'/*, opacity: isDragging ? 0.7 : 1*/ }}
+    >
       <div className="card-body justify-content-center align-items-center p-3" style={{ display: 'flex', flexDirection: 'row' }}>
-        <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>{`${funcName}(`}</h3>
+        <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>{`${name}(`}</h3>
         {
           dropArray.map((d, index) => (
             <div
@@ -84,14 +86,6 @@ const Functions: React.FC<DragCardProps> = ({
                 background: d[0].isOver ? 'grey' : undefined,
               }}
             >
-              { functionParameters[index]
-                && (
-                  <DataInput
-                    pos={index}
-                    parent={functionParameters}
-                    setParent={setFunctionParameters}
-                  />
-                )}
             </div>
           ))
         }
@@ -100,5 +94,3 @@ const Functions: React.FC<DragCardProps> = ({
     </div>
   );
 };
-
-export default Functions;

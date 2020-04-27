@@ -72,6 +72,31 @@ export const testsReducer = (state: any, action: any) => {
           : test
         )
       }
+    case 'ADD_ASSERTION_FUNCTION':
+      return {
+        ...state,
+        tests: state.tests.map((test: any, index: number) => index === action.id[0]
+          ? {
+            ...test,
+            child: test.child.map((c: any, index: number) => index === action.id[1]
+              ? {
+                ...c,
+                child: [
+                  ...c.child,
+                  {
+                    id: c.child.length,
+                    type: 'assertion-function',
+                    name: action.name,
+                    child: new Array(action.params).map((_param: any, index: number) => { return { id: index } })
+                  }
+                ]
+              }
+              : c
+            )
+          }
+          : test
+        )
+      }
     default: 
       return state;
   };

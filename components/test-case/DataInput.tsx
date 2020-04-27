@@ -25,6 +25,7 @@ export const StatelessDataInput: React.FC = () => {
       <div className="card-body p-3">
         <input
           disabled
+          placeholder="Data Input"
           className="form-control form-control-prepended"
         />
       </div>

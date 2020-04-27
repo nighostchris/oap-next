@@ -3,6 +3,7 @@ import { useDrop } from 'react-dnd-cjs';
 import { ButtonGroup, Button, Nav } from 'react-bootstrap';
 import { StatelessDataInput } from './DataInput';
 import { StatelessAssertion } from './Assertions';
+import { StatelessAssertionFunction } from './Functions';
 import { TestCase, StatelessTestCase } from './TestCase';
 import { TestCaseContext, testsReducer } from './contexts/TestCaseContext';
 
@@ -92,10 +93,10 @@ const BaseTemplate: React.FunctionComponent = () => {
             leftBarTab === 'fields'
               && (
                 <div>
-                  <StatelessDataInput />
                   <StatelessTestCase />
                   <StatelessAssertion name="assertEquals" />
                   <StatelessDataInput />
+                  <StatelessAssertionFunction name="getName" />
                 </div>
               )
           }
