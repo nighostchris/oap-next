@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDrop } from 'react-dnd-cjs';
-import { ButtonGroup, Button, Nav } from 'react-bootstrap';
+import { ButtonGroup, Button, Nav, Form } from 'react-bootstrap';
 import { StatelessDataInput } from './DataInput';
 import { StatelessAssertion } from './Assertions';
 import { StatelessAssertionFunction } from './Functions';
@@ -124,7 +124,31 @@ const BaseTemplate: React.FunctionComponent = () => {
               <div className="card mb-0" style={{ width: 'fit-content', minWidth: '400px' }}>
                 <div className="card-body">
                   <h3 className="card-title mb-4">Pre-Setup Stage</h3>
-                  <Button variant="outline-primary" style={{ fontSize: '36px', fontWeight: 'bold', width: '50%' }}>+</Button>
+                  <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <div className="card card-body variable-section mr-4 mb-0" style={{ minWidth: '250px' }}>
+                      <Form.Group>
+                        <Form.Label>Class</Form.Label>
+                        <Form.Control
+                          as="select"
+                          //value={value}
+                          //onChange={(e) => setValue((e.target as HTMLInputElement).value)}
+                        >
+                          {
+                            testReflectionResult.map((result) => result.class).map((option, index) => (
+                              <option key={`type-option-${index}`}>
+                                {option}
+                              </option>
+                            ))
+                          }
+                        </Form.Control>
+                      </Form.Group>
+                      <p>testing</p>
+                      <p>testing</p>
+                      <p>testing</p>
+                      <p>testing</p>
+                    </div>
+                    <Button variant="outline-primary" style={{ fontSize: '36px', fontWeight: 'bold', width: '100px' }}>+</Button>
+                  </div>
                 </div>
               </div>
             </div>
