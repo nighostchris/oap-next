@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd-cjs';
 import { DataInput } from './DataInput';
+import { AssertionFunction } from './Functions';
 import { TestCaseContext } from './contexts/TestCaseContext';
 
 interface StatelessAssertionProps {
@@ -56,10 +57,16 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
   // });
 
   const [{ isOver: fpIsOver }, fpDrop] = useDrop({
-    accept: ['dataInput'],
+    accept: ['dataInput', 'assertion-function'],
     drop: (item: any) => {
       if (item.type === 'dataInput') {
         testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
+        let temp = [...dropped];
+        temp[0] = true;
+        setDropped([...temp]);
+      }
+      if (item.type === 'assertion-function') {
+        testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name });
         let temp = [...dropped];
         temp[0] = true;
         setDropped([...temp]);
@@ -71,12 +78,20 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
   });
 
   const [{ isOver: spIsOver }, spDrop] = useDrop({
-    accept: ['dataInput'],
+    accept: ['dataInput', 'assertion-function'],
     drop: (item: any) => {
-      testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
-      let temp = [...dropped];
-      temp[1] = true;
-      setDropped([...temp]);
+      if (item.type === 'dataInput') {
+        testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
+        let temp = [...dropped];
+        temp[1] = true;
+        setDropped([...temp]);
+      }
+      if (item.type === 'assertion-function') {
+        testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name });
+        let temp = [...dropped];
+        temp[1] = true;
+        setDropped([...temp]);
+      }
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -105,7 +120,9 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
             >
             {
               child.filter((c) => c.id === i).map((c: any) => (
-                c.type === 'dataInput' ? <DataInput id={[...id, c.id]} name={c.name} /> : undefined
+                c.type === 'dataInput'
+                  ? <DataInput id={[...id, c.id]} name={c.name} />
+                  : <AssertionFunction id={[...id, c.id]} name={c.name} child={c.child} />
               ))
             }
             </div>

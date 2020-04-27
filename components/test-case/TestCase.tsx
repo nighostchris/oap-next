@@ -51,6 +51,7 @@ export const TestCase: React.FC<TestCaseProps> = ({ id, name, child }) => {
             <h3 className="card-title">
               <input
                 value={name}
+                placeholder="Type the name of test case"
                 onChange={(e) => testsDispatch({ type: 'RENAME_TEST', id: id, name: e.target.value })}
                 className="form-control form-control-prepended"
               />
@@ -63,7 +64,7 @@ export const TestCase: React.FC<TestCaseProps> = ({ id, name, child }) => {
                 background: isOver ? 'yellow' : undefined,
                 height: 'fit-content',
                 minHeight: '42px',
-                minWidth: '200px',
+                minWidth: '250px',
               }}
             >
               {
