@@ -8,6 +8,8 @@ import { TestCase, StatelessTestCase } from './TestCase';
 import { TestCaseContext, testsReducer } from './contexts/TestCaseContext';
 
 const testReflectionResult = [{
+  class: ""
+}, {
   class: "Archer",
   params: ["char", "int", "int"]
 }, {
@@ -125,29 +127,49 @@ const BaseTemplate: React.FunctionComponent = () => {
                 <div className="card-body">
                   <h3 className="card-title mb-4">Pre-Setup Stage</h3>
                   <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <div className="card card-body variable-section mr-4 mb-0" style={{ minWidth: '250px' }}>
-                      <Form.Group>
-                        <Form.Label>Class</Form.Label>
-                        <Form.Control
-                          as="select"
-                          //value={value}
-                          //onChange={(e) => setValue((e.target as HTMLInputElement).value)}
-                        >
-                          {
-                            testReflectionResult.map((result) => result.class).map((option, index) => (
-                              <option key={`type-option-${index}`}>
-                                {option}
-                              </option>
-                            ))
-                          }
-                        </Form.Control>
-                      </Form.Group>
-                      <p>testing</p>
-                      <p>testing</p>
-                      <p>testing</p>
-                      <p>testing</p>
-                    </div>
-                    <Button variant="outline-primary" style={{ fontSize: '36px', fontWeight: 'bold', width: '100px' }}>+</Button>
+                    {
+                      testsState.variables.map((varSelect: any, index: number) => (
+                        <div className="card card-body variable-section mr-4 mb-0" style={{ minWidth: '250px' }}>
+                          <Form.Group>
+                            <Form.Label>Class</Form.Label>
+                            <Form.Control
+                              as="select"
+                              value={varSelect.class}
+                              onChange={(e) => {
+                                let classValue = (e.target as HTMLInputElement).value;
+                                if (classValue !== "") {
+                                  testsDispatch({
+                                    type: 'MODIFY_VARIABLE_CLASS',
+                                    vid: index,
+                                    class: classValue,
+                                    params: testReflectionResult.filter((result) => result.class === (e.target as HTMLInputElement).value)[0].params
+                                  });
+                                }
+                              }}
+                            >
+                              {
+                                testReflectionResult.map((result) => result.class).map((option, index) => (
+                                  <option key={`type-option-${index}`}>
+                                    {option}
+                                  </option>
+                                ))
+                              }
+                            </Form.Control>
+                          </Form.Group>
+                          <p>testing</p>
+                          <p>testing</p>
+                          <p>testing</p>
+                          <p>testing</p>
+                        </div>
+                      ))
+                    }
+                    <Button
+                      variant="outline-primary"
+                      onClick={() => testsDispatch({ type: 'ADD_VARIABLE' })}
+                      style={{ fontSize: '36px', fontWeight: 'bold', width: '100px' }}
+                    >
+                      +
+                    </Button>
                   </div>
                 </div>
               </div>
