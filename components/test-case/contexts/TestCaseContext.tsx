@@ -45,7 +45,7 @@ export const testsReducer = (state: any, action: any) => {
       return {
         ...state,
         variables: state.variables.map((variable: any, index: number) => index === action.vid
-          ? { ...variable, class: action.class, params: action.params.map((param: any) => { return { type: param, value: undefined }; }) }
+          ? { ...variable, class: action.class, params: action.params.map((param: any) => { return { type: param, value: param === "boolean" ? true : undefined }; }) }
           : variable)
       };
     case 'MODIFY_VARIABLE_PARAMS':

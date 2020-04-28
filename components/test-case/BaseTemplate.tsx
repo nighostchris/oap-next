@@ -11,7 +11,7 @@ const testReflectionResult = [{
   class: ""
 }, {
   class: "Archer",
-  params: ["char", "int", "int"]
+  params: ["char", "int", "int", "boolean"]
 }, {
   class: "Player",
   params: ["string"]
@@ -116,8 +116,10 @@ const BaseTemplate: React.FunctionComponent = () => {
             ref={dropTest}
             className="col-12 col-xl-8 px-0"
             style={{
+              height: '100%',
               display: 'flex',
               overflowX: 'auto',
+              overflowY: 'auto',
               flexDirection: 'column',
               background: isOverDropTest ? 'grey' : undefined,
             }}
@@ -156,10 +158,41 @@ const BaseTemplate: React.FunctionComponent = () => {
                               }
                             </Form.Control>
                           </Form.Group>
-                          <p>testing</p>
-                          <p>testing</p>
-                          <p>testing</p>
-                          <p>testing</p>
+                          <Form.Group className="mb-0">
+                            { varSelect.params.length ? <Form.Label>Constructor Parameters</Form.Label> : undefined }
+                            {
+                              varSelect.params.map((param: any, pIndex: number) => (
+                                param.type !== "boolean"
+                                  ? (
+                                    <input
+                                      value={param.value}
+                                      onChange={(e) => testsDispatch({
+                                        type: 'MODIFY_VARIABLE_PARAMS',
+                                        vid: index,
+                                        pid: pIndex,
+                                        param: { type: param.type, value: e.target.value }
+                                      })}
+                                      className={`form-control form-control-prepended ${ pIndex !== varSelect.params.length - 1 ? "mb-4" : undefined }`}
+                                    />
+                                  )
+                                  : (
+                                    <Form.Check
+                                      type="switch"
+                                      id="custom-switch"
+                                      label="True / False"
+                                      checked={param.value}
+                                      onChange={() => testsDispatch({
+                                        type: 'MODIFY_VARIABLE_PARAMS',
+                                        vid: index,
+                                        pid: pIndex,
+                                        param: { type: param.type, value: !param.value }
+                                      })}
+                                      className={`${ pIndex !== varSelect.params.length - 1 && "mb-4" }`}
+                                    />
+                                  )
+                              ))
+                            }
+                          </Form.Group>
                         </div>
                       ))
                     }
