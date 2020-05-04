@@ -35,6 +35,16 @@ export const StatelessTestCase: React.FC = () => {
 export const TestCase: React.FC<TestCaseProps> = ({ id, name, child }) => {
   const { dispatch: testsDispatch } = React.useContext(TestCaseContext);
 
+  const [{ isDragging }, drag] = useDrag({
+    item: {
+      type: 'test',
+      id: id
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
+
   const [{ isOver }, drop] = useDrop({
     accept: ['assertion'],
     drop: (item: any) => testsDispatch({ type: 'ADD_ASSERTION', id: id, name: item.name }),
@@ -44,8 +54,8 @@ export const TestCase: React.FC<TestCaseProps> = ({ id, name, child }) => {
   });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <div className="px-0 mx-4 mt-4">
+    <div ref={drag} style={{ display: 'flex', flexDirection: 'row', opacity: isDragging ? 0.7 : 1 }}>
+      <div className="px-0 mx-4 mt-3">
         <div className="card" style={{ width: 'fit-content' }}>
           <div className="card-body">
             <h3 className="card-title">

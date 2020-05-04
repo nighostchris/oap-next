@@ -12349,3 +12349,27 @@ a:focus, button:focus {
 .quill-html img {
   max-width: 100%;
 }
+
+.test-case-field {
+  overflow-x: auto;
+  overflow-y: auto;
+  height: calc(100% - 58px);
+}
+
+.test-case-field::-webkit-scrollbar {
+  width: .8rem; }
+
+.test-case-field::-webkit-scrollbar-thumb {
+  border-radius: .8rem;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  background-color: rgba(128, 128, 128, .7);
+  box-shadow: inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05); }
+
+.drop-test-case-board {
+  height: 100%;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: auto;
+  flex-direction: column;
+}

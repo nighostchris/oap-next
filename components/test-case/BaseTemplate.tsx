@@ -24,22 +24,17 @@ const BaseTemplate: React.FunctionComponent = () => {
 
   console.log(testsState);
 
-  const deleteDrop = (item: any) => {
-    if (item.type === 'assertions') {
-      const temp = item.child;
-      temp.splice(item.pos, 1);
-      item.setValue([...temp]);
-    }
-    if (item.type === 'dataInput' || item.type === 'logicStatements' || item.type === 'functions') {
-      const temp = item.parent;
-      temp[item.pos] = undefined;
-      item.setParent([...temp]);
+  const handleDeleteDropItem = (item: any) => {
+    if (item.hasOwnProperty('id')) {
+      if (item.type === 'test') {
+        testsDispatch({ type: 'REMOVE_TEST', id: item.id });
+      }
     }
   };
 
   const [{ isOver }, dropBin] = useDrop({
-    accept: ['dataInput', 'functions', 'logicStatements', 'assertions'],
-    drop: (item) => deleteDrop(item),
+    accept: ['test'],
+    drop: (item) => handleDeleteDropItem(item),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
@@ -64,7 +59,7 @@ const BaseTemplate: React.FunctionComponent = () => {
         <Button variant="outline-primary" style={{ position: 'absolute', right: '.75rem' }}>Save</Button>
       </div>
       <div className="row mx-0" style={{ height: 'calc(100% - 60px)' }}>
-        <div className="col-12 col-xl-4 px-0" style={{ borderRight: '1px solid #E3EBF6' }}>
+        <div className="col-12 col-xl-4 px-0" style={{ borderRight: '1px solid #E3EBF6', height: '100%' }}>
           <Nav fill variant="tabs" activeKey={leftBarTab} className="nav-overflow nav-tabs-sm justify-content-center px-2">
             {/* <Nav.Item>
               <Nav.Link eventKey="functions" onSelect={() => setLeftBarTab('functions')}>Functions</Nav.Link>
@@ -103,7 +98,17 @@ const BaseTemplate: React.FunctionComponent = () => {
           {
             leftBarTab === 'fields'
               && (
-                <div>
+                <div className="test-case-field">
+                  <StatelessTestCase />
+                  <StatelessAssertion name="assertEquals" />
+                  <StatelessDataInput />
+                  <StatelessAssertionFunction name="getName" />
+                  <StatelessInstance />
+                  <StatelessTestCase />
+                  <StatelessAssertion name="assertEquals" />
+                  <StatelessDataInput />
+                  <StatelessAssertionFunction name="getName" />
+                  <StatelessInstance />
                   <StatelessTestCase />
                   <StatelessAssertion name="assertEquals" />
                   <StatelessDataInput />
@@ -115,17 +120,15 @@ const BaseTemplate: React.FunctionComponent = () => {
         </div>
         <TestCaseContext.Provider value={{ state: testsState, dispatch: testsDispatch }}>
           <div
-            ref={dropTest}
-            className="col-12 col-xl-8 px-0"
-            style={{
-              height: '100%',
-              display: 'flex',
-              overflowX: 'auto',
-              overflowY: 'auto',
-              flexDirection: 'column',
-              background: isOverDropTest ? 'grey' : undefined,
-            }}
+            // ref={dropTest}
+            className="col-12 col-xl-8 px-0 drop-test-case-board"
+            // style={{ background: isOverDropTest ? 'grey' : undefined }}
           >
+            {/* <i
+              ref={dropBin}
+              className="fas fa-archive drop-bin"
+              style={{ background: isOver ? 'grey' : undefined }}
+            /> */}
             <div className="px-0 mx-4 mt-4">
               <div className="card mb-0" style={{ width: 'fit-content', minWidth: '400px' }}>
                 <div className="card-body">
@@ -227,24 +230,26 @@ const BaseTemplate: React.FunctionComponent = () => {
                 </div>
               </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-            {
-              testsState.tests.map((test: any) => (
-                <TestCase id={test.id} name={test.name} child={test.child} />
-              ))
-            }
+            <div style={{ display: 'flex', flexDirection: 'column', width: 'fit-content', minWidth: '100%', height: '100%' }}>
+              <div ref={dropBin} className="px-0 mx-4 mt-4">
+                <div className="card mb-0" style={{ border: '1px dashed #D2DDEC', textAlign: 'center' }}>
+                  <div className="card-body" style={{ height: '100px', lineHeight: '52px', fontWeight: 'bold' }}>
+                    Drop here to DELETE
+                  </div>
+                </div>
+              </div>
+              <div
+                ref={dropTest}
+                className="mt-3"
+                style={{ display: 'flex', flexDirection: 'row', height: '100%', background: isOverDropTest ? '#95AAC9' : undefined }}
+              >
+                {
+                  testsState.tests.map((test: any) => (
+                    <TestCase id={test.id} name={test.name} child={test.child} />
+                  ))
+                }
+              </div>
             </div>
-            <i
-              ref={dropBin}
-              className="fas fa-archive"
-              style={{
-                background: isOver ? 'grey' : undefined,
-                position: 'absolute',
-                top: '20px',
-                right: '20px',
-                fontSize: '40px',
-              }}
-            />
           </div>
         </TestCaseContext.Provider>
       </div>

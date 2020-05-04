@@ -36,6 +36,11 @@ export const testsReducer = (state: any, action: any) => {
         ...state,
         tests: state.tests.map((test: any, index: number) => index === action.id ? { ...test, name: action.name } : test)
       };
+    case 'REMOVE_TEST':
+      return {
+        ...state,
+        tests: state.tests.filter((_test: any, index: number) => index !== action.id)
+      };
     case 'ADD_VARIABLE':
       return {
         ...state,
