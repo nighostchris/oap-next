@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDrag } from 'react-dnd-cjs';
+import { TestCaseContext } from './contexts/TestCaseContext';
 
 interface DataInputProps {
   id: Array<number>
@@ -35,6 +36,8 @@ export const StatelessDataInput: React.FC = () => {
 
 export const DataInput: React.FC<DataInputProps> = ({ id, name }) => {
   console.log(id);
+  const { dispatch: testsDispatch } = React.useContext(TestCaseContext);
+
   // const changeValue = (v: any) => {
   //   const temp = parent;
   //   temp[pos].value = v;
@@ -62,7 +65,11 @@ export const DataInput: React.FC<DataInputProps> = ({ id, name }) => {
       <div className="card-body p-3">
         <input
           value={name}
-          //onChange={(e) => changeValue(e.target.value)}
+          onChange={(e) => testsDispatch({
+            type: 'MODIFY_DATA_INPUT',
+            id: id,
+            name: e.target.value
+          })}
           className="form-control form-control-prepended"
         />
       </div>
