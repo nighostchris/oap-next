@@ -119,16 +119,7 @@ const BaseTemplate: React.FunctionComponent = () => {
           }
         </div>
         <TestCaseContext.Provider value={{ state: testsState, dispatch: testsDispatch }}>
-          <div
-            // ref={dropTest}
-            className="col-12 col-xl-8 px-0 drop-test-case-board"
-            // style={{ background: isOverDropTest ? 'grey' : undefined }}
-          >
-            {/* <i
-              ref={dropBin}
-              className="fas fa-archive drop-bin"
-              style={{ background: isOver ? 'grey' : undefined }}
-            /> */}
+          <div className="col-12 col-xl-8 px-0 drop-test-case-board" >
             <div className="px-0 mx-4 mt-4">
               <div className="card mb-0" style={{ width: 'fit-content', minWidth: '400px' }}>
                 <div className="card-body">
@@ -230,7 +221,7 @@ const BaseTemplate: React.FunctionComponent = () => {
                 </div>
               </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', width: 'fit-content', minWidth: '100%', height: '100%' }}>
+            <div className="drop-bin">
               <div ref={dropBin} className="px-0 mx-4 mt-4">
                 <div className="card mb-0" style={{ border: '1px dashed #D2DDEC', textAlign: 'center' }}>
                   <div className="card-body" style={{ height: '100px', lineHeight: '52px', fontWeight: 'bold' }}>

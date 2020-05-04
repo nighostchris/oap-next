@@ -12373,3 +12373,21 @@ a:focus, button:focus {
   overflow-y: auto;
   flex-direction: column;
 }
+
+.drop-bin {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  min-width: 100%;
+  height: 100%;
+}
+
+.drop-test-case-board::-webkit-scrollbar {
+  width: .8rem; }
+
+.drop-test-case-board::-webkit-scrollbar-thumb {
+  border-radius: .8rem;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  background-color: rgba(128, 128, 128, .7);
+  box-shadow: inset -1px -1px 0 rgba(0, 0, 0, .05), inset 1px 1px 0 rgba(0, 0, 0, .05); }
