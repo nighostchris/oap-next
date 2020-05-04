@@ -39,7 +39,14 @@ export const testsReducer = (state: any, action: any) => {
     case 'ADD_VARIABLE':
       return {
         ...state,
-        variables: [...state.variables, { class: '', params: [] }]
+        variables: [...state.variables, { class: '', name: '', params: [] }]
+      };
+    case 'MODIFY_VARIABLE_NAME':
+      return {
+        ...state,
+        variables: state.variables.map((variable: any, index: number) => index === action.vid
+          ? { ...variable, name: action.name }
+          : variable)
       };
     case 'MODIFY_VARIABLE_CLASS':
       return {
@@ -127,6 +134,60 @@ export const testsReducer = (state: any, action: any) => {
           : test
         )
       }
+    case 'ADD_INSTANCE':
+      return {
+        ...state,
+        tests: state.tests.map((test: any, index: number) => index === action.id[0]
+          ? {
+            ...test,
+            child: test.child.map((c: any, index: number) => index === action.id[1]
+              ? {
+                ...c,
+                child: c.child.map((af: any, index: number) => index === action.id[2]
+                  ? {
+                    ...af,
+                    child: af.child.map((ins: any, index: number) => index === action.id[3]
+                      ? {
+                        id: index,
+                        type: 'instance',
+                        name: ''
+                      }
+                      : ins
+                    )
+                  }
+                  : af
+                )
+              }
+              : c
+            )
+          }
+          : test
+        )
+      };
+    case 'MODIFY_INSTANCE':
+      return {
+        ...state,
+        tests: state.tests.map((test: any, index: number) => index === action.id[0]
+          ? {
+            ...test,
+            child: test.child.map((c: any, index: number) => index === action.id[1]
+              ? {
+                ...c,
+                child: c.child.map((ins: any, index: number) => index === action.id[2]
+                  ? {
+                    id: index,
+                    type: 'instance',
+                    name: action.name
+                  }
+                  : ins
+                )
+              }
+              : c
+            )
+          }
+          : test
+        )
+      };
     default: 
       return state;
   };

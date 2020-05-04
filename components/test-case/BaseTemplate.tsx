@@ -6,6 +6,7 @@ import { StatelessAssertion } from './Assertions';
 import { StatelessAssertionFunction } from './Functions';
 import { TestCase, StatelessTestCase } from './TestCase';
 import { TestCaseContext, testsReducer } from './contexts/TestCaseContext';
+import { StatelessInstance } from './Instance';
 
 const testReflectionResult = [{
   class: ""
@@ -107,6 +108,7 @@ const BaseTemplate: React.FunctionComponent = () => {
                   <StatelessAssertion name="assertEquals" />
                   <StatelessDataInput />
                   <StatelessAssertionFunction name="getName" />
+                  <StatelessInstance />
                 </div>
               )
           }
@@ -131,7 +133,7 @@ const BaseTemplate: React.FunctionComponent = () => {
                   <div style={{ display: 'flex', flexDirection: 'row' }}>
                     {
                       testsState.variables.map((varSelect: any, index: number) => (
-                        <div className="card card-body variable-section mr-4 mb-0" style={{ minWidth: '250px' }}>
+                        <div className="card card-body mr-4 mb-0" style={{ minWidth: '250px' }}>
                           <Form.Group>
                             <Form.Label>Class</Form.Label>
                             <Form.Control
@@ -158,6 +160,24 @@ const BaseTemplate: React.FunctionComponent = () => {
                               }
                             </Form.Control>
                           </Form.Group>
+                          {
+                            varSelect.class !== "" && (
+                              <Form.Group>
+                                <Form.Label>
+                                  Variable Name
+                                </Form.Label>
+                                <input
+                                  value={varSelect.name}
+                                  onChange={(e) => testsDispatch({
+                                    type: 'MODIFY_VARIABLE_NAME',
+                                    vid: index,
+                                    name: e.target.value
+                                  })}
+                                  className="form-control form-control-prepended"
+                                />
+                              </Form.Group>
+                            )
+                          }
                           <Form.Group className="mb-0">
                             { varSelect.params.length ? <Form.Label>Constructor Parameters</Form.Label> : undefined }
                             {

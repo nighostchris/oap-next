@@ -1,6 +1,8 @@
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd-cjs';
 import { DataInput } from './DataInput';
+import { TestCaseContext } from './contexts/TestCaseContext';
+import { Instance } from './Instance';
 
 interface AssertionFunctionProps {
   id: Array<number>
@@ -38,13 +40,14 @@ export const StatelessAssertionFunction: React.FC<StatelessAssertionFunctionProp
 
 export const AssertionFunction: React.FC<AssertionFunctionProps> = ({ id, name, child }) => {
   console.log(id, name, child);
+  const { dispatch: testsDispatch } = React.useContext(TestCaseContext);
   const dropArray = [];
-  const [functionParameters, setFunctionParameters] = React.useState([...new Array(child.length)]);
 
   for (let i = 0; i < child.length; i++) {
+    console.log(id);
     dropArray.push(useDrop({
-      accept: ['dataInput', 'instance'],
-      drop: () => {},
+      accept: ['instance'],
+      drop: () => testsDispatch({ type: 'ADD_INSTANCE', id: [...id, i] }),
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
       }),
@@ -80,12 +83,15 @@ export const AssertionFunction: React.FC<AssertionFunctionProps> = ({ id, name, 
               ref={d[1]}
               className="mx-3"
               style={{
-                width: functionParameters[index] ? undefined : '50px',
-                height: functionParameters[index] ? undefined : '40px',
-                border: functionParameters[index] ? undefined : '1px solid black',
+                width: child[index].hasOwnProperty('name') ? undefined : '50px',
+                height: child[index].hasOwnProperty('name') ? undefined : '40px',
+                border: child[index].hasOwnProperty('name') ? undefined : '1px solid black',
                 background: d[0].isOver ? 'grey' : undefined,
               }}
             >
+              {
+                child[index].hasOwnProperty('name') && <Instance id={[...id, index]} name={child[index].name} />
+              }
             </div>
           ))
         }
