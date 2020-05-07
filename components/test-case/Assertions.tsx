@@ -65,7 +65,7 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
         setDropped([...temp]);
       }
       if (item.type === 'assertion-function') {
-        testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name });
+        testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name, params: item.params });
         let temp = [...dropped];
         temp[0] = true;
         setDropped([...temp]);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd-cjs';
 import { Assertions } from './Assertions';
+import { Function } from './Functions';
 import { TestCaseContext } from './contexts/TestCaseContext';
 
 interface TestCaseProps {
@@ -46,8 +47,15 @@ export const TestCase: React.FC<TestCaseProps> = ({ id, name, child }) => {
   });
 
   const [{ isOver }, drop] = useDrop({
-    accept: ['assertion'],
-    drop: (item: any) => testsDispatch({ type: 'ADD_ASSERTION', id: id, name: item.name }),
+    accept: ['assertion', 'function'],
+    drop: (item: any) => {
+      if (item.type === 'assertion') {
+        testsDispatch({ type: 'ADD_ASSERTION', id: id, name: item.name })
+      }
+      if (item.type === 'function') {
+        testsDispatch({ type: 'ADD_FUNCTION', id: id, name: item.name, params: item.params })
+      }
+    },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
@@ -79,7 +87,9 @@ export const TestCase: React.FC<TestCaseProps> = ({ id, name, child }) => {
             >
               {
                 child.map((c) => (
-                  c.type === 'assertion' ? <Assertions id={[id, c.id]} name={c.name} child={c.child} /> : undefined
+                  c.type === 'assertion'
+                    ? <Assertions id={[id, c.id]} name={c.name} child={c.child} />
+                    : <Function id={[id, c.id]} name={c.name} child={c.child} />
                 ))
               }
             </div>

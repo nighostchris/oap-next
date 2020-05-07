@@ -3,7 +3,7 @@ import { useDrop } from 'react-dnd-cjs';
 import { ButtonGroup, Button, Nav, Form } from 'react-bootstrap';
 import { StatelessDataInput } from './DataInput';
 import { StatelessAssertion } from './Assertions';
-import { StatelessAssertionFunction } from './Functions';
+import { StatelessAssertionFunction, StatelessFunction } from './Functions';
 import { TestCase, StatelessTestCase } from './TestCase';
 import { TestCaseContext, testsReducer } from './contexts/TestCaseContext';
 import { StatelessInstance } from './Instance';
@@ -102,18 +102,9 @@ const BaseTemplate: React.FunctionComponent = () => {
                   <StatelessTestCase />
                   <StatelessAssertion name="assertEquals" />
                   <StatelessDataInput />
-                  <StatelessAssertionFunction name="getName" />
+                  <StatelessAssertionFunction name="getName" params={1} />
                   <StatelessInstance />
-                  <StatelessTestCase />
-                  <StatelessAssertion name="assertEquals" />
-                  <StatelessDataInput />
-                  <StatelessAssertionFunction name="getName" />
-                  <StatelessInstance />
-                  <StatelessTestCase />
-                  <StatelessAssertion name="assertEquals" />
-                  <StatelessDataInput />
-                  <StatelessAssertionFunction name="getName" />
-                  <StatelessInstance />
+                  <StatelessFunction name="addUnit" params={2} />
                 </div>
               )
           }

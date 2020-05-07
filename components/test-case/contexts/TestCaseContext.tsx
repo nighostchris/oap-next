@@ -152,7 +152,7 @@ export const testsReducer = (state: any, action: any) => {
                     id: c.child.length,
                     type: 'assertion-function',
                     name: action.name,
-                    child: new Array(action.params).map((_param: any, index: number) => { return { id: index } })
+                    child: [...Array(action.params)].map((_param: any, index: number) => ({ id: index }))
                   }
                 ]
               }
@@ -201,13 +201,68 @@ export const testsReducer = (state: any, action: any) => {
             child: test.child.map((c: any, index: number) => index === action.id[1]
               ? {
                 ...c,
-                child: c.child.map((ins: any, index: number) => index === action.id[2]
+                child: c.child.map((af: any, index: number) => index === action.id[2]
                   ? {
-                    id: index,
-                    type: 'instance',
-                    name: action.name
+                    ...af,
+                    child: af.child.map((ins: any, index: number) => index === action.id[3]
+                      ? {
+                        id: index,
+                        type: 'instance',
+                        name: action.name
+                      }
+                      : ins
+                    )
                   }
-                  : ins
+                  : af
+                )
+              }
+              : c
+            )
+          }
+          : test
+        )
+      };
+    case 'ADD_FUNCTION':
+      return {
+        ...state,
+        tests: state.tests.map((test: any, index: number) => index === action.id
+          ? {
+            ...test,
+            child: [
+              ...test.child,
+              {
+                id: test.child.length,
+                type: 'function',
+                name: action.name,
+                child: [...Array(action.params)].map((_param: any, index: number) => ({ id: index }))
+              }
+            ]
+          }
+          : test
+        )
+      };
+    case 'ADD_PARAMETER':
+      return {
+        ...state,
+        tests: state.tests.map((test: any, index: number) => index === action.id[0]
+          ? {
+            ...test,
+            child: test.child.map((c: any, index: number) => index === action.id[1]
+              ? {
+                ...c,
+                child: c.child.map((af: any, index: number) => index === action.id[2]
+                  ? {
+                    ...af,
+                    child: af.child.map((ins: any, index: number) => index === action.id[3]
+                      ? {
+                        id: index,
+                        type: 'instance',
+                        name: action.name
+                      }
+                      : ins
+                    )
+                  }
+                  : af
                 )
               }
               : c
