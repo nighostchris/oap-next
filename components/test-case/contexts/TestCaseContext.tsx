@@ -234,7 +234,7 @@ export const testsReducer = (state: any, action: any) => {
                 id: test.child.length,
                 type: 'function',
                 name: action.name,
-                child: [...Array(action.params)].map((_param: any, index: number) => ({ id: index }))
+                child: action.params.map((param: any, index: number) => ({ id: index, type: param }))
               }
             ]
           }
@@ -276,9 +276,8 @@ export const testsReducer = (state: any, action: any) => {
                 ...c,
                 child: c.child.map((param: any, index: number) => index === action.id[2]
                   ? {
-                    id: index,
-                    type: 'parameter',
-                    name: action.name
+                    ...param,
+                    value: action.value
                   }
                   : param
                 )

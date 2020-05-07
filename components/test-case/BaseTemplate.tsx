@@ -118,7 +118,7 @@ const BaseTemplate: React.FunctionComponent = () => {
                     <StatelessAssertionFunction name="getName" params={1} />
                     <StatelessInstance />
                     <StatelessParameter />
-                    <StatelessFunction name="addUnit" params={2} />
+                    <StatelessFunction name="addUnit" params={["object", "char", "string", "number", "boolean"]} />
                   </div>
                 )
             }
