@@ -40,7 +40,7 @@ export const StatelessAssertion: React.FC<StatelessAssertionProps> = ({ name }) 
 
 export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
   const { dispatch: testsDispatch } = React.useContext(TestCaseContext);
-  const [dropped, setDropped] = React.useState([false, false]);
+  const dropArray = [];
 
   // const [{ isDragging }, drag] = useDrag({
   //   item: {
@@ -55,47 +55,79 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
   //   }),
   // });
 
-  const [{ isOver: fpIsOver }, fpDrop] = useDrop({
-    accept: ['dataInput', 'assertion-function'],
-    drop: (item: any) => {
-      if (item.type === 'dataInput') {
-        testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
-        let temp = [...dropped];
-        temp[0] = true;
-        setDropped([...temp]);
-      }
-      if (item.type === 'assertion-function') {
-        testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name, params: item.params });
-        let temp = [...dropped];
-        temp[0] = true;
-        setDropped([...temp]);
-      }
-    },
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
-    }),
-  });
+  if (name === "assertTrue" || name === "assertFalse") {
+    dropArray.push(useDrop({
+      accept: ['dataInput', 'assertion-function'],
+      drop: (item: any) => {
+        if (item.type === 'dataInput') {
+          testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
+        } else {
+          testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name, params: item.params });
+        }
+      },
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+      }),
+    }));
+  } else {
+    for (let i = 0; i < 2; i++) {
+      dropArray.push(useDrop({
+        accept: ['dataInput', 'assertion-function'],
+        drop: (item: any) => {
+          if (item.type === 'dataInput') {
+            testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
+          } else {
+            testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name, params: item.params });
+          }
+        },
+        collect: (monitor) => ({
+          isOver: !!monitor.isOver(),
+        }),
+      }));
+    }
+  }
 
-  const [{ isOver: spIsOver }, spDrop] = useDrop({
-    accept: ['dataInput', 'assertion-function'],
-    drop: (item: any) => {
-      if (item.type === 'dataInput') {
-        testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
-        let temp = [...dropped];
-        temp[1] = true;
-        setDropped([...temp]);
-      }
-      if (item.type === 'assertion-function') {
-        testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name });
-        let temp = [...dropped];
-        temp[1] = true;
-        setDropped([...temp]);
-      }
-    },
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
-    }),
-  });
+  // const [{ isOver: fpIsOver }, fpDrop] = useDrop({
+  //   accept: ['dataInput', 'assertion-function'],
+  //   drop: (item: any) => {
+  //     if (item.type === 'dataInput') {
+  //       testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
+  //       let temp = [...dropped];
+  //       temp[0] = true;
+  //       setDropped([...temp]);
+  //     }
+  //     if (item.type === 'assertion-function') {
+  //       testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name, params: item.params });
+  //       let temp = [...dropped];
+  //       temp[0] = true;
+  //       setDropped([...temp]);
+  //     }
+  //   },
+  //   collect: (monitor) => ({
+  //     isOver: !!monitor.isOver(),
+  //   }),
+  // });
+
+  // const [{ isOver: spIsOver }, spDrop] = useDrop({
+  //   accept: ['dataInput', 'assertion-function'],
+  //   drop: (item: any) => {
+  //     if (item.type === 'dataInput') {
+  //       testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
+  //       let temp = [...dropped];
+  //       temp[1] = true;
+  //       setDropped([...temp]);
+  //     }
+  //     if (item.type === 'assertion-function') {
+  //       testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name });
+  //       let temp = [...dropped];
+  //       temp[1] = true;
+  //       setDropped([...temp]);
+  //     }
+  //   },
+  //   collect: (monitor) => ({
+  //     isOver: !!monitor.isOver(),
+  //   }),
+  // });
 
   return (
     <div
@@ -106,19 +138,19 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
       <div className="card-body justify-content-center align-items-center p-3" style={{ display: 'flex', flexDirection: 'row' }}>
         <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>{`${name}(`}</h3>
         {
-          [0, 1].map((i: number) => (
+          dropArray.map((d: any, index: number) => (
             <div
-              ref={!i ? fpDrop : spDrop}
+              ref={d[1]}
               className="mx-3"
               style={{
-                width: !i ? (!dropped[0] ? '50px' : undefined) : (!dropped[1] ? '50px' : undefined),
-                height: !i ? (!dropped[0] ? '40px' : undefined) : (!dropped[1] ? '40px' : undefined),
-                border: !i ? (!dropped[0] ? '1px solid black' : undefined) : (!dropped[1] ? '1px solid black' : undefined),
-                background: !i ? (fpIsOver ? 'grey' : undefined) : (spIsOver ? 'grey' : undefined),
+                width: index < child.length ? undefined : '50px',
+                height: index < child.length ? undefined : '40px',
+                border: index < child.length ? undefined : '1px solid black',
+                background: d[0].isOver ? 'grey' : undefined
               }}
             >
             {
-              child.filter((c) => c.id === i).map((c: any) => (
+              child.filter((c) => c.id === index).map((c: any) => (
                 c.type === 'dataInput'
                   ? <DataInput id={[...id, c.id]} name={c.name} />
                   : <AssertionFunction id={[...id, c.id]} name={c.name} child={c.child} />
