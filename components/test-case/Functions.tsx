@@ -140,63 +140,17 @@ export const AssertionFunction: React.FC<AssertionFunctionProps> = ({ id, name, 
 
 export const Function: React.FC<FunctionProps> = ({ id, name, child }) => {
   const { state: testsState, dispatch: testsDispatch } = React.useContext(TestCaseContext);
-  //const dropArray = [];
-
-  // for (let i = 0; i < child.length; i++) {
-  //   console.log(id);
-  //   dropArray.push(useDrop({
-  //     accept: ['parameter'],
-  //     drop: () => testsDispatch({ type: 'ADD_PARAMETER', id: [...id, i] }),
-  //     collect: (monitor) => ({
-  //       isOver: !!monitor.isOver(),
-  //     }),
-  //   }));
-  // }
-
-  // const [{ isDragging }, drag] = useDrag({
-  //   item: {
-  //     type: 'functions',
-  //     name: funcName,
-  //     paras: parameters,
-  //     pos: pos,
-  //     child: functionParameters,
-  //     parent: parent,
-  //     setParent: setParent,
-  //   },
-  //   collect: (monitor) => ({
-  //     isDragging: !!monitor.isDragging(),
-  //   }),
-  // });
 
   return (
     <div
-      //ref={drag}
       className="card my-3 mx-auto"
-      style={{ width: 'fit-content', minWidth: '200px'/*, opacity: isDragging ? 0.7 : 1*/ }}
+      style={{ width: 'fit-content', minWidth: '200px' }}
     >
       <div className="card-body justify-content-center align-items-center p-3" style={{ display: 'flex', flexDirection: 'row' }}>
         <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>{`${name}(`}</h3>
-        {/* {
-          dropArray.map((d, index) => (
-            <div
-              ref={d[1]}
-              className="mx-3"
-              style={{
-                width: child[index].hasOwnProperty('name') ? undefined : '50px',
-                height: child[index].hasOwnProperty('name') ? undefined : '40px',
-                border: child[index].hasOwnProperty('name') ? undefined : '1px solid black',
-                background: d[0].isOver ? 'grey' : undefined,
-              }}
-            >
-              {
-                child[index].hasOwnProperty('name') && <Instance id={[...id, index]} name={child[index].name} />
-              }
-            </div>
-          ))
-        } */}
         {
           child.map((c, index) => (
-            <div key={`function-param-${index}`} className="card card-body mx-3" style={{ width: 'fit-content', minWidth: '250px' }}>
+            <div key={`function-param-${index}`} className="card card-body mx-3 mb-0" style={{ width: 'fit-content', minWidth: '250px' }}>
               <Form.Group>
                 <Form.Label>{c.type.charAt(0).toUpperCase() + c.type.slice(1)}</Form.Label>
                 {

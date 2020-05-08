@@ -8,14 +8,49 @@ import { TestCase, StatelessTestCase } from './TestCase';
 import { TestCaseContext, testsReducer } from './contexts/TestCaseContext';
 import { StatelessInstance, StatelessParameter } from './Instance';
 
-const testReflectionResult = [{
-  class: ""
+interface testReflectionInterface {
+  name: string
+  field: any
+  constructor: Array<any>
+  method: any
+}
+
+const testReflectionResult: Array<testReflectionInterface> = [{
+  name: "",
+  field: {},
+  constructor: [],
+  method: {}
 }, {
-  class: "Archer",
-  params: ["char", "int", "int", "boolean"]
+  name: "Player",
+  field: {
+    "name": "string",
+    "units": "array"
+  },
+  constructor: [["string"]],
+  method: {
+    "getName": ["object"],
+    "equals": ["object", "object"],
+    "readyAllUnits": ["object"],
+    "getUnitList": ["object"],
+    "getUnitById": ["object", "char"],
+    "hasUnitsRemaining": ["object"],
+    "addUnit": ["object", "object"],
+    "hasReadyUnits": ["object"]
+  }
 }, {
-  class: "Player",
-  params: ["string"]
+  name: "Archer",
+  field: {
+    "DEFENSE_ARCHER": "int",
+    "ATTACK_ARCHER": "int",
+    "MOVEMENT_RANGE_ARCHER": "int",
+    "ATTACK_RANGE_ARCHER": "int"
+  },
+  constructor: [["char", "int", "int"]],
+  method: {
+    "attackUnit": ["object"],
+    "toString": [],
+    "receiveDamage": ["double", "object"]
+  }
 }];
 
 const BaseTemplate: React.FunctionComponent = () => {
@@ -48,8 +83,6 @@ const BaseTemplate: React.FunctionComponent = () => {
       isOver: !!monitor.isOver(),
     }),
   });
-
-  console.log(fieldsDrawerOpen);
 
   return (
     <div className="col-12 px-0" style={{ height: '100vh' }}>
@@ -156,13 +189,13 @@ const BaseTemplate: React.FunctionComponent = () => {
                                     type: 'MODIFY_VARIABLE_CLASS',
                                     vid: index,
                                     class: classValue,
-                                    params: testReflectionResult.filter((result) => result.class === (e.target as HTMLInputElement).value)[0].params
+                                    params: testReflectionResult.filter((result) => result.name === (e.target as HTMLInputElement).value)[0].constructor[0]
                                   });
                                 }
                               }}
                             >
                               {
-                                testReflectionResult.map((result) => result.class).map((option, index) => (
+                                testReflectionResult.map((result) => result.name).map((option, index) => (
                                   <option key={`type-option-${index}`}>
                                     {option}
                                   </option>
