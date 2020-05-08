@@ -55,9 +55,30 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
   //   }),
   // });
 
+  const checkChildFull = () => {
+    if (name === "assertTrue" || name === "assertFalse") {
+      if (child.length < 1) {
+        return false;
+      }
+    } else {
+      if (child.length < 2) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   if (name === "assertTrue" || name === "assertFalse") {
     dropArray.push(useDrop({
       accept: ['dataInput', 'assertion-function'],
+      canDrop: () => {
+        if (child.length < 1) {
+          return true;
+        } else {
+          return false;
+        }
+      },
       drop: (item: any) => {
         if (item.type === 'dataInput') {
           testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
@@ -73,6 +94,13 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
     for (let i = 0; i < 2; i++) {
       dropArray.push(useDrop({
         accept: ['dataInput', 'assertion-function'],
+        canDrop: () => {
+          if (child.length < 2) {
+            return true;
+          } else {
+            return false;
+          }
+        },
         drop: (item: any) => {
           if (item.type === 'dataInput') {
             testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
@@ -86,48 +114,6 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
       }));
     }
   }
-
-  // const [{ isOver: fpIsOver }, fpDrop] = useDrop({
-  //   accept: ['dataInput', 'assertion-function'],
-  //   drop: (item: any) => {
-  //     if (item.type === 'dataInput') {
-  //       testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
-  //       let temp = [...dropped];
-  //       temp[0] = true;
-  //       setDropped([...temp]);
-  //     }
-  //     if (item.type === 'assertion-function') {
-  //       testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name, params: item.params });
-  //       let temp = [...dropped];
-  //       temp[0] = true;
-  //       setDropped([...temp]);
-  //     }
-  //   },
-  //   collect: (monitor) => ({
-  //     isOver: !!monitor.isOver(),
-  //   }),
-  // });
-
-  // const [{ isOver: spIsOver }, spDrop] = useDrop({
-  //   accept: ['dataInput', 'assertion-function'],
-  //   drop: (item: any) => {
-  //     if (item.type === 'dataInput') {
-  //       testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
-  //       let temp = [...dropped];
-  //       temp[1] = true;
-  //       setDropped([...temp]);
-  //     }
-  //     if (item.type === 'assertion-function') {
-  //       testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name });
-  //       let temp = [...dropped];
-  //       temp[1] = true;
-  //       setDropped([...temp]);
-  //     }
-  //   },
-  //   collect: (monitor) => ({
-  //     isOver: !!monitor.isOver(),
-  //   }),
-  // });
 
   return (
     <div
@@ -146,7 +132,7 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
                 width: index < child.length ? undefined : '50px',
                 height: index < child.length ? undefined : '40px',
                 border: index < child.length ? undefined : '1px solid black',
-                background: d[0].isOver ? 'grey' : undefined
+                background: (d[0].isOver && !checkChildFull()) ? 'grey' : undefined
               }}
             >
             {
