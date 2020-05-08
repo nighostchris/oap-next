@@ -151,7 +151,13 @@ const BaseTemplate: React.FunctionComponent = () => {
                     <StatelessAssertionFunction name="getName" params={1} />
                     <StatelessInstance />
                     <StatelessParameter />
-                    <StatelessFunction name="addUnit" params={["object", "char", "string", "number", "boolean"]} />
+                    {
+                      testReflectionResult.map((result: any) => (
+                        Object.entries(result.method).map(([key, value]: [string, any]) => (
+                          <StatelessFunction name={key} params={value} />
+                        ))
+                      ))
+                    }
                   </div>
                 )
             }

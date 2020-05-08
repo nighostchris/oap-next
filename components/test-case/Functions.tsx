@@ -24,7 +24,7 @@ interface StatelessAssertionFunctionProps {
 
 interface StatelessFunctionProps {
   name: string
-  params: Array<string>
+  params: Array<any>
 }
 
 export const StatelessAssertionFunction: React.FC<StatelessAssertionFunctionProps> = ({ name, params }) => {
@@ -207,7 +207,7 @@ export const Function: React.FC<FunctionProps> = ({ id, name, child }) => {
                   )
                 }
                 {
-                  c.type === "number" && (
+                  ["int", "double", "float"].includes(c.type) && (
                     <input
                       type="number"
                       value={c.value}
