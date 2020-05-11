@@ -1,5 +1,7 @@
 import React from 'react';
 import AceEditor from 'react-ace';
+import { TestCaseContext } from './contexts/TestCaseContext';
+import { libraryImport, staticTemplate } from './translator/java/JUnitTestGenerator';
 
 interface EditorProps {
   theme: string
@@ -18,7 +20,11 @@ languages.forEach(lang => {
 themes.forEach(theme => require(`ace-builds/src-min-noconflict/theme-${theme}`));
 
 const Editor: React.FC<EditorProps> = ({ theme, fontSize }) => {
-  const [value, setValue] = React.useState('');
+  const { state: testsState, dispatch: testsDispatch } = React.useContext(TestCaseContext);
+  const [sTemplate, setUpBeforeClassTemplate] = staticTemplate();
+  const [value, setValue] = React.useState(`${libraryImport}${sTemplate}${setUpBeforeClassTemplate}`);
+
+  console.log(value);
 
   const onLoad = () => {
     console.log("i've loaded");
@@ -44,22 +50,22 @@ const Editor: React.FC<EditorProps> = ({ theme, fontSize }) => {
 
   return (
     <AceEditor
+      mode="java"
       width="100%"
       height="100%"
-      placeholder=""
-      mode="java"
       theme={theme}
-      name="editor"
-      onLoad={onLoad}
-      onChange={onChange}
-      onSelectionChange={onSelectionChange}
-      onCursorChange={onCursorChange}
-      onValidate={onValidate}
       value={value}
-      fontSize={fontSize}
-      showPrintMargin={false}
+      name="editor"
+      placeholder=""
+      onLoad={onLoad}
       showGutter={true}
+      fontSize={fontSize}
+      onChange={onChange}
+      showPrintMargin={false}
+      onValidate={onValidate}
       highlightActiveLine={true}
+      onCursorChange={onCursorChange}
+      onSelectionChange={onSelectionChange}
       setOptions={{
         useWorker: false,
         enableSnippets: true,

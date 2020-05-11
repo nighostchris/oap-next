@@ -1,6 +1,5 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
-import { TestCaseContext } from './contexts/TestCaseContext';
 import { Form } from 'react-bootstrap';
 
 const DynamicEditor = dynamic(import('./Editor'), { ssr: false });
@@ -12,7 +11,6 @@ const themes = ["Tomorrow", "Monokai", "Github", "Kuroir", "Twilight", "XCode", 
 const CodeEditor: React.FC = () => {
   const [themeValue, setThemeValue] = React.useState("Tomorrow");
   const [fontSizeValue, setFontSizeValue] = React.useState("18");
-  const { state: testsState, dispatch: testsDispatch } = React.useContext(TestCaseContext);
 
   return (
     <>
