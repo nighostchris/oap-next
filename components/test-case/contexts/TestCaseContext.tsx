@@ -162,36 +162,6 @@ export const testsReducer = (state: any, action: any) => {
           : test
         )
       };
-    case 'ADD_INSTANCE':
-      return {
-        ...state,
-        tests: state.tests.map((test: any, index: number) => index === action.id[0]
-          ? {
-            ...test,
-            child: test.child.map((c: any, index: number) => index === action.id[1]
-              ? {
-                ...c,
-                child: c.child.map((af: any, index: number) => index === action.id[2]
-                  ? {
-                    ...af,
-                    child: af.child.map((ins: any, index: number) => index === action.id[3]
-                      ? {
-                        id: index,
-                        type: 'instance',
-                        name: ''
-                      }
-                      : ins
-                    )
-                  }
-                  : af
-                )
-              }
-              : c
-            )
-          }
-          : test
-        )
-      };
     case 'MODIFY_INSTANCE':
       return {
         ...state,
@@ -236,30 +206,6 @@ export const testsReducer = (state: any, action: any) => {
                 child: action.params.map((param: any, index: number) => ({ id: index, type: param }))
               }
             ]
-          }
-          : test
-        )
-      };
-    case 'ADD_PARAMETER':
-      return {
-        ...state,
-        tests: state.tests.map((test: any, index: number) => index === action.id[0]
-          ? {
-            ...test,
-            child: test.child.map((c: any, index: number) => index === action.id[1]
-              ? {
-                ...c,
-                child: c.child.map((param: any, index: number) => index === action.id[2]
-                  ? {
-                    id: index,
-                    type: 'parameter',
-                    name: ''
-                  }
-                  : param
-                )
-              }
-              : c
-            )
           }
           : test
         )
