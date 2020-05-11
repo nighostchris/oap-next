@@ -1,6 +1,11 @@
 import React from 'react';
 import AceEditor from 'react-ace';
 
+interface EditorProps {
+  theme: string
+  fontSize: number
+}
+
 const languages = ["javascript", "java", "python", "c_cpp"];
 
 const themes = ["monokai", "github", "tomorrow", "kuroir", "twilight", "xcode", "textmate", "solarized_dark", "solarized_light", "terminal"];
@@ -12,7 +17,7 @@ languages.forEach(lang => {
 
 themes.forEach(theme => require(`ace-builds/src-min-noconflict/theme-${theme}`));
 
-const Editor = () => {
+const Editor: React.FC<EditorProps> = ({ theme, fontSize }) => {
   const [value, setValue] = React.useState('');
 
   const onLoad = () => {
@@ -43,15 +48,15 @@ const Editor = () => {
       height="100%"
       placeholder=""
       mode="java"
-      theme="monokai"
-      name="blah2"
+      theme={theme}
+      name="editor"
       onLoad={onLoad}
       onChange={onChange}
       onSelectionChange={onSelectionChange}
       onCursorChange={onCursorChange}
       onValidate={onValidate}
       value={value}
-      fontSize={14}
+      fontSize={fontSize}
       showPrintMargin={false}
       showGutter={true}
       highlightActiveLine={true}
