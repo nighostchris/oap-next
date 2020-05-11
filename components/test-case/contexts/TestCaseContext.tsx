@@ -152,7 +152,7 @@ export const testsReducer = (state: any, action: any) => {
                     id: c.child.length,
                     type: 'assertion-function',
                     name: action.name,
-                    child: [...Array(action.params)].map((_param: any, index: number) => ({ id: index }))
+                    child: action.params.map((param: any, index: number) => ({ id: index, type: param }))
                   }
                 ]
               }
@@ -207,7 +207,6 @@ export const testsReducer = (state: any, action: any) => {
                     child: af.child.map((ins: any, index: number) => index === action.id[3]
                       ? {
                         id: index,
-                        type: 'instance',
                         name: action.name
                       }
                       : ins

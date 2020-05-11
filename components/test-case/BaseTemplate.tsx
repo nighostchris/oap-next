@@ -147,10 +147,18 @@ const BaseTemplate: React.FunctionComponent = () => {
                   <div className="test-case-field">
                     <StatelessTestCase />
                     <StatelessAssertion name="assertEquals" />
+                    <StatelessAssertion name="assertTrue" />
+                    <StatelessAssertion name="assertFalse" />
                     <StatelessDataInput />
-                    <StatelessAssertionFunction name="getName" params={1} />
                     <StatelessInstance />
                     <StatelessParameter />
+                    {
+                      testReflectionResult.map((result: any) => (
+                        Object.entries(result.method).map(([key, value]: [string, any]) => (
+                          <StatelessAssertionFunction name={key} params={value} />
+                        ))
+                      ))
+                    }
                     {
                       testReflectionResult.map((result: any) => (
                         Object.entries(result.method).map(([key, value]: [string, any]) => (
