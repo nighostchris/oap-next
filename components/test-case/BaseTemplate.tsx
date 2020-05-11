@@ -6,6 +6,7 @@ import { StatelessAssertion } from './Assertions';
 import { TestCase, StatelessTestCase } from './TestCase';
 import { TestCaseContext, testsReducer } from './contexts/TestCaseContext';
 import { StatelessAssertionFunction, StatelessFunction } from './Functions';
+import CodeEditor from './CodeEditor';
 
 interface testReflectionInterface {
   name: string
@@ -101,9 +102,7 @@ const BaseTemplate: React.FunctionComponent = () => {
           <Button
             variant={viewController ? "outline-secondary" : "secondary"}
             onClick={() => {
-              //console.log("code");
               if (viewController) {
-                //console.log("testing");
                 setViewController(false);
               }
             }}
@@ -333,6 +332,7 @@ const BaseTemplate: React.FunctionComponent = () => {
         !viewController && (
           <TestCaseContext.Provider value={{ state: testsState, dispatch: testsDispatch }}>
             <div className="row mx-0" style={{ height: 'calc(100% - 60px)' }}>
+              <CodeEditor />
             </div>
           </TestCaseContext.Provider>
         )
