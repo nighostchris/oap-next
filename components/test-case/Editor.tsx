@@ -1,7 +1,7 @@
 import React from 'react';
 import AceEditor from 'react-ace';
 import { TestCaseContext } from './contexts/TestCaseContext';
-import { libraryImport, staticTemplate } from './translator/java/JUnitTestGenerator';
+import { libraryImport, preSetup } from './translator/java/JUnitTestGenerator';
 
 interface EditorProps {
   theme: string
@@ -21,7 +21,7 @@ themes.forEach(theme => require(`ace-builds/src-min-noconflict/theme-${theme}`))
 
 const Editor: React.FC<EditorProps> = ({ theme, fontSize }) => {
   const { state: testsState, dispatch: testsDispatch } = React.useContext(TestCaseContext);
-  const [sTemplate, setUpBeforeClassTemplate] = staticTemplate();
+  const [sTemplate, setUpBeforeClassTemplate] = preSetup();
   const [value, setValue] = React.useState(`${libraryImport}${sTemplate}${setUpBeforeClassTemplate}`);
 
   console.log(value);

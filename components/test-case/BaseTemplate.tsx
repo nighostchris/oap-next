@@ -28,14 +28,14 @@ const testReflectionResult: Array<testReflectionInterface> = [{
   },
   constructor: [["string"]],
   method: {
-    "getName": ["object"],
-    "equals": ["object", "object"],
-    "readyAllUnits": ["object"],
-    "getUnitList": ["object"],
-    "getUnitById": ["object", "char"],
-    "hasUnitsRemaining": ["object"],
-    "addUnit": ["object", "object"],
-    "hasReadyUnits": ["object"]
+    "getName": [],
+    "equals": ["object"],
+    "readyAllUnits": [],
+    "getUnitList": [],
+    "getUnitById": ["char"],
+    "hasUnitsRemaining": [],
+    "addUnit": ["Unit"],
+    "hasReadyUnits": []
   }
 }, {
   name: "Archer",
@@ -47,9 +47,9 @@ const testReflectionResult: Array<testReflectionInterface> = [{
   },
   constructor: [["char", "int", "int"]],
   method: {
-    "attackUnit": ["object"],
+    "attackUnit": ["Unit"],
     "toString": [],
-    "receiveDamage": ["double", "object"]
+    "receiveDamage": ["double", "Unit"]
   }
 }];
 
@@ -174,14 +174,14 @@ const BaseTemplate: React.FunctionComponent = () => {
                         {
                           testReflectionResult.map((result: any) => (
                             Object.entries(result.method).map(([key, value]: [string, any]) => (
-                              <StatelessAssertionFunction name={key} params={value} />
+                              <StatelessAssertionFunction name={key} params={["object", ...value]} />
                             ))
                           ))
                         }
                         {
                           testReflectionResult.map((result: any) => (
                             Object.entries(result.method).map(([key, value]: [string, any]) => (
-                              <StatelessFunction name={key} params={value} />
+                              <StatelessFunction name={key} params={["object", ...value]} />
                             ))
                           ))
                         }

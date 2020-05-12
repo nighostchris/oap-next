@@ -17,7 +17,7 @@ interface FunctionProps {
 
 interface StatelessAssertionFunctionProps {
   name: string
-  params: number
+  params: Array<any>
 }
 
 interface StatelessFunctionProps {
@@ -107,7 +107,7 @@ export const AssertionFunction: React.FC<AssertionFunctionProps> = ({ id, name, 
               <Form.Group>
                 <Form.Label>{c.type.charAt(0).toUpperCase() + c.type.slice(1)}</Form.Label>
                 {
-                  c.type === "object" && (
+                  !(["string", "char", "boolean", "int", "float", "double"].includes(c.type)) && (
                     <Form.Control
                       as="select"
                       value={c.value}
@@ -214,7 +214,7 @@ export const Function: React.FC<FunctionProps> = ({ id, name, child }) => {
               <Form.Group>
                 <Form.Label>{c.type.charAt(0).toUpperCase() + c.type.slice(1)}</Form.Label>
                 {
-                  c.type === "object" && (
+                  !(["string", "char", "boolean", "int", "float", "double"].includes(c.type)) && (
                     <Form.Control
                       as="select"
                       value={c.value}

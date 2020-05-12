@@ -13,14 +13,14 @@ const testReflectionResult: Array<testReflectionInterface> = [{
   },
   constructor: [["string"]],
   method: {
-    "getName": ["object"],
-    "equals": ["object", "object"],
-    "readyAllUnits": ["object"],
-    "getUnitList": ["object"],
-    "getUnitById": ["object", "char"],
-    "hasUnitsRemaining": ["object"],
-    "addUnit": ["object", "object"],
-    "hasReadyUnits": ["object"]
+    "getName": [],
+    "equals": ["object"],
+    "readyAllUnits": [],
+    "getUnitList": [],
+    "getUnitById": ["char"],
+    "hasUnitsRemaining": [],
+    "addUnit": ["Unit"],
+    "hasReadyUnits": []
   }
 }, {
   name: "Archer",
@@ -32,9 +32,9 @@ const testReflectionResult: Array<testReflectionInterface> = [{
   },
   constructor: [["char", "int", "int"]],
   method: {
-    "attackUnit": ["object"],
+    "attackUnit": ["Unit"],
     "toString": [],
-    "receiveDamage": ["double", "object"]
+    "receiveDamage": ["double", "Unit"]
   }
 }];
 
@@ -49,31 +49,55 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;\n\n`;
 
-export const staticTemplate = () => {
-  let result = ``;
-  let setUpBeforeClassTemplate = `@BeforeClass\n` + 
-  `public static void setUpBeforeClass() throws Exception\n{\n\t`;
+export const preSetup = () => {
+  let staticTemplate: any[] = [];
+  let setUpBeforeClassTemplate = ["@BeforeClass\npublic static void setUpBeforeClass() throws Exception\n{"];
 
   testReflectionResult.forEach((reflectedClass: any) => {
     reflectedClass.constructor.forEach((reflectedConstructor: any, constructorIndex: number) => {
       let className = reflectedClass.name;
       let constructorName = `${className.toLowerCase()}Constructor${constructorIndex + 1}`;
-      let staticConstructorField = `static Constructor<${className}> ${constructorName};\n`;
-      result += staticConstructorField;
+      let staticConstructorField = `static Constructor<${className}> ${constructorName};`;
+      staticTemplate.push(staticConstructorField);
 
-      setUpBeforeClassTemplate += `${constructorName} = ${className}.class.getDeclaredConstructor(`;
+      // Construct getDeclaredConstructor
+      let declaredConstructor = `${constructorName} = ${className}.class.getDeclaredConstructor(`;
       reflectedConstructor.forEach((param: any, paramIndex: number) => {
+        const capitalizeParam = !["int", "float", "double", "char", "boolean"].includes(param)
+          ? param.charAt(0).toUpperCase() + param.slice(1)
+          : param;
+
         if (paramIndex !== reflectedConstructor.length - 1) {
-          setUpBeforeClassTemplate += `${param}.class, `;
+          declaredConstructor += `${capitalizeParam}.class, `;
         } else {
-          setUpBeforeClassTemplate += `${param}.class);\n\t`;
+          declaredConstructor += `${capitalizeParam}.class);`;
         }
       });
-      setUpBeforeClassTemplate += `${constructorName}.setAccessible(true);\n\t`
+      setUpBeforeClassTemplate.push(declaredConstructor);
+      setUpBeforeClassTemplate.push(`${constructorName}.setAccessible(true);`);
     });
 
-    // reflectedClass.
+    // Construct static Field and getDeclaredField
+    Object.keys(reflectedClass.field).forEach((key: string) => {
+      staticTemplate.push(`static Field ${key};`);
+      setUpBeforeClassTemplate.push(`${key} = ${reflectedClass.name}.class.getDeclaredField("${key}");`);
+      setUpBeforeClassTemplate.push(`${key}.setAccessible(true);`);
+    });
+
+    // Construct static Method and getDeclaredMethod
+    Object.entries(reflectedClass.method).forEach(([key, value]: [any, any]) => {
+      staticTemplate.push(`static Method ${key};`);
+      let declaredMethod = `${key} = ${reflectedClass.name}.class.getDeclaredMethod("${key}"`;
+      value.forEach((v: any) => {
+        const capitalizeV = !["int", "float", "double", "char", "boolean"].includes(v)
+          ? v.charAt(0).toUpperCase() + v.slice(1)
+          : v;
+        declaredMethod += `, ${capitalizeV}.class`;
+      });
+      setUpBeforeClassTemplate.push(declaredMethod + ");");
+      setUpBeforeClassTemplate.push(`${key}.setAccessible(true);`);
+    });
   });
 
-  return [result, setUpBeforeClassTemplate];
+  return [staticTemplate.join("\n") + "\n\n", setUpBeforeClassTemplate.join("\n\t") + "\n}"];
 }
