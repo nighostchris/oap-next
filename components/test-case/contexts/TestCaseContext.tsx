@@ -2,6 +2,8 @@ import React from 'react';
 
 interface VariableInterface {
   class: string
+  name: string
+  constructor: number
   params: Array<any>
 }
 
@@ -44,7 +46,7 @@ export const testsReducer = (state: any, action: any) => {
     case 'ADD_VARIABLE':
       return {
         ...state,
-        variables: [...state.variables, { class: '', name: '', params: [] }]
+        variables: [...state.variables, { class: '', name: '', constructor: 1, params: [] }]
       };
     case 'MODIFY_VARIABLE_NAME':
       return {
@@ -53,11 +55,27 @@ export const testsReducer = (state: any, action: any) => {
           ? { ...variable, name: action.name }
           : variable)
       };
+    case 'MODIFY_VARIABLE_CONSTRUCTOR':
+      return {
+        ...state,
+        variables: state.variables.map((variable: any, index: number) => index === action.vid
+          ? {
+              ...variable,
+              constructor: action.constructor,
+              params: action.params.map((param: any) => { return { type: param, value: param === "boolean" ? true : undefined }; }) 
+          }
+          : variable)
+      };
     case 'MODIFY_VARIABLE_CLASS':
       return {
         ...state,
         variables: state.variables.map((variable: any, index: number) => index === action.vid
-          ? { ...variable, class: action.class, params: action.params.map((param: any) => { return { type: param, value: param === "boolean" ? true : undefined }; }) }
+          ? {
+              ...variable,
+              class: action.class, 
+              constructor: 1,
+              params: action.params.map((param: any) => { return { type: param, value: param === "boolean" ? true : undefined }; }) 
+          }
           : variable)
       };
     case 'MODIFY_VARIABLE_PARAMS':

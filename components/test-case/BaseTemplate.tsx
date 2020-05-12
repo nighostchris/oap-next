@@ -26,7 +26,7 @@ const testReflectionResult: Array<testReflectionInterface> = [{
     "name": "string",
     "units": "array"
   },
-  constructor: [["string"]],
+  constructor: [["string"], ["int", "boolean", "char", "string"]],
   method: {
     "getName": [],
     "equals": ["object"],
@@ -254,38 +254,105 @@ const BaseTemplate: React.FunctionComponent = () => {
                                   </Form.Group>
                                 )
                               }
+                              {
+                                varSelect.class !== "" && (
+                                  <Form.Group>
+                                    <Form.Label>Constructor</Form.Label>
+                                    <Form.Control
+                                      as="select"
+                                      value={varSelect.constructor}
+                                      onChange={(e) => {
+                                        let constructorValue = (e.target as HTMLInputElement).value;
+                                        if (constructorValue !== "") {
+                                          testsDispatch({
+                                            type: 'MODIFY_VARIABLE_CONSTRUCTOR',
+                                            vid: index,
+                                            constructor: constructorValue,
+                                            params: testReflectionResult.filter((result) => result.name === varSelect.class)[0].constructor[Number(constructorValue) - 1]
+                                          });
+                                        }
+                                      }}
+                                    >
+                                      {
+                                        [...Array(testReflectionResult.filter((result) => result.name === varSelect.class)[0].constructor.length).keys()]
+                                          .map(i => i + 1).map((option, index) => (
+                                            <option key={`type-option-${index}`}>
+                                              {option}
+                                            </option>
+                                          )
+                                        )
+                                      }
+                                    </Form.Control>
+                                  </Form.Group>
+                                )
+                              }
                               <Form.Group className="mb-0">
-                                { varSelect.params.length ? <Form.Label>Constructor Parameters</Form.Label> : undefined }
+                                { varSelect.params.length ? <Form.Label style={{ width: '100%' }}>Constructor Parameters</Form.Label> : undefined }
                                 {
                                   varSelect.params.map((param: any, pIndex: number) => (
-                                    param.type !== "boolean"
-                                      ? (
-                                        <input
-                                          value={param.value}
-                                          onChange={(e) => testsDispatch({
-                                            type: 'MODIFY_VARIABLE_PARAMS',
-                                            vid: index,
-                                            pid: pIndex,
-                                            param: { type: param.type, value: e.target.value }
-                                          })}
-                                          className={`form-control form-control-prepended ${ pIndex !== varSelect.params.length - 1 ? "mb-4" : undefined }`}
-                                        />
-                                      )
-                                      : (
-                                        <Form.Check
-                                          type="switch"
-                                          id="custom-switch"
-                                          label="True / False"
-                                          checked={param.value}
-                                          onChange={() => testsDispatch({
-                                            type: 'MODIFY_VARIABLE_PARAMS',
-                                            vid: index,
-                                            pid: pIndex,
-                                            param: { type: param.type, value: !param.value }
-                                          })}
-                                          className={`${ pIndex !== varSelect.params.length - 1 && "mb-4" }`}
-                                        />
-                                      )
+                                    <>
+                                      <Form.Label>{`${param.type.charAt(0).toUpperCase() + param.type.slice(1)}`}</Form.Label>
+                                      {
+                                        param.type === "string"
+                                          ? (
+                                            <input
+                                              value={param.value}
+                                              onChange={(e) => testsDispatch({
+                                                type: 'MODIFY_VARIABLE_PARAMS',
+                                                vid: index,
+                                                pid: pIndex,
+                                                param: { type: param.type, value: e.target.value }
+                                              })}
+                                              className={`form-control form-control-prepended ${ pIndex !== varSelect.params.length - 1 ? "mb-4" : undefined }`}
+                                            />
+                                          )
+                                          : (param.type === "boolean"
+                                            ? (
+                                              <Form.Check
+                                                type="switch"
+                                                id="custom-switch"
+                                                label="True / False"
+                                                checked={param.value}
+                                                onChange={() => testsDispatch({
+                                                  type: 'MODIFY_VARIABLE_PARAMS',
+                                                  vid: index,
+                                                  pid: pIndex,
+                                                  param: { type: param.type, value: !param.value }
+                                                })}
+                                                className={`${ pIndex !== varSelect.params.length - 1 && "mb-4" }`}
+                                              />
+                                            )
+                                            : (param.type === "char"
+                                              ? (
+                                                <input
+                                                  value={param.value}
+                                                  maxLength={1}
+                                                  onChange={(e) => testsDispatch({
+                                                    type: 'MODIFY_VARIABLE_PARAMS',
+                                                    vid: index,
+                                                    pid: pIndex,
+                                                    param: { type: param.type, value: e.target.value }
+                                                  })}
+                                                  className={`form-control form-control-prepended ${ pIndex !== varSelect.params.length - 1 ? "mb-4" : undefined }`}
+                                                />
+                                              )
+                                              : (
+                                                <input
+                                                  type="number"
+                                                  value={param.value}
+                                                  onChange={(e) => testsDispatch({
+                                                    type: 'MODIFY_VARIABLE_PARAMS',
+                                                    vid: index,
+                                                    pid: pIndex,
+                                                    param: { type: param.type, value: e.target.value }
+                                                  })}
+                                                  className={`form-control form-control-prepended ${ pIndex !== varSelect.params.length - 1 ? "mb-4" : undefined }`}
+                                                />
+                                              )
+                                            )
+                                          )
+                                        }
+                                      </>
                                   ))
                                 }
                               </Form.Group>
