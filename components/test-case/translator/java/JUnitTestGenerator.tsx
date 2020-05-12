@@ -49,9 +49,12 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;\n\n`;
 
-export const preSetup = () => {
+export const preSetup = (testsState: any) => {
+  console.log(testsState);
   let staticTemplate: any[] = [];
   let setUpBeforeClassTemplate = ["@BeforeClass\npublic static void setUpBeforeClass() throws Exception\n{"];
+  let afterClassTemplate=["@AfterClass\npublic static void tearDownAfterClass() throws Exception\n{"];
+  let setUpTemplate=["@Before\npublic void setUp() throws Exception\n{"];
 
   testReflectionResult.forEach((reflectedClass: any) => {
     reflectedClass.constructor.forEach((reflectedConstructor: any, constructorIndex: number) => {
@@ -62,6 +65,7 @@ export const preSetup = () => {
 
       // Construct getDeclaredConstructor
       let declaredConstructor = `${constructorName} = ${className}.class.getDeclaredConstructor(`;
+
       reflectedConstructor.forEach((param: any, paramIndex: number) => {
         const capitalizeParam = !["int", "float", "double", "char", "boolean"].includes(param)
           ? param.charAt(0).toUpperCase() + param.slice(1)
@@ -73,31 +77,59 @@ export const preSetup = () => {
           declaredConstructor += `${capitalizeParam}.class);`;
         }
       });
+
       setUpBeforeClassTemplate.push(declaredConstructor);
       setUpBeforeClassTemplate.push(`${constructorName}.setAccessible(true);`);
+
+      afterClassTemplate.push(`${constructorName} = null;`);
     });
 
     // Construct static Field and getDeclaredField
     Object.keys(reflectedClass.field).forEach((key: string) => {
       staticTemplate.push(`static Field ${key};`);
+
       setUpBeforeClassTemplate.push(`${key} = ${reflectedClass.name}.class.getDeclaredField("${key}");`);
       setUpBeforeClassTemplate.push(`${key}.setAccessible(true);`);
+
+      afterClassTemplate.push(`${key} = null;`);
     });
 
     // Construct static Method and getDeclaredMethod
     Object.entries(reflectedClass.method).forEach(([key, value]: [any, any]) => {
       staticTemplate.push(`static Method ${key};`);
       let declaredMethod = `${key} = ${reflectedClass.name}.class.getDeclaredMethod("${key}"`;
+
       value.forEach((v: any) => {
         const capitalizeV = !["int", "float", "double", "char", "boolean"].includes(v)
           ? v.charAt(0).toUpperCase() + v.slice(1)
           : v;
         declaredMethod += `, ${capitalizeV}.class`;
       });
+
       setUpBeforeClassTemplate.push(declaredMethod + ");");
       setUpBeforeClassTemplate.push(`${key}.setAccessible(true);`);
+
+      afterClassTemplate.push(`${key} = null;`);
     });
   });
 
-  return [staticTemplate.join("\n") + "\n\n", setUpBeforeClassTemplate.join("\n\t") + "\n}"];
+  testsState.variables.forEach((variable: any) => {
+    let instance = `${variable.name} = ${variable.class.toLowerCase()}Constructor1.newInstance(`;
+    
+    variable.params.forEach((param: any, paramIndex: number) => {
+      if (paramIndex !== variable.params.length - 1) {
+        instance += `${param.value}, `;
+      } else {
+        instance += `${param.value});`;
+      }
+    });
+
+    setUpTemplate.push(instance);
+  });
+
+  return [staticTemplate.join("\n") + "\n\n",
+    setUpBeforeClassTemplate.join("\n\t") + "\n}",
+    afterClassTemplate.join("\n\t") + "\n}",
+    setUpTemplate.join("\n")
+  ];
 }
