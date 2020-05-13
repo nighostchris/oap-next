@@ -49,13 +49,30 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;\n\n`;
 
+// const constructTest = (child: any) => {
+//   if (child === undefined) {
+//     return null;
+//   }
+
+//   for (let i = 0; i < child.length; i++) {
+//     if (child[i].type === "assertion" || child[i].type === "assertion-function") {
+//       return `${child[i].name}(` + constructTest(child[i].child) + ");";
+//     } else if (child[i].type === "dataInput") {
+//       return child[i].name;
+//     } else if (child[i].type === "object") {
+//       return 
+//     }
+//   };
+// }
+
 export const preSetup = (testsState: any) => {
   console.log(testsState);
   let staticTemplate: any[] = [];
   let setUpBeforeClassTemplate = ["@BeforeClass\npublic static void setUpBeforeClass() throws Exception\n{"];
-  let afterClassTemplate=["@AfterClass\npublic static void tearDownAfterClass() throws Exception\n{"];
-  let setUpTemplate=["@Before\npublic void setUp() throws Exception\n{"];
-  let tearDownTemplate=["@After\npublic void tearDown() throws Exception\n{"];
+  let afterClassTemplate = ["@AfterClass\npublic static void tearDownAfterClass() throws Exception\n{"];
+  let setUpTemplate = ["@Before\npublic void setUp() throws Exception\n{"];
+  let tearDownTemplate = ["@After\npublic void tearDown() throws Exception\n{"];
+  let tests = [];
 
   testReflectionResult.forEach((reflectedClass: any) => {
     reflectedClass.constructor.forEach((reflectedConstructor: any, constructorIndex: number) => {
@@ -131,10 +148,15 @@ export const preSetup = (testsState: any) => {
     tearDownTemplate.push(`\t${variable.name} = null;`);
   });
 
-  return [staticTemplate.join("\n") + "\n\n",
-    setUpBeforeClassTemplate.join("\n\t") + "\n}\n\n",
-    afterClassTemplate.join("\n\t") + "\n}\n\n",
-    setUpTemplate.join("\n") + "\n}\n\n",
-    tearDownTemplate.join("\n") + "\n}"
-  ];
+  // testsState.tests.forEach((test: any) => {
+  //   let testTemplate = `@Test\npublic void ${test.name}() throws Exception\n{\n\t`;
+  //   let childIterator = test.child;
+
+  //   while(childIterator) {
+
+  //   }
+  // });
+
+  return staticTemplate.join("\n") + "\n\n" + setUpBeforeClassTemplate.join("\n\t") + "\n}\n\n" + afterClassTemplate.join("\n\t") + "\n}\n\n"
+    + setUpTemplate.join("\n") + "\n}\n\n" + tearDownTemplate.join("\n") + "\n}";
 }

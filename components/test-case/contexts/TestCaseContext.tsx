@@ -194,8 +194,9 @@ export const testsReducer = (state: any, action: any) => {
                     ...af,
                     child: af.child.map((ins: any, index: number) => index === action.id[3]
                       ? {
+                        ...ins,
                         id: index,
-                        name: action.name
+                        value: action.value
                       }
                       : ins
                     )

@@ -21,8 +21,7 @@ themes.forEach(theme => require(`ace-builds/src-min-noconflict/theme-${theme}`))
 
 const Editor: React.FC<EditorProps> = ({ theme, fontSize }) => {
   const { state: testsState, dispatch: testsDispatch } = React.useContext(TestCaseContext);
-  const [sTemplate, setUpBeforeClassTemplate, afterClassTemplate, setUpTemplate, tearDownTemplate] = preSetup(testsState);
-  const [value, setValue] = React.useState(`${libraryImport}${sTemplate}${setUpBeforeClassTemplate}${afterClassTemplate}${setUpTemplate}${tearDownTemplate}`);
+  const [value, setValue] = React.useState(preSetup(testsState));
 
   const onLoad = () => {
     console.log("i've loaded");
