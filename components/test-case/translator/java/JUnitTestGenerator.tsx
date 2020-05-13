@@ -55,6 +55,7 @@ export const preSetup = (testsState: any) => {
   let setUpBeforeClassTemplate = ["@BeforeClass\npublic static void setUpBeforeClass() throws Exception\n{"];
   let afterClassTemplate=["@AfterClass\npublic static void tearDownAfterClass() throws Exception\n{"];
   let setUpTemplate=["@Before\npublic void setUp() throws Exception\n{"];
+  let tearDownTemplate=["@After\npublic void tearDown() throws Exception\n{"];
 
   testReflectionResult.forEach((reflectedClass: any) => {
     reflectedClass.constructor.forEach((reflectedConstructor: any, constructorIndex: number) => {
@@ -114,22 +115,26 @@ export const preSetup = (testsState: any) => {
   });
 
   testsState.variables.forEach((variable: any) => {
-    let instance = `${variable.name} = ${variable.class.toLowerCase()}Constructor1.newInstance(`;
+    let instance = `\t${variable.name} = ${variable.class.toLowerCase()}Constructor1.newInstance(`;
     
     variable.params.forEach((param: any, paramIndex: number) => {
+      let paramValue = !["int", "float", "double", "boolean"].includes(param) ? `"${param.value}"` : param.value;
+
       if (paramIndex !== variable.params.length - 1) {
-        instance += `${param.value}, `;
+        instance += `${paramValue}, `;
       } else {
-        instance += `${param.value});`;
+        instance += `${paramValue});`;
       }
     });
 
     setUpTemplate.push(instance);
+    tearDownTemplate.push(`\t${variable.name} = null;`);
   });
 
   return [staticTemplate.join("\n") + "\n\n",
-    setUpBeforeClassTemplate.join("\n\t") + "\n}",
-    afterClassTemplate.join("\n\t") + "\n}",
-    setUpTemplate.join("\n")
+    setUpBeforeClassTemplate.join("\n\t") + "\n}\n\n",
+    afterClassTemplate.join("\n\t") + "\n}\n\n",
+    setUpTemplate.join("\n") + "\n}\n\n",
+    tearDownTemplate.join("\n") + "\n}"
   ];
 }

@@ -267,7 +267,7 @@ const BaseTemplate: React.FunctionComponent = () => {
                                           testsDispatch({
                                             type: 'MODIFY_VARIABLE_CONSTRUCTOR',
                                             vid: index,
-                                            constructor: constructorValue,
+                                            constructor: Number(constructorValue),
                                             params: testReflectionResult.filter((result) => result.name === varSelect.class)[0].constructor[Number(constructorValue) - 1]
                                           });
                                         }
