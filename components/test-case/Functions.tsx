@@ -123,11 +123,13 @@ export const AssertionFunction: React.FC<AssertionFunctionProps> = ({ id, name, 
                       }}
                     >
                       {
-                        testsState.variables.filter((variable: any) => variable.name !== "").map((state: any, index: number) => (
-                          <option key={`instance-option-${index}`}>
-                            {state.name}
-                          </option>
-                        ))
+                        [{ class: "", name: "", constructor: 1, params: [] }, ...testsState.variables.filter((variable: any) => variable.name !== "")]
+                          .map((state: any, index: number) => (
+                            <option key={`instance-option-${index}`}>
+                              {state.name}
+                            </option>
+                          )
+                        )
                       }
                     </Form.Control>
                   )
@@ -230,11 +232,13 @@ export const Function: React.FC<FunctionProps> = ({ id, name, child }) => {
                       }}
                     >
                       {
-                        testsState.variables.filter((variable: any) => variable.name !== "").map((state: any, index: number) => (
-                          <option key={`parameter-option-${index}`}>
-                            {state.name}
-                          </option>
-                        ))
+                        [{ class: "", name: "", constructor: 1, params: [] }, ...testsState.variables.filter((variable: any) => variable.name !== "")]
+                          .map((state: any, index: number) => (
+                            <option key={`parameter-option-${index}`}>
+                              {state.name}
+                            </option>
+                          )
+                        )
                       }
                     </Form.Control>
                   )
