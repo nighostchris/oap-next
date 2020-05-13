@@ -49,21 +49,45 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;\n\n`;
 
-// const constructTest = (child: any) => {
-//   if (child === undefined) {
-//     return null;
-//   }
+const constructTest = (child: any) => {
+  if (child === undefined) {
+    return null;
+  }
 
-//   for (let i = 0; i < child.length; i++) {
-//     if (child[i].type === "assertion" || child[i].type === "assertion-function") {
-//       return `${child[i].name}(` + constructTest(child[i].child) + ");";
-//     } else if (child[i].type === "dataInput") {
-//       return child[i].name;
-//     } else if (child[i].type === "object") {
-//       return 
-//     }
-//   };
-// }
+  let result = ``;
+
+  for (let i = 0; i < child.length; i++) {
+    if (child[i].type === "assertion" || child[i].type === "function") {
+      result += `${child[i].name}(` + constructTest(child[i].child) + ");";
+    } else if (child[i].type === "assertion-function") {
+      if (i !== child.length - 1 || i === 0) {
+        result += `${child[i].name}.invoke(` + constructTest(child[i].child) + ")";
+      } else {
+        result += `, ${child[i].name}.invoke(` + constructTest(child[i].child) + ");";
+      }
+    } else if (child[i].type === "dataInput") {
+      if (i !== child.length - 1 || i === 0) {
+        result += child[i].name;
+      } else {
+        result += `, "${child[i].name}"`;
+      }
+    } else if (["object", "int", "double", "float"].includes(child[i].type)) {
+      if (i === 0) {
+        result += child[i].value;  
+      } else {
+        result += `, ${child[i].value}`;
+      }
+    } else if (["string", "char"].includes(child[i].type)) {
+      if (i === 0) {
+        result += `"${child[i].value}"`;
+      } else {
+        result += `, "${child[i].value}"`;
+      }
+    }
+  };
+
+  return result;
+}
 
 export const preSetup = (testsState: any) => {
   console.log(testsState);
@@ -72,7 +96,7 @@ export const preSetup = (testsState: any) => {
   let afterClassTemplate = ["@AfterClass\npublic static void tearDownAfterClass() throws Exception\n{"];
   let setUpTemplate = ["@Before\npublic void setUp() throws Exception\n{"];
   let tearDownTemplate = ["@After\npublic void tearDown() throws Exception\n{"];
-  let tests = [];
+  let tests: any[] = [];
 
   testReflectionResult.forEach((reflectedClass: any) => {
     reflectedClass.constructor.forEach((reflectedConstructor: any, constructorIndex: number) => {
@@ -148,15 +172,13 @@ export const preSetup = (testsState: any) => {
     tearDownTemplate.push(`\t${variable.name} = null;`);
   });
 
-  // testsState.tests.forEach((test: any) => {
-  //   let testTemplate = `@Test\npublic void ${test.name}() throws Exception\n{\n\t`;
-  //   let childIterator = test.child;
-
-  //   while(childIterator) {
-
-  //   }
-  // });
+  testsState.tests.forEach((test: any) => {
+    let testTemplate = `@Test\npublic void ${test.name}() throws Exception\n{\n\t`;
+    let childIterator = test.child;
+    testTemplate += constructTest(childIterator);
+    tests.push(testTemplate);
+  });
 
   return staticTemplate.join("\n") + "\n\n" + setUpBeforeClassTemplate.join("\n\t") + "\n}\n\n" + afterClassTemplate.join("\n\t") + "\n}\n\n"
-    + setUpTemplate.join("\n") + "\n}\n\n" + tearDownTemplate.join("\n") + "\n}";
+    + setUpTemplate.join("\n") + "\n}\n\n" + tearDownTemplate.join("\n") + "\n}\n\n" + tests.join("\n") + "\n}";
 }

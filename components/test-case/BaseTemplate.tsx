@@ -344,7 +344,7 @@ const BaseTemplate: React.FunctionComponent = () => {
                                                     type: 'MODIFY_VARIABLE_PARAMS',
                                                     vid: index,
                                                     pid: pIndex,
-                                                    param: { type: param.type, value: e.target.value }
+                                                    param: { type: param.type, value: Number(e.target.value) }
                                                   })}
                                                   className={`form-control form-control-prepended ${ pIndex !== varSelect.params.length - 1 ? "mb-4" : undefined }`}
                                                 />
