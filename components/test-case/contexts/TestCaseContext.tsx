@@ -122,7 +122,8 @@ export const testsReducer = (state: any, action: any) => {
                   {
                     id: c.child.length,
                     type: 'dataInput',
-                    name: action.name
+                    input_type: action.inputType,
+                    value: action.value
                   }
                 ]
               }
@@ -132,7 +133,7 @@ export const testsReducer = (state: any, action: any) => {
           : test
         )
       };
-    case 'MODIFY_DATA_INPUT':
+    case 'MODIFY_DATA_INPUT_TYPE':
       return {
         ...state,
         tests: state.tests.map((test: any, index: number) => index === action.id[0]
@@ -144,7 +145,31 @@ export const testsReducer = (state: any, action: any) => {
                 child: c.child.map((dInput: any, index: number) => index === action.id[2]
                   ? {
                     ...dInput,
-                    name: action.name
+                    input_type: action.inputType,
+                    value: action.inputType === "boolean" ? true : ""
+                  }
+                  : dInput
+                )
+              }
+              : c
+            )
+          }
+          : test
+        )
+      };
+    case 'MODIFY_DATA_INPUT_VALUE':
+      return {
+        ...state,
+        tests: state.tests.map((test: any, index: number) => index === action.id[0]
+          ? {
+            ...test,
+            child: test.child.map((c: any, index: number) => index === action.id[1]
+              ? {
+                ...c,
+                child: c.child.map((dInput: any, index: number) => index === action.id[2]
+                  ? {
+                    ...dInput,
+                    value: action.value
                   }
                   : dInput
                 )

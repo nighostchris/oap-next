@@ -81,7 +81,7 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
       },
       drop: (item: any) => {
         if (item.type === 'dataInput') {
-          testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
+          testsDispatch({ type: 'ADD_DATA_INPUT', id: id, value: "", inputType: "" });
         } else {
           testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name, params: item.params });
         }
@@ -103,7 +103,7 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
         },
         drop: (item: any) => {
           if (item.type === 'dataInput') {
-            testsDispatch({ type: 'ADD_DATA_INPUT', id: id, name: item.name });
+            testsDispatch({ type: 'ADD_DATA_INPUT', id: id, value: "", inputType: "" });
           } else {
             testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name, params: item.params });
           }
@@ -138,7 +138,7 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
             {
               child.filter((c) => c.id === index).map((c: any) => (
                 c.type === 'dataInput'
-                  ? <DataInput id={[...id, c.id]} name={c.name} />
+                  ? <DataInput id={[...id, c.id]} value={c.value} inputType={c.input_type} />
                   : <AssertionFunction id={[...id, c.id]} name={c.name} child={c.child} />
               ))
             }
