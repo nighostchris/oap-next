@@ -43,11 +43,16 @@ export const testsReducer = (state: any, action: any) => {
         ...state,
         tests: state.tests.filter((_test: any, index: number) => index !== action.id)
       };
-    case 'ADD_VARIABLE':
+    case 'ADD_VARIABLE_CLASS':
       return {
         ...state,
-        variables: [...state.variables, { class: '', name: '', constructor: 1, params: [] }]
+        variables: [...state.variables, { category: 'class', class: '', name: '', constructor: 1, params: [] }]
       };
+    case 'ADD_VARIABLE_BASIC':
+      return {
+        ...state,
+        variables: [...state.variables, { category: 'basic', type: '', name: '' }]
+      }
     case 'MODIFY_VARIABLE_NAME':
       return {
         ...state,
@@ -89,6 +94,17 @@ export const testsReducer = (state: any, action: any) => {
           : variable
         )
       };
+    case 'MODIFY_VARIABLE_TYPE':
+      return {
+        ...state,
+        variables: state.variables.map((variable: any, index: number) => index === action.vid
+          ? {
+            ...variable,
+            type: action.typeValue
+          }
+          : variable
+        )
+      }
     case 'ADD_ASSERTION':
       return {
         ...state,
