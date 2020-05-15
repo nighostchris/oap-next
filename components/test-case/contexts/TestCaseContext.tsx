@@ -43,16 +43,11 @@ export const testsReducer = (state: any, action: any) => {
         ...state,
         tests: state.tests.filter((_test: any, index: number) => index !== action.id)
       };
-    case 'ADD_VARIABLE_CLASS':
+    case 'ADD_VARIABLE':
       return {
         ...state,
-        variables: [...state.variables, { category: 'class', class: '', name: '', constructor: 1, params: [] }]
+        variables: [...state.variables, { class: '', name: '', constructor: 1, params: [] }]
       };
-    case 'ADD_VARIABLE_BASIC':
-      return {
-        ...state,
-        variables: [...state.variables, { category: 'basic', type: '', name: '' }]
-      }
     case 'MODIFY_VARIABLE_NAME':
       return {
         ...state,
@@ -94,17 +89,6 @@ export const testsReducer = (state: any, action: any) => {
           : variable
         )
       };
-    case 'MODIFY_VARIABLE_TYPE':
-      return {
-        ...state,
-        variables: state.variables.map((variable: any, index: number) => index === action.vid
-          ? {
-            ...variable,
-            type: action.typeValue
-          }
-          : variable
-        )
-      }
     case 'ADD_ASSERTION':
       return {
         ...state,
@@ -120,6 +104,78 @@ export const testsReducer = (state: any, action: any) => {
                 child: []
               }
             ]
+          }
+          : test
+        )
+      };
+    case 'ADD_LOCAL_VARIABLE':
+      return {
+        ...state,
+        tests: state.tests.map((test: any, index: number) => index === action.id
+          ? {
+            ...test,
+            child: [
+              ...test.child,
+              {
+                id: test.child.length,
+                type: 'local-variable',
+                var_type: '',
+                name: '',
+                value: ''
+              }
+            ]
+          }
+          : test
+        )
+      };
+    case 'MODIFY_LOCAL_VARIABLE_NAME':
+      return {
+        ...state,
+        tests: state.tests.map((test: any, index: number) => index === action.id[0]
+          ? {
+            ...test,
+            child: test.child.map((c: any, index: number) => index === action.id[1]
+              ? {
+                ...c,
+                name: action.name
+              }
+              : c
+            )
+          }
+          : test
+        )
+      };
+    case 'MODIFY_LOCAL_VARIABLE_VALUE':
+      return {
+        ...state,
+        tests: state.tests.map((test: any, index: number) => index === action.id[0]
+          ? {
+            ...test,
+            child: test.child.map((c: any, index: number) => index === action.id[1]
+              ? {
+                ...c,
+                value: action.value
+              }
+              : c
+            )
+          }
+          : test
+        )
+      };
+    case 'MODIFY_LOCAL_VARIABLE_TYPE':
+      return {
+        ...state,
+        tests: state.tests.map((test: any, index: number) => index === action.id[0]
+          ? {
+            ...test,
+            child: test.child.map((c: any, index: number) => index === action.id[1]
+              ? {
+                ...c,
+                var_type: action.varType,
+                value: action.varType === "boolean" ? true : ""
+              }
+              : c
+            )
           }
           : test
         )

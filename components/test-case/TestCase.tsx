@@ -3,6 +3,7 @@ import { useDrag, useDrop } from 'react-dnd-cjs';
 import { Assertions } from './Assertions';
 import { Function } from './Functions';
 import { TestCaseContext } from './contexts/TestCaseContext';
+import { LocalVariable } from './LocalVariable';
 
 interface TestCaseProps {
   id: number
@@ -47,13 +48,16 @@ export const TestCase: React.FC<TestCaseProps> = ({ id, name, child }) => {
   });
 
   const [{ isOver }, drop] = useDrop({
-    accept: ['assertion', 'function'],
+    accept: ['assertion', 'function', 'local-variable'],
     drop: (item: any) => {
       if (item.type === 'assertion') {
         testsDispatch({ type: 'ADD_ASSERTION', id: id, name: item.name })
       }
       if (item.type === 'function') {
         testsDispatch({ type: 'ADD_FUNCTION', id: id, name: item.name, params: item.params })
+      }
+      if (item.type === 'local-variable') {
+        testsDispatch({ type: 'ADD_LOCAL_VARIABLE', id: id })
       }
     },
     collect: (monitor) => ({
@@ -89,8 +93,12 @@ export const TestCase: React.FC<TestCaseProps> = ({ id, name, child }) => {
                 child.map((c) => (
                   c.type === 'assertion'
                     ? <Assertions id={[id, c.id]} name={c.name} child={c.child} />
-                    : <Function id={[id, c.id]} name={c.name} child={c.child} />
-                ))
+                    : (c.type === 'function'
+                      ? <Function id={[id, c.id]} name={c.name} child={c.child} />
+                      : <LocalVariable id={[id, c.id]} name={c.name} value={c.value} varType={c.var_type} />
+                    )
+                  )
+                )
               }
             </div>
           </div>
