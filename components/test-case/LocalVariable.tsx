@@ -8,6 +8,7 @@ interface LocalVariableProps {
   name: any
   value: any
   varType: any
+  varSubtype?: any
 }
 
 export const StatelessLocalVariable: React.FC = () => {
@@ -37,8 +38,7 @@ export const StatelessLocalVariable: React.FC = () => {
   );
 };
 
-export const LocalVariable: React.FC<LocalVariableProps> = ({ id, value, name, varType }) => {
-  console.log(name, varType);
+export const LocalVariable: React.FC<LocalVariableProps> = ({ id, value, name, varType, varSubtype }) => {
   const { state: testsState, dispatch: testsDispatch } = React.useContext(TestCaseContext);
 
   // const changeValue = (v: any) => {
@@ -92,21 +92,70 @@ export const LocalVariable: React.FC<LocalVariableProps> = ({ id, value, name, v
           </Form.Control>
         </Form.Group>
         {
-          
+          varType !== "" && (
+            <Form.Group>
+              <Form.Label>
+                Variable Name
+              </Form.Label>
+              <input
+                value={name}
+                onChange={(e) => testsDispatch({
+                  type: 'MODIFY_LOCAL_VARIABLE_NAME',
+                  id: id,
+                  name: e.target.value
+                })}
+                className="form-control form-control-prepended"
+              />
+            </Form.Group>
+          )
+        }
+        {
+          varType !== "" && varType === "ArrayList" && (
+            <Form.Group>
+              <Form.Label>Custom Variable</Form.Label>
+              <Form.Control
+                as="select"
+                value={varSubtype}
+                onChange={(e) => {
+                  let subtype = (e.target as HTMLInputElement).value;
+                  if (subtype !== "") {
+                    testsDispatch({
+                      type: 'MODIFY_LOCAL_VARIABLE_SUBTYPE',
+                      id: id,
+                      varSubtype: subtype
+                    });
+                  }
+                }}
+              >
+                {
+                  ["", "boolean", "char", "double", "float", "int", "string", "Player", "Archer"]
+                    .map((option, index) => (
+                      <option key={`${varType}-value-${index}`}>
+                        {option}
+                      </option>
+                    )
+                  )
+                }
+              </Form.Control>
+            </Form.Group>
+          )
         }
         {
           varType !== "" && !["boolean", "object"].includes(varType) && (
-            <input
-              value={value}
-              type={["int", "double", "float"].includes(varType) ? "number" : undefined}
-              maxLength={varType === "char" ? 1 : undefined}
-              onChange={(e) => testsDispatch({
-                type: 'MODIFY_LOCAL_VARIABLE_VALUE',
-                id: id,
-                value: ["int", "double", "float"].includes(varType) ? Number(e.target.value) : e.target.value
-              })}
-              className="form-control form-control-prepended"
-            />
+            <Form.Group>
+              <Form.Label>Value</Form.Label>
+              <input
+                value={value}
+                type={["int", "double", "float"].includes(varType) ? "number" : undefined}
+                maxLength={varType === "char" ? 1 : undefined}
+                onChange={(e) => testsDispatch({
+                  type: 'MODIFY_LOCAL_VARIABLE_VALUE',
+                  id: id,
+                  value: ["int", "double", "float"].includes(varType) ? Number(e.target.value) : e.target.value
+                })}
+                className="form-control form-control-prepended"
+              />
+            </Form.Group>
           )
         }
         {
@@ -121,7 +170,6 @@ export const LocalVariable: React.FC<LocalVariableProps> = ({ id, value, name, v
                 id: id,
                 value: !value
               })}
-              className="form-control form-control-prepended"
             />
           )
         }

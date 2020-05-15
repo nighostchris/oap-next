@@ -43,10 +43,15 @@ export const testsReducer = (state: any, action: any) => {
         ...state,
         tests: state.tests.filter((_test: any, index: number) => index !== action.id)
       };
-    case 'ADD_VARIABLE':
+    case 'ADD_VARIABLE_CLASS':
       return {
         ...state,
-        variables: [...state.variables, { class: '', name: '', constructor: 1, params: [] }]
+        variables: [...state.variables, { category: 'class', class: '', name: '', constructor: 1, params: [] }]
+      };
+    case 'ADD_VARIABLE_BASIC':
+      return {
+        ...state,
+        variables: [...state.variables, { category: 'basic', type: '', name: '', value: '' }]
       };
     case 'MODIFY_VARIABLE_NAME':
       return {
@@ -55,6 +60,31 @@ export const testsReducer = (state: any, action: any) => {
           ? { ...variable, name: action.name }
           : variable)
       };
+    case 'MODIFY_VARIABLE_TYPE':
+      return {
+        ...state,
+        variables: state.variables.map((variable: any, index: number) => index === action.vid
+          ? {
+            ...variable,
+            type: action.typeValue,
+            name: '',
+            value: action.typeValue === "boolean" ? true : "",
+            ...(action.typeValue === "ArrayList" && { subtype: '' })
+          }
+          : variable
+        )
+      }
+    case 'MODIFY_VARIABLE_SUBTYPE':
+      return {
+        ...state,
+        variables: state.variables.map((variable: any, index: number) => index === action.vid
+          ? {
+            ...variable,
+            subtype: action.subtype
+          }
+          : variable
+        )
+      }
     case 'MODIFY_VARIABLE_CONSTRUCTOR':
       return {
         ...state,
@@ -85,6 +115,17 @@ export const testsReducer = (state: any, action: any) => {
           ? {
             ...variable,
             params: variable.params.map((param: any, index: number) => index === action.pid ? action.param : param )
+          }
+          : variable
+        )
+      };
+    case 'MODIFY_VARIABLE_VALUE':
+      return {
+        ...state,
+        variables: state.variables.map((variable: any, index: number) => index === action.vid
+          ? {
+            ...variable,
+            value: action.value
           }
           : variable
         )
@@ -162,7 +203,7 @@ export const testsReducer = (state: any, action: any) => {
           : test
         )
       };
-    case 'MODIFY_LOCAL_VARIABLE_TYPE':
+    case 'MODIFY_LOCAL_VARIABLE_SUBTYPE':
       return {
         ...state,
         tests: state.tests.map((test: any, index: number) => index === action.id[0]
@@ -171,8 +212,28 @@ export const testsReducer = (state: any, action: any) => {
             child: test.child.map((c: any, index: number) => index === action.id[1]
               ? {
                 ...c,
+                var_subtype: action.varSubtype
+              }
+              : c
+            )
+          }
+          : test
+        )
+      };
+    case 'MODIFY_LOCAL_VARIABLE_TYPE':
+      return {
+        ...state,
+        tests: state.tests.map((test: any, index: number) => index === action.id[0]
+          ? {
+            ...test,
+            child: test.child.map((c: any, index: number) => index === action.id[1]
+              ? {
+                id: c.id,
+                type: 'local-variable',
+                name: '',
                 var_type: action.varType,
-                value: action.varType === "boolean" ? true : ""
+                value: action.varType === "boolean" ? true : "",
+                ...(action.varType === "ArrayList" && { var_subtype: '' })
               }
               : c
             )
