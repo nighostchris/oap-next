@@ -1,7 +1,7 @@
-# oap-next (Last Update: 11/2/2020 13:49)
+# oap-next (Last Update: 18/5/2020 13:03)
 oap-next = Next.js implementation of Online Assessment Platform.\
-[Demo](https://oap-next.chrisliupascal.now.sh/)
-[DnD Playground](http://localhost:3000/coursework/1/playground)
+[Demo](http://100.125.62.114:3000)
+[DnD Playground](http://100.125.62.114:3000/coursework/1/playground)
 
 ### Installation and Run project
 ```sh

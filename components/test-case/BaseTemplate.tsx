@@ -192,6 +192,14 @@ const BaseTemplate: React.FunctionComponent = () => {
                         {
                           testsState.variables.map((varSelect: any, index: number) => (
                             <div className="card card-body mr-4 mb-0" style={{ minWidth: '250px' }}>
+                              <i
+                                className="fas fa-times"
+                                style={{ position: 'absolute', top: '12px', right: '12px', fontSize: '18px', color: 'gray', cursor: 'pointer' }}
+                                onClick={() => testsDispatch({
+                                  type: 'REMOVE_VARIABLE',
+                                  id: index
+                                })}
+                              />
                               {
                                 varSelect.category === 'class' && (
                                   <>
@@ -490,7 +498,12 @@ const BaseTemplate: React.FunctionComponent = () => {
                   <div
                     ref={dropTest}
                     className="mt-3"
-                    style={{ display: 'flex', flexDirection: 'row', height: '100%', background: isOverDropTest ? '#95AAC9' : undefined }}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      height: '100%',
+                      minHeight: '200px',
+                      background: isOverDropTest ? '#95AAC9' : undefined }}
                   >
                     {
                       testsState.tests.map((test: any) => (

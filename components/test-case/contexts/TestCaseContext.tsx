@@ -53,6 +53,11 @@ export const testsReducer = (state: any, action: any) => {
         ...state,
         variables: [...state.variables, { category: 'basic', type: '', name: '', value: '' }]
       };
+    case 'REMOVE_VARIABLE':
+      return {
+        ...state,
+        variables: state.variables.filter((_variable: any, index: number) => index !== action.id)
+      };
     case 'MODIFY_VARIABLE_NAME':
       return {
         ...state,
