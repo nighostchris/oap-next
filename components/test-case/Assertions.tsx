@@ -42,18 +42,15 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
   const { dispatch: testsDispatch } = React.useContext(TestCaseContext);
   const dropArray = [];
 
-  // const [{ isDragging }, drag] = useDrag({
-  //   item: {
-  //     type: 'assertions',
-  //     name: funcName,
-  //     paras: parameters,
-  //     child: assertParameters,
-  //     setChild: setAssertParameters,
-  //   },
-  //   collect: (monitor) => ({
-  //     isDragging: !!monitor.isDragging(),
-  //   }),
-  // });
+  const [{ isDragging }, drag] = useDrag({
+    item: {
+      type: 'assertion',
+      id: id
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
 
   const checkChildFull = () => {
     if (name === "assertTrue" || name === "assertFalse") {
@@ -117,9 +114,9 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
 
   return (
     <div
-      // ref={drag}
+      ref={drag}
       className="card my-3 mx-auto"
-      style={{ width: 'fit-content', minWidth: '200px', /*opacity: isDragging ? 0.7 : 1*/ }}
+      style={{ width: 'fit-content', minWidth: '200px', opacity: isDragging ? 0.7 : 1 }}
     >
       <div className="card-body justify-content-center align-items-center p-3" style={{ display: 'flex', flexDirection: 'row' }}>
         <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>{`${name}(`}</h3>

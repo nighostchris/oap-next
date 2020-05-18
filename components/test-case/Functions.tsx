@@ -203,10 +203,21 @@ export const AssertionFunction: React.FC<AssertionFunctionProps> = ({ id, name, 
 export const Function: React.FC<FunctionProps> = ({ id, name, child }) => {
   const { state: testsState, dispatch: testsDispatch } = React.useContext(TestCaseContext);
 
+  const [{ isDragging }, drag] = useDrag({
+    item: {
+      type: 'function',
+      id: id
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
+
   return (
     <div
+      ref={drag}
       className="card my-3 mx-auto"
-      style={{ width: 'fit-content', minWidth: '200px' }}
+      style={{ width: 'fit-content', minWidth: '200px', opacity: isDragging ? 0.7 : 1 }}
     >
       <div className="card-body justify-content-center align-items-center p-3" style={{ display: 'flex', flexDirection: 'row' }}>
         <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>{`${name}(`}</h3>

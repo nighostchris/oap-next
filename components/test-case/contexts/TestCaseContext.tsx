@@ -154,6 +154,17 @@ export const testsReducer = (state: any, action: any) => {
           : test
         )
       };
+    case 'REMOVE_ASSERTION':
+      return {
+        ...state,
+        tests: state.tests.map((test: any, index: number) => index === action.id[0]
+          ? {
+            ...test,
+            child: test.child.filter((_c: any, cIndex: number) => cIndex !== action.id[1])
+          }
+          : test
+        )
+      };
     case 'ADD_LOCAL_VARIABLE':
       return {
         ...state,
@@ -392,6 +403,17 @@ export const testsReducer = (state: any, action: any) => {
           : test
         )
       };
+    case 'REMOVE_FUNCTION':
+      return {
+        ...state,
+        tests: state.tests.map((test: any, index: number) => index === action.id[0]
+          ? {
+            ...test,
+            child: test.child.filter((_c: any, cIndex: number) => cIndex !== action.id[1])
+          }
+          : test
+        )
+      }
     case 'MODIFY_PARAMETER':
       return {
         ...state,

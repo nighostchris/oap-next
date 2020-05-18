@@ -67,11 +67,17 @@ const BaseTemplate: React.FunctionComponent = () => {
       if (item.type === 'test') {
         testsDispatch({ type: 'REMOVE_TEST', id: item.id });
       }
+      if (item.type === 'function') {
+        testsDispatch({ type: 'REMOVE_FUNCTION', id: item.id });
+      }
+      if (item.type === 'assertion') {
+        testsDispatch({ type: 'REMOVE_ASSERTION', id: item.id });
+      }
     }
   };
 
   const [{ isOver }, dropBin] = useDrop({
-    accept: ['test'],
+    accept: ['test', 'function', 'assertion'],
     drop: (item) => handleDeleteDropItem(item),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -490,7 +496,15 @@ const BaseTemplate: React.FunctionComponent = () => {
                 <div className="drop-bin">
                   <div ref={dropBin} className="px-0 mx-4 mt-4">
                     <div className="card mb-0" style={{ border: '1px dashed #D2DDEC', textAlign: 'center' }}>
-                      <div className="card-body" style={{ height: '100px', lineHeight: '52px', fontWeight: 'bold' }}>
+                      <div
+                        className="card-body"
+                        style={{
+                          height: '100px',
+                          lineHeight: '52px',
+                          fontWeight: 'bold',
+                          opacity: isOver ? 0.2 : 1
+                        }}
+                      >
                         Drop here to DELETE
                       </div>
                     </div>
