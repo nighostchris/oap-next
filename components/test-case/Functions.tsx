@@ -78,26 +78,21 @@ export const StatelessFunction: React.FC<StatelessFunctionProps> = ({ name, para
 export const AssertionFunction: React.FC<AssertionFunctionProps> = ({ id, name, child }) => {
   const { state: testsState, dispatch: testsDispatch } = React.useContext(TestCaseContext);
 
-  // const [{ isDragging }, drag] = useDrag({
-  //   item: {
-  //     type: 'functions',
-  //     name: funcName,
-  //     paras: parameters,
-  //     pos: pos,
-  //     child: functionParameters,
-  //     parent: parent,
-  //     setParent: setParent,
-  //   },
-  //   collect: (monitor) => ({
-  //     isDragging: !!monitor.isDragging(),
-  //   }),
-  // });
+  const [{ isDragging }, drag] = useDrag({
+    item: {
+      type: 'assertion-function',
+      id: id
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
 
   return (
     <div
-      //ref={drag}
+      ref={drag}
       className="card my-3 mx-auto"
-      style={{ width: 'fit-content', minWidth: '200px'/*, opacity: isDragging ? 0.7 : 1*/ }}
+      style={{ width: 'fit-content', minWidth: '200px', opacity: isDragging ? 0.7 : 1 }}
     >
       <div className="card-body justify-content-center align-items-center p-3" style={{ display: 'flex', flexDirection: 'row' }}>
         <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>{`${name}(`}</h3>

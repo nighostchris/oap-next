@@ -37,32 +37,23 @@ export const StatelessDataInput: React.FC = () => {
 };
 
 export const DataInput: React.FC<DataInputProps> = ({ id, value, inputType }) => {
-  console.log(id);
   const { state: testsState, dispatch: testsDispatch } = React.useContext(TestCaseContext);
 
-  // const changeValue = (v: any) => {
-  //   const temp = parent;
-  //   temp[pos].value = v;
-  //   setParent([...temp]);
-  // };
-
-  // const [{ isDragging }, drag] = useDrag({
-  //   item: {
-  //     type: 'dataInput',
-  //     pos: pos,
-  //     parent: parent,
-  //     setParent: setParent,
-  //   },
-  //   collect: (monitor) => ({
-  //     isDragging: !!monitor.isDragging(),
-  //   }),
-  // });
+  const [{ isDragging }, drag] = useDrag({
+    item: {
+      type: 'dataInput',
+      id: id
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
 
   return (
     <div
-      //ref={drag}
+      ref={drag}
       className="card my-3 mx-auto"
-      style={{ width: 'fit-content', minWidth: '200px', /*opacity: isDragging ? 0.7 : 1*/ }}
+      style={{ width: 'fit-content', minWidth: '200px', opacity: isDragging ? 0.7 : 1 }}
     >
       <div className="card-body p-3">
         <Form.Group>

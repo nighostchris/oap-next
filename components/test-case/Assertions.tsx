@@ -39,6 +39,7 @@ export const StatelessAssertion: React.FC<StatelessAssertionProps> = ({ name }) 
 };
 
 export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
+  console.log(child);
   const { dispatch: testsDispatch } = React.useContext(TestCaseContext);
   const dropArray = [];
 

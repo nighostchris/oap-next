@@ -282,6 +282,24 @@ export const testsReducer = (state: any, action: any) => {
           : test
         )
       };
+    case 'REMOVE_DATA_INPUT':
+      return {
+        ...state,
+        tests: state.tests.map((test: any, index: number) => index === action.id[0]
+          ? {
+            ...test,
+            child: test.child.map((c: any, cIndex: number) => cIndex === action.id[1]
+              ? {
+                ...c,
+                child: c.child.filter((_dataInput: any, diIndex: number) => action.id[2] !== diIndex)
+                  .map((modifiedDI: any, mdiIndex: number) => ({ ...modifiedDI, id: mdiIndex }))
+              }
+              : c
+            )
+          }
+          : test
+        )
+      };
     case 'MODIFY_DATA_INPUT_TYPE':
       return {
         ...state,
@@ -354,6 +372,25 @@ export const testsReducer = (state: any, action: any) => {
           : test
         )
       };
+    case 'REMOVE_ASSERTION_FUNCTION':
+      console.log(action.id);
+      return {
+        ...state,
+        tests: state.tests.map((test: any, index: number) => index === action.id[0]
+          ? {
+            ...test,
+            child: test.child.map((c: any, cIndex: number) => cIndex === action.id[1]
+              ? {
+                ...c,
+                child: c.child.filter((_assertionFunction: any, afIndex: number) => action.id[2] !== afIndex)
+                  .map((modifiedAF: any, mafIndex: number) => ({ ...modifiedAF, id: mafIndex }))
+              }
+              : c
+            )
+          }
+          : test
+        )
+      }
     case 'MODIFY_INSTANCE':
       return {
         ...state,

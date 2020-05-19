@@ -73,11 +73,19 @@ const BaseTemplate: React.FunctionComponent = () => {
       if (item.type === 'assertion') {
         testsDispatch({ type: 'REMOVE_ASSERTION', id: item.id });
       }
+      if (item.type === 'assertion-function') {
+        console.log('remove assertion function');
+        testsDispatch({ type: 'REMOVE_ASSERTION_FUNCTION', id: item.id });
+      }
+      if (item.type === 'dataInput') {
+        console.log('remove data input');
+        testsDispatch({ type: 'REMOVE_DATA_INPUT', id: item.id });
+      }
     }
   };
 
   const [{ isOver }, dropBin] = useDrop({
-    accept: ['test', 'function', 'assertion'],
+    accept: ['test', 'function', 'assertion', 'assertion-function', 'dataInput'],
     drop: (item) => handleDeleteDropItem(item),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
