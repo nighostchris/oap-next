@@ -39,19 +39,7 @@ export const StatelessAssertion: React.FC<StatelessAssertionProps> = ({ name }) 
 };
 
 export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
-  console.log(child);
   const { dispatch: testsDispatch } = React.useContext(TestCaseContext);
-  const dropArray = [];
-
-  const [{ isDragging }, drag] = useDrag({
-    item: {
-      type: 'assertion',
-      id: id
-    },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  });
 
   const checkChildFull = () => {
     if (name === "assertTrue" || name === "assertFalse") {
@@ -67,51 +55,57 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
     return true;
   }
 
-  if (name === "assertTrue" || name === "assertFalse") {
-    dropArray.push(useDrop({
-      accept: ['dataInput', 'assertion-function'],
-      canDrop: () => {
-        if (child.length < 1) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-      drop: (item: any) => {
-        if (item.type === 'dataInput') {
-          testsDispatch({ type: 'ADD_DATA_INPUT', id: id, value: "", inputType: "" });
-        } else {
-          testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name, params: item.params });
-        }
-      },
-      collect: (monitor) => ({
-        isOver: !!monitor.isOver(),
-      }),
-    }));
-  } else {
-    for (let i = 0; i < 2; i++) {
-      dropArray.push(useDrop({
-        accept: ['dataInput', 'assertion-function'],
-        canDrop: () => {
-          if (child.length < 2) {
-            return true;
-          } else {
-            return false;
-          }
-        },
-        drop: (item: any) => {
-          if (item.type === 'dataInput') {
-            testsDispatch({ type: 'ADD_DATA_INPUT', id: id, value: "", inputType: "" });
-          } else {
-            testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name, params: item.params });
-          }
-        },
-        collect: (monitor) => ({
-          isOver: !!monitor.isOver(),
-        }),
-      }));
-    }
-  }
+  const [{ isDragging }, drag] = useDrag({
+    item: {
+      type: 'existing-assertion',
+      id: id
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
+
+  const [{ isOver }, drop] = useDrop({
+    accept: ['dataInput', 'assertion-function'],
+    canDrop: () => {
+      if (!checkChildFull()) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    drop: (item: any) => {
+      if (item.type === 'dataInput') {
+        testsDispatch({ type: 'ADD_DATA_INPUT', id: id, value: "", inputType: "" });
+      } else {
+        testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name, params: item.params });
+      }
+    },
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  });
+
+  const [{ isOver: isOver2 }, drop2] = useDrop({
+    accept: ['dataInput', 'assertion-function'],
+    canDrop: () => {
+      if (!checkChildFull()) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    drop: (item: any) => {
+      if (item.type === 'dataInput') {
+        testsDispatch({ type: 'ADD_DATA_INPUT', id: id, value: "", inputType: "" });
+      } else {
+        testsDispatch({ type: 'ADD_ASSERTION_FUNCTION', id: id, name: item.name, params: item.params });
+      }
+    },
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  }); 
 
   return (
     <div
@@ -122,26 +116,46 @@ export const Assertions: React.FC<AssertionsProps> = ({ id, name, child }) => {
       <div className="card-body justify-content-center align-items-center p-3" style={{ display: 'flex', flexDirection: 'row' }}>
         <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>{`${name}(`}</h3>
         {
-          dropArray.map((d: any, index: number) => (
+          <div
+            ref={drop}
+            className="mx-3"
+            style={{
+              width: child.length >= 1 ? undefined : '50px',
+              height: child.length >= 1 ? undefined : '40px',
+              border: child.length >= 1 ? undefined : '1px solid black',
+              background: (isOver && !checkChildFull()) ? 'grey' : undefined
+            }}
+          >
+          {
+            child.filter((c) => c.id === 0).map((c: any) => (
+              c.type === 'dataInput'
+                ? <DataInput id={[...id, c.id]} value={c.value} inputType={c.input_type} />
+                : <AssertionFunction id={[...id, c.id]} name={c.name} child={c.child} />
+            ))
+          }
+          </div>
+        }
+        {
+          name === "assertEquals" && (
             <div
-              ref={d[1]}
+              ref={drop2}
               className="mx-3"
               style={{
-                width: index < child.length ? undefined : '50px',
-                height: index < child.length ? undefined : '40px',
-                border: index < child.length ? undefined : '1px solid black',
-                background: (d[0].isOver && !checkChildFull()) ? 'grey' : undefined
+                width: child.length >= 2 ? undefined : '50px',
+                height: child.length >= 2 ? undefined : '40px',
+                border: child.length >= 2 ? undefined : '1px solid black',
+                background: (isOver2 && !checkChildFull()) ? 'grey' : undefined
               }}
             >
             {
-              child.filter((c) => c.id === index).map((c: any) => (
+              child.filter((c) => c.id === 1).map((c: any) => (
                 c.type === 'dataInput'
                   ? <DataInput id={[...id, c.id]} value={c.value} inputType={c.input_type} />
                   : <AssertionFunction id={[...id, c.id]} name={c.name} child={c.child} />
               ))
             }
             </div>
-          ))
+          )
         }
         <h3 className="card-title mb-0" style={{ textAlign: 'center' }}>)</h3>
       </div>

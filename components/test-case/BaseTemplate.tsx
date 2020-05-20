@@ -64,20 +64,20 @@ const BaseTemplate: React.FunctionComponent = () => {
 
   const handleDeleteDropItem = (item: any) => {
     if (item.hasOwnProperty('id')) {
-      if (item.type === 'test') {
+      if (item.type === 'existing-test') {
         testsDispatch({ type: 'REMOVE_TEST', id: item.id });
       }
-      if (item.type === 'function') {
+      if (item.type === 'existing-function') {
         testsDispatch({ type: 'REMOVE_FUNCTION', id: item.id });
       }
-      if (item.type === 'assertion') {
+      if (item.type === 'existing-assertion') {
         testsDispatch({ type: 'REMOVE_ASSERTION', id: item.id });
       }
-      if (item.type === 'assertion-function') {
+      if (item.type === 'existing-assertion-function') {
         console.log('remove assertion function');
         testsDispatch({ type: 'REMOVE_ASSERTION_FUNCTION', id: item.id });
       }
-      if (item.type === 'dataInput') {
+      if (item.type === 'existing-dataInput') {
         console.log('remove data input');
         testsDispatch({ type: 'REMOVE_DATA_INPUT', id: item.id });
       }
@@ -85,7 +85,7 @@ const BaseTemplate: React.FunctionComponent = () => {
   };
 
   const [{ isOver }, dropBin] = useDrop({
-    accept: ['test', 'function', 'assertion', 'assertion-function', 'dataInput'],
+    accept: ['existing-test', 'existing-function', 'existing-assertion', 'existing-assertion-function', 'existing-dataInput'],
     drop: (item) => handleDeleteDropItem(item),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),

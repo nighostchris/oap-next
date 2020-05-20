@@ -39,7 +39,7 @@ export const TestCase: React.FC<TestCaseProps> = ({ id, name, child }) => {
 
   const [{ isDragging }, drag] = useDrag({
     item: {
-      type: 'test',
+      type: 'existing-test',
       id: id
     },
     collect: (monitor) => ({

@@ -161,6 +161,7 @@ export const testsReducer = (state: any, action: any) => {
           ? {
             ...test,
             child: test.child.filter((_c: any, cIndex: number) => cIndex !== action.id[1])
+              .map((modifiedA: any, aIndex: number) => ({ ...modifiedA, id: aIndex }))
           }
           : test
         )

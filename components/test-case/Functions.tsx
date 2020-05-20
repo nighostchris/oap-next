@@ -80,7 +80,7 @@ export const AssertionFunction: React.FC<AssertionFunctionProps> = ({ id, name, 
 
   const [{ isDragging }, drag] = useDrag({
     item: {
-      type: 'assertion-function',
+      type: 'existing-assertion-function',
       id: id
     },
     collect: (monitor) => ({
@@ -200,7 +200,7 @@ export const Function: React.FC<FunctionProps> = ({ id, name, child }) => {
 
   const [{ isDragging }, drag] = useDrag({
     item: {
-      type: 'function',
+      type: 'existing-function',
       id: id
     },
     collect: (monitor) => ({

@@ -41,7 +41,7 @@ export const DataInput: React.FC<DataInputProps> = ({ id, value, inputType }) =>
 
   const [{ isDragging }, drag] = useDrag({
     item: {
-      type: 'dataInput',
+      type: 'existing-dataInput',
       id: id
     },
     collect: (monitor) => ({
