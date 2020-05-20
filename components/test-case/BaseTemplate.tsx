@@ -55,6 +55,7 @@ const testReflectionResult: Array<testReflectionInterface> = [{
 }];
 
 const BaseTemplate: React.FunctionComponent = () => {
+  const [language, setLanguage] = React.useState('Java');
   const [leftBarTab, setLeftBarTab] = React.useState('function');
   const [viewController, setViewController] = React.useState(true);
   const [fieldsDrawerOpen, setFieldsDrawerOpen] = React.useState(true);
@@ -103,6 +104,22 @@ const BaseTemplate: React.FunctionComponent = () => {
   return (
     <div className="col-12 px-0" style={{ height: '100vh' }}>
       <div className="row mx-0 align-items-center justify-content-center" style={{ height: '60px', borderBottom: '1px solid #E3EBF6' }}>
+        <Form.Group className="mb-0" style={{ display: 'inline-flex', flexDirection: 'row', position: 'absolute', left: '0.75rem' }}>
+          <Form.Label className="mb-0 mr-3" style={{ alignSelf: 'center' }}>Language</Form.Label>
+          <Form.Control
+            as="select"
+            value={language}
+            onChange={(e) => setLanguage((e.target as HTMLInputElement).value)}
+          >
+            {
+              ["C++", "Java", "Python"].map((option, index) => (
+                <option key={`type-option-${index}`}>
+                  {option}
+                </option>
+              ))
+            }
+          </Form.Control>
+        </Form.Group>
         <ButtonGroup style={{ justifySelf: 'center' }}>
           <Button
             variant={viewController ? "secondary" : "outline-secondary"}
