@@ -42,6 +42,7 @@ export const testsReducer = (state: any, action: any) => {
       return {
         ...state,
         tests: state.tests.filter((_test: any, index: number) => index !== action.id)
+          .map((modifiedTest: any, testIndex: number) => ({ ...modifiedTest, id: testIndex }))
       };
     case 'ADD_VARIABLE_CLASS':
       return {
@@ -448,6 +449,7 @@ export const testsReducer = (state: any, action: any) => {
           ? {
             ...test,
             child: test.child.filter((_c: any, cIndex: number) => cIndex !== action.id[1])
+              .map((modifiedF: any, fIndex: number) => ({ ...modifiedF, id: fIndex }))
           }
           : test
         )
