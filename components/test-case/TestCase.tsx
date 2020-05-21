@@ -1,9 +1,8 @@
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd-cjs';
-import { Assertions } from './Assertions';
 import { Function } from './Functions';
+import { Assertions } from './Assertions';
 import { TestCaseContext } from './contexts/TestCaseContext';
-import { LocalVariable } from './LocalVariable';
 
 interface TestCaseProps {
   id: number
@@ -93,10 +92,7 @@ export const TestCase: React.FC<TestCaseProps> = ({ id, name, child }) => {
                 child.map((c) => (
                   c.type === 'assertion'
                     ? <Assertions id={[id, c.id]} name={c.name} child={c.child} />
-                    : (c.type === 'function'
-                      ? <Function id={[id, c.id]} name={c.name} child={c.child} />
-                      : <LocalVariable id={[id, c.id]} name={c.name} value={c.value} varType={c.var_type} varSubtype={c.var_subtype ? c.var_subtype : undefined} />
-                    )
+                    : <Function id={[id, c.id]} name={c.name} child={c.child} />
                   )
                 )
               }
