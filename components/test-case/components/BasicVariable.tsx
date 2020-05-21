@@ -1,5 +1,5 @@
 import React from 'react';
-import { TestCaseContext } from './contexts/TestCaseContext';
+import { TestCaseContext } from '../contexts/TestCaseContext';
 import { Form } from 'react-bootstrap';
 
 interface BasicVariableProps {
